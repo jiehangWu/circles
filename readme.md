@@ -1,10 +1,10 @@
 # Circles
-Circles is a new style of social networking based on your interests on similartirs with the others!
+Circles is a new style of social networking based on your interests on similartirs with the others!:fire::fire: 
 
 ## Project Description
-This app is for people who are interested in social networks, e.g. everyone.<br/>
+This app is for people who are interested in social networks, e.g. everyone:couple::family::two_men_holding_hands::two_women_holding_hands:.<br/>
 It will let users join the app anonymously. After that, the users can choose
-their interests, such as reading, hiking, or coding….. Based on each users’
+their interests, such as :hamburger:, :basketball:, or :computer:. Based on each users’
 preferences, the app automatically assigns them into the same friends
 circle and people then can reveal their names and start chatting with each
 other or see other people’s posts. If the user stays anonymous, he/she will still
