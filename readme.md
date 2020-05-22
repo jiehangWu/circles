@@ -31,4 +31,4 @@ However, if there is not enough time, the chatting feature may have to be postpo
 -[ ] Make the app more anonymous by having end-to-end encryption.
 
 Frontend:
--Pages
+-Pages sdfds
