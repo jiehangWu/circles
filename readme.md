@@ -15,7 +15,7 @@ Users will be able to perform login/register actions. Users will also be able to
 Given enough time, geo-location features could be an add-on feature to give users a better chance to make friends in their lovely neighbourhood.
 However, if there is not enough time, the chatting feature may have to be postponed.
 
-## Project Taks Requirements
+## Project Task Requirements
 ### Minimal Requirements
 -[ ] A clean, aestheticaly pleasing, and responsive web UI.<br/>
 -[ ] CURD API to perform login/logout/register.<br/>
@@ -30,10 +30,10 @@ However, if there is not enough time, the chatting feature may have to be postpo
 -[ ] The feature to read user's geolocation and assign the user to circles nearby.<br/>
 -[ ] Make the app more anonymous by having end-to-end encryption.
 
-Prototype:
--Home
-![image](https://github.com/jiehangWu/circles/blob/jerome/resources/Home.jpg)
--Home
-![image](https://github.com/jiehangWu/circles/blob/jerome/resources/Login.jpg)
--Home
-![image](https://github.com/jiehangWu/circles/blob/jerome/resources/Register.jpg)
+## Circles Prototype:
+###
+.<img src="https://github.com/jiehangWu/circles/blob/jerome/resources/Home.jpg" width="450" height="300" />
+###
+.<img src="https://github.com/jiehangWu/circles/blob/jerome/resources/Login.jpg" width="450" height="300" />
+###
+.<img src="https://github.com/jiehangWu/circles/blob/jerome/resources/Register.jpg" width="450" height="300" />
