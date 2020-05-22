@@ -30,3 +30,5 @@ However, if there is not enough time, the chatting feature may have to be postpo
 -[ ] The feature to read user's geolocation and assign the user to circles nearby.<br/>
 -[ ] Make the app more anonymous by having end-to-end encryption.
 
+Frontend:
+-Pages
