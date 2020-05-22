@@ -30,10 +30,10 @@ However, if there is not enough time, the chatting feature may have to be postpo
 -[ ] The feature to read user's geolocation and assign the user to circles nearby.<br/>
 -[ ] Make the app more anonymous by having end-to-end encryption.
 
-# CirclesPrototype:
-##
+## CirclesPrototype:
+###
 .<img src="https://github.com/jiehangWu/circles/blob/jerome/resources/Home.jpg" width="450" height="300" />
-##
+###
 .<img src="https://github.com/jiehangWu/circles/blob/jerome/resources/Login.jpg" width="450" height="300" />
-##
+###
 .<img src="https://github.com/jiehangWu/circles/blob/jerome/resources/Register.jpg" width="450" height="300" />
