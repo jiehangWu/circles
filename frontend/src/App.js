@@ -2,6 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import RegisterForm from "./components/entrance/RegisterForm";
+import LoginForm from "./components/entrance/LoginForm";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           Learn React
         </a>
       </header>
+      <RegisterForm register={(username, password) => {console.log(username + password)}}/>
+      <LoginForm login={(username, password) => {console.log(username + password)}}/>
     </div>
   );
 }
