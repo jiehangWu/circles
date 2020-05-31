@@ -1,4 +1,8 @@
 import React from "react";
+import {userActions} from "../../actions/user.actions";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
+
 
 class RegisterForm extends React.Component {
     constructor(props) {
@@ -61,11 +65,17 @@ class RegisterForm extends React.Component {
                     </div>
                     <div className="form-group">
                         <button className="btn btn-primary my-3">Register</button>
+                        <Link to="/login" className="btn btn-link">Cancel</Link>
                     </div>
+
                 </form>
             </div>
         )
     }
 }
 
-export default RegisterForm;
+const mapAction = {
+    register: userActions.register,
+};
+
+export default RegisterForm = connect(null, mapAction)(RegisterForm);
