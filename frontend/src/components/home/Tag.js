@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {selectToggleTag} from "./actions";
+import {selectToggleTag} from "../../actions";
 
 // constructor:
 // tagDetails: {tag: String, selected: Bool}

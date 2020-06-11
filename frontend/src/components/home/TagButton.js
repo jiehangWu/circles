@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {addTag, deleteTag} from "./actions";
+import {addTag, deleteTag} from "../../actions";
 
 
 // constructor: name, funcName

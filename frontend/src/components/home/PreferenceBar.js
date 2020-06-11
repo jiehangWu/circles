@@ -2,7 +2,6 @@ import React from 'react';
 import DisplayTagArea from "./DisplayTagArea";
 import Button from "./TagButton";
 import InputTagArea from "./InputTagArea";
-import {connect} from "react-redux";
 
 class PreferenceBar extends React.Component {
 

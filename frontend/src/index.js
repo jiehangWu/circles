@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 
 import { createStore } from 'redux';
 
-import reducers from './components/home/reducers';  //we exported combineReducers
+import reducers from './reducers/index';  //we exported combineReducers
 
 
 

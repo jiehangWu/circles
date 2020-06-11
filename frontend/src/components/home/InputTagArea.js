@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {inputTag} from './actions';
+import {inputTag} from '../../actions';
 
 
 class InputTagArea extends React.Component {
