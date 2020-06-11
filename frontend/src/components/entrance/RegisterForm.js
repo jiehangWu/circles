@@ -31,6 +31,7 @@ class RegisterForm extends React.Component {
             && this.state.password === this.state.repeatedPassword) {
             this.props.register(this.state.username, this.state.password);
         }
+        // if 
     };
 
     render() {
