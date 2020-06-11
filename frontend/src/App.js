@@ -11,9 +11,11 @@ import {connect, Provider} from "react-redux";
 import Home from "./components/home/Home";
 import Navigation from "./components/navigation/Navigation";
 
+import PreferenceBar from "./components/home/PreferenceBar";
+
 
 const initialState = {
-    route: 'signin',
+    route: 'login',
     isSignedIn: false
 }
 
@@ -53,10 +55,11 @@ class App extends React.Component {
                                 <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
                                     { route === 'home'
                                     ? <div>
+                                        {/* <PreferenceBar/> */}
                                         <Home/>
                                         </div>
                                     : (
-                                        route === 'signin'
+                                        route === 'login'
                                         ? <LoginForm  onRouteChange={this.onRouteChange}/>
                                         : (route === 'signout' 
                                         ? <LoginForm onRouteChange={this.onRouteChange}/>
@@ -89,7 +92,7 @@ class App extends React.Component {
 //               <Home/>
 //             </div>
 //           : (
-//              route === 'signin'
+//              route === 'login'
 //              ? <LoginForm  onRouteChange={this.onRouteChange}/>
 //              : <RegisterForm  onRouteChange={this.onRouteChange}/>
 //             )
