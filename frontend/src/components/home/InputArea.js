@@ -4,8 +4,7 @@ let InputArea = () => {
 	let input
 	return (
 		<div id="addArea" className="panel">
-		<center><h2>Please Type in Below</h2></center>
-		<br /><br />
+		<h2>How do you feel today</h2>
 
 		<form
 		onSubmit={e => {
@@ -13,7 +12,6 @@ let InputArea = () => {
 			if (!input.value.trim()) {
 				return
 			}
-			// dispatch(addMsg(input.value))
 			input.value = ''
 		}}
 		>
@@ -23,7 +21,7 @@ let InputArea = () => {
 		className="textinput"
 		/>
 
-		<button type="submit" className="inputPanel">Add</button>
+		<button type="submit" className="inputPanel">Share</button>
 
 		</form>
 		</div>

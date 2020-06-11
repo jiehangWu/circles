@@ -8,7 +8,7 @@ let Home = () => {
 
 	return (
 		<div id="addArea" className="panel">
-			<PreferenceBar/>
+			{/* <PreferenceBar/> */}
                <PostContainer/>
 			<InputArea/>
 		</div>

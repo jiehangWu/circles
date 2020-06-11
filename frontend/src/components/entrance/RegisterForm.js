@@ -66,7 +66,7 @@ class RegisterForm extends React.Component {
                     </div>
                     <div className="form-group">
                         <button className="btn btn-primary my-3">Register</button>
-                        <Link to="/login" className="btn btn-link">Cancel</Link>
+                        <Link to="/" className="btn btn-link">Cancel</Link>
                     </div>
 
                 </form>
