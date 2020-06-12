@@ -10,7 +10,6 @@ import { connect, Provider } from "react-redux";
 import Home from "./components/home/Home";
 import Navigation from "./components/navigation/Navigation";
 
-import PreferenceBar from "./components/home/PreferenceBar";
 
 const initialState = {
   route: 'login',
@@ -42,37 +41,10 @@ class App extends React.Component {
     const { message } = this.props;
     const { isSignedIn, route } = this.state;
     return (
-      <div className="jumbotron">
-        <PreferenceBar />
-        <div className="container">
-          <div className="col-sm-8 col-sm-offset-2">
-            {message && <div className={'alert ' + message.type}>{message.message}</div>}
-            <switch>
-              <Router history={history}>
-                {/* <Route path="/login" component={LoginForm}/>
-                                <Route path="/register" component={RegisterForm}/> */}
-                <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
-                {route === 'home'
-                  ? <div>
-                    {/* <PreferenceBar/> */}
-                    <Home />
-                  </div>
-                  : (
-                    route === 'login'
-                      ? <LoginForm onRouteChange={this.onRouteChange} />
-                      : (route === 'signout'
-                        ? <LoginForm onRouteChange={this.onRouteChange} />
-                        : <RegisterForm onRouteChange={this.onRouteChange} />)
-                  )
-                }
-              </Router>
-            </switch>
-          </div>
-        </div>
-        {/* <Home/> */}
-      </div>
-
-    )
+      <React.Fragment>
+        <Home />
+      </React.Fragment>
+    );
   }
 }
 

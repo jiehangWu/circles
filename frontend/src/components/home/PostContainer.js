@@ -1,4 +1,15 @@
 import React from "react";
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
+import { makeStyles } from '@material-ui/core/styles';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { blue } from '@material-ui/core/colors';
 
 const mockData = {
     userID: 'Jerome',
@@ -14,48 +25,86 @@ const mockData = {
     Mauris sit amet lorem tellus. Quisque sed neque eget erat hendrerit venenatis vitae in ipsum.`
 };
 
-const styles = {
-    card: {
-        maxWidth: '25rem'
+const styles = makeStyles((theme) => ({
+    post: {
+        margin: '1rem'
     },
-    cardHeader: {
+    media: {
         color: 'white',
         fontSize: '0.8rem'
     },
-    cardFooter: {
-        color: 'gray',
-        fontSize: '0.8rem'
+    avatar: {
+        backgroundColor: blue[200] 
     },
-    content: {
-        color: 'black'
+    postContainer: {
+        width: "60%",
+        marginLeft: "20%",
+        marginRight: "20%"
     }
-};
+}));
 
 const PostContainer = () => {
+    const classes = styles();
+
     return (
-        <div className="post-container">
-            <div class='row no-gutters'>
-                <div class='col bg-dark' style={{
-                    maxWidth: '3rem',
-                }}>
-                    <div class='card'>
-                        <img src='' alt='avatar' class='img-thumbnail' />
-                    </div>
-                </div>
-                <div class='col'>
-                    <div class="card" style={styles.card}>
-                        <div class="card-header bg-dark text-left" style={styles.cardHeader}>
-                            @{mockData.userID}
-                        </div>
-                        <div class="card-body bg-light text-left" id="content" style={styles.content}>
-                            {mockData.content}
-                        </div>
-                        <div class="card-footer bg-dark text-right" style={styles.cardFooter}>
-                            {mockData.time}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className={classes.postContainer}>
+             <Card className={classes.post} >
+                <CardHeader
+                    avatar={
+                        <Avatar aria-label="profile-pic" className={classes.avatar}>
+                            {mockData.userID}
+                        </Avatar>
+                    }
+                    action={
+                        <IconButton aria-label="settings">
+                            <MoreVertIcon />
+                        </IconButton>
+                    }
+                    title={mockData.userID}
+                    subheader={mockData.time}
+                >
+                </CardHeader>
+                <CardContent>
+                    <Typography variant="body2" color="textPrimary" component="p">
+                        {mockData.content}
+                    </Typography>
+                </CardContent>
+                <IconButton aria-label="chat">
+                    <ChatBubbleIcon />
+                </IconButton>
+                <IconButton aria-label="like">
+                    <FavoriteIcon />
+                </IconButton>
+            </Card>
+
+            <Card className={classes.post}>
+                <CardHeader
+                    avatar={
+                        <Avatar aria-label="profile-pic" className={classes.avatar}>
+                            R
+                        </Avatar>
+                    }
+                    action={
+                        <IconButton aria-label="settings">
+                            <MoreVertIcon />
+                        </IconButton>
+                    }
+                    title={mockData.userID}
+                    subheader={mockData.time}
+                >
+                </CardHeader>
+                <CardContent>
+                    <Typography variant="body2" color="textPrimary" component="p">
+                        {mockData.content}
+                    </Typography>
+                </CardContent>
+                <IconButton aria-label="chat">
+                    <ChatBubbleIcon />
+                </IconButton>
+                <IconButton aria-label="like">
+                    <FavoriteIcon />
+                </IconButton>
+            </Card>
         </div>
     );
 };
