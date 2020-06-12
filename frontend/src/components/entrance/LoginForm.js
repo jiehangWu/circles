@@ -30,32 +30,38 @@ class LoginForm extends React.Component {
         }
 
         // if ( password match) todo {}
-        this.props.onRouteChange('home');
+        // this.props.onRouteChange('home');
     };
 
     render() {
         const {username, password, submitted} = this.state;
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Login</h2>
-                <form name="form" onSubmit={e => this.handleSubmit(e)}>
-                    <div className="form-group mb-3">
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username"
-                               onChange={e => this.handleChange(e)}/>
-                        {submitted && !username && <div className="text-danger">Username is required</div>}
+            <div className="jumbotron">
+                <div className="container">
+                    <div className="col-sm-8 col-sm-offset-2">
+                        <div className="col-md-6 col-md-offset-3">
+                            <h2>Login</h2>
+                            <form name="form" onSubmit={e => this.handleSubmit(e)}>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="username">Username</label>
+                                    <input type="text" className="form-control" name="username"
+                                           onChange={e => this.handleChange(e)}/>
+                                    {submitted && !username && <div className="text-danger">Username is required</div>}
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="password">Password</label>
+                                    <input type="password" className="form-control" name="password"
+                                           onChange={e => this.handleChange(e)}/>
+                                    {submitted && !password && <div className="text-danger">Password is required</div>}
+                                </div>
+                                <div className="form-group">
+                                    <button className="btn btn-primary my-3">Login</button>
+                                    <Link to="register" className="btn btn-link">Register</Link>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password"
-                               onChange={e => this.handleChange(e)}/>
-                        {submitted && !password && <div className="text-danger">Password is required</div>}
-                    </div>
-                    <div className="form-group">
-                        <button className="btn btn-primary my-3">Login</button>
-                        <Link to="register" className="btn btn-link">Register</Link> 
-                    </div>
-                </form>
+                </div>
             </div>
         )
     }

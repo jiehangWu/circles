@@ -11,17 +11,18 @@ let InputArea = () => {
         <div className="container">
             <Card className="input-area my-3">
                 <div className="row">
-                    <div className="col-lg-1">
+                    <div className="col-lg-2">
                         <Avatar aria-label="avatar" className="input-area-avatar mx-3 my-3">
                             R
                         </Avatar>
                     </div>
-                    <div className="col-lg-11">
-                        <textarea className="text-box mx-2 mt-3"
-                                  rows="3"
-                                  placeholder="What's up?"
-                                  required>
-                        </textarea>
+                    <div className="col-lg-10">
+                            <textarea className="text-box mx-2 mt-3"
+                                      rows="3"
+                                      placeholder="What's up?"
+                                      required>
+
+                            </textarea>
                         <IconButton aria-label="upload image">
                             <ImageIcon/>
                         </IconButton>

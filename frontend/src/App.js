@@ -1,89 +1,52 @@
 import React from 'react';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RegisterForm from "./components/entrance/RegisterForm";
 import LoginForm from "./components/entrance/LoginForm";
-import { history } from "./helpers/history";
-// import Router from "react-router-dom/es/Router";
-import {BrowserRouter as Router} from "react-router-dom";
-import Route from "react-router-dom/es/Route";
-import { connect, Provider } from "react-redux";
+import {history} from "./helpers/history";
+import {connect, Provider} from "react-redux";
+import {Redirect, Route, Switch, Router} from "react-router-dom"
 import Home from "./components/home/Home";
-import Navigation from "./components/navigation/Navigation";
-
-
-const initialState = {
-  route: 'login',
-  isSignedIn: false
-}
-
+import {PrivateRoute} from "./helpers/PrivateRouter";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    history.listen((location, action) => {
-      this.props.clearMessage();
-    })
-    this.state = initialState;
-  }
-
-
-  onRouteChange = (route) => {
-    if (route === 'signout') {
-      this.setState(initialState);
-    } else if (route === 'home') {
-      this.setState({ isSignedIn: true })
+    constructor(props) {
+        super(props);
+        history.listen((location, action) => {
+            this.props.clearMessage();
+        });
     }
-    this.setState({ route: route });
-  }
 
-  render() {
-    console.log(this.state);
-    const { message } = this.props;
-    const { isSignedIn, route } = this.state;
-    return (
-      <React.Fragment>
-        <Home />
-      </React.Fragment>
-    );
-  }
+
+    render() {
+        const {message} = this.props;
+        return (
+            <React.Fragment>
+                {alert.message &&
+                <div className={`alert ${message.type}`}>{message.message}</div>
+                }
+                <Router history={history}>
+                    <Switch>
+                        <PrivateRoute exact path="/" component={Home}/>
+                        <Route path="/login" component={LoginForm}/>
+                        <Route path="/register" component={RegisterForm}/>
+                        <Redirect from="*" to="/login"/>
+                    </Switch>
+                </Router>
+            </React.Fragment>
+        );
+    }
 }
 
-
-
-
-
-// render() {
-//     const {message, route, isSignedIn,} = this.props;
-//     return (
-//       <div className="App">
-
-//         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
-//         { route === 'home'
-//           ? <div>
-//               <Home/>
-//             </div>
-//           : (
-//              route === 'login'
-//              ? <LoginForm  onRouteChange={this.onRouteChange}/>
-//              : <RegisterForm  onRouteChange={this.onRouteChange}/>
-//             )
-//         }
-//       </div>
-//     );
-//   }
-// }
-
 const mapState = (state) => {
-  return { message: state.message };
+    return {message: state.message};
 };
 
 const mapDispatch = (dispatch) => {
-  return {
-    clearMessage: () => {
-      dispatch({ type: "CLEAR_MESSAGE" })
-    }
-  };
+    return {
+        clearMessage: () => {
+            dispatch({type: "CLEAR_MESSAGE"})
+        }
+    };
 };
 
 export default connect(mapState, mapDispatch)(App);

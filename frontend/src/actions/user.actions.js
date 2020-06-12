@@ -13,6 +13,7 @@ const login = (username, password) => {
                 type: "LOGIN_SUCCESS",
                 payload: username
             });
+            history.push('/');
             console.log("login success");
         }).catch(e => {
             dispatch({
