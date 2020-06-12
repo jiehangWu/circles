@@ -16,7 +16,6 @@ class App extends React.Component {
         });
     }
 
-
     render() {
         const {message} = this.props;
         return (
@@ -26,9 +25,10 @@ class App extends React.Component {
                 }
                 <Router history={history}>
                     <Switch>
-                        <PrivateRoute exact path="/" component={Home}/>
+                        <PrivateRoute exact path="/" component={LoginForm}/>
                         <Route path="/login" component={LoginForm}/>
                         <Route path="/register" component={RegisterForm}/>
+                        <Route path="/home" component={Home}/>
                         <Redirect from="*" to="/login"/>
                     </Switch>
                 </Router>
