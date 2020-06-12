@@ -70,10 +70,10 @@ const PostContainer = () => {
                     </Typography>
                 </CardContent>
                 <IconButton aria-label="chat">
-                    <ChatBubbleIcon />
+                    <ChatBubbleIcon color='primary'/>
                 </IconButton>
                 <IconButton aria-label="like">
-                    <FavoriteIcon />
+                    <FavoriteIcon color='secondary'/>
                 </IconButton>
             </Card>
 
@@ -99,10 +99,10 @@ const PostContainer = () => {
                     </Typography>
                 </CardContent>
                 <IconButton aria-label="chat">
-                    <ChatBubbleIcon />
+                    <ChatBubbleIcon color='primary'/>
                 </IconButton>
                 <IconButton aria-label="like">
-                    <FavoriteIcon />
+                    <FavoriteIcon color='secondary' />
                 </IconButton>
             </Card>
         </div>
