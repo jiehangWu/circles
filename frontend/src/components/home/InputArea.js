@@ -58,7 +58,7 @@ let InputArea = () => {
         //
         //     </form>
         // </div>
-    )
+    );
 }
 
 
