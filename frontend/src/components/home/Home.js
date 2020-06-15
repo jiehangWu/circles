@@ -1,5 +1,5 @@
 import React from "react";
-import PostContainer from './PostContainer';
+import PostList from './PostList';
 import InputArea from './InputArea';
 import PreferenceBar from './PreferenceBar';
 import LeftSideBar from "./LeftSideBar";
@@ -103,7 +103,7 @@ function Home() {
 
 				<main className={classes.content}>
 					<InputArea />
-					<PostContainer />
+					<PostList />
 				</main>
 
 				{/* right side bar */}

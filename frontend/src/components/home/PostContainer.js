@@ -11,20 +11,6 @@ import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { blue } from '@material-ui/core/colors';
 
-const mockData = {
-    userID: 'Jerome',
-    time: '20 h',
-    content: `Lorem ipsum dolor sit amet, 
-    consectetur adipiscing elit. 
-    Curabitur at elementum ligula. 
-    Morbi id mauris tempor elit congue bibendum vitae id ex. 
-    Nulla facilisi. Vivamus vulputate non sem quis consectetur. 
-    Integer et euismod elit. Proin fermentum suscipit ipsum, eget blandit lacus rutrum ac. 
-    Morbi aliquet tincidunt dui in imperdiet. Integer ornare, tellus vitae feugiat maximus, 
-    risus odio viverra erat, ut dapibus massa erat sit amet nisi. Sed a semper eros. 
-    Mauris sit amet lorem tellus. Quisque sed neque eget erat hendrerit venenatis vitae in ipsum.`
-};
-
 const styles = makeStyles((theme) => ({
     post: {
         margin: '1rem'
@@ -34,7 +20,7 @@ const styles = makeStyles((theme) => ({
         fontSize: '0.8rem'
     },
     avatar: {
-        backgroundColor: blue[200] 
+        backgroundColor: blue[200]
     },
     postContainer: {
         width: "60%",
@@ -43,16 +29,16 @@ const styles = makeStyles((theme) => ({
     }
 }));
 
-const PostContainer = () => {
+const PostContainer = (props) => {
     const classes = styles();
 
     return (
         <div className={classes.postContainer}>
-             <Card className={classes.post} >
+            <Card className={classes.post} >
                 <CardHeader
                     avatar={
                         <Avatar aria-label="profile-pic" className={classes.avatar}>
-                            {mockData.userID}
+                            {props.userID}
                         </Avatar>
                     }
                     action={
@@ -60,46 +46,17 @@ const PostContainer = () => {
                             <MoreVertIcon />
                         </IconButton>
                     }
-                    title={mockData.userID}
-                    subheader={mockData.time}
+                    title={props.userID}
+                    subheader={props.time}
                 >
                 </CardHeader>
                 <CardContent>
                     <Typography variant="body2" color="textPrimary" component="p">
-                        {mockData.content}
+                        {props.content}
                     </Typography>
                 </CardContent>
                 <IconButton aria-label="chat">
-                    <ChatBubbleIcon color='primary'/>
-                </IconButton>
-                <IconButton aria-label="like">
-                    <FavoriteIcon color='secondary'/>
-                </IconButton>
-            </Card>
-
-            <Card className={classes.post}>
-                <CardHeader
-                    avatar={
-                        <Avatar aria-label="profile-pic" className={classes.avatar}>
-                            R
-                        </Avatar>
-                    }
-                    action={
-                        <IconButton aria-label="settings">
-                            <MoreVertIcon />
-                        </IconButton>
-                    }
-                    title={mockData.userID}
-                    subheader={mockData.time}
-                >
-                </CardHeader>
-                <CardContent>
-                    <Typography variant="body2" color="textPrimary" component="p">
-                        {mockData.content}
-                    </Typography>
-                </CardContent>
-                <IconButton aria-label="chat">
-                    <ChatBubbleIcon color='primary'/>
+                    <ChatBubbleIcon color='primary' />
                 </IconButton>
                 <IconButton aria-label="like">
                     <FavoriteIcon color='secondary' />
@@ -107,6 +64,6 @@ const PostContainer = () => {
             </Card>
         </div>
     );
-};
+}
 
 export default PostContainer;
