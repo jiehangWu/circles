@@ -61,6 +61,7 @@ const PostContainer = (props) => {
                 <IconButton aria-label="like">
                     <FavoriteIcon color='secondary' />
                 </IconButton>
+                <span>{props.likes}</span>
             </Card>
         </div>
     );

@@ -5,8 +5,41 @@ import "./InputArea.css";
 import ImageIcon from '@material-ui/icons/Image';
 import IconButton from "@material-ui/core/IconButton";
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+import { submitPost } from '../../actions/posts.actions';
+import { connect } from 'react-redux';
 
 class InputArea extends React.Component {
+    constructor(props) {
+        super(props);
+        this.textArea = React.createRef();
+        this.state = {
+            content: "",
+        };
+    }
+
+    clearAll = () => {
+        this.setState({
+            content: "",
+        });
+        this.textArea.current.value = "";
+    }
+
+    handleSubmit = () => {
+        if (this.state.content) {
+            this.props.submitPost({
+                userID: "Jerome",
+                content: this.state.content,
+                time: new Date(),
+            });
+            this.clearAll();
+        }
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            content: e.target.value,
+        });
+    }
 
     render() {
         return (
@@ -22,7 +55,9 @@ class InputArea extends React.Component {
                                 <textarea className="text-box mx-2 mt-3"
                                           rows="3"
                                           placeholder="What's up?"
-                                          required>
+                                          required
+                                          onChange={(e) => {this.handleChange(e)}}
+                                          ref={this.textArea}>
     
                                 </textarea>
                             <IconButton aria-label="upload image">
@@ -31,7 +66,10 @@ class InputArea extends React.Component {
                             <IconButton aria-label="add emoji">
                                 <EmojiEmotionsIcon/>
                             </IconButton>
-                            <button type="button" className="btn btn-primary float-right mx-4 mb-3">
+                            <button type="button" 
+                                    className={"btn btn-primary float-right mx-4 mb-3" 
+                                        + (this.state.content ? "" : " disabled")} 
+                                    onClick={this.handleSubmit}>
                                 Submit
                             </button>
                         </div>
@@ -42,4 +80,10 @@ class InputArea extends React.Component {
     }
 }
 
-export default InputArea;
+const matchDispatchToProps = dispatch => {
+    return {
+        submitPost: (post) => dispatch(submitPost(post)),
+    };
+}
+
+export default connect(null, matchDispatchToProps)(InputArea);
