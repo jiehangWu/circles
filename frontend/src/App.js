@@ -20,9 +20,6 @@ class App extends React.Component {
         const { message } = this.props;
         return (
             <React.Fragment>
-                {alert.message &&
-                    <div className={`alert ${message.type}`}>{message.message}</div>
-                }
                 <Router history={history}>
                     <Switch>
                         <PrivateRoute exact path="/" component={LoginForm} />
@@ -37,10 +34,6 @@ class App extends React.Component {
     }
 }
 
-const mapState = (state) => {
-    return { message: state.message };
-};
-
 const mapDispatch = (dispatch) => {
     return {
         clearMessage: () => {
@@ -49,4 +42,4 @@ const mapDispatch = (dispatch) => {
     };
 };
 
-export default connect(mapState, mapDispatch)(App);
+export default connect(null, mapDispatch)(App);
