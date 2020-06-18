@@ -4,3 +4,12 @@ export const submitPost = (post) => {
         payload: post,
     }
 }
+
+export const likePost = (postID) => {
+    return {
+        type: "LIKE_POST",
+        payload: {
+            "postID": postID
+        }
+    }
+}

@@ -34,6 +34,23 @@ export const posts = (state = mockState, action) => {
                     isLiked: false,
                 }, ...state.postList]
             }
+        case "LIKE_POST":
+            return {
+                counter: state.counter,
+                postList: [
+                    ...state.postList.map((post) => {
+                        if (post.postID === action.payload.postID) {
+                            return {
+                                ...post,
+                                isLiked: !post.isLiked,
+                                likes: post.isLiked ? post.likes - 1 : post.likes + 1,
+                            }
+                        } else {
+                            return post;
+                        }
+                    })
+                ]
+            }
         default:
             return state;
     }
