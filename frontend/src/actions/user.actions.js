@@ -64,7 +64,6 @@ export const userActions = {
     register,
 };
 
-
 // This should haven't been in this module
 const fakeLogin = (username, password) => {
     return new Promise((resolve) => {
