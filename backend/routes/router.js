@@ -35,17 +35,18 @@ router.post('/register', async (req, res, next) => {
         const exists = await (checkIfUserExists(username));
         if (exists) {
             console.log("duplicate username");
+            res.status(400).send("duplicate username");
         } else {
             user = UserController.createUser(username, password);
             if (user !== null) {
                 // TODO: Change this depending on where to direct
                 req.session.userId = user._id;
                 // TODO: should redirect to login or home
-                res.send("succesful register");
+                res.status(200).send("succesful register");
                 
             } else {
                 // TODO: handle error
-                res.send("error in register");
+                res.status(404).send("error in register");
             }
         }
     })(username)
@@ -69,9 +70,11 @@ router.post('/login', async (req, res, next) => {
         if (valid) {
             req.session.userId = user._id;
             console.log("login successful");
-            res.redirect('/home');
+            res.status(200).send("login successful");
+            // res.redirect('/home');
         } else {
-            console.log("failed to login");
+            console.log("login failed");
+            res.status(400).send("login failed");
             next();
         }
     })();
