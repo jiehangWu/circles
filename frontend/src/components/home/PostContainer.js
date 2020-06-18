@@ -10,6 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { blue } from '@material-ui/core/colors';
+import { likePost } from '../../actions/posts.actions';
+import { connect } from 'react-redux';
 
 const styles = makeStyles((theme) => ({
     post: {
@@ -31,7 +33,7 @@ const styles = makeStyles((theme) => ({
 
 const PostContainer = (props) => {
     const classes = styles();
-
+    const postID = props.postID;
     return (
         <div className={classes.postContainer}>
             <Card className={classes.post} >
@@ -58,7 +60,7 @@ const PostContainer = (props) => {
                 <IconButton aria-label="chat">
                     <ChatBubbleIcon color='primary' />
                 </IconButton>
-                <IconButton aria-label="like">
+                <IconButton aria-label="like" onClick={() => props.likePost(postID)}>
                     <FavoriteIcon color='secondary' />
                 </IconButton>
                 <span>{props.likes}</span>
@@ -67,4 +69,10 @@ const PostContainer = (props) => {
     );
 }
 
-export default PostContainer;
+const matchDispatchToProps = dispatch => {
+    return {
+        likePost: (postID) => dispatch(likePost(postID)),
+    };
+}
+
+export default connect(null, matchDispatchToProps)(PostContainer);
