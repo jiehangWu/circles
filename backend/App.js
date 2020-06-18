@@ -22,11 +22,12 @@ app.use(session({
     genid: (req) => {
         return uuid.v4();
     },
-    resave: true,
+    name: 'circles',
+    resave: false,
     saveUninitialized: false,
     secret: 'secret',
     cookie: {
-        maxAge: MAX_AGE
+        maxAge: MAX_AGE,
     }
   }));
 

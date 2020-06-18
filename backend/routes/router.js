@@ -3,19 +3,15 @@ const router = express.Router();
 
 const UserController = require('../controller/UserController');
 
-const redirect = ((req, res, next) => {
-    if (req.cookie !== null) {
+const redirect = (req, res, next) => {
+    if (req.session.cookie !== null && req.session.cookie !== undefined) {
         res.redirect('/home');
     } else if (!req.session.userId) {
         res.redirect('/login');
     } else {
         next();
     }
-});
-
-router.get('/', redirect, (req, res, next) => {
-    // do nothing
-});
+};
 
 /**
  * Notice how checkIfUserExists and validation are actually similar.
@@ -44,13 +40,12 @@ router.post('/register', async (req, res, next) => {
             if (user !== null) {
                 // TODO: Change this depending on where to direct
                 req.session.userId = user._id;
-                console.log(req.session.userId);
                 // TODO: should redirect to login or home
                 res.send("succesful register");
                 
             } else {
                 // TODO: handle error
-                res.send("error");
+                res.send("error in register");
             }
         }
     })(username)
@@ -60,7 +55,7 @@ router.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
     let user = null;
 
-    const validation = async () => {
+    const validate = async () => {
         user = await UserController.findUserByUserName(username);
         if (user !== null) {
             return user.username === username && user.password === password;
@@ -69,18 +64,21 @@ router.post('/login', async (req, res, next) => {
     };
 
     // TODO: any better way to write this?
-    (async (username) => {
-        const valid = await validation(username);
+    (async () => {
+        const valid = await validate();
         if (valid) {
             req.session.userId = user._id;
-            console.log(req.session.userId);
             console.log("login successful");
             res.redirect('/home');
         } else {
-            console.log("failed");
+            console.log("failed to login");
             next();
         }
-    })(username);
+    })();
+});
+
+router.get('/', redirect, (req, res, next) => {
+    // do nothing
 });
 
 module.exports = router;
