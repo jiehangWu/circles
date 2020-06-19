@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PostList from './PostList';
 import InputArea from './InputArea';
 import PreferenceBar from './PreferenceBar';
@@ -14,6 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Chip from './Chip';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import { history } from "../../helpers/history"
+
 
 const drawerWidth = 150;
 
@@ -56,16 +58,17 @@ const mock = {
 };
 
 
-function Home() {
+const Home = () => {
 	const classes = styles();
 	const theme = useTheme();
 
 	const name = (
 		<div className={classes.name}>
-			<h4 style={{fontWeight: '900'}}> {mock.user}</h4>
+			<h4 style={{ fontWeight: '900' }}> {mock.user}</h4>
 			<p>@{mock.user + '123'}</p><br />
 		</div>
 	);
+
 	const leftSideBar = (
 		<div className={classes.background}>
 			<div className={classes.toolbar} />
@@ -81,6 +84,35 @@ function Home() {
 			</IconButton>
 		</div>
 	);
+
+	useEffect(() => {
+		const callHome = async () => {
+			const response = await fetch('http://localhost:5000/home', {
+				method: "POST",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json"
+				},
+				credentials: 'include',
+			});
+
+			const message = await response.text();
+
+			if (response.ok) {
+				return message;
+			} else {
+				throw new Error("something went wrong");
+			}
+		}
+
+		callHome().then((message) => {
+			console.log(message);
+			
+		}).catch(e => {
+			history.push("/login");
+			console.log("going back");
+		});
+	}, []);
 
 	return (
 		<React.Fragment>
@@ -100,11 +132,10 @@ function Home() {
 					</Drawer>
 				</div>
 
-
-				<main className={classes.content}>
+				<div className={classes.content}>
 					<InputArea />
 					<PostList />
-				</main>
+				</div>
 
 				{/* right side bar */}
 				<div className={classes.root}>
@@ -116,7 +147,7 @@ function Home() {
 						}}
 						anchor="right"
 					>
-						<IconButton><PowerSettingsNewIcon color='secondary'/></IconButton>
+						<IconButton><PowerSettingsNewIcon color='secondary' /></IconButton>
 					</Drawer>
 				</div>
 

@@ -16,7 +16,10 @@ logger.level = 'info';
 // The ordering is important too
 const app = express();
 mongoose.connect(keys.MONGOURI_LOCAL, { useNewUrlParser: true });
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 const router = require('./routes/router');
@@ -28,6 +31,7 @@ app.use(session({
     saveUninitialized: false,
     secret: 'secret',
     cookie: {
+        domain: "localhost",
         maxAge: MAX_AGE,
     }
   }));

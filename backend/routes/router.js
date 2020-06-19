@@ -8,7 +8,7 @@ logger.level = 'debug';
 const UserController = require('../controller/UserController');
 
 const redirect = (req, res, next) => {
-    if (req.session.cookie !== null && req.session.cookie !== undefined) {
+    if (req.session.cookie) {
         logger.info(req.session.userId);
         logger.info(req.session.cookie);
         res.redirect('/home');
@@ -38,16 +38,13 @@ router.post('/register', async (req, res, next) => {
     };
 
     (async (username) => {
-        const exists = await (checkIfUserExists(username));
-        if (exists) {
+        if (await (checkIfUserExists(username))) {
             logger.info("duplicate username")
             res.status(400).send("duplicate username");
         } else {
             user = UserController.createUser(username, password);
             if (user !== null) {
-                req.session.userId = user._id;
                 res.status(200).send("succesful register");
-                
             } else {
                 res.status(404).send("error in register");
             }
@@ -69,9 +66,9 @@ router.post('/login', async (req, res, next) => {
 
     // TODO: any better way to write this?
     (async () => {
-        const valid = await validate();
-        if (valid) {
+        if (await validate()) {
             req.session.userId = user._id;
+            logger.info(req.session.userId);
             logger.info("login succesful");
             res.status(200).send("login successful");
         } else {
@@ -84,19 +81,20 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/home', async (req, res) => {
     const userId = req.session.userId;
+    logger.info(userId);
     const result = await UserController.findUserByUserId(userId);
-    if (result !== null && result !== undefined) {
+    if (result) {
         const username = result.username;
         logger.info(`Display ${username}`);
         res.status(200).send({ username });
     } else {
         logger.error(result);
-        res.status(400).send("The user is not logged in");
+        res.status(400).send("please login");
     }
 });
 
 router.get('/', redirect, (req, res, next) => {
-    // do nothing
+    
 });
 
 module.exports = router;

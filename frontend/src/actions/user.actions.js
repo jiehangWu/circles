@@ -38,6 +38,7 @@ const serviceCall = async (type, username, password) => {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
+        credentials: 'include',
         body: JSON.stringify({
             "username": username,
             "password": password
