@@ -15,6 +15,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "log4js": "^6.3.0",
     "mongoose": "^5.9.19",
     "nodemon": "^2.0.4",
     "uuid": "^8.1.0"

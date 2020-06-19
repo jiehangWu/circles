@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+
+logger.level = 'debug';
 
 const User = mongoose.model("users");
 
@@ -7,6 +11,7 @@ module.exports = {
         return User.findById(id)
             .catch((err) => {
                 // TODO: handle error
+                logger.error(err)
             });
     },
 
@@ -15,7 +20,7 @@ module.exports = {
         user.save(err => {
             // TODO: handle error
             if (err !== null) {
-                console.log(err);
+                logger.error(err)
             }
         });
         return user;

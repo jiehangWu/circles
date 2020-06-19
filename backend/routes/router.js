@@ -1,10 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+
+logger.level = 'debug';
 
 const UserController = require('../controller/UserController');
 
 const redirect = (req, res, next) => {
     if (req.session.cookie !== null && req.session.cookie !== undefined) {
+        logger.info(req.session.userId);
+        logger.info(req.session.cookie);
         res.redirect('/home');
     } else if (!req.session.userId) {
         res.redirect('/login');
@@ -34,18 +40,15 @@ router.post('/register', async (req, res, next) => {
     (async (username) => {
         const exists = await (checkIfUserExists(username));
         if (exists) {
-            console.log("duplicate username");
+            logger.info("duplicate username")
             res.status(400).send("duplicate username");
         } else {
             user = UserController.createUser(username, password);
             if (user !== null) {
-                // TODO: Change this depending on where to direct
                 req.session.userId = user._id;
-                // TODO: should redirect to login or home
                 res.status(200).send("succesful register");
                 
             } else {
-                // TODO: handle error
                 res.status(404).send("error in register");
             }
         }
@@ -69,15 +72,27 @@ router.post('/login', async (req, res, next) => {
         const valid = await validate();
         if (valid) {
             req.session.userId = user._id;
-            console.log("login successful");
+            logger.info("login succesful");
             res.status(200).send("login successful");
-            // res.redirect('/home');
         } else {
-            console.log("login failed");
+            logger.info("login failed");
             res.status(400).send("login failed");
             next();
         }
     })();
+});
+
+router.post('/home', async (req, res) => {
+    const userId = req.session.userId;
+    const result = await UserController.findUserByUserId(userId);
+    if (result !== null && result !== undefined) {
+        const username = result.username;
+        logger.info(`Display ${username}`);
+        res.status(200).send({ username });
+    } else {
+        logger.error(result);
+        res.status(400).send("The user is not logged in");
+    }
 });
 
 router.get('/', redirect, (req, res, next) => {
