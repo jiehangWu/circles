@@ -1,4 +1,7 @@
-import {history} from "../helpers/history";
+import { history } from "../helpers/history";
+
+const LOGIN = "login";
+const REGISTER = "register";
 
 const login = (username, password) => {
     return dispatch => {
@@ -8,7 +11,7 @@ const login = (username, password) => {
         });
 
         // to be replaced by real backend service call
-        fakeLogin(username, password).then((username) => {
+        serviceCall(LOGIN, username, password).then((username) => {
             dispatch({
                 type: "LOGIN_SUCCESS",
                 payload: username
@@ -17,16 +20,39 @@ const login = (username, password) => {
             console.log("login success");
         }).catch(e => {
             dispatch({
-               type: "FAILED_MESSAGE",
-               payload: e,
+                type: "FAILED_MESSAGE",
+                payload: e.message,
             });
             dispatch({
                 type: "LOGIN_FAILED",
-                payload: e
+                payload: e.message
             });
         });
     };
 };
+
+const serviceCall = async (type, username, password) => {
+    const response = await fetch('http://localhost:5000/' + type, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "username": username,
+            "password": password
+        })
+    });
+    console.log(response);
+    const message = await response.text();
+    console.log(message);
+    if (response.ok) {
+        return true;
+    } else {
+        throw new Error(message);
+    }
+};
+
 
 const register = (username, password) => {
     return dispatch => {
@@ -35,8 +61,7 @@ const register = (username, password) => {
             payload: username,
         });
 
-        // to be replaced by real backend service call
-        fakeRegister(username, password).then((username) => {
+        serviceCall(REGISTER, username, password).then(() => {
             dispatch({
                 type: "REGISTER_SUCCESS",
                 payload: username,
@@ -49,11 +74,11 @@ const register = (username, password) => {
         }).catch(e => {
             dispatch({
                 type: "FAILED_MESSAGE",
-                payload: e,
+                payload: e.message,
             });
             dispatch({
                 type: "REGISTER_FAILED",
-                payload: e,
+                payload: e.message,
             });
         });
     };
@@ -65,26 +90,26 @@ export const userActions = {
 };
 
 // This should haven't been in this module
-const fakeLogin = (username, password) => {
-    return new Promise((resolve) => {
-        const cb = () => {
-            console.log("fake login: username is " + username + ", password is " + password)
-            resolve(username);
-        };
-        setTimeout(cb, 1000);
-    });
-};
+// const fakeLogin = (username, password) => {
+//     return new Promise((resolve) => {
+//         const cb = () => {
+//             console.log("fake login: username is " + username + ", password is " + password)
+//             resolve(username);
+//         };
+//         setTimeout(cb, 1000);
+//     });
+// };
 
 // This should haven't been in this module
-const fakeRegister = (username, password) => {
-    return new Promise((resolve) => {
-        const cb = () => {
-            console.log("fake login: username is " + username + ", password is " + password)
-            resolve(username);
-        };
-        setTimeout(cb, 1000);
-    });
-};
+// const fakeRegister = (username, password) => {
+//     return new Promise((resolve) => {
+//         const cb = () => {
+//             console.log("fake login: username is " + username + ", password is " + password)
+//             resolve(username);
+//         };
+//         setTimeout(cb, 1000);
+//     });
+// };
 
 
 
