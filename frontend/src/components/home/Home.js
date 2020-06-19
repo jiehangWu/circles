@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PostList from './PostList';
 import InputArea from './InputArea';
 import PreferenceBar from './PreferenceBar';
@@ -61,11 +61,11 @@ const mock = {
 const Home = () => {
 	const classes = styles();
 	const theme = useTheme();
-
+	const [username, setUsername] = useState("");
 	const name = (
 		<div className={classes.name}>
-			<h4 style={{ fontWeight: '900' }}> {mock.user}</h4>
-			<p>@{mock.user + '123'}</p><br />
+			<h4 style={{ fontWeight: '900' }}> { username }</h4>
+			<p>@{ username }123</p><br />
 		</div>
 	);
 
@@ -107,7 +107,8 @@ const Home = () => {
 
 		callHome().then((message) => {
 			console.log(message);
-			
+			const username = JSON.parse(message).username;
+			setUsername(username);
 		}).catch(e => {
 			history.push("/login");
 			console.log("going back");
