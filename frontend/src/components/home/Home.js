@@ -1,6 +1,7 @@
 import React from "react";
 import PostList from './PostList';
 import InputArea from './InputArea';
+import LogOutButton from "./LogOutButton";
 import PreferenceBar from './PreferenceBar';
 import LeftSideBar from "./LeftSideBar";
 import Container from '@material-ui/core/Container';
@@ -14,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Chip from './Chip';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import Button from "./TagButton";
 
 const drawerWidth = 150;
 
@@ -82,6 +84,7 @@ function Home() {
 		</div>
 	);
 
+
 	return (
 		<React.Fragment>
 			<CssBaseline />
@@ -116,7 +119,7 @@ function Home() {
 						}}
 						anchor="right"
 					>
-						<IconButton><PowerSettingsNewIcon color='secondary'/></IconButton>
+						<LogOutButton />
 					</Drawer>
 				</div>
 
