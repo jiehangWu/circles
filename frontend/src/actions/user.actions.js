@@ -65,7 +65,7 @@ const logOut = ()=> {
             history.push('/login');
             dispatch({
                 type: "SUCCESS_MESSAGE",
-                payload: "logout success!",
+                payload: "logout successful!",
             });
         }).catch(e => {
             dispatch({
@@ -86,7 +86,6 @@ const serviceCallLogOut = async () => {
         },
         body: JSON.stringify({
             "logOut": true
-
         })
     })};
 
