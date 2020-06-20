@@ -83,11 +83,13 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.post('/home', async (req, res) => {
+    // If succesfully connected, req.body is always true according to client request
     if (req.body.logOut === true) {
         delete req.session.userId;
         logger.info("log out successful");
-        res.status(200).send("log out succeeded");
+        res.status(200).send("You have been successfully logged out");
     } else  {
+        // i do not think there is an else
         const userId = req.session.userId;
         const result = await UserController.findUserByUserId(userId);
         if (result !== null && result !== undefined) {
@@ -98,13 +100,8 @@ router.post('/home', async (req, res) => {
             logger.error(result);
             res.status(400).send("The user is not logged in");
         }
-
     }
-
 });
-
-
-
 
 router.get('/', redirect, (req, res, next) => {
     // do nothing
