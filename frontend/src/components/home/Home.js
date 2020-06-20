@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PostList from './PostList';
 import InputArea from './InputArea';
+import LogOutButton from "./LogOutButton";
 import PreferenceBar from './PreferenceBar';
 import LeftSideBar from "./LeftSideBar";
 import Container from '@material-ui/core/Container';
@@ -12,10 +13,7 @@ import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Chip from './Chip';
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import { history } from "../../helpers/history"
-
 
 const drawerWidth = 150;
 
@@ -148,7 +146,7 @@ const Home = () => {
 						}}
 						anchor="right"
 					>
-						<IconButton><PowerSettingsNewIcon color='secondary' /></IconButton>
+						<LogOutButton />
 					</Drawer>
 				</div>
 

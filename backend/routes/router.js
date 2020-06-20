@@ -93,8 +93,21 @@ router.post('/home', async (req, res) => {
     }
 });
 
+router.post('/logout', (req, res) => {
+    if (req.session.userId !== null && req.session.userId !== undefined) {
+        // maybe cookie needs to be deleted too?
+        delete req.session.userId;
+    }
+    if (req.session.userId === null || req.session.userId === undefined) {
+        logger.info("log out successful");
+        res.status(202).send("You have been successfully logged out");
+    } else {
+        res.status(404).send("Logout failed");
+    }
+});
+
 router.get('/', redirect, (req, res, next) => {
-    
+    // TODO: to be refactored
 });
 
 module.exports = router;

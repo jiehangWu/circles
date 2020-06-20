@@ -54,6 +54,39 @@ const serviceCall = async (type, username, password) => {
     }
 };
 
+const logOut = ()=> {
+    return dispatch => {
+        dispatch({
+            type: "LOG_OUT",
+        });
+        serviceCallLogOut().then(() => {
+            dispatch({
+                type: "LOG_OUT",
+            });
+            history.push('/login');
+            dispatch({
+                type: "SUCCESS_MESSAGE",
+                payload: "logout successful!",
+            });
+        }).catch(e => {
+            dispatch({
+                type: "FAILED_MESSAGE",
+                payload: "logout failed",
+            });
+        })
+    }
+}
+
+const serviceCallLogOut = async () => {
+    console.log("count!")
+    await fetch('http://localhost:5000/logout', {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+    })};
+
 
 const register = (username, password) => {
     return dispatch => {
@@ -88,6 +121,7 @@ const register = (username, password) => {
 export const userActions = {
     login,
     register,
+    logOut
 };
 
 // This should haven't been in this module
