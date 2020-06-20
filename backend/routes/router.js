@@ -83,17 +83,28 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.post('/home', async (req, res) => {
-    const userId = req.session.userId;
-    const result = await UserController.findUserByUserId(userId);
-    if (result !== null && result !== undefined) {
-        const username = result.username;
-        logger.info(`Display ${username}`);
-        res.status(200).send({ username });
-    } else {
-        logger.error(result);
-        res.status(400).send("The user is not logged in");
+    if (req.body.logOut === true) {
+        delete req.session.userId;
+        logger.info("log out successful");
+        res.status(200).send("log out succeeded");
+    } else  {
+        const userId = req.session.userId;
+        const result = await UserController.findUserByUserId(userId);
+        if (result !== null && result !== undefined) {
+            const username = result.username;
+            logger.info(`Display ${username}`);
+            res.status(200).send({ username });
+        } else {
+            logger.error(result);
+            res.status(400).send("The user is not logged in");
+        }
+
     }
+
 });
+
+
+
 
 router.get('/', redirect, (req, res, next) => {
     // do nothing
