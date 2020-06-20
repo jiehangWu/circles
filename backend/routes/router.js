@@ -98,6 +98,7 @@ router.post('/logout', (req, res) => {
         // maybe cookie needs to be deleted too?
         delete req.session.userId;
     }
+    logger.warn(req.session.userId);
     if (req.session.userId === null || req.session.userId === undefined) {
         logger.info("log out successful");
         res.status(202).send("You have been successfully logged out");
