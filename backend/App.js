@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const keys = require('./secrets/Keys')
 const bodyParser = require('body-parser');
+require('dotenv').config();
+
 // Make sure this is required
 require("./model/User");
 
@@ -15,7 +17,7 @@ logger.level = 'info';
 
 // The ordering is important too
 const app = express();
-mongoose.connect(keys.MONGOURI_LOCAL, { useNewUrlParser: true });
+mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true,
@@ -29,7 +31,7 @@ app.use(session({
     name: 'circles',
     resave: false,
     saveUninitialized: false,
-    secret: 'secret',
+    secret: keys.COOKIE_SECRET,
     cookie: {
         domain: "localhost",
         maxAge: MAX_AGE,
@@ -38,8 +40,7 @@ app.use(session({
 
 app.use('/', router);
 
-const PORT = 5000;
-app.listen(PORT, () => {
-    logger.info(`Server is listening on PORT ${PORT}`);
+app.listen(process.env.PORT, () => {
+    logger.info(`Server is listening on PORT ${process.env.PORT}`);
 });
    

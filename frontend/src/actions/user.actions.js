@@ -66,7 +66,7 @@ const logOut = ()=> {
             history.push('/login');
             dispatch({
                 type: "SUCCESS_MESSAGE",
-                payload: "logout successful!",
+                payload: "logout succesful",
             });
         }).catch(e => {
             dispatch({
@@ -78,7 +78,6 @@ const logOut = ()=> {
 }
 
 const serviceCallLogOut = async () => {
-    console.log("count!")
     await fetch('http://localhost:5000/logout', {
         method: "POST",
         headers: {
@@ -86,7 +85,6 @@ const serviceCallLogOut = async () => {
             "Content-Type": "application/json"
         },
     })};
-
 
 const register = (username, password) => {
     return dispatch => {
