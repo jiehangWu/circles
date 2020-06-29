@@ -8,29 +8,18 @@ const User = mongoose.model("users");
 
 module.exports = {
     findUserByUserId: (id) => {
-        return User.findById(id)
-            .catch((err) => {
-                // TODO: handle error
-                logger.error(err)
-            });
+        return User.findById(id);
     },
 
     createUser: (username, password) => {
         const user = new User({ username, password });
-        user.save(err => {
-            // TODO: handle error
-            if (err !== null) {
-                logger.error(err)
-            }
-        });
-        return user;
+        return user.save();
     },
 
     findUserByUserName: (username) => {
         const query = {
             username: username
         };
-
         return User.findOne(query);  
     },
 };

@@ -3,7 +3,7 @@ export const submitPost = (post) => {
         type: "SUBMIT_POST",
         payload: post,
     }
-}
+};
 
 export const likePost = (postID) => {
     return {
@@ -12,4 +12,4 @@ export const likePost = (postID) => {
             "postID": postID
         }
     }
-}
+};

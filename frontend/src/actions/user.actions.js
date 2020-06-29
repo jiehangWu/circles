@@ -73,9 +73,9 @@ const logOut = ()=> {
                 type: "FAILED_MESSAGE",
                 payload: "logout failed",
             });
-        })
-    }
-}
+        });
+    };
+};
 
 const serviceCallLogOut = async () => {
     await fetch('http://localhost:5000/logout', {
@@ -121,28 +121,6 @@ export const userActions = {
     register,
     logOut
 };
-
-// This should haven't been in this module
-// const fakeLogin = (username, password) => {
-//     return new Promise((resolve) => {
-//         const cb = () => {
-//             console.log("fake login: username is " + username + ", password is " + password)
-//             resolve(username);
-//         };
-//         setTimeout(cb, 1000);
-//     });
-// };
-
-// This should haven't been in this module
-// const fakeRegister = (username, password) => {
-//     return new Promise((resolve) => {
-//         const cb = () => {
-//             console.log("fake login: username is " + username + ", password is " + password)
-//             resolve(username);
-//         };
-//         setTimeout(cb, 1000);
-//     });
-// };
 
 
 
