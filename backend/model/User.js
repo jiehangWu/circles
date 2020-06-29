@@ -12,20 +12,20 @@ const UserSchema = new mongoose.Schema({
     chats: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Chat',
+            ref: 'chats',
         }
     ],
     tags: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tag',
+        ref: 'tags',
     }],
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Post',
+        ref: 'posts',
     }],
     liked_posts: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Post',
+        ref: 'posts',
     }],
 });
 

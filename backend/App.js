@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const keys = require('./secrets/Keys')
 const bodyParser = require('body-parser');
 require('dotenv').config();
-
 // Make sure models are required
 require('./model/User');
 require('./model/Chat');
@@ -28,7 +27,8 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-const router = require('./routes/router');
+const authRoutes = require('./routes/authRoutes');
+const awsRoutes = require('./routes/awsRoutes');
 
 const MAX_AGE = 15 * 60 * 1000;
 app.use(session({
@@ -42,7 +42,8 @@ app.use(session({
     }
   }));
 
-app.use('/', router);
+app.use('/', authRoutes);
+app.use('/aws', awsRoutes);
 
 app.listen(process.env.PORT, () => {
     logger.info(`Server is listening on PORT ${process.env.PORT}`);
