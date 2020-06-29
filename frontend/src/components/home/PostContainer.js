@@ -7,7 +7,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { blue } from '@material-ui/core/colors';
 import { likePost } from '../../actions/posts.actions';
@@ -58,7 +58,7 @@ const PostContainer = (props) => {
                     </Typography>
                 </CardContent>
                 <IconButton aria-label="chat">
-                    <ChatBubbleIcon color='primary' />
+                    <ChatBubbleOutlineOutlinedIcon  color='primary' />
                 </IconButton>
                 <IconButton aria-label="like" onClick={() => props.likePost(postID)}>
                     <FavoriteIcon color='secondary' />
