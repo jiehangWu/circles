@@ -7,8 +7,12 @@ const keys = require('./secrets/Keys')
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-// Make sure this is required
-require("./model/User");
+// Make sure models are required
+require('./model/User');
+require('./model/Chat');
+require('./model/Message');
+require('./model/Post');
+require('./model/Tag');
 
 const log4js = require('log4js');
 const logger = log4js.getLogger();
