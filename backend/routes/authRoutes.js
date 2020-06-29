@@ -9,8 +9,8 @@ const UserController = require('../controller/UserController');
 
 const redirect = (req, res, next) => {
     if (req.session.cookie) {
-        logger.info(req.session.userId);
-        logger.info(req.session.cookie);
+        // logger.info(req.session.userId);
+        // logger.info(req.session.cookie);
         res.redirect('/home');
     } else if (!req.session.userId) {
         res.redirect('/login');
