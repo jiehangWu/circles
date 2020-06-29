@@ -101,7 +101,7 @@ const Home = () => {
 			} else {
 				throw new Error("something went wrong");
 			}
-		}
+		};
 
 		callHome().then((message) => {
 			console.log(message);
@@ -153,7 +153,7 @@ const Home = () => {
 			</div>
 		</React.Fragment>
 	);
-}
+};
 
 
 export default Home;

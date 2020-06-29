@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema ({
     },
    tags: [{
        type: mongoose.Schema.Types.ObjectId,
-       ref: 'Tag',
+       ref: 'tags',
    }],
    likes:{
        type: Number,

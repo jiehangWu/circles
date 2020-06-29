@@ -33,4 +33,4 @@ module.exports = {
 
         return User.findOne(query);  
     },
-}
+};

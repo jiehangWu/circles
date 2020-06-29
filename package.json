@@ -4,6 +4,8 @@
   "description": "Circles is a new style of social networking based on your interests on similartirs with the others!:fire::fire:",
   "main": "index.js",
   "dependencies": {
+    "@material-ui/core": "^4.10.2",
+    "@material-ui/icons": "^4.9.1",
     "bluebird": "^3.7.2"
   },
   "devDependencies": {},
