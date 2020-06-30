@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-const UserController = require('UserController');
+const UserController = require('./UserController');
 
 logger.level = 'debug';
 
@@ -18,14 +18,15 @@ module.exports = {
             user: userId,
             tags: tags
         });
+        logger.info(post);
         return post.save().then(() => {
-            Post.findOne({user: userId});
+            return Post.findOne({user: userId});
         }).then((doc) => {
-            postId = doc._Id;
-            UserController.findUserByUserId(userId);
+            postId = doc._id;
+            return UserController.findUserByUserId(userId);
         }).then((doc) => {
             doc.posts.push(postId);
-            doc.save();
+            return doc.save();
         }).then(() => {
             logger.info("success!");
             return Promise.resolve(post);
@@ -38,6 +39,8 @@ module.exports = {
     // resolve with the number of likes after update
     likePost: (userId, postId) => {
         let isLiked;
+        logger.info("userId is " + userId);
+        logger.info("postId is " + postId);
         return UserController.findUserByUserId(userId).then((doc) => {
             if (doc.liked_posts.includes(postId)) {
                 isLiked = true;
@@ -45,7 +48,7 @@ module.exports = {
                 if (index < 0) {
                     throw new Error("post is already deleted");
                 }
-                doc.splice(index, 1);
+                doc.liked_posts.splice(index, 1);
             } else {
                 isLiked = false;
                 doc.liked_posts.push(postId);
@@ -74,7 +77,7 @@ module.exports = {
                 throw new Error("post is already deleted");
             }
             doc.posts.splice(index, 1);
-            doc.save();
+            return doc.save();
         }).then(() => {
             logger.info("delete success");
             return Promise.resolve();

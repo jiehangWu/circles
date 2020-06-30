@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { blue } from '@material-ui/core/colors';
-import { likePost, PostActions } from '../../actions/posts.actions';
+import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
 
 const styles = makeStyles((theme) => ({
@@ -33,14 +33,13 @@ const styles = makeStyles((theme) => ({
 
 const PostContainer = (props) => {
     const classes = styles();
-    const postId = props.postId;
     return (
         <div className={classes.postContainer}>
             <Card className={classes.post} >
                 <CardHeader
                     avatar={
                         <Avatar aria-label="profile-pic" className={classes.avatar}>
-                            {props.userID}
+                            {props.userId}
                         </Avatar>
                     }
                     action={
@@ -48,8 +47,8 @@ const PostContainer = (props) => {
                             <MoreVertIcon />
                         </IconButton>
                     }
-                    title={props.userID}
-                    subheader={props.time}
+                    title={props.userId}
+                    subheader={props.date}
                 >
                 </CardHeader>
                 <CardContent>
@@ -60,7 +59,7 @@ const PostContainer = (props) => {
                 <IconButton aria-label="chat">
                     <ChatBubbleOutlineOutlinedIcon  color='primary' />
                 </IconButton>
-                <IconButton aria-label="like" onClick={() => props.likePost(props.userId, postId)}>
+                <IconButton aria-label="like" onClick={() => props.likePost(props.postId)}>
                     <FavoriteIcon color='secondary' />
                 </IconButton>
                 <span>{props.likes}</span>

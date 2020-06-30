@@ -1,6 +1,6 @@
 const submitPost = (post) => {
     return dispatch => {
-        fetch('http://localhost:5000/post', {
+        fetch('http://localhost:5000/post/', {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -55,8 +55,9 @@ const likePost = (postId) => {
 };
 
 const loadAllPosts = () => {
+    console.log("start fetching");
     return dispatch => {
-        fetch('http://localhost:5000/post', {
+        fetch('http://localhost:5000/post/', {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -70,6 +71,7 @@ const loadAllPosts = () => {
                 throw new Error('error when fetching all posts');
             }
         }).then((posts) => {
+            console.log(posts);
             dispatch({
                 type: "LOAD_ALL",
                 payload: posts
@@ -91,11 +93,6 @@ const uploadImage = (data) => {
         console.log(data._boundary);
         fetch("http://localhost:5000/aws/upload", {
             method: "POST",
-            headers: {
-                'accept': 'application/json',
-                // does not work
-                'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-            },
             body: data
         }).then((response) => {
             return response.json();
@@ -103,10 +100,6 @@ const uploadImage = (data) => {
             if (data.success) {
                 let address = data.address;
                 console.log(address);
-                dispatch({
-                    type: "ADD_IMAGE_POST",
-                    payload: address
-                });
             }
         })
     }

@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
-import inputReducer from "../../reducers/InputReducer";
 
 class InputArea extends React.Component {
     constructor(props) {
@@ -83,15 +82,13 @@ class InputArea extends React.Component {
 
                             </textarea>
                             <input className="hide" style={{ display: 'none' }} type="file" ref={'file-upload'} onChange={this.imageChangeHandler} />
-                            <ButtonBase
-                                onClick={e => {
-                                    this.refs['file-upload'].click()
-                                }}
-                            >
-                                <IconButton aria-label="upload image" >
-                                    <ImageIcon />
-                                </IconButton>
-                            </ButtonBase>
+
+                            <IconButton aria-label="upload image" onClick={e => {
+                                this.refs['file-upload'].click()
+                            }}>
+                                <ImageIcon />
+                            </IconButton>
+
 
 
                             <IconButton aria-label="add emoji">
