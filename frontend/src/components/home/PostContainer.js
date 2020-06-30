@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { blue } from '@material-ui/core/colors';
-import { likePost } from '../../actions/posts.actions';
+import { likePost, PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
 
 const styles = makeStyles((theme) => ({
@@ -33,7 +33,7 @@ const styles = makeStyles((theme) => ({
 
 const PostContainer = (props) => {
     const classes = styles();
-    const postID = props.postID;
+    const postId = props.postId;
     return (
         <div className={classes.postContainer}>
             <Card className={classes.post} >
@@ -60,7 +60,7 @@ const PostContainer = (props) => {
                 <IconButton aria-label="chat">
                     <ChatBubbleOutlineOutlinedIcon  color='primary' />
                 </IconButton>
-                <IconButton aria-label="like" onClick={() => props.likePost(postID)}>
+                <IconButton aria-label="like" onClick={() => props.likePost(props.userId, postId)}>
                     <FavoriteIcon color='secondary' />
                 </IconButton>
                 <span>{props.likes}</span>
@@ -69,10 +69,14 @@ const PostContainer = (props) => {
     );
 }
 
-const matchDispatchToProps = dispatch => {
+const mapStateToProps = (state) => {
     return {
-        likePost: (postID) => dispatch(likePost(postID)),
+        userId: state.userinfo.userId
     };
 }
 
-export default connect(null, matchDispatchToProps)(PostContainer);
+const mapAction = {
+    likePost: PostActions.likePost,
+}
+
+export default connect(mapStateToProps, mapAction)(PostContainer);

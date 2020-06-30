@@ -4,7 +4,7 @@ export const inputTag = (input) => {
         type: 'INPUT_TAG',
         input: input
     }
-}
+};
 
 // add one tag to display in Tag port
 export const addTag = (s) => {

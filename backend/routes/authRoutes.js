@@ -86,7 +86,7 @@ router.post('/home', async (req, res) => {
     if (result) {
         const username = result.username;
         logger.info(`Display ${username}`);
-        res.status(200).send({ username });
+        res.status(200).send({ username, userId });
     } else {
         logger.error(result);
         res.status(400).send("please login");
