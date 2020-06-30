@@ -80,14 +80,6 @@ const loadAllPosts = () => {
     };
 }
 
-// xiaobo
-const inputSentence = (sentence) => {
-    return {
-        type: "INPUT_TAG",
-        input: sentence
-    }
-}
-
 // TODO: Review this
 const uploadImage = (data) => {
     return (dispatch) => {
@@ -124,6 +116,5 @@ export const PostActions = {
     submitPost,
     likePost,
     loadAllPosts,
-    inputSentence,
     uploadImage
 };

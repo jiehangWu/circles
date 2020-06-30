@@ -42,16 +42,18 @@ class InputArea extends React.Component {
     }
 
     handleChange = (e) => {
-        this.props.inputSentence(e.target.value);
+        this.setState({
+            content: e.target.value,
+        });
     };
 
     imageChangeHandler = (e) => {
         this.setState({
             selectedImage: e.target.files[0]
         });
-        if(e.target.files[0].name) {
+        if (e.target.files[0].name) {
             const data = new FormData();
-            data.append( 'SomeImage', e.target.files[0],e.target.files[0].name  );
+            data.append('SomeImage', e.target.files[0], e.target.files[0].name);
             this.imageUploadHandler(data);
         }
     };
@@ -71,34 +73,34 @@ class InputArea extends React.Component {
                             </Avatar>
                         </div>
                         <div className="col-lg-10">
-                                <textarea className="text-box mx-2 mt-3"
-                                          rows="3"
-                                          placeholder="What's up?"
-                                          value={this.props.input}
-                                          required
-                                          onChange={(e) => {this.handleChange(e)}}
-                                          ref={this.textArea}>
-    
-                                </textarea>
-                            <input className="hide" style={{display: 'none'}} type="file" ref={'file-upload'} onChange={this.imageChangeHandler}/>
+                            <textarea className="text-box mx-2 mt-3"
+                                rows="3"
+                                placeholder="What's up?"
+                                value={this.props.input}
+                                required
+                                onChange={(e) => { this.handleChange(e) }}
+                                ref={this.textArea}>
+
+                            </textarea>
+                            <input className="hide" style={{ display: 'none' }} type="file" ref={'file-upload'} onChange={this.imageChangeHandler} />
                             <ButtonBase
-                                onClick ={e => {
+                                onClick={e => {
                                     this.refs['file-upload'].click()
                                 }}
                             >
                                 <IconButton aria-label="upload image" >
-                                    <ImageIcon/>
+                                    <ImageIcon />
                                 </IconButton>
                             </ButtonBase>
 
 
                             <IconButton aria-label="add emoji">
-                                <EmojiEmotionsIcon/>
+                                <EmojiEmotionsIcon />
                             </IconButton>
-                            <button type="button" 
-                                    className={"btn btn-primary float-right mx-4 mb-3" 
-                                        + (this.state.content ? "" : " disabled")} 
-                                    onClick={this.handleSubmit}>
+                            <button type="button"
+                                className={"btn btn-primary float-right mx-4 mb-3"
+                                    + (this.state.content ? "" : " disabled")}
+                                onClick={this.handleSubmit}>
                                 Submit
                             </button>
                         </div>
