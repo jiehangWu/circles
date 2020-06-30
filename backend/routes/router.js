@@ -111,4 +111,13 @@ router.get('/', redirect, (req, res, next) => {
     // TODO: to be refactored
 });
 
+//TODO:UPLOAD_IMAGES
+router.post('/upload_image',(req, res) => {
+    console.log(req.body);
+   res.send({
+       success: 1,
+       address: "https://images.pexels.com/photos/1268855/pexels-photo-1268855.jpeg?cs=srgb&dl=pexels-1268855.jpg&fm=jpg"
+   });
+});
+
 module.exports = router;
