@@ -13,9 +13,12 @@ router.post('/upload', async (req, res) => {
     form.on('file', async (name, file) => {
         logger.info(file.path);
         logger.info(`uploading ${name}...`);
-        const link = await awsController.upload(name, file);
+        const address= await awsController.upload(name, file);
         logger.info(`finished uplaoding ${name}`);
-        res.status(201).send(link);
+        res.status(201).send({
+            success: 1,
+            address
+        });
     });
 });
 

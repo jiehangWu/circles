@@ -80,8 +80,50 @@ const loadAllPosts = () => {
     };
 }
 
+// xiaobo
+const inputSentence = (sentence) => {
+    return {
+        type: "INPUT_TAG",
+        input: sentence
+    }
+}
+
+// TODO: Review this
+const uploadImage = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: "UPLOAD_IMAGE",
+            payload: data
+        });
+        // data._boundary is undefined
+        console.log(data._boundary);
+        fetch("http://localhost:5000/aws/upload", {
+            method: "POST",
+            headers: {
+                'accept': 'application/json',
+                // does not work
+                'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+            },
+            body: data
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            if (data.success) {
+                let address = data.address;
+                console.log(address);
+                dispatch({
+                    type: "ADD_IMAGE_POST",
+                    payload: address
+                });
+            }
+        })
+    }
+};
+
 export const PostActions = {
     submitPost,
     likePost,
     loadAllPosts,
+    inputSentence,
+    uploadImage
 };

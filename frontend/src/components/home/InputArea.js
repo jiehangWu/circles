@@ -7,6 +7,10 @@ import IconButton from "@material-ui/core/IconButton";
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
+import inputReducer from "../../reducers/InputReducer";
 
 class InputArea extends React.Component {
     constructor(props) {
@@ -14,6 +18,7 @@ class InputArea extends React.Component {
         this.textArea = React.createRef();
         this.state = {
             content: "",
+            selectedImage: null
         };
     }
 
@@ -22,7 +27,7 @@ class InputArea extends React.Component {
             content: "",
         });
         this.textArea.current.value = "";
-    }
+    };
 
     handleSubmit = () => {
         if (this.state.content) {
@@ -37,10 +42,23 @@ class InputArea extends React.Component {
     }
 
     handleChange = (e) => {
+        this.props.inputSentence(e.target.value);
+    };
+
+    imageChangeHandler = (e) => {
         this.setState({
-            content: e.target.value,
+            selectedImage: e.target.files[0]
         });
-    }
+        if(e.target.files[0].name) {
+            const data = new FormData();
+            data.append( 'SomeImage', e.target.files[0],e.target.files[0].name  );
+            this.imageUploadHandler(data);
+        }
+    };
+
+    imageUploadHandler = (data) => {
+        this.props.uploadImage(data);
+    };
 
     render() {
         return (
@@ -56,14 +74,24 @@ class InputArea extends React.Component {
                                 <textarea className="text-box mx-2 mt-3"
                                           rows="3"
                                           placeholder="What's up?"
+                                          value={this.props.input}
                                           required
                                           onChange={(e) => {this.handleChange(e)}}
                                           ref={this.textArea}>
     
                                 </textarea>
-                            <IconButton aria-label="upload image">
-                                <ImageIcon/>
-                            </IconButton>
+                            <input className="hide" style={{display: 'none'}} type="file" ref={'file-upload'} onChange={this.imageChangeHandler}/>
+                            <ButtonBase
+                                onClick ={e => {
+                                    this.refs['file-upload'].click()
+                                }}
+                            >
+                                <IconButton aria-label="upload image" >
+                                    <ImageIcon/>
+                                </IconButton>
+                            </ButtonBase>
+
+
                             <IconButton aria-label="add emoji">
                                 <EmojiEmotionsIcon/>
                             </IconButton>
@@ -89,7 +117,9 @@ const mapStateToProps = (state) => {
 
 const mapAction = {
     submitPost: PostActions.submitPost,
-    likePost: PostActions.likePost
+    likePost: PostActions.likePost,
+    uploadImage: PostActions.uploadImage,
+    inputSentence: PostActions.inputSentence
 }
 
 export default connect(mapStateToProps, mapAction)(InputArea);
