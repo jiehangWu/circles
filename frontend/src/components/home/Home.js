@@ -50,11 +50,6 @@ const styles = makeStyles((theme) => ({
     }
 }));
 
-const mock = {
-    user: 'Jerome'
-};
-
-
 const Home = (props) => {
     const classes = styles();
     const theme = useTheme();

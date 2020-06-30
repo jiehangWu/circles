@@ -10,7 +10,6 @@ const login = (username, password) => {
             payload: username,
         });
 
-        // to be replaced by real backend service call
         serviceCall(LOGIN, username, password).then((username) => {
             dispatch({
                 type: "LOGIN_SUCCESS",

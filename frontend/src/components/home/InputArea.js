@@ -5,7 +5,7 @@ import "./InputArea.css";
 import ImageIcon from '@material-ui/icons/Image';
 import IconButton from "@material-ui/core/IconButton";
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
-import { submitPost } from '../../actions/posts.actions';
+import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
 
 class InputArea extends React.Component {
@@ -27,9 +27,10 @@ class InputArea extends React.Component {
     handleSubmit = () => {
         if (this.state.content) {
             this.props.submitPost({
-                userID: "Jerome",
+                userId: this.props.userId,
                 content: this.state.content,
-                time: new Date(),
+                date: new Date(),
+                tags: []
             });
             this.clearAll();
         }
@@ -80,10 +81,15 @@ class InputArea extends React.Component {
     }
 }
 
-const matchDispatchToProps = dispatch => {
+const mapStateToProps = (state) => {
     return {
-        submitPost: (post) => dispatch(submitPost(post)),
+        userId: state.userinfo.userId
     };
 }
 
-export default connect(null, matchDispatchToProps)(InputArea);
+const mapAction = {
+    submitPost: PostActions.submitPost,
+    likePost: PostActions.likePost
+}
+
+export default connect(mapStateToProps, mapAction)(InputArea);

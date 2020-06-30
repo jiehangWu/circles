@@ -11,8 +11,8 @@ class PostList extends React.Component {
         return (
             <div>
                 {this.props.posts.postList.map((post) =>
-                    <PostContainer  postID={post.postID} 
-                                    userID={post.userID} 
+                    <PostContainer  postId={post.postId} 
+                                    userId={post.userId} 
                                     time={post.time.toString()} 
                                     content={post.content} 
                                     likes={post.likes}
