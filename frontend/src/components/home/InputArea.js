@@ -121,7 +121,6 @@ const mapAction = {
     submitPost: PostActions.submitPost,
     likePost: PostActions.likePost,
     uploadImage: PostActions.uploadImage,
-    inputSentence: PostActions.inputSentence
 }
 
 export default connect(mapStateToProps, mapAction)(InputArea);
