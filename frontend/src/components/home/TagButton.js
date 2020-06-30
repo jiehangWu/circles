@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {addTag, deleteTag} from "../../actions/index.js";
-
+import {addTag, deleteTag} from "../../actions";
 
 // constructor: name, funcName
 class Button extends React.Component {

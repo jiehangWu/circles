@@ -12,6 +12,8 @@ export const login = (state = {}, action) => {
             };
         case "LOGIN_FAIL":
             return {};
+        case "LOG_OUT":
+            return {};
         default:
             return state;
     }

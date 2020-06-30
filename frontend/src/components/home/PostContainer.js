@@ -1,63 +1,82 @@
 import React from "react";
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
+import { makeStyles } from '@material-ui/core/styles';
+import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { blue } from '@material-ui/core/colors';
+import { likePost, PostActions } from '../../actions/posts.actions';
+import { connect } from 'react-redux';
 
-const mockData = {
-    userID: 'Jerome',
-    time: '20 h',
-    content: `Lorem ipsum dolor sit amet, 
-    consectetur adipiscing elit. 
-    Curabitur at elementum ligula. 
-    Morbi id mauris tempor elit congue bibendum vitae id ex. 
-    Nulla facilisi. Vivamus vulputate non sem quis consectetur. 
-    Integer et euismod elit. Proin fermentum suscipit ipsum, eget blandit lacus rutrum ac. 
-    Morbi aliquet tincidunt dui in imperdiet. Integer ornare, tellus vitae feugiat maximus, 
-    risus odio viverra erat, ut dapibus massa erat sit amet nisi. Sed a semper eros. 
-    Mauris sit amet lorem tellus. Quisque sed neque eget erat hendrerit venenatis vitae in ipsum.`
-};
-
-const styles = {
-    card: {
-        maxWidth: '25rem'
+const styles = makeStyles((theme) => ({
+    post: {
+        margin: '1rem'
     },
-    cardHeader: {
+    media: {
         color: 'white',
         fontSize: '0.8rem'
     },
-    cardFooter: {
-        color: 'gray',
-        fontSize: '0.8rem'
+    avatar: {
+        backgroundColor: blue[200]
     },
-    content: {
-        color: 'black'
+    postContainer: {
+        width: "60%",
+        marginLeft: "20%",
+        marginRight: "20%"
     }
-};
+}));
 
-const PostContainer = () => {
+const PostContainer = (props) => {
+    const classes = styles();
+    const postId = props.postId;
     return (
-        <div className="post-container">
-            <div class='row no-gutters'>
-                <div class='col bg-dark' style={{
-                    maxWidth: '3rem',
-                }}>
-                    <div class='card'>
-                        <img src='' alt='avatar' class='img-thumbnail' />
-                    </div>
-                </div>
-                <div class='col'>
-                    <div class="card" style={styles.card}>
-                        <div class="card-header bg-dark text-left" style={styles.cardHeader}>
-                            @{mockData.userID}
-                        </div>
-                        <div class="card-body bg-light text-left" id="content" style={styles.content}>
-                            {mockData.content}
-                        </div>
-                        <div class="card-footer bg-dark text-right" style={styles.cardFooter}>
-                            {mockData.time}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className={classes.postContainer}>
+            <Card className={classes.post} >
+                <CardHeader
+                    avatar={
+                        <Avatar aria-label="profile-pic" className={classes.avatar}>
+                            {props.userID}
+                        </Avatar>
+                    }
+                    action={
+                        <IconButton aria-label="settings">
+                            <MoreVertIcon />
+                        </IconButton>
+                    }
+                    title={props.userID}
+                    subheader={props.time}
+                >
+                </CardHeader>
+                <CardContent>
+                    <Typography variant="body2" color="textPrimary" component="p">
+                        {props.content}
+                    </Typography>
+                </CardContent>
+                <IconButton aria-label="chat">
+                    <ChatBubbleOutlineOutlinedIcon  color='primary' />
+                </IconButton>
+                <IconButton aria-label="like" onClick={() => props.likePost(props.userId, postId)}>
+                    <FavoriteIcon color='secondary' />
+                </IconButton>
+                <span>{props.likes}</span>
+            </Card>
         </div>
     );
-};
+}
 
-export default PostContainer;
+const mapStateToProps = (state) => {
+    return {
+        userId: state.userinfo.userId
+    };
+}
+
+const mapAction = {
+    likePost: PostActions.likePost,
+}
+
+export default connect(mapStateToProps, mapAction)(PostContainer);
