@@ -23,7 +23,8 @@ module.exports = {
             doc.posts.push(post._id);
             return doc.save();
         }).then(() => {
-            return post.populate('user').populate({select: 'username'}).execPopulate();
+            logger.info("post is ", post);
+            return post.populate({path: 'user', select: 'username'}).execPopulate();
         }).then((doc) => {
             logger.info(doc);
             logger.info("success!");

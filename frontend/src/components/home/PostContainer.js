@@ -12,6 +12,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { blue } from '@material-ui/core/colors';
 import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
+import { displayDate } from '../../helpers/util';
 
 const styles = makeStyles((theme) => ({
     post: {
@@ -50,7 +51,7 @@ const PostContainer = (props) => {
                         </IconButton>
                     }
                     title={props.username}
-                    subheader={props.date}
+                    subheader={displayDate(props.date)}
                 >
                 </CardHeader>
                 <CardContent>
