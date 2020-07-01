@@ -20,8 +20,8 @@ router.get("/", (req, res, next) => {
 
 router.post("/", (req, res, next) => {
     logger.info("posting");
-    const { content, date, userId, tags } = req.body;
-    return PostController.addPost(content, date, userId, tags).then((post) => {
+    const { content, date, userId, tags, imgLink } = req.body;
+    return PostController.addPost(content, date, userId, tags, imgLink).then((post) => {
         res.status(200).json(post);
     }).catch((err) => {
         logger.error(err);

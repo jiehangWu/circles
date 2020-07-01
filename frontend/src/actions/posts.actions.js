@@ -19,6 +19,9 @@ const submitPost = (post) => {
                 type: "SUBMIT_POST",
                 payload: post,
             });
+            dispatch({
+                type: "CLEAR_IMAGE"
+            });
         }).catch((err) => {
             console.log(err);
         });
@@ -110,24 +113,19 @@ const deletePost = (postId) => {
 // TODO: Review this
 const uploadImage = (data) => {
     return (dispatch) => {
-        dispatch({
-            type: "UPLOAD_IMAGE",
-            payload: data
-        });
-        // data._boundary is undefined
-        console.log(data._boundary);
         fetch("http://localhost:5000/aws/upload", {
             method: "POST",
             body: data
         }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            if (data.success) {
-                let address = data.address;
-                console.log(address);
-            }
-        })
-    }
+            return response.text();
+        }).then((address) => {
+            console.log(address);
+            dispatch({
+                type: "ADD_IMAGE",
+                payload: address,
+            });
+        });
+    };
 };
 
 

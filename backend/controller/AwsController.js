@@ -18,6 +18,7 @@ const upload = async (name, file) => {
 
     try {
         const result = await s3.upload(params).promise();
+        logger.info(result);
         return result.Location;
     } catch(err) {
         // handle error

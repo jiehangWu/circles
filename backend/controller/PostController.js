@@ -10,12 +10,13 @@ const Post = mongoose.model("posts");
 module.exports = {
     // tags is an array of tag Id
     // resolve with the post document
-    addPost: (content, date, userId, tags) => {
+    addPost: (content, date, userId, tags, imgLink) => {
         const post = new Post({
             content: content,
             date: date,
             user: userId,
-            tags: tags
+            tags: tags,
+            imgLink: imgLink,
         });
         return post.save().then(() => {
             return UserController.findUserByUserId(userId);

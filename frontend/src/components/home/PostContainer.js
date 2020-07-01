@@ -3,7 +3,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,8 +20,8 @@ const styles = makeStyles((theme) => ({
         margin: '1rem'
     },
     media: {
-        color: 'white',
-        fontSize: '0.8rem'
+        height: 0,
+        paddingTop: '56.25%',
     },
     avatar: {
         backgroundColor: blue[200]
@@ -35,8 +35,6 @@ const styles = makeStyles((theme) => ({
 
 const PostContainer = (props) => {
     const classes = styles();
-    // console.log("userid is " + props.userId);
-    // console.log("username is " + props.username);
     return (
         <div className={classes.postContainer}>
             <Card className={classes.post} >
@@ -48,21 +46,26 @@ const PostContainer = (props) => {
                     }
                     action={
                         props.currUserId === props.userId ?
-                        <IconButton aria-label="settings">
-                            <ClearIcon onClick={() => props.deletePost(props.postId)}/>
-                        </IconButton> : ""
+                            <IconButton aria-label="settings">
+                                <ClearIcon onClick={() => props.deletePost(props.postId)} />
+                            </IconButton> : ""
                     }
                     title={props.username}
                     subheader={displayDate(props.date)}
                 >
                 </CardHeader>
+                {props.imgLink
+                    && <CardMedia
+                        className={classes.media}
+                        image={props.imgLink}
+                    />}
                 <CardContent>
                     <Typography variant="body2" color="textPrimary" component="p">
                         {props.content}
                     </Typography>
                 </CardContent>
                 <IconButton aria-label="chat">
-                    <ChatBubbleOutlineOutlinedIcon  color='primary' />
+                    <ChatBubbleOutlineOutlinedIcon color='primary' />
                 </IconButton>
                 <IconButton aria-label="like" onClick={() => props.likePost(props.postId)}>
                     <FavoriteIcon color='secondary' />

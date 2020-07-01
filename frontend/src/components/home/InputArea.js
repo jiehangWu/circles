@@ -34,7 +34,8 @@ class InputArea extends React.Component {
                 userId: this.props.userId,
                 content: this.state.content,
                 date: new Date(),
-                tags: []
+                tags: [],
+                imgLink: this.props.uploadedImgLink,
             });
             this.clearAll();
         }
@@ -53,12 +54,8 @@ class InputArea extends React.Component {
         if (e.target.files[0].name) {
             const data = new FormData();
             data.append('SomeImage', e.target.files[0], e.target.files[0].name);
-            this.imageUploadHandler(data);
+            this.props.uploadImage(data);
         }
-    };
-
-    imageUploadHandler = (data) => {
-        this.props.uploadImage(data);
     };
 
     render() {
@@ -110,7 +107,8 @@ class InputArea extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        userId: state.userinfo.userId
+        userId: state.userinfo.userId,
+        uploadedImgLink: state.posts.uploadedImgLink,
     };
 }
 
