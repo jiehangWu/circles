@@ -10,6 +10,7 @@ const PostController = require('../controller/PostController');
 router.get("/", (req, res, next) => {
     logger.info("getting");
     return PostController.loadAllPosts().then((posts) => {
+        logger.info(posts);
         res.status(200).json(posts);
     }).catch((err) => {
         logger.error(err);

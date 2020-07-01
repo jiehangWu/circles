@@ -20,6 +20,7 @@ const initial = {
 export const posts = (state = initial, action) => {
     switch (action.type) {
         case "SUBMIT_POST": 
+            console.log(action.payload.user.username);
             return {
                 postList: [action.payload, ...state.postList]
             }

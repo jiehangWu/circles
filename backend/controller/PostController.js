@@ -11,25 +11,23 @@ module.exports = {
     // tags is an array of tag Id
     // resolve with the post document
     addPost: (content, date, userId, tags) => {
-        let postId;
         const post = new Post({
             content: content,
             date: date,
             user: userId,
             tags: tags
         });
-        logger.info(post);
         return post.save().then(() => {
-            return Post.findOne({user: userId});
-        }).then((doc) => {
-            postId = doc._id;
             return UserController.findUserByUserId(userId);
         }).then((doc) => {
-            doc.posts.push(postId);
+            doc.posts.push(post._id);
             return doc.save();
         }).then(() => {
+            return post.populate('user').populate({select: 'username'}).execPopulate();
+        }).then((doc) => {
+            logger.info(doc);
             logger.info("success!");
-            return Promise.resolve(post);
+            return Promise.resolve(doc);
         }).catch((err) => {
             logger.error(err);
             return Promise.reject(err);
@@ -88,6 +86,11 @@ module.exports = {
     },
 
     loadAllPosts: () => {
-        return Post.find({});
+        return Post.find({}).then((docs) => {
+            return Post.populate(docs, {path: 'user', select: 'username'});
+        }).catch((err) => {
+            logger.error(err);
+            return Promise.reject(err);
+        });
     }
 };

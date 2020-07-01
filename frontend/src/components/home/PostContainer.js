@@ -33,13 +33,15 @@ const styles = makeStyles((theme) => ({
 
 const PostContainer = (props) => {
     const classes = styles();
+    console.log("userid is " + props.userId);
+    console.log("username is " + props.username);
     return (
         <div className={classes.postContainer}>
             <Card className={classes.post} >
                 <CardHeader
                     avatar={
                         <Avatar aria-label="profile-pic" className={classes.avatar}>
-                            {props.userId}
+                            {props.username}
                         </Avatar>
                     }
                     action={
@@ -47,7 +49,7 @@ const PostContainer = (props) => {
                             <MoreVertIcon />
                         </IconButton>
                     }
-                    title={props.userId}
+                    title={props.username}
                     subheader={props.date}
                 >
                 </CardHeader>
