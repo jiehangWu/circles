@@ -13,6 +13,7 @@ import { blue } from '@material-ui/core/colors';
 import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
 import { displayDate } from '../../helpers/util';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const styles = makeStyles((theme) => ({
     post: {
@@ -34,8 +35,8 @@ const styles = makeStyles((theme) => ({
 
 const PostContainer = (props) => {
     const classes = styles();
-    console.log("userid is " + props.userId);
-    console.log("username is " + props.username);
+    // console.log("userid is " + props.userId);
+    // console.log("username is " + props.username);
     return (
         <div className={classes.postContainer}>
             <Card className={classes.post} >
@@ -46,9 +47,10 @@ const PostContainer = (props) => {
                         </Avatar>
                     }
                     action={
+                        props.currUserId === props.userId ?
                         <IconButton aria-label="settings">
-                            <MoreVertIcon />
-                        </IconButton>
+                            <ClearIcon onClick={() => props.deletePost(props.postId)}/>
+                        </IconButton> : ""
                     }
                     title={props.username}
                     subheader={displayDate(props.date)}
@@ -73,12 +75,13 @@ const PostContainer = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        userId: state.userinfo.userId
+        currUserId: state.userinfo.userId
     };
 }
 
 const mapAction = {
     likePost: PostActions.likePost,
+    deletePost: PostActions.deletePost,
 }
 
 export default connect(mapStateToProps, mapAction)(PostContainer);

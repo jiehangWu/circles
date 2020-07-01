@@ -43,6 +43,10 @@ export const posts = (state = initial, action) => {
             return {
                 postList: action.payload,
             };
+        case "DELETE_POST":
+            return {
+                postList: state.postList.filter((post) => post._id !== action.payload)
+            };
         default:
             return state;
     }

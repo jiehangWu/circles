@@ -39,6 +39,17 @@ router.put("/:id", (req, res, next) => {
         logger.error(err);
         res.status(500).end();
     })
-})
+});
+
+router.delete("/:postId", (req, res, next) => {
+    const postId = req.params.postId;
+    const userId = req.session.userId;
+    return PostController.deletePost(userId, postId).then(() => {
+        res.status(200).end();
+    }).catch((err) => {
+        logger.error(err);
+        res.status(500).end();
+    })
+});
 
 module.exports = router;

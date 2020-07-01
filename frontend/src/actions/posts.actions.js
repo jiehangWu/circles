@@ -55,7 +55,6 @@ const likePost = (postId) => {
 };
 
 const loadAllPosts = () => {
-    console.log("start fetching");
     return dispatch => {
         fetch('http://localhost:5000/post/', {
             method: "GET",
@@ -80,7 +79,33 @@ const loadAllPosts = () => {
             console.log(err);
         });
     };
-}
+};
+
+const deletePost = (postId) => {
+    return dispatch => {
+        fetch('http://localhost:5000/post/' + postId, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            credentials: 'include',
+        }).then((response) => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('error when deleting post ' + postId);
+            }
+        }).then(() => {
+            dispatch({
+                type: "DELETE_POST",
+                payload: postId
+            });
+        }).catch((err) => {
+            console.log(err);
+        });
+    };
+};
 
 // TODO: Review this
 const uploadImage = (data) => {
@@ -105,9 +130,12 @@ const uploadImage = (data) => {
     }
 };
 
+
+
 export const PostActions = {
     submitPost,
     likePost,
+    deletePost,
     loadAllPosts,
     uploadImage
 };

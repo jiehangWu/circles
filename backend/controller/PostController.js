@@ -68,8 +68,8 @@ module.exports = {
     },
 
     deletePost: (userId, postId) => {
-        return Post.deleteOne({_Id: postId}).then(() => {
-            UserController.findUserByUserId(userId);
+        return Post.deleteOne({_id: postId}).then(() => {
+            return UserController.findUserByUserId(userId);
         }).then((doc) => {
             const index = doc.posts.indexOf(postId);
             if (index < -1) {
