@@ -3,6 +3,7 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 const redis = require('redis');
+const recommendationController = require('../controller/RecommendationController');
 
 logger.level = 'debug';
 
@@ -54,6 +55,7 @@ router.post("/", (req, res, next) => {
     logger.info("posting");
     const { content, date, userId, tags, imgLink } = req.body;
     return PostController.addPost(content, date, userId, tags, imgLink).then((post) => {
+        recommendationController.addPostToCluster(post._id, tags);
         res.status(200).json(post);
     }).catch((err) => {
         logger.error(err);
@@ -70,7 +72,7 @@ router.put("/:id", (req, res, next) => {
     }).catch((err) => {
         logger.error(err);
         res.status(500).end();
-    })
+    });
 });
 
 router.delete("/:postId", (req, res, next) => {
@@ -81,7 +83,7 @@ router.delete("/:postId", (req, res, next) => {
     }).catch((err) => {
         logger.error(err);
         res.status(500).end();
-    })
+    });
 });
 
 module.exports = router;
