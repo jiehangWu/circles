@@ -52,7 +52,12 @@ router.get("/", (req, res, next) => {
 
 router.post("/", (req, res, next) => {
     logger.info("posting");
-    const { content, date, userId, tags, imgLink } = req.body;
+    let { content, date, userId, tags, imgLink } = req.body;
+    logger.info(date);
+    logger.info(typeof date);
+    date = new Date(date);
+    logger.info(date);
+    logger.info(typeof date);
     return PostController.addPost(content, date, userId, tags, imgLink).then((post) => {
         res.status(200).json(post);
     }).catch((err) => {

@@ -26,4 +26,23 @@ const upload = async (name, file) => {
     }
 };
 
-module.exports = { upload };
+const deleteObj = async (Key) => {
+    const params = {
+        Bucket: process.env.BUCKET_NAME,
+        Key: Key,
+    }
+
+    try {
+        const result = await s3.deleteObject(params).promise();
+        if (!result) throw new Error("failed to delete");
+    } catch(err) {
+        // handle error
+        logger.error(err);
+        throw err;
+    }
+};
+
+module.exports = {
+     upload,
+     deleteObj 
+};
