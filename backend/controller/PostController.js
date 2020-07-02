@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 const UserController = require('./UserController');
+const AwsController = require('./AwsController');
+const util = require("../helper/util");
 
 logger.level = 'debug';
 
@@ -69,7 +71,11 @@ module.exports = {
     },
 
     deletePost: (userId, postId) => {
-        return Post.deleteOne({_id: postId}).then(() => {
+        return Post.findOne({_id: postId}).then((doc) => {
+            return AwsController.deleteObj(util.getKey(doc.imgLink));
+        }).then(() => {
+            return Post.deleteOne({_id: postId})
+        }).then(() => {
             return UserController.findUserByUserId(userId);
         }).then((doc) => {
             const index = doc.posts.indexOf(postId);
@@ -88,7 +94,7 @@ module.exports = {
     },
 
     loadAllPosts: () => {
-        return Post.find({}).then((docs) => {
+        return Post.find({}).sort({ date: -1 }).then((docs) => {
             return Post.populate(docs, {path: 'user', select: 'username'});
         }).catch((err) => {
             logger.error(err);
