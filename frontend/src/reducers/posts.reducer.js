@@ -10,6 +10,22 @@ export const posts = (state = initial, action) => {
                 uploadedImgLink: state.uploadedImgLink,
                 postList: [action.payload, ...state.postList]
             }
+        case "COMMENT_POST":
+            return {
+                uploadedImgLink: state.uploadedImgLink,
+                postList: [
+                    ...state.postList.map((post) => {
+                        if (post._id === action.payload.post) {
+                            return {
+                                ...post,
+                                comments: [...post.comments, action.payload],
+                            }
+                        } else {
+                            return post;
+                        }
+                    })
+                ]
+            }
         case "LIKE_POST":
             return {
                 uploadedImgLink: state.uploadedImgLink,

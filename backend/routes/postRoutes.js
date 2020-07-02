@@ -66,7 +66,7 @@ router.post("/", (req, res, next) => {
     });
 });
 
-router.put("/:id", (req, res, next) => {
+router.put("/l/:id", (req, res, next) => {
     const postId = req.params.id;
     const userId = req.session.userId;
     logger.info("userId is" + userId);
@@ -77,6 +77,18 @@ router.put("/:id", (req, res, next) => {
         res.status(500).end();
     })
 });
+
+router.put("/c/:id", (req, res, next) => {
+    const postId = req.params.id;
+    const userId = req.session.userId;
+    const { content, date } = req.body;
+    return PostController.addComment(content, new Date(date), userId, postId).then((comment) => {
+        res.status(200).json(comment);
+    }).catch((err) => {
+        logger.error(err);
+        res.status(500).end();
+    })
+})
 
 router.delete("/:postId", (req, res, next) => {
     const postId = req.params.postId;
