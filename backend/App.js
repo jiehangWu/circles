@@ -15,6 +15,7 @@ require('./model/Chat');
 require('./model/Message');
 require('./model/Post');
 require('./model/Tag');
+require('./model/Comment');
 
 const log4js = require('log4js');
 const logger = log4js.getLogger();
@@ -37,7 +38,7 @@ const authRoutes = require('./routes/authRoutes');
 const awsRoutes = require('./routes/awsRoutes');
 const postRoutes = require('./routes/postRoutes');
 
-const MAX_AGE = 15 * 60 * 1000;
+const MAX_AGE = 60 * 60 * 1000;
 app.use(session({
     name: 'circles',
     resave: true,

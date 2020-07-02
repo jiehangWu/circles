@@ -22,7 +22,8 @@ class PostList extends React.Component {
                                     date={post.date} 
                                     content={post.content} 
                                     likes={post.likes}
-                                    imgLink={post.imgLink}/>
+                                    imgLink={post.imgLink}
+                                    comments={post.comments}/>
                 )}
             </div>
         )

@@ -14,6 +14,8 @@ import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
 import { displayDate } from '../../helpers/util';
 import ClearIcon from '@material-ui/icons/Clear';
+import Modal from '@material-ui/core/Modal';
+import CommentSection from './CommentSection';
 
 const styles = makeStyles((theme) => ({
     post: {
@@ -30,11 +32,41 @@ const styles = makeStyles((theme) => ({
         width: "60%",
         marginLeft: "20%",
         marginRight: "20%"
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: "auto"
+    },
+    paper: {
+        position: 'absolute',
+        width: '70%',
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        // padding: theme.spacing(2, 4, 3),
+        top: '10%',
+        left: '15%'
     }
 }));
 
 const PostContainer = (props) => {
+    const [modalIsOpen, setIsOpen] = React.useState(false);
+    const openModal = () => { setIsOpen(true); };
+    const closeModal = () => { setIsOpen(false); };
     const classes = styles();
+
+    const body = (
+        <div className={classes.paper}>
+            <h2 id="simple-modal-title">Text in a modal</h2>
+            <p id="simple-modal-description">
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </p>
+        </div>
+    );
+
+
     return (
         <div className={classes.postContainer}>
             <Card className={classes.post} >
@@ -65,8 +97,17 @@ const PostContainer = (props) => {
                     </Typography>
                 </CardContent>
                 <IconButton aria-label="chat">
-                    <ChatBubbleOutlineOutlinedIcon color='primary' />
+                    <ChatBubbleOutlineOutlinedIcon color='primary' onClick={openModal} />
                 </IconButton>
+                <Modal
+                    open={modalIsOpen}
+                    onClose={closeModal}
+                    className={classes.modal}
+                >
+                    <div className={classes.paper}>
+                        <CommentSection postId={props.postId} comments={props.comments}/>
+                    </div>
+                </Modal>
                 <IconButton aria-label="like" onClick={() => props.likePost(props.postId)}>
                     <FavoriteIcon color='secondary' />
                 </IconButton>

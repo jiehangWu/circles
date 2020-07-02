@@ -30,7 +30,7 @@ const submitPost = (post) => {
 
 const likePost = (postId) => {
     return dispatch => {
-        fetch('http://localhost:5000/post/' + postId, {
+        fetch('http://localhost:5000/post/l/' + postId, {
             method: "PUT",
             headers: {
                 Accept: "application/json",
@@ -127,11 +127,42 @@ const uploadImage = (data) => {
     };
 };
 
+const submitComment = (comment) => {
+    return dispatch => {
+        fetch('http://localhost:5000/post/c/' + comment.postId, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                content: comment.content,
+                date: comment.date,
+            }),
+            credentials: 'include',
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("error when commenting post");
+            }
+        }).then((comment) => {
+            dispatch({
+                type: "COMMENT_POST",
+                payload: comment,
+            });
+        }).catch((err) => {
+            console.log(err);
+        });
+    };
+};
+
 
 export const PostActions = {
     submitPost,
     likePost,
     deletePost,
     loadAllPosts,
-    uploadImage
+    uploadImage,
+    submitComment
 };

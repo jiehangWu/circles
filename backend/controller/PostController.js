@@ -8,8 +8,34 @@ const util = require("../helper/util");
 logger.level = 'debug';
 
 const Post = mongoose.model("posts");
+const Comment = mongoose.model("comments");
 
 module.exports = {
+    addComment: (content, date, userId, postId) => {
+        const comment = new Comment({
+            content: content,
+            date: date,
+            user: userId,
+            post: postId,
+        });
+        const commentId = comment._id;
+        return Post.findById(postId).then((doc) => {
+            doc.comments.push(commentId);
+            return doc.save();
+        }).then(() => {
+            return comment.save();
+        }).then((comment) => {
+            logger.info("comment is ", comment);
+            return comment.populate({path: 'user', select: 'username'}).execPopulate();
+        }).then((comment) => {
+            return Promise.resolve(comment);
+        }).catch((err) => {
+            logger.error(err);
+            return Promise.reject(err);
+        })
+    },
+
+
     // tags is an array of tag Id
     // resolve with the post document
     addPost: (content, date, userId, tags, imgLink) => {
@@ -72,7 +98,11 @@ module.exports = {
 
     deletePost: (userId, postId) => {
         return Post.findOne({_id: postId}).then((doc) => {
-            return AwsController.deleteObj(util.getKey(doc.imgLink));
+            if (doc.imgLink) {
+                return AwsController.deleteObj(util.getKey(doc.imgLink));
+            } else {
+                return Promise.resolve();
+            }
         }).then(() => {
             return Post.deleteOne({_id: postId})
         }).then(() => {
@@ -95,7 +125,9 @@ module.exports = {
 
     loadAllPosts: () => {
         return Post.find({}).sort({ date: -1 }).then((docs) => {
-            return Post.populate(docs, {path: 'user', select: 'username'});
+            return Post.populate(docs, 
+                [{path: 'user', select: 'username'}, 
+                {path: 'comments', populate: {path: 'user', select: 'username'}}]);
         }).catch((err) => {
             logger.error(err);
             return Promise.reject(err);
