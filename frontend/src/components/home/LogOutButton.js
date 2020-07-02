@@ -23,9 +23,10 @@ const styles = makeStyles((theme) => ({
 
 function  LogOutButton(props) {
     const classes = styles();
-    return <React.Fragment>
-        <Fab variant = "contained" startIcon={<PowerSettingsNewIcon/> } className={classes.log_out} size="small" onClick={props.logOut}>
-            <PowerSettingsNewIcon className={classes.extendedIcon}/>
+    return <React.Fragment >
+        <Fab variant = "contained" startIcon={<PowerSettingsNewIcon/> } className={classes.log_out} size="small" onClick={props.logOut} style={{fontWeight: '500'
+        ,fontSize:'0.7rem'}}>
+            <PowerSettingsNewIcon className={classes.extendedIcon} />
             log out
         </Fab>
     </React.Fragment>;
