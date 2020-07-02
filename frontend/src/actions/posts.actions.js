@@ -110,7 +110,6 @@ const deletePost = (postId) => {
     };
 };
 
-// TODO: Review this
 const uploadImage = (data) => {
     return (dispatch) => {
         fetch("http://localhost:5000/aws/upload", {
@@ -127,7 +126,6 @@ const uploadImage = (data) => {
         });
     };
 };
-
 
 
 export const PostActions = {

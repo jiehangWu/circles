@@ -53,7 +53,8 @@ class InputArea extends React.Component {
         });
         if (e.target.files[0].name) {
             const data = new FormData();
-            data.append('SomeImage', e.target.files[0], e.target.files[0].name);
+            const fileName = e.target.files[0].name;
+            data.append(fileName, e.target.files[0], fileName);
             this.props.uploadImage(data);
         }
     };
