@@ -1,0 +1,11 @@
+.text-box {
+    width: 95%;
+    border: 0;
+    background-color: transparent;
+}
+
+.container{
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%
+}

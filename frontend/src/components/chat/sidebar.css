@@ -1,0 +1,32 @@
+.sidebar {
+  height: 100%;
+  color: #ffffff;
+}
+
+.side-header {
+  height: 60px;
+  padding: 18px 0 0 20px;
+  background: #523a78;
+}
+
+.side-content {
+  padding: 3px 18px;
+  height: 62vh;
+  background: #5e428a;
+}
+
+.active-list {
+  margin-top: 10px;
+}
+
+.active-item {
+  margin-bottom: 5px;
+}
+
+.active-item span {
+  margin-left: 5px;
+}
+
+.label {
+  margin: 10px 0 5px 0;
+}
