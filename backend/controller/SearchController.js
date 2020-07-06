@@ -2,7 +2,7 @@ const elasticsearch = require('elasticsearch');
 const logger = require('log4js').getLogger();
 
 const client = new elasticsearch.Client({
-    hosts: [`http://localhost:${process.env.PORT_ELASTICSEARCH}`]
+    hosts: [`${process.env.ELASTICSEARCH_URI}`]
 });
 
 const addUserToCluster = async (userId, tags) => {
