@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-const redis = require('redis');
+// const redis = require('redis');
 const searchController = require('../controller/SearchController');
 
 logger.level = 'debug';
