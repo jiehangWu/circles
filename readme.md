@@ -37,3 +37,7 @@ However, if there is not enough time, the chatting feature may have to be postpo
 .<img src="https://github.com/jiehangWu/circles/blob/jerome/resources/Login.jpg" width="450" height="300" />
 ###
 .<img src="https://github.com/jiehangWu/circles/blob/jerome/resources/Register.jpg" width="450" height="300" />
+
+## How to Run?
+```docker-compose up```<br/>
+The app will be listening on PORT 3000.
