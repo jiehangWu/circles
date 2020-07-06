@@ -1,5 +1,4 @@
 const elasticsearch = require('elasticsearch');
-const { reduce } = require('bluebird');
 const logger = require('log4js').getLogger();
 
 const client = new elasticsearch.Client({
