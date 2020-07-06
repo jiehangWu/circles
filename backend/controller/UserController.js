@@ -22,4 +22,10 @@ module.exports = {
         };
         return User.findOne(query);  
     },
+
+    addTag: async (id, tag) => {
+        let user = await User.findById(id);
+        user.tags.push(tag);
+        return user.save();
+    }
 };

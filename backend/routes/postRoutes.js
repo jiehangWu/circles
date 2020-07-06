@@ -3,7 +3,7 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 const redis = require('redis');
-const recommendationController = require('../controller/RecommendationController');
+const searchController = require('../controller/SearchController');
 
 logger.level = 'debug';
 
@@ -40,7 +40,7 @@ const PostController = require('../controller/PostController');
 // });
 
 // Without Cache
-router.get("/", (req, res, next) => {
+router.get("/", async (req, res, next) => {
     logger.info("getting");
     return PostController.loadAllPosts().then((posts) => {
         logger.info(posts);
@@ -60,7 +60,7 @@ router.post("/", (req, res, next) => {
     logger.info(date);
     logger.info(typeof date);
     return PostController.addPost(content, date, userId, tags, imgLink).then((post) => {
-        recommendationController.addPostToCluster(post._id, tags);
+        searchController.addPostToCluster(post._id, tags, content);
         res.status(200).json(post);
     }).catch((err) => {
         logger.error(err);

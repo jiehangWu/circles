@@ -10,6 +10,8 @@ logger.level = 'debug';
 const Post = mongoose.model("posts");
 const Comment = mongoose.model("comments");
 
+const searchController = require('./SearchController');
+
 module.exports = {
     addComment: (content, date, userId, postId) => {
         const comment = new Comment({

@@ -14,7 +14,7 @@ require('./model/User');
 require('./model/Chat');
 require('./model/Message');
 require('./model/Post');
-require('./model/Tag');
+// require('./model/Tag');
 require('./model/Comment');
 
 const log4js = require('log4js');
@@ -34,9 +34,11 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
 const authRoutes = require('./routes/authRoutes');
 const awsRoutes = require('./routes/awsRoutes');
 const postRoutes = require('./routes/postRoutes');
+const searchRoutes = require('./routes/SearchRoutes');
 
 const MAX_AGE = 60 * 60 * 1000;
 app.use(session({
@@ -53,6 +55,7 @@ app.use(session({
 app.use('/', authRoutes);
 app.use('/aws', awsRoutes);
 app.use('/post', postRoutes);
+app.use('/search', searchRoutes);
 
 wss.on('connection', (ws) => {
     logger.info('WebSocket is connected...');

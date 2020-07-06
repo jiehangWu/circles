@@ -13,8 +13,8 @@ const PostSchema = new mongoose.Schema({
         required: true
     },
     tags: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'tags',
+        type: String
+        // ref: 'tags',
     }],
     likes: {
         type: Number,
