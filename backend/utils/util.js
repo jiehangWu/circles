@@ -4,6 +4,14 @@ const getKey = (link) => {
     return link.slice(pos,);
 }
 
+const processTags = (tags) => {
+    const result = tags.reduce((result, item) => {
+        return result + JSON.stringify(item) + " ";
+    }, "");
+    return result;
+}
+
 module.exports = {
     getKey,
+    processTags
 };

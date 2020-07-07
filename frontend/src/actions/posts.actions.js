@@ -30,7 +30,7 @@ const submitPost = (post) => {
 
 const likePost = (postId) => {
     return dispatch => {
-        fetch('http://localhost:5000/post/l/' + postId, {
+        fetch(`http://localhost:5000/post/l/'${postId}`, {
             method: "PUT",
             headers: {
                 Accept: "application/json",
@@ -86,7 +86,7 @@ const loadAllPosts = () => {
 
 const deletePost = (postId) => {
     return dispatch => {
-        fetch('http://localhost:5000/post/' + postId, {
+        fetch(`http://localhost:5000/post/'${postId}`, {
             method: "DELETE",
             headers: {
                 Accept: "application/json",
@@ -97,7 +97,7 @@ const deletePost = (postId) => {
             if (response.ok) {
                 return response.text();
             } else {
-                throw new Error('error when deleting post ' + postId);
+                throw new Error(`error when deleting post ${postId}`);
             }
         }).then(() => {
             dispatch({
@@ -129,7 +129,7 @@ const uploadImage = (data) => {
 
 const submitComment = (comment) => {
     return dispatch => {
-        fetch('http://localhost:5000/post/c/' + comment.postId, {
+        fetch(`http://localhost:5000/post/c/${comment.postId}`, {
             method: "PUT",
             headers: {
                 Accept: "application/json",

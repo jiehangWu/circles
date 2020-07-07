@@ -92,7 +92,14 @@ const searchPostByKeyword = async (keyword) => {
 
     try {
         const response = await client.search(query);
-        return response;
+        const result = response.hits.hits.map(item => item._source.postId)
+                            .reduce((result, item) => {
+                                if (!result.includes(item)) {
+                                    result.push(item);
+                                }   
+                                return result;
+                            }, []);
+        return result;
     } catch (err) {
         logger.error(err);
         throw err;

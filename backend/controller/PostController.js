@@ -3,7 +3,7 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const UserController = require('./UserController');
 const AwsController = require('./AwsController');
-const util = require("../helper/util");
+const util = require("../utils/util");
 
 logger.level = 'debug';
 
@@ -28,7 +28,7 @@ module.exports = {
             return comment.save();
         }).then((comment) => {
             logger.info("comment is ", comment);
-            return comment.populate({path: 'user', select: 'username'}).execPopulate();
+            return comment.populate({ path: 'user', select: 'username' }).execPopulate();
         }).then((comment) => {
             return Promise.resolve(comment);
         }).catch((err) => {
@@ -55,7 +55,7 @@ module.exports = {
             return doc.save();
         }).then(() => {
             logger.info("post is ", post);
-            return post.populate({path: 'user', select: 'username'}).execPopulate();
+            return post.populate({ path: 'user', select: 'username' }).execPopulate();
         }).then((doc) => {
             logger.info(doc);
             logger.info("success!");
@@ -99,14 +99,14 @@ module.exports = {
     },
 
     deletePost: (userId, postId) => {
-        return Post.findOne({_id: postId}).then((doc) => {
+        return Post.findOne({ _id: postId }).then((doc) => {
             if (doc.imgLink) {
                 return AwsController.deleteObj(util.getKey(doc.imgLink));
             } else {
                 return Promise.resolve();
             }
         }).then(() => {
-            return Post.deleteOne({_id: postId})
+            return Post.deleteOne({ _id: postId })
         }).then(() => {
             return UserController.findUserByUserId(userId);
         }).then((doc) => {
@@ -127,12 +127,23 @@ module.exports = {
 
     loadAllPosts: () => {
         return Post.find({}).sort({ date: -1 }).then((docs) => {
-            return Post.populate(docs, 
-                [{path: 'user', select: 'username'}, 
-                {path: 'comments', populate: {path: 'user', select: 'username'}}]);
+            return Post.populate(docs,
+                [{ path: 'user', select: 'username' },
+                { path: 'comments', populate: { path: 'user', select: 'username' } }]);
         }).catch((err) => {
             logger.error(err);
             return Promise.reject(err);
         });
+    },
+
+    loadPostsByIds: async (ids) => {
+        try {
+            let docs = await Post.find({ "_id": { "$in": ids } });
+            return Post.populate(docs,
+                [{ path: 'user', select: 'username' },
+                { path: 'comments', populate: { path: 'user', select: 'username' } }]);
+        } catch (err) {
+            throw(err);
+        }
     }
 };

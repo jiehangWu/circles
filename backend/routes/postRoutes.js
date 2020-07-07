@@ -2,29 +2,15 @@ const express = require('express');
 const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-// const redis = require('redis');
-const searchController = require('../controller/SearchController');
 
-logger.level = 'debug';
+const {checkPostCache, addToCache} = require('../cache/CacheManager');
+const searchController = require('../controller/SearchController');
+const userController = require('../controller/UserController');
+const { processTags } = require('../utils/util');
+
+logger.level = 'off';
 
 const PostController = require('../controller/PostController');
-
-// const checkPostCache = (req, res, next) => {
-//   redis_client.get("posts", (err, data) => {
-//     if (err) {
-//         logger.error(err);
-//         res.status(500).send(err);
-//     }
-//     if (data != null) {
-//         res.send(data);
-//     } else {
-//         next();
-//     }
-//   });
-// };
-
-// Create Redis client
-// const redis_client = redis.createClient(process.env.PORT_REDIS);
 
 // With Cache
 // router.get("/", checkPostCache, (req, res, next) => {
@@ -40,9 +26,47 @@ const PostController = require('../controller/PostController');
 // });
 
 // Without Cache
-router.get("/", async (req, res, next) => {
+// router.get("/", async (req, res, next) => {
+//     logger.info("getting");
+//     const { tags } = req.body;
+//     return PostController.loadAllPosts().then((posts) => {
+//         logger.info(posts);
+//         res.status(200).json(posts);
+//     }).catch((err) => {
+//         logger.error(err);
+//         res.status(500).end();
+//     });
+// });
+
+// With Recommend and Cache
+// router.get("/", checkPostCache, async (req, res, next) => {
+//     logger.info("getting");
+//     const userId = req.session.userId;
+//     const user = await userController.findUserByUserId(userId);
+//     const tags = processTags(user.tags);
+//     logger.info(tags);
+//     const postIds = await searchController.searchPostByKeyword(tags);
+//     logger.info(postIds);
+//     return PostController.loadPostsByIds(postIds).then((posts) => {
+//         logger.info(posts);
+//         addToCache(userId, posts);
+//         res.status(200).json(posts);
+//     }).catch((err) => {
+//         logger.error(err);
+//         res.status(500).end();
+//     });
+// });
+
+// With Recommend 
+router.get("/", async (req, res) => {
     logger.info("getting");
-    return PostController.loadAllPosts().then((posts) => {
+    const userId = req.session.userId;
+    const user = await userController.findUserByUserId(userId);
+    const tags = processTags(user.tags);
+    logger.info(tags);
+    const postIds = await searchController.searchPostByKeyword(tags);
+    logger.info(postIds);
+    return PostController.loadPostsByIds(postIds).then((posts) => {
         logger.info(posts);
         res.status(200).json(posts);
     }).catch((err) => {

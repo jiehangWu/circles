@@ -23,6 +23,7 @@ const upload = async (name, file) => {
     } catch(err) {
         // handle error
         logger.error(err);
+        throw err;
     }
 };
 
