@@ -10,8 +10,6 @@ logger.level = 'debug';
 const Post = mongoose.model("posts");
 const Comment = mongoose.model("comments");
 
-const searchController = require('./SearchController');
-
 module.exports = {
     addComment: (content, date, userId, postId) => {
         const comment = new Comment({
@@ -51,6 +49,7 @@ module.exports = {
         return post.save().then(() => {
             return UserController.findUserByUserId(userId);
         }).then((doc) => {
+            
             doc.posts.push(post._id);
             return doc.save();
         }).then(() => {

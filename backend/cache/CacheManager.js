@@ -25,7 +25,22 @@ const addToCache = (userId, posts) => {
     redis_client.setex(`${userId}`, CACHE_EXPIRATION_TIME, JSON.stringify(posts));
 }
 
+const appendToKey = (userId, post) => {
+    redis_client.get(`${userId}`, (err, reply) => {
+        if (err) {
+            throw err;
+        }
+        if (reply === null) {
+            return;
+        }
+        const posts = JSON.parse(reply);
+        posts.push(post);
+        addToCache(userId, posts);
+    });
+}
+
 module.exports = {
     checkPostCache,
-    addToCache
+    addToCache,
+    appendToKey
 }
