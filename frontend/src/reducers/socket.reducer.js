@@ -1,9 +1,9 @@
 // store the socket in Reducer and can reconnect(i.e., replace) easily
 // also used to send message to server(a little strange, but the information can be managed together)
-
 import socket from "../components/Chat/socket";
 export const socketReducer = (init = socket, action)=> {
     if (action.type === 'SOCKET_CONNECT') {
+        init.close();
         return action.payload;
     }
     if (action.type === "SOCKET_CLOSE") {

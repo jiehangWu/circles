@@ -61,12 +61,14 @@ let socketControl = {};
 let userList = {};
 
 wss.on('connection', (ws,req) => {
+    logger.info("size " + wss.clients.size);
     logger.info('WebSocket is connected...');
     logger.info("hello");
     ws.on('message',function incoming(message) {
+        logger.info("size " + wss.clients.size);
         let m = JSON.parse(message);
         if (m.purpose === "HEART_BEAT") {
-            logger.info(wss.clients.size);
+            //logger.info(wss.clients.size);
             logger.info(m);
             ws.send(JSON.stringify({
                 purpose: "HEART_BEAT"

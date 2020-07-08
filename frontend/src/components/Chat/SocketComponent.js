@@ -82,8 +82,7 @@ const SocketComponent =  (props)=> {
             restart = true;
         };
         props.socket.onclose = (e)=> {
-            console.log(e);
-           startSocket();
+            startSocket();
             restart = true;
         };
 
