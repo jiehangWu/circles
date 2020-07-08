@@ -4,6 +4,8 @@ import {register} from "./register.reducer";
 import {message} from "./message.reducer";
 import {posts} from "./posts.reducer"
 import {userinfo} from "./userinfo.reducer";
+import {contacts} from "./chat.reducer";
+import {socketReducer} from "./socket.reducer";
 
 
 export const rootReducer = combineReducers({
@@ -12,4 +14,6 @@ export const rootReducer = combineReducers({
     register,
     posts,
     userinfo,
+    contacts,
+    socketReducer
 });

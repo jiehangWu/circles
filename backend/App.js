@@ -98,7 +98,7 @@ wss.on('connection', (ws,req) => {
                 }));
             });
             logger.info(Object.keys(userList));
-            // send the new user all the online users
+            // send all the online users
         }
     });
 });

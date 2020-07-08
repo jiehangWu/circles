@@ -1,5 +1,6 @@
 import { history } from "../helpers/history";
 
+
 const loadHome = () => {
     return dispatch => {
         fetch('http://localhost:5000/home', {
@@ -20,6 +21,14 @@ const loadHome = () => {
             dispatch({
                 type: "LOAD_HOME",
                 payload: parsedMsg
+            });
+            // send message to reducer->socket server
+            dispatch({
+                type: "SOCKET_ADD_USER",
+                payload: {
+                    purpose: "SOCKET_ADD_USER",
+                    payload: parsedMsg.username
+                }
             });
         }).catch((err) => {
             history.push("/login");

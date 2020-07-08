@@ -62,6 +62,9 @@ const logOut = ()=> {
             dispatch({
                 type: "LOG_OUT",
             });
+            dispatch({
+                type: "SOCKET_CLOSE"
+            });
             history.push('/login');
             dispatch({
                 type: "SUCCESS_MESSAGE",

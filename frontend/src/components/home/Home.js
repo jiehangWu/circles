@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
 import PostList from './PostList';
 import InputArea from './InputArea';
 import LogOutButton from "./LogOutButton";
@@ -13,6 +14,10 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {history} from "../../helpers/history"
 import {HomeActions} from "../../actions/home.actions";
 import {connect} from "react-redux";
+import SocketComponent from '../Chat/SocketComponent'
+import ContactList from "../Chat/ContactList";
+import LoginForm from "../entrance/LoginForm";
+import {PrivateRoute} from "../../helpers/PrivateRouter";
 
 const drawerWidth = 150;
 
@@ -62,6 +67,7 @@ const Home = (props) => {
 
     const leftSideBar = (
         <div className={classes.background}>
+            <SocketComponent/>
             <div className={classes.toolbar}/>
             <Avatar aria-label="profile-pic" className={classes.avatar}>
                 W
@@ -73,6 +79,13 @@ const Home = (props) => {
             <IconButton color='primary'>
                 <SettingsIcon/>
             </IconButton>
+        </div>
+    );
+
+    const Home = (
+        <div className={classes.content}>
+            <InputArea/>
+            <PostList/>
         </div>
     );
 
@@ -98,10 +111,16 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                <div className={classes.content}>
-                    <InputArea/>
-                    <PostList/>
-                </div>
+                    <switch>
+                        <Route exact path = {`/home/chats`} >
+                            <ContactList/>
+                        </Route>
+                        <Route exact path="/home">
+                            {Home}
+                        </Route>
+                        {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
+
+                    </switch>
 
                 {/* right side bar */}
                 <div className={classes.root}>
