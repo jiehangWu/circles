@@ -78,11 +78,11 @@ const SocketComponent =  (props)=> {
         };
         props.socket.onerror = ()=> {
             console.log("socket error");
-            startSocket();
+            setTimeout(startSocket,5000);
             restart = true;
         };
         props.socket.onclose = (e)=> {
-            startSocket();
+            setTimeout(startSocket,5000);
             restart = true;
         };
 
