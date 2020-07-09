@@ -5,7 +5,7 @@ const initial = {
 
 export const chatMessage = (state = initial, action) => {
     if (action.type === 'ADD_CHAT_MSG') {
-
+        console.log("::::::::::::::::::");
         return {
             users: state.users,
             messages: state.messages.concat(action.message)

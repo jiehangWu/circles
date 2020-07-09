@@ -22,11 +22,10 @@ class InputArea extends React.Component {
 
     handleSubmit = () => {
         if (this.state.content) {
-            this.props.submitChatMessage({
-                userId: this.props.userId,
-                content: this.state.content,
-                date: new Date(),
-            });
+            this.props.submitChatMessage(
+                this.state.content,
+                new Date(),
+            );
             this.clearAll();
         }
     }

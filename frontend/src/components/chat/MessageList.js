@@ -8,18 +8,17 @@ import Message from "./message"
 class MessageList extends React.Component {
      constructor(props) {
           super(props);
-          // this.state = {messages: ["a"]}
      }
 
      componentDidMount= async () => {
      }
 
      initChat() {
-          this.props.initChat([]);
+          this.props.initChat(["a"]);
      }
 
      render() {
-          console.log("---------"+this.props);
+          console.log("---------"+this.props.messages);
           this.initChat();
           const listItems = () => {
                this.props.messages.map((msg) =>
@@ -37,7 +36,6 @@ class MessageList extends React.Component {
                          <span> {listItems} </span>
                     
                     </div>
-                    <InputArea/>
                </div>
           );
      }

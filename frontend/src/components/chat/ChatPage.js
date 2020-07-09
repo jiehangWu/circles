@@ -19,7 +19,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Grid from '@material-ui/core/Grid';
 import SocketComponent from "./SocketComponent";
 import MessageList from "./MessageList";
-// import {ChatActions} from "../../actions/chat.actions";
+import {ChatActions} from "../../actions/chat.actions";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Message from './message';
@@ -204,7 +204,7 @@ const ChatPage = (props) => {
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {/* <MessageList/> */}
+          <MessageList/>
           <Message/>
           <Message/>
           <Message/>
@@ -285,10 +285,10 @@ const mapStateToProps = (state) => {
              messages: state.messages };
 };
 
-// const mapAction = {
-//     loadChats: ChatActions.loadChats,
-// };
+const mapAction = {
+    loadChats: ChatActions.loadChats,
+};
 
-export default connect(mapStateToProps)(ChatPage);
+export default connect(mapStateToProps, mapAction)(ChatPage);
 
 

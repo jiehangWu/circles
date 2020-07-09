@@ -27,6 +27,9 @@ class Message extends React.Component {
     }
 
     render() {
+
+        const msg = this.props.content;
+
         if (this.state.left) {
         return (
             <div className="messageLeft">
@@ -39,7 +42,7 @@ class Message extends React.Component {
                             </Avatar>
                         </div>
 
-                        <span>props.content </span>
+                       <span>{msg} </span>
                       
        
                         </div>

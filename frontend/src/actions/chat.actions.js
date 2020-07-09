@@ -32,7 +32,7 @@ export const initChat = (messages) => {
 }
 
 
-export const submitChatMessage = (userName, message, time) => {
+export const submitChatMessage = (message, time) => {
     return {
         type: 'ADD_CHAT_MSG',
         message: message,
@@ -48,8 +48,9 @@ export const updateChatLog = (message, userName) => {
     }
 }
 
-// export const ChatActions = {
-//     initChat,
-//     submitChatMessage,
-//     updateChatLog
-// };
+export const ChatActions = {
+    loadChat,
+    initChat,
+    submitChatMessage,
+    updateChatLog
+};
