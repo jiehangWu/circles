@@ -116,10 +116,6 @@ const Home = (props) => {
                 </div>
 
                     <switch>
-                        {/* <Route exact path = {`/home/chats`} >
-                            <ContactList/>
-                            <ChatPage/>
-                        </Route> */}
                         <Route exact path="/home">
                             {Home}
                         </Route>

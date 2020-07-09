@@ -7,10 +7,10 @@ const enterChat = (chat) => {
     //             "Content-Type": "application/json"
     //         },
     //         credentials: 'include',
-    //         body: JSON.stringify(post)
+    //         body: JSON.stringify(chat)
     //     }).then((res) => {
     //         if (res) {
-    //             return response.json();
+    //             initChat(chat);
     //     }).catch((err) => {
     //         console.log(err);
     //     });
