@@ -30,7 +30,7 @@ const submitPost = (post) => {
 
 const likePost = (postId) => {
     return dispatch => {
-        fetch(`http://localhost:5000/post/l/'${postId}`, {
+        fetch(`http://localhost:5000/post/l/${postId}`, {
             method: "PUT",
             headers: {
                 Accept: "application/json",
@@ -86,7 +86,7 @@ const loadAllPosts = () => {
 
 const deletePost = (postId) => {
     return dispatch => {
-        fetch(`http://localhost:5000/post/'${postId}`, {
+        fetch(`http://localhost:5000/post/${postId}`, {
             method: "DELETE",
             headers: {
                 Accept: "application/json",

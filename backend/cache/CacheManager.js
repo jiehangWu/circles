@@ -39,8 +39,24 @@ const appendToKey = (userId, post) => {
     });
 }
 
+const deleteFromCache = (userId, postId) => {
+    redis_client.get(`${userId}`, (err, reply) => {
+        if (err) {
+            throw err;
+        }
+        if (reply === null) {
+            return;
+        }
+        let posts = JSON.parse(reply);
+        
+        posts = posts.filter(post => post._id !== postId);
+        addToCache(userId, posts);
+    });
+}
+
 module.exports = {
     checkPostCache,
     addToCache,
-    appendToKey
+    appendToKey,
+    deleteFromCache
 }

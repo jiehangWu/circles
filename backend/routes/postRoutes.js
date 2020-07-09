@@ -3,7 +3,7 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-const {checkPostCache, addToCache, appendToKey } = require('../cache/CacheManager');
+const {checkPostCache, addToCache, appendToKey, deleteFromCache } = require('../cache/CacheManager');
 const searchController = require('../controller/SearchController');
 const userController = require('../controller/UserController');
 const { processTags } = require('../utils/util');
@@ -83,8 +83,8 @@ router.post("/", (req, res, next) => {
     date = new Date(date);
     logger.info(date);
     logger.info(typeof date);
-    return PostController.addPost(content, date, userId, tags, imgLink).then((post) => {
-        searchController.addPostToCluster(post._id, tags, content);
+    return PostController.addPost(content, date, userId, tags, imgLink).then(async (post) => {
+        await searchController.addPostToCluster(post._id, tags, content);
         appendToKey(userId, post);
         res.status(200).json(post);
     }).catch((err) => {
@@ -121,7 +121,9 @@ router.put("/c/:id", (req, res, next) => {
 router.delete("/:postId", (req, res, next) => {
     const postId = req.params.postId;
     const userId = req.session.userId;
-    return PostController.deletePost(userId, postId).then(() => {
+    return PostController.deletePost(userId, postId).then(async () => {
+        deleteFromCache(userId, postId);
+        await searchController.deletePostFromCluster(postId);
         res.status(200).end();
     }).catch((err) => {
         logger.error(err);

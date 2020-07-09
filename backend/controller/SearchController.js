@@ -22,6 +22,34 @@ const addUserToCluster = async (userId, tags) => {
     }
 };
 
+const deletePostFromCluster = async (postId) => {
+    try {
+        const query = {
+            index: 'circles_posts',
+            body: {
+                query: {
+                    match: {
+                        postId: postId
+                    }
+                }
+            }
+        };
+
+        const searchResult = await client.search(query);
+        logger.info(searchResult);
+        const docId = searchResult.hits.hits[0]._id;
+        logger.info(docId);
+        let res = await client.delete({
+            index: 'circles_posts',
+            type: 'posts_list',
+            id: docId
+        });
+        logger.info(res);
+    } catch (err) {
+        logger.error(err);
+        throw err;
+    }
+}
 
 const updateUserTags = async (id, tags) => {
     try {
@@ -146,6 +174,7 @@ const recommendByUserTag = async (id, tag) => {
 
 module.exports = {
     addPostToCluster,
+    deletePostFromCluster,
     addUserToCluster,
     searchPostByKeyword,
     recommendByUserTag,
