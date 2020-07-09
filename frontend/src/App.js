@@ -7,11 +7,9 @@ import { connect, Provider } from "react-redux";
 import { Redirect, Route, Switch, Router } from "react-router-dom"
 import Home from "./components/home/Home";
 import { PrivateRoute } from "./helpers/PrivateRouter";
-
-
 import Profile from "./components/profile/Profile";
-import ChatPage from "./components/chat/ChatPage";
-import responsiveDrawer from './components/chat/ChatBox';
+// import ChatPage from './components/Chat/ChatPage';
+import MessageList from './components/Chat/MessageList'
 
 class App extends React.Component {
     constructor(props) {
@@ -22,10 +20,22 @@ class App extends React.Component {
     }
 
     render() {
-        const { message } = this.props;
+        // const { message } = this.props;
         return (
-            //   <Profile/>
-            <ChatPage />
+            <React.Fragment>
+                <Router history={history}>
+                    <Switch>
+                        <PrivateRoute exact path="/" component={LoginForm} />
+                        <Route path="/login" component={LoginForm} />
+                        <Route path="/register" component={RegisterForm} />
+                        <Route path="/home" component={Home} />
+                        <Route path="/profile" component={Profile} />
+                        {/* <Route path="/chat" component={ChatPage} /> */}
+                        <Route path="/chat" component={MessageList} />
+                        <Redirect from="*" to="/login" />
+                    </Switch>
+                </Router>
+            </React.Fragment>
         );
     }
 }

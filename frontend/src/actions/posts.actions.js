@@ -1,6 +1,6 @@
 const submitPost = (post) => {
     return dispatch => {
-        fetch('http://localhost:5000/post', {
+        fetch('http://localhost:5000/post/', {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -18,6 +18,9 @@ const submitPost = (post) => {
             dispatch({
                 type: "SUBMIT_POST",
                 payload: post,
+            });
+            dispatch({
+                type: "CLEAR_IMAGE"
             });
         }).catch((err) => {
             console.log(err);
@@ -56,7 +59,7 @@ const likePost = (postId) => {
 
 const loadAllPosts = () => {
     return dispatch => {
-        fetch('http://localhost:5000/post', {
+        fetch('http://localhost:5000/post/', {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -70,6 +73,7 @@ const loadAllPosts = () => {
                 throw new Error('error when fetching all posts');
             }
         }).then((posts) => {
+            console.log(posts);
             dispatch({
                 type: "LOAD_ALL",
                 payload: posts
@@ -78,10 +82,56 @@ const loadAllPosts = () => {
             console.log(err);
         });
     };
-}
+};
+
+const deletePost = (postId) => {
+    return dispatch => {
+        fetch('http://localhost:5000/post/' + postId, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            credentials: 'include',
+        }).then((response) => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('error when deleting post ' + postId);
+            }
+        }).then(() => {
+            dispatch({
+                type: "DELETE_POST",
+                payload: postId
+            });
+        }).catch((err) => {
+            console.log(err);
+        });
+    };
+};
+
+const uploadImage = (data) => {
+    return (dispatch) => {
+        fetch("http://localhost:5000/aws/upload", {
+            method: "POST",
+            body: data
+        }).then((response) => {
+            return response.text();
+        }).then((address) => {
+            console.log(address);
+            dispatch({
+                type: "ADD_IMAGE",
+                payload: address,
+            });
+        });
+    };
+};
+
 
 export const PostActions = {
     submitPost,
     likePost,
+    deletePost,
     loadAllPosts,
+    uploadImage
 };

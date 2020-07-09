@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const PostSchema = new mongoose.Schema({
     content: String,
     date: String,
+    imgLink: {
+        type: String,
+        default: "",
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',

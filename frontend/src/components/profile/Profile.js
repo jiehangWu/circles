@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import PostList from './PostList';
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
+// import PostList from './PostList';
 import InputArea from './InputArea';
 import LogOutButton from "./LogOutButton";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -90,10 +91,16 @@ const Home = (props) => {
 
                 <IconButton color='primary'>
                     <HomeIcon />
+                    <Link to="home" className="btn btn-link"></Link>
                 </IconButton>
 
                 <IconButton>
                     <SettingsIcon />
+                </IconButton>
+
+                <IconButton color='secondary'>
+                    <ChatIcon />
+                    <Link to="chat" className="btn btn-link"></Link>
                 </IconButton>
 
                 {/* <IconButton color='secondary'>
@@ -144,6 +151,7 @@ const Home = (props) => {
                         anchor="left"
                     >
                         {leftSideBar}
+                        
                     </Drawer>
                 </div>
 
@@ -159,7 +167,7 @@ const Home = (props) => {
                         <PreferenceBar />
                     </center>
                     {/* <InputArea/> */}
-                    <PostList />
+                    {/* <PostList /> */}
                 </div>
 
                 {/* right side bar */}

@@ -1,22 +1,28 @@
 import React from "react";
 import PostContainer from "./PostContainer"
 import { connect } from 'react-redux';
+import { PostActions } from "../../actions/posts.actions";
 
 class PostList extends React.Component {
     constructor(props) {
         super(props);
     }
 
+    componentDidMount() {
+        this.props.loadAllPosts();
+    }
+
     render() {
         return (
             <div>
                 {this.props.posts.postList.map((post) =>
-                    <PostContainer  postId={post.postId} 
-                                    userId={post.userId} 
-                                    time={post.time.toString()} 
+                    <PostContainer  postId={post._id} 
+                                    username={post.user.username}
+                                    userId={post.user._id} 
+                                    date={post.date} 
                                     content={post.content} 
                                     likes={post.likes}
-                                    isLiked={post.isLiked}/>
+                                    imgLink={post.imgLink}/>
                 )}
             </div>
         )
@@ -26,7 +32,11 @@ class PostList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         posts: state.posts,
-    }
+    };
 };
 
-export default connect(mapStateToProps)(PostList);
+const mapAction = {
+    loadAllPosts: PostActions.loadAllPosts
+};
+
+export default connect(mapStateToProps, mapAction)(PostList);

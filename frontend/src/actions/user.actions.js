@@ -37,11 +37,11 @@ const serviceCall = async (type, username, password) => {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
-        credentials: 'include',
         body: JSON.stringify({
             "username": username,
             "password": password
-        })
+        }),
+        credentials: 'include',
     });
     console.log(response);
     const message = await response.text();
@@ -61,6 +61,9 @@ const logOut = ()=> {
         serviceCallLogOut().then(() => {
             dispatch({
                 type: "LOG_OUT",
+            });
+            dispatch({
+                type: "SOCKET_CLOSE"
             });
             history.push('/login');
             dispatch({

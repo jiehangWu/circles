@@ -10,7 +10,7 @@ const tagsReducer = (arr = [
             let item = {};
             let randomColor = '#'+Math.floor(Math.random()*(2<<23)).toString(16);
             item.tag = action.tag;
-            item.selected = false;
+            item.selected = true;
             item.color = randomColor;
             addArray.splice(addArray.length, 0, item);
             return addArray;

@@ -24,7 +24,7 @@ logger.level = 'info';
 // The ordering is important too
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ server: server , maxPayload:200});
 
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
 app.use(cors({
@@ -35,25 +35,70 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 const authRoutes = require('./routes/authRoutes');
 const awsRoutes = require('./routes/awsRoutes');
+const postRoutes = require('./routes/postRoutes');
 
 const MAX_AGE = 15 * 60 * 1000;
 app.use(session({
     name: 'circles',
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     secret: keys.COOKIE_SECRET,
     cookie: {
         domain: "localhost",
         maxAge: MAX_AGE,
-    }
-  }));
+    },
+}));
 
 app.use('/', authRoutes);
 app.use('/aws', awsRoutes);
+app.use('/post', postRoutes);
 
-wss.on('connection', (ws) => {
+let socketControl = {};
+let userList = {};
+
+wss.on('connection', (ws,req) => {
     logger.info('WebSocket is connected...');
+    logger.info("hello");
+    ws.on('message',function incoming(message) {
+        let m = JSON.parse(message);
+        if (m.purpose === "HEART_BEAT") {
+            logger.info(wss.clients.size);
+            logger.info(m);
+            ws.send(JSON.stringify({
+                purpose: "HEART_BEAT"
+            }));
+            if (socketControl[m.payload]) {
+                clearTimeout(socketControl[m.payload]);
+            }
+            let tm = setTimeout(()=> {
+                logger.info("delete " + m.payload);
+                userList[m.payload].terminate();
+                delete userList[m.payload];
+                Object.values(userList).forEach((client)=> {
+                client.send(JSON.stringify({
+                    purpose: "SOCKET_INIT_CONTACTS",
+                    payload: Object.keys(userList)
+                }));
+            });
+                delete socketControl[m.payload];
+            },10000);
+            socketControl[m.payload] = tm;
+        }
+        if (m.purpose === "SOCKET_ADD_USER") {
+            userList[m.payload] = ws;
+            //add one user
+            Object.values(userList).forEach((client)=> {
+                client.send(JSON.stringify({
+                    purpose: "SOCKET_INIT_CONTACTS",
+                    payload: Object.keys(userList)
+                }));
+            });
+            logger.info(Object.keys(userList));
+            // send all the online users
+        }
+    });
 });
+
 
 server.listen(process.env.PORT, () => {
     logger.info(`Server is listening on PORT ${process.env.PORT}`);

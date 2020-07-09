@@ -1,27 +1,82 @@
 import React from 'react';
-import ReactEmoji from 'react-emoji';
+import Avatar from "@material-ui/core/Avatar";
+import Card from "@material-ui/core/Card";
+import ImageIcon from '@material-ui/icons/Image';
+import IconButton from "@material-ui/core/IconButton";
+import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+import { PostActions } from '../../actions/posts.actions';
+import { connect } from 'react-redux';
+import './message.css'
 
-import './message.css';
+class Message extends React.Component {
+    constructor(props) {
+        super(props);
+        this.textArea = React.createRef();
+        this.state = {
+            content: "",
+            left: true
+        };
+    }
 
-let Message = React.createClass({
-  getDefaultProps() {
+    initState = (bol) => {
+      if (bol) {
+        this.setState({left : true});
+      } else {
+        this.setState({left : false});
+      }
+    }
+
+    render() {
+        if (this.state.left) {
+        return (
+            <div className="messageLeft">
+              <span>User1 </span>
+                <Card className="input-area my-3">
+                    <div className="row">
+                        <div className="col-lg-2">
+                            <Avatar aria-label="avatar" className="input-area-avatar mx-3 my-3">
+                                R
+                            </Avatar>
+                        </div>
+
+                        <span>props.content </span>
+                      
+       
+                        </div>
+                </Card>
+            </div>
+        );
+      } else {
+        return (
+          <div className="messageRight">
+            <span>User1 </span>
+              <Card className="input-area my-3">
+                  <div className="row">
+                      <div className="col-lg-2">
+                          <Avatar aria-label="avatar" className="input-area-avatar mx-3 my-3">
+                              R
+                          </Avatar>
+                      </div>
+
+                      <span>Message </span>
+                    
+     
+                      </div>
+              </Card>
+          </div>
+      );
+      }
+    }
+}
+
+const mapStateToProps = (state) => {
     return {
-      text: "foo bar :100: :)",
+        userId: state.userinfo.userId
     };
-  },
- 
-  mixins: [
-    ReactEmoji
-  ],
- 
-  render() {
-    return (
-      <div>
-        <span>{ this.emojify(this.props.text) }</span>
-        <span>{ ReactEmoji.emojify(this.props.text) }</span> // or can be used no mixin way
-      </div>
-    );
-  }
-});
+}
 
-export default Message;
+const mapAction = {
+
+}
+
+export default connect(mapStateToProps, mapAction)(Message);

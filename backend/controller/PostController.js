@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-const UserController = require('UserController');
+const UserController = require('./UserController');
 
 logger.level = 'debug';
 
@@ -10,25 +10,26 @@ const Post = mongoose.model("posts");
 module.exports = {
     // tags is an array of tag Id
     // resolve with the post document
-    addPost: (content, date, userId, tags) => {
-        let postId;
+    addPost: (content, date, userId, tags, imgLink) => {
         const post = new Post({
             content: content,
             date: date,
             user: userId,
-            tags: tags
+            tags: tags,
+            imgLink: imgLink,
         });
         return post.save().then(() => {
-            Post.findOne({user: userId});
+            return UserController.findUserByUserId(userId);
         }).then((doc) => {
-            postId = doc._Id;
-            UserController.findUserByUserId(userId);
-        }).then((doc) => {
-            doc.posts.push(postId);
-            doc.save();
+            doc.posts.push(post._id);
+            return doc.save();
         }).then(() => {
+            logger.info("post is ", post);
+            return post.populate({path: 'user', select: 'username'}).execPopulate();
+        }).then((doc) => {
+            logger.info(doc);
             logger.info("success!");
-            return Promise.resolve(post);
+            return Promise.resolve(doc);
         }).catch((err) => {
             logger.error(err);
             return Promise.reject(err);
@@ -38,6 +39,8 @@ module.exports = {
     // resolve with the number of likes after update
     likePost: (userId, postId) => {
         let isLiked;
+        logger.info("userId is " + userId);
+        logger.info("postId is " + postId);
         return UserController.findUserByUserId(userId).then((doc) => {
             if (doc.liked_posts.includes(postId)) {
                 isLiked = true;
@@ -45,7 +48,7 @@ module.exports = {
                 if (index < 0) {
                     throw new Error("post is already deleted");
                 }
-                doc.splice(index, 1);
+                doc.liked_posts.splice(index, 1);
             } else {
                 isLiked = false;
                 doc.liked_posts.push(postId);
@@ -66,15 +69,15 @@ module.exports = {
     },
 
     deletePost: (userId, postId) => {
-        return Post.deleteOne({_Id: postId}).then(() => {
-            UserController.findUserByUserId(userId);
+        return Post.deleteOne({_id: postId}).then(() => {
+            return UserController.findUserByUserId(userId);
         }).then((doc) => {
             const index = doc.posts.indexOf(postId);
             if (index < -1) {
                 throw new Error("post is already deleted");
             }
             doc.posts.splice(index, 1);
-            doc.save();
+            return doc.save();
         }).then(() => {
             logger.info("delete success");
             return Promise.resolve();
@@ -85,6 +88,11 @@ module.exports = {
     },
 
     loadAllPosts: () => {
-        return Post.find({});
+        return Post.find({}).then((docs) => {
+            return Post.populate(docs, {path: 'user', select: 'username'});
+        }).catch((err) => {
+            logger.error(err);
+            return Promise.reject(err);
+        });
     }
 };

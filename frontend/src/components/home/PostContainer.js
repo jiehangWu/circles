@@ -3,23 +3,25 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { blue } from '@material-ui/core/colors';
-import { likePost, PostActions } from '../../actions/posts.actions';
+import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
+import { displayDate } from '../../helpers/util';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const styles = makeStyles((theme) => ({
     post: {
         margin: '1rem'
     },
     media: {
-        color: 'white',
-        fontSize: '0.8rem'
+        height: 0,
+        paddingTop: '56.25%',
     },
     avatar: {
         backgroundColor: blue[200]
@@ -33,34 +35,39 @@ const styles = makeStyles((theme) => ({
 
 const PostContainer = (props) => {
     const classes = styles();
-    const postId = props.postId;
     return (
         <div className={classes.postContainer}>
             <Card className={classes.post} >
                 <CardHeader
                     avatar={
                         <Avatar aria-label="profile-pic" className={classes.avatar}>
-                            {props.userID}
+                            {props.username}
                         </Avatar>
                     }
                     action={
-                        <IconButton aria-label="settings">
-                            <MoreVertIcon />
-                        </IconButton>
+                        props.currUserId === props.userId ?
+                            <IconButton aria-label="settings">
+                                <ClearIcon onClick={() => props.deletePost(props.postId)} />
+                            </IconButton> : ""
                     }
-                    title={props.userID}
-                    subheader={props.time}
+                    title={props.username}
+                    subheader={displayDate(props.date)}
                 >
                 </CardHeader>
+                {props.imgLink
+                    && <CardMedia
+                        className={classes.media}
+                        image={props.imgLink}
+                    />}
                 <CardContent>
                     <Typography variant="body2" color="textPrimary" component="p">
                         {props.content}
                     </Typography>
                 </CardContent>
                 <IconButton aria-label="chat">
-                    <ChatBubbleOutlineOutlinedIcon  color='primary' />
+                    <ChatBubbleOutlineOutlinedIcon color='primary' />
                 </IconButton>
-                <IconButton aria-label="like" onClick={() => props.likePost(props.userId, postId)}>
+                <IconButton aria-label="like" onClick={() => props.likePost(props.postId)}>
                     <FavoriteIcon color='secondary' />
                 </IconButton>
                 <span>{props.likes}</span>
@@ -71,12 +78,13 @@ const PostContainer = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        userId: state.userinfo.userId
+        currUserId: state.userinfo.userId
     };
 }
 
 const mapAction = {
     likePost: PostActions.likePost,
+    deletePost: PostActions.deletePost,
 }
 
 export default connect(mapStateToProps, mapAction)(PostContainer);
