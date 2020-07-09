@@ -5,6 +5,7 @@ import {initChat} from '../../actions/chat.actions';
 import InputArea from './InputArea';
 import Message from "./message"
 
+const messagesLi = ["a","b","c", "d"];
 class MessageList extends React.Component {
      constructor(props) {
           super(props);
@@ -13,38 +14,31 @@ class MessageList extends React.Component {
      componentDidMount= async () => {
      }
 
-     initChat() {
-          this.props.initChat(["a"]);
+     initAllChat() {
+          this.props.initChat(["a","b","c"]);
      }
 
      render() {
           console.log("---------"+this.props.messages);
-          this.initChat();
-          const listItems = () => {
-               this.props.messages.map((msg) =>
-               <li  className = 'mainList'>
- 
-                    <Message content = {msg}/>
-
-               </li>);}
+          this.initAllChat();
 
           return (
                <div id="contentside" className="panel">
-				<center><h2>Message List</h2></center>
                     <div>
-
-                         <span> {listItems} </span>
+                    {this.props.messages.map((msg) =>
+                         // {messagesLi.map((msg) => 
+                         <Message content={msg} />)}
                     
                     </div>
+                    <InputArea/>
                </div>
           );
      }
 }
 
 const mapStateToProps = (state) => {
-     return { messages: state.messages,}
+     return { messages: state.chatMessage.messages,}
 }
-
 
 const mapDispatchToProps = dispatch => {
      return bindActionCreators(

@@ -97,6 +97,7 @@ const Home = (props) => {
         props.loadHome();
     }, []);
 
+    console.log("@@@@@@@@@@@@"+ props.values);
     return (
         <React.Fragment>
             <CssBaseline/>

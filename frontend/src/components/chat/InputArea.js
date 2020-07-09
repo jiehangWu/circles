@@ -24,7 +24,7 @@ class InputArea extends React.Component {
         if (this.state.content) {
             this.props.submitChatMessage(
                 this.state.content,
-                new Date(),
+                new Date()
             );
             this.clearAll();
         }

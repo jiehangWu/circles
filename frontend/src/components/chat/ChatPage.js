@@ -80,7 +80,7 @@ const styles = makeStyles((theme) => ({
     },
     appBar: {
         maxWidth: '140ch',
-        height: '5.66ch'
+        height: '7.88ch'
     },
     inline: {
         display: 'inline',
@@ -205,10 +205,6 @@ const ChatPage = (props) => {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <MessageList/>
-          <Message/>
-          <Message/>
-          <Message/>
-            <InputArea/>
         </main>
       </div>);
 
@@ -286,7 +282,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapAction = {
-    loadChats: ChatActions.loadChats,
+    loadChats: ChatActions.loadAllChats,
 };
 
 export default connect(mapStateToProps, mapAction)(ChatPage);
