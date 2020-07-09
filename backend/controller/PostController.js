@@ -97,12 +97,16 @@ module.exports = {
     },
 
     deletePost: (userId, postId) => {
+        let commentList;
         return Post.findOne({_id: postId}).then((doc) => {
+            commentList = doc.comments;
             if (doc.imgLink) {
                 return AwsController.deleteObj(util.getKey(doc.imgLink));
             } else {
                 return Promise.resolve();
             }
+        }).then(() => {
+            return Comment.deleteMany({_id: {$in : commentList}});
         }).then(() => {
             return Post.deleteOne({_id: postId})
         }).then(() => {
