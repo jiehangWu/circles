@@ -1,9 +1,9 @@
 export const tags = (arr = [
-    {tag:"Sports", selected:false, color: "green"},
-    {tag:"Animation", selected:false, color:"red"},
-    {tag:"Music",selected: false, color: "yellow"},
-    {tag: "Movie", selected: false, color: "blue"},
-    {tag:"Game", selected: false, color: "purple"}], action) => {
+    { tag: "Sports", selected: false, color: "green" },
+    { tag: "Animation", selected: false, color: "red" },
+    { tag: "Music", selected: false, color: "yellow" },
+    { tag: "Movie", selected: false, color: "blue" },
+    { tag: "Game", selected: false, color: "purple" }], action) => {
     switch (action.type) {
         case "ADD_TAG":
             let addArray = arr.slice();

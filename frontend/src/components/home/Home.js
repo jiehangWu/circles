@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import PostList from './PostList';
 import InputArea from './InputArea';
-import LogOutButton from "./LogOutButton";
+import LogOutButton from './LogOutButton';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,13 +11,13 @@ import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { history } from "../../helpers/history"
-import { HomeActions } from "../../actions/home.actions";
-import { connect } from "react-redux";
-import ContactList from "../Chat/ContactList";
-import LoginForm from "../entrance/LoginForm";
-import { PrivateRoute } from "../../helpers/PrivateRouter";
-import ChatPage from "../Chat/ChatPage";
+import { history } from '../../helpers/history';
+import { HomeActions } from '../../actions/home.actions';
+import { connect } from 'react-redux';
+import SocketComponent from '../chat/SocketComponent';
+import ContactList from '../chat/ContactList';
+import LoginForm from '../entrance/LoginForm';
+import { PrivateRoute } from '../../helpers/PrivateRouter';
 
 const drawerWidth = 150;
 
@@ -67,16 +67,14 @@ const Home = (props) => {
 
     const leftSideBar = (
         <div className={classes.background}>
-
-
+            <SocketComponent />
             <div className={classes.toolbar} />
             <Avatar aria-label="profile-pic" className={classes.avatar}>
                 W
-            </Avatar>
+			</Avatar>
             {name}
             <IconButton color='primary'>
                 <AccountCircleIcon />
-                <Link to="profile" className="btn btn-link">Profile</Link>
             </IconButton>
             <IconButton color='primary'>
                 <SettingsIcon />
@@ -114,6 +112,9 @@ const Home = (props) => {
                 </div>
 
                 <switch>
+                    <Route exact path={'/home/chats'} >
+                        <ContactList />
+                    </Route>
                     <Route exact path="/home">
                         {Home}
                     </Route>

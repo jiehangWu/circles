@@ -14,7 +14,8 @@ require('./model/User');
 require('./model/Chat');
 require('./model/Message');
 require('./model/Post');
-require('./model/Tag');
+// require('./model/Tag');
+require('./model/Comment');
 
 const log4js = require('log4js');
 const logger = log4js.getLogger();
@@ -33,12 +34,14 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
 const authRoutes = require('./routes/authRoutes');
 const awsRoutes = require('./routes/awsRoutes');
 const postRoutes = require('./routes/postRoutes');
 const chatRoutes = require('./routes/chatRoutes');
+const searchRoutes = require('./routes/SearchRoutes');
 
-const MAX_AGE = 15 * 60 * 1000;
+const MAX_AGE = 60 * 60 * 1000;
 app.use(session({
     name: 'circles',
     resave: true,
@@ -54,17 +57,20 @@ app.use('/', authRoutes);
 app.use('/aws', awsRoutes);
 app.use('/post', postRoutes);
 app.use('/chat', chatRoutes);
+app.use('/search', searchRoutes);
 
 let socketControl = {};
 let userList = {};
 
-wss.on('connection', (ws,req) => {
+wss.on('connection', (ws, req) => {
+    logger.info("size " + wss.clients.size);
     logger.info('WebSocket is connected...');
     logger.info("hello");
-    ws.on('message',function incoming(message) {
+    ws.on('message', (message) => {
+        logger.info("size " + wss.clients.size);
         let m = JSON.parse(message);
         if (m.purpose === "HEART_BEAT") {
-            logger.info(wss.clients.size);
+            //logger.info(wss.clients.size);
             logger.info(m);
             ws.send(JSON.stringify({
                 purpose: "HEART_BEAT"
@@ -72,24 +78,24 @@ wss.on('connection', (ws,req) => {
             if (socketControl[m.payload]) {
                 clearTimeout(socketControl[m.payload]);
             }
-            let tm = setTimeout(()=> {
+            let tm = setTimeout(() => {
                 logger.info("delete " + m.payload);
                 userList[m.payload].terminate();
                 delete userList[m.payload];
-                Object.values(userList).forEach((client)=> {
-                client.send(JSON.stringify({
-                    purpose: "SOCKET_INIT_CONTACTS",
-                    payload: Object.keys(userList)
-                }));
-            });
+                Object.values(userList).forEach((client) => {
+                    client.send(JSON.stringify({
+                        purpose: "SOCKET_INIT_CONTACTS",
+                        payload: Object.keys(userList)
+                    }));
+                });
                 delete socketControl[m.payload];
-            },10000);
+            }, 10000);
             socketControl[m.payload] = tm;
         }
         if (m.purpose === "SOCKET_ADD_USER") {
             userList[m.payload] = ws;
             //add one user
-            Object.values(userList).forEach((client)=> {
+            Object.values(userList).forEach((client) => {
                 client.send(JSON.stringify({
                     purpose: "SOCKET_INIT_CONTACTS",
                     payload: Object.keys(userList)

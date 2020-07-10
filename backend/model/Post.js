@@ -2,7 +2,11 @@ const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
     content: String,
+<<<<<<< HEAD
     date: String,
+=======
+    date: Date,
+>>>>>>> origin/develop-wjh
     imgLink: {
         type: String,
         default: "",
@@ -13,13 +17,17 @@ const PostSchema = new mongoose.Schema({
         required: true
     },
     tags: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'tags',
+        type: String
+        // ref: 'tags',
     }],
     likes: {
         type: Number,
         default: 0,
     },
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'comments',
+    }],
 });
 
 const Post = mongoose.model('posts', PostSchema);

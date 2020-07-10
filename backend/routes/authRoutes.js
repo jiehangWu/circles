@@ -6,6 +6,7 @@ const logger = log4js.getLogger();
 logger.level = 'debug';
 
 const UserController = require('../controller/UserController');
+const SearchController = require('../controller/SearchController');
 
 const redirect = (req, res, next) => {
     if (req.session.cookie) {
@@ -42,7 +43,12 @@ router.post('/register', async (req, res, next) => {
             logger.info("duplicate username")
             res.status(400).send("duplicate username");
         } else {
-            user = UserController.createUser(username, password);
+            user = await UserController.createUser(username, password);
+        
+            const id = user._id;
+            const tags = user.tags;
+
+            await SearchController.addUserToCluster(id, tags);
             if (user !== null) {
                 res.status(200).send("succesful register");
             } else {
@@ -107,18 +113,21 @@ router.post('/logout', (req, res) => {
     }
 });
 
-// TODO: query all tags
-router.post('/profile', async (req, res) => {
-    const userId = req.session.userId;
-    logger.info(userId);
-    const result = await UserController.findUserByUserId(userId);
-    if (result) {
-        const username = result.username;
-        logger.info(`Display ${username}`);
-        res.status(200).send({ username, userId });
-    } else {
-        logger.error(result);
-        res.status(400).send("please login");
+router.put('/home/tag', async (req, res) => {
+    const { id, tag } = req.body;
+    let response;
+    try {
+        response = await UserController.addTag(id, tag);
+        
+        if (response !== null) {
+            const tags = response.tags;
+            await SearchController.updateUserTags(id, tags);
+            res.status(200).send(response); 
+        } else {
+            res.status(500).send(err);
+        }
+    } catch (err) {
+        res.status(500).send(err);
     }
 });
 

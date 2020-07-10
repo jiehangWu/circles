@@ -18,14 +18,14 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/", (req, res, next) => {
-     logger.info("adding chat message");
-     const { content, date, userId, otherUserId} = req.body;
-     return ChatController.addChatMessage(content, date, userId, otherUserId).then((chat) => {
-         res.status(200).json(chat);
-     }).catch((err) => {
-         logger.error(err);
-         res.status(500).end();
-     });
- });
+    logger.info("adding chat message");
+    const { content, date, userId, otherUserId } = req.body;
+    return ChatController.addChatMessage(content, date, userId, otherUserId).then((chat) => {
+        res.status(200).json(chat);
+    }).catch((err) => {
+        logger.error(err);
+        res.status(500).end();
+    });
+});
 
- module.exports = router;
+module.exports = router;
