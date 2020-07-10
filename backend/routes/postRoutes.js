@@ -181,16 +181,11 @@ router.delete("/:postId", (req, res, next) => {
     return PostController.deletePost(userId, postId).then(async () => {
         deleteFromCache(userId, postId);
         await searchController.deletePostFromCluster(postId);
->>>>>>> origin/develop-wjh
         res.status(200).end();
     }).catch((err) => {
         logger.error(err);
         res.status(500).end();
-<<<<<<< HEAD
     })
-=======
-    });
->>>>>>> origin/develop-wjh
 });
 
 module.exports = router;

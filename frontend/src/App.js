@@ -8,8 +8,7 @@ import { Redirect, Route, Switch, Router } from "react-router-dom"
 import Home from "./components/home/Home";
 import { PrivateRoute } from "./helpers/PrivateRouter";
 import Profile from "./components/profile/Profile";
-import ChatPage from './components/Chat/ChatPage';
-// import MessageList from './components/Chat/MessageList'
+import ChatPage from './components/chat/ChatPage';
 
 class App extends React.Component {
 	constructor(props) {
