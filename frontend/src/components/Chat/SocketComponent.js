@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {HomeActions} from "../../actions/home.actions";
-import {connect} from "react-redux";
-import {createConnect} from "react-redux/lib/connect/connect";
+import React, { useEffect, useState } from 'react';
+import { HomeActions } from "../../actions/home.actions";
+import { connect } from "react-redux";
+import { createConnect } from "react-redux/lib/connect/connect";
 import SockJS from "sockjs";
 
 // this component is used to reconnect socket and document the rules
@@ -13,33 +13,33 @@ function heartCheck(socket, username) {
     this.timeout = 5000; //5s
     this.timeoutObj = null;
     this.serverTimeoutObj = null;
-    this.reset = ()=> {
+    this.reset = () => {
         clearTimeout(this.timeoutObj);
         clearTimeout(this.serverTimeoutObj);
         this.start();
     };
-    this.start = ()=> {
+    this.start = () => {
         let self = this;
-        this.timeoutObj = setTimeout(()=> {
-            console.log("username "+ username);
-                socket.send(JSON.stringify({
+        this.timeoutObj = setTimeout(() => {
+            console.log("username " + username);
+            socket.send(JSON.stringify({
                 purpose: "HEART_BEAT",
                 payload: username
             }));
-            self.serverTimeoutObj = setTimeout(()=> {
+            self.serverTimeoutObj = setTimeout(() => {
                 socket.close();
             }, self.timeout)
         }, this.timeout)
     };
 }
 
-const SocketComponent =  (props)=> {
+const SocketComponent = (props) => {
     const [response, setResponse] = useState("");
 
     let hc;
     let restart;
 
-    const startSocket = ()=> {
+    const startSocket = () => {
         if (!window.WebSocket) {
             console.log("MozWebSocket");
             window.WebSocket = window.MozWebSocket;
@@ -47,7 +47,7 @@ const SocketComponent =  (props)=> {
         }
         if (window.WebSocket) {
             console.log('WebSocket');
-            props.connectSocket( new WebSocket(url));
+            props.connectSocket(new WebSocket(url));
         } else {
             console.log("SOCKJS");
             props.connectSocket(new SockJS(url));
@@ -55,11 +55,11 @@ const SocketComponent =  (props)=> {
     };
 
     useEffect(() => {
-        props.socket.onopen = ()=> {
+        props.socket.onopen = () => {
 
         };
         // receiving message handler
-        props.socket.onmessage = (event)=>{
+        props.socket.onmessage = (event) => {
             let message = JSON.parse(event.data);
             console.log(message);
             if (message.purpose === "SOCKET_INIT_CONTACTS") {
@@ -76,17 +76,17 @@ const SocketComponent =  (props)=> {
             }
             hc.reset();
         };
-        props.socket.onerror = ()=> {
+        props.socket.onerror = () => {
             console.log("socket error");
-            setTimeout(startSocket,5000);
+            setTimeout(startSocket, 5000);
             restart = true;
         };
-        props.socket.onclose = (e)=> {
-            setTimeout(startSocket,5000);
+        props.socket.onclose = (e) => {
+            setTimeout(startSocket, 5000);
             restart = true;
         };
 
-        }, [props.username, props.socket]);
+    }, [props.username, props.socket]);
     return <div></div>;
 };
 
@@ -98,21 +98,21 @@ const mapStateToProps = (state) => {
 };
 
 const mapAction = {
-    connectSocket: (socket)=> {
+    connectSocket: (socket) => {
         return ({
             type: 'SOCKET_CONNECT',
             payload: socket
         });
     },
-    socketAddContact: (user)=> {
+    socketAddContact: (user) => {
         return ({
             type: "SOCKET_ADD_CONTACT",
             payload: user
         });
     },
-    socketInitContacts: (users)=> {
+    socketInitContacts: (users) => {
         return ({
-            type:"SOCKET_INIT_CONTACTS",
+            type: "SOCKET_INIT_CONTACTS",
             payload: users
         });
     }

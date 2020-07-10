@@ -25,7 +25,7 @@ logger.level = 'info';
 // The ordering is important too
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server: server , maxPayload:200});
+const wss = new WebSocket.Server({ server: server, maxPayload: 200 });
 
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
 app.use(cors({
@@ -60,11 +60,11 @@ app.use('/search', searchRoutes);
 let socketControl = {};
 let userList = {};
 
-wss.on('connection', (ws,req) => {
+wss.on('connection', (ws, req) => {
     logger.info("size " + wss.clients.size);
     logger.info('WebSocket is connected...');
     logger.info("hello");
-    ws.on('message',function incoming(message) {
+    ws.on('message', (message) => {
         logger.info("size " + wss.clients.size);
         let m = JSON.parse(message);
         if (m.purpose === "HEART_BEAT") {
@@ -76,24 +76,24 @@ wss.on('connection', (ws,req) => {
             if (socketControl[m.payload]) {
                 clearTimeout(socketControl[m.payload]);
             }
-            let tm = setTimeout(()=> {
+            let tm = setTimeout(() => {
                 logger.info("delete " + m.payload);
                 userList[m.payload].terminate();
                 delete userList[m.payload];
-                Object.values(userList).forEach((client)=> {
-                client.send(JSON.stringify({
-                    purpose: "SOCKET_INIT_CONTACTS",
-                    payload: Object.keys(userList)
-                }));
-            });
+                Object.values(userList).forEach((client) => {
+                    client.send(JSON.stringify({
+                        purpose: "SOCKET_INIT_CONTACTS",
+                        payload: Object.keys(userList)
+                    }));
+                });
                 delete socketControl[m.payload];
-            },10000);
+            }, 10000);
             socketControl[m.payload] = tm;
         }
         if (m.purpose === "SOCKET_ADD_USER") {
             userList[m.payload] = ws;
             //add one user
-            Object.values(userList).forEach((client)=> {
+            Object.values(userList).forEach((client) => {
                 client.send(JSON.stringify({
                     purpose: "SOCKET_INIT_CONTACTS",
                     payload: Object.keys(userList)
