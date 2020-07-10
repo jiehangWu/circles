@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {inputTag} from '../../actions';
+import { inputTag } from '../../actions';
 
 
 class InputTagArea extends React.Component {
@@ -15,17 +15,17 @@ class InputTagArea extends React.Component {
 
     render() {
         return (
-            <textarea   className="text-box mx-2 mt-3"
-                        rows="2"
-                        placeholder="Which tags can represent you?"
-                        requiredvalue={this.props.input} 
-                        onChange={this.handleChange} />
+            <textarea className="text-box mx-2 mt-3"
+                rows="2"
+                placeholder="Which tags can represent you?"
+                requiredvalue={this.props.input}
+                onChange={this.handleChange} />
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return {input: state.input};
+    return { input: state.tags.input };
 };
 
-export default connect(mapStateToProps, {inputTag})(InputTagArea);
+export default connect(mapStateToProps, { inputTag })(InputTagArea);

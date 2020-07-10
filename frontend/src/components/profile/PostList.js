@@ -11,12 +11,12 @@ class PostList extends React.Component {
         return (
             <div>
                 {this.props.posts.postList.map((post) =>
-                    <PostContainer  postId={post.postId} 
-                                    userId={post.userId} 
-                                    time={post.time.toString()} 
-                                    content={post.content} 
-                                    likes={post.likes}
-                                    isLiked={post.isLiked}/>
+                    <PostContainer postId={post.postId}
+                        userId={post.userId}
+                        time={post.time.toString()}
+                        content={post.content}
+                        likes={post.likes}
+                        isLiked={post.isLiked} />
                 )}
             </div>
         )

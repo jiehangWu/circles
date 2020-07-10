@@ -1,7 +1,7 @@
 import SockJS from "sockjs";
 let url = "ws://127.0.0.1:5000";
 let socket;
-const startSocket = ()=> {
+const startSocket = () => {
     if (!window.WebSocket) {
         console.log("MozWebSocket");
         window.WebSocket = window.MozWebSocket;
@@ -9,7 +9,7 @@ const startSocket = ()=> {
     }
     if (window.WebSocket) {
         console.log('WebSocket');
-        socket = ( new WebSocket(url));
+        socket = (new WebSocket(url));
     } else {
         console.log("SOCKJS");
         socket = (new SockJS(url));

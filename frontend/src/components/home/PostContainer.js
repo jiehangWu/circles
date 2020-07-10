@@ -14,6 +14,7 @@ import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
 import { displayDate } from '../../helpers/util';
 import ClearIcon from '@material-ui/icons/Clear';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 
 const styles = makeStyles((theme) => ({
     post: {
@@ -40,8 +41,9 @@ const PostContainer = (props) => {
             <Card className={classes.post} >
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="profile-pic" className={classes.avatar}>
+                        <Avatar aria-label="profile-pic" className={classes.avatar} onClick={console.log("a")}>
                             {props.username}
+                            <Link to="profile" className="btn btn-link"></Link>
                         </Avatar>
                     }
                     action={

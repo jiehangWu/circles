@@ -58,7 +58,7 @@ const PostContainer = (props) => {
                     </Typography>
                 </CardContent>
                 <IconButton aria-label="chat">
-                    <ChatBubbleOutlineOutlinedIcon  color='primary' />
+                    <ChatBubbleOutlineOutlinedIcon color='primary' />
                 </IconButton>
                 <IconButton aria-label="like" onClick={() => props.likePost(props.userId, postId)}>
                     <FavoriteIcon color='secondary' />

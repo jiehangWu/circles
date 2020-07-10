@@ -12,12 +12,12 @@ class PreferenceBar extends React.Component {
     render() {
         return <div className={"DisplayPort"}>
             <div className={"DisplayTags"}>
-                <DisplayTagArea/>
+                <DisplayTagArea />
                 <div>
-                    <InputTagArea/>
+                    <InputTagArea />
                 </div>
                 <div>
-                    <Button  name = "Add Tag" funcName = "addTag"/>
+                    <Button name="Add Tag" funcName="addTag" />
                 </div>
             </div>
         </div>;

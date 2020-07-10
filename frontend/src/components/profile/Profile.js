@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 // import PostList from './PostList';
 import InputArea from './InputArea';
 import LogOutButton from "./LogOutButton";
@@ -18,12 +18,9 @@ import { HomeActions } from "../../actions/home.actions";
 import { connect } from "react-redux";
 
 import PreferenceBar from "./PreferenceBar";
-
 import Display from './DisplayTagArea';
 import InputTagArea from './InputTagArea';
 import ReactDOM from "react-dom";
-
-
 
 import Box from '@material-ui/core/Box';
 import "./profile.css";
@@ -70,7 +67,7 @@ const styles = makeStyles((theme) => ({
     }
 }));
 
-const Home = (props) => {
+const Profile = (props) => {
     const classes = styles();
     const theme = useTheme();
     const name = (
@@ -102,10 +99,6 @@ const Home = (props) => {
                     <ChatIcon />
                     <Link to="chat" className="btn btn-link"></Link>
                 </IconButton>
-
-                {/* <IconButton color='secondary'>
-                <ChatIcon/>
-            </IconButton> */}
 
 
                 <br></br>
@@ -151,7 +144,7 @@ const Home = (props) => {
                         anchor="left"
                     >
                         {leftSideBar}
-                        
+
                     </Drawer>
                 </div>
 
@@ -164,9 +157,10 @@ const Home = (props) => {
                     <br></br>
                     <br></br>
                     <center>
+                        {/* <InputTagArea/> */}
                         <PreferenceBar />
                     </center>
-                    {/* <InputArea/> */}
+                    <InputArea/>
                     {/* <PostList /> */}
                 </div>
 
@@ -197,4 +191,4 @@ const mapAction = {
     loadHome: HomeActions.loadHome,
 };
 
-export default connect(mapStateToProps, mapAction)(Home);
+export default connect(mapStateToProps, mapAction)(Profile);

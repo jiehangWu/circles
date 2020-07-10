@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import SockJS from "sockjs";
 let socket;
 if (!window.WebSocket) {
@@ -14,20 +14,20 @@ if (window.WebSocket) {
     socket = new SockJS("ws://127.0.0.1:5000");
 }
 
-const ChatLink =  (props)=> {
+const ChatLink = (props) => {
     const [response, setResponse] = useState("");
     useEffect(() => {
-        socket.onopen = ()=> {
-            socket.send(JSON.stringify({client: "JAMES"}));
+        socket.onopen = () => {
+            socket.send(JSON.stringify({ client: "JAMES" }));
         };
-        socket.onmessage = (event)=>{
+        socket.onmessage = (event) => {
             setResponse(event.data);
         };
     }, []);
 
     return <div>
-            <span>Response:{response}</span>
-        </div>;
+        <span>Response:{response}</span>
+    </div>;
 };
 
 export default ChatLink;

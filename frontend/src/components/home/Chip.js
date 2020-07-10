@@ -71,13 +71,13 @@ export default function SmallChips() {
         deleteIcon={<DoneIcon />}
       />
       <Chip size="small" label="Deletable Primary" onDelete={handleDelete} color="primary" />
-      <Chip 
-           size="small"
-           icon={<FaceIcon />}
-           label="Deletable Secondary"
-           onDelete={handleDelete}
-           color="secondary"
-         />
-       </div>
-     );
-   }
+      <Chip
+        size="small"
+        icon={<FaceIcon />}
+        label="Deletable Secondary"
+        onDelete={handleDelete}
+        color="secondary"
+      />
+    </div>
+  );
+}

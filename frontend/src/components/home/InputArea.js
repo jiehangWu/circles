@@ -42,31 +42,31 @@ class InputArea extends React.Component {
     }
 
     render() {
-        console.log("$$$$$$$$$$$$$$$$$"+ this.state);
+        console.log("$$$$$$$$$$$$$$$$$" + this.state);
         return (
             <div className="container">
                 <Card className="input-area my-3">
                     <div className="row">
-                  
+
                         <div className="col-lg-10">
-                                <textarea className="text-box mx-2 mt-3"
-                                          rows="3"
-                                          placeholder="Press Enter to send"
-                                          required
-                                          onChange={(e) => {this.handleChange(e)}}
-                                          ref={this.textArea}>
-    
-                                </textarea>
+                            <textarea className="text-box mx-2 mt-3"
+                                rows="3"
+                                placeholder="Press Enter to send"
+                                required
+                                onChange={(e) => { this.handleChange(e) }}
+                                ref={this.textArea}>
+
+                            </textarea>
                             <IconButton aria-label="upload image">
-                                <ImageIcon/>
+                                <ImageIcon />
                             </IconButton>
                             <IconButton aria-label="add emoji">
-                                <EmojiEmotionsIcon/>
+                                <EmojiEmotionsIcon />
                             </IconButton>
-                            <button type="button" 
-                                    className={"btn btn-primary float-right mx-4 mb-3" 
-                                        + (this.state.content ? "" : " disabled")} 
-                                    onClick={this.handleSubmit}>
+                            <button type="button"
+                                className={"btn btn-primary float-right mx-4 mb-3"
+                                    + (this.state.content ? "" : " disabled")}
+                                onClick={this.handleSubmit}>
                                 Submit
                             </button>
                         </div>

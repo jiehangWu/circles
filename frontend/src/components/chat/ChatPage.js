@@ -9,7 +9,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { connect } from "react-redux";
-import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -19,7 +19,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Grid from '@material-ui/core/Grid';
 import SocketComponent from "./SocketComponent";
 import MessageList from "./MessageList";
-import {ChatActions} from "../../actions/chat.actions";
+import { ChatActions } from "../../actions/chat.actions";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Message from './message';
@@ -85,7 +85,7 @@ const styles = makeStyles((theme) => ({
     inline: {
         display: 'inline',
     }
-    
+
 }));
 
 const ChatPage = (props) => {
@@ -188,25 +188,25 @@ const ChatPage = (props) => {
                     }
                 />
             </ListItem>
-            
+
         </List>
     );
 
     const chatWindow = (<div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" noWrap>
-              Chat with user.1
+            <Toolbar>
+                <Typography variant="h6" noWrap>
+                    Chat with user.1
             </Typography>
-          </Toolbar>
+            </Toolbar>
         </AppBar>
 
         <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <MessageList/>
+            <div className={classes.toolbar} />
+            <MessageList />
         </main>
-      </div>);
+    </div>);
 
     useEffect(() => {
         props.loadChats();
@@ -215,7 +215,7 @@ const ChatPage = (props) => {
     return (
         <React.Fragment>
             <CssBaseline />
-        <SocketComponent/>
+
             <div className="d-flex justify-content-center">
                 {/* left side bar */}
                 <div className={classes.root}>
@@ -237,39 +237,39 @@ const ChatPage = (props) => {
                     direction="column"
                     alignItems="flex-start"
                     justify="flex-start"
-                    wrap = "reverse"
+                    wrap="reverse"
                     style={{ minHeight: '100vh' }}
                 >
                     <Grid item xs={4}>
                         {previousTalk}
                     </Grid>
 
-                </Grid> 
+                </Grid>
 
 
 
                 <Drawer
-                        className={classes.drawer}
-                        variant="permanent"
-                        classes={{
-                            paper: classes.innerdrawerPaper,
-                        }}
-                        alignItems="flex-end"
-                        justify="flex-end"
-                        anchor="right"
-                    >
-                        {/* <MessageList/> */}
-                        {chatWindow}
-                        
-                
-                    </Drawer>
+                    className={classes.drawer}
+                    variant="permanent"
+                    classes={{
+                        paper: classes.innerdrawerPaper,
+                    }}
+                    alignItems="flex-end"
+                    justify="flex-end"
+                    anchor="right"
+                >
+                    {/* <MessageList/> */}
+                    {chatWindow}
 
-                    <switch>
-   
-                        <Route exact path="/chat">
-                        </Route>
 
-                    </switch>
+                </Drawer>
+
+                <switch>
+
+                    <Route exact path="/chat">
+                    </Route>
+
+                </switch>
 
             </div>
         </React.Fragment>
@@ -277,8 +277,10 @@ const ChatPage = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return { username: state.users,
-             messages: state.messages };
+    return {
+        username: state.users,
+        messages: state.messages
+    };
 };
 
 const mapAction = {

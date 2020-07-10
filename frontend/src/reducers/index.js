@@ -7,6 +7,7 @@ import {userinfo} from "./userinfo.reducer";
 import {contacts} from "./chat.reducer";
 import {socketReducer} from "./socket.reducer";
 import {chatMessage} from "./chatMessage.reducer";
+import {tags} from "./tags.reducer";
 
 export const rootReducer = combineReducers({
     message,
@@ -16,5 +17,6 @@ export const rootReducer = combineReducers({
     userinfo,
     contacts,
     socketReducer,
-    chatMessage
+    chatMessage,
+    tags
 });

@@ -40,7 +40,7 @@ class ChatWindow extends React.Component {
     },
     innerdrawerPaper: {
       width: 1200,
-    backgroundColor: blueGrey[50]
+      backgroundColor: blueGrey[50]
     },
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,

@@ -1,43 +1,43 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import {initChat} from '../../actions/chat.actions';
+import { initChat } from '../../actions/chat.actions';
 import InputArea from './InputArea';
 import Message from "./message"
 
-const messagesLi = ["a","b","c", "d"];
+const messagesLi = ["a", "b", "c", "d"];
 class MessageList extends React.Component {
      constructor(props) {
           super(props);
      }
 
-     componentDidMount= async () => {
+     componentDidMount = async () => {
      }
 
      initAllChat() {
-          this.props.initChat(["a","b","c"]);
+          this.props.initChat(["a", "b", "c"]);
      }
 
      render() {
-          console.log("---------"+this.props.messages);
+          console.log("---------" + this.props.messages);
           this.initAllChat();
 
           return (
                <div id="contentside" className="panel">
                     <div>
-                    {this.props.messages.map((msg) =>
-                         // {messagesLi.map((msg) => 
-                         <Message content={msg} />)}
-                    
+                         {this.props.messages.map((msg) =>
+                              // {messagesLi.map((msg) => 
+                              <Message content={msg} />)}
+
                     </div>
-                    <InputArea/>
+                    <InputArea />
                </div>
           );
      }
 }
 
 const mapStateToProps = (state) => {
-     return { messages: state.chatMessage.messages,}
+     return { messages: state.chatMessage.messages, }
 }
 
 const mapDispatchToProps = dispatch => {

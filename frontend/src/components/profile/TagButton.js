@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {addTag, deleteTag} from "../../actions";
+import { addTag, deleteTag } from "../../actions";
 
 // constructor: name, funcName
 class Button extends React.Component {
@@ -13,7 +13,7 @@ class Button extends React.Component {
         switch (funcName) {
             case ('addTag'):
                 return this.props.addTag(this.props.input);
-            case('deleteTag'):
+            case ('deleteTag'):
                 return this.props.deleteTag(this.props.tagIndex);
             default:
                 return this.props.addTag('');
@@ -22,17 +22,18 @@ class Button extends React.Component {
 
 
     render() {
-        return (<button onClick= {() =>this.func(this.props.funcName)}>
-                {this.props.name}
-            </button>
+        return (<button onClick={() => this.func(this.props.funcName)}>
+            {this.props.name}
+        </button>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return {input: state.input,
+    return {
+        input: state.input,
         tags: state.tags
     };
 };
 
-export default connect(mapStateToProps, {addTag, deleteTag})(Button);
+export default connect(mapStateToProps, { addTag, deleteTag })(Button);

@@ -13,11 +13,11 @@ const styles = makeStyles((theme) => ({
     },
 }));
 
-const Contact = ({name})=>{
+const Contact = ({ name }) => {
     const classes = styles();
-    return <Grid item style = {{display: 'flex', alignItems:'center'}} className="pr-5 mr-5">
-        <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center" style = {{backgroundColor: '#e03d38'}}>
-            {name.substring(0,1)}
+    return <Grid item style={{ display: 'flex', alignItems: 'center' }} className="pr-5 mr-5">
+        <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center" style={{ backgroundColor: '#e03d38' }}>
+            {name.substring(0, 1)}
         </Avatar>
         <div>
             {name}
