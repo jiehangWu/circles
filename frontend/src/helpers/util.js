@@ -4,7 +4,6 @@ const DAY_LENGTH = 1000 * 60 * 60 * 24;
 
 /*  take the string date as a parameter, return a better formatted date */
 export const displayDate = (date) => {
-<<<<<<< HEAD
     const postDate = Date.parse(date);
     const currDate = new Date();
     const diff = currDate - postDate;
@@ -18,17 +17,3 @@ export const displayDate = (date) => {
         return date.slice(0, 10);
     }
 }
-=======
-  const postDate = Date.parse(date);
-  const currDate = new Date();
-  const diff = currDate - postDate;
-  if (diff < MINUTE_LENGTH) {
-    return 'less than a minute';
-  } if (diff < HOUR_LENGTH) {
-    return `${Math.ceil(diff / MINUTE_LENGTH)} mins ago`;
-  } if (diff < DAY_LENGTH) {
-    return `${Math.ceil(diff / HOUR_LENGTH)} hours ago`;
-  }
-  return date.slice(0, 10);
-};
->>>>>>> origin/develop-wjh
