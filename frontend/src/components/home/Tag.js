@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {selectToggleTag} from "../../actions";
+import {selectToggleTag} from '../../actions';
 
 // constructor:
 // tagDetails: {tag: String, selected: Bool}
@@ -8,20 +8,20 @@ import {selectToggleTag} from "../../actions";
 // text: from DisplayTagsArea component
 
 class Tag extends React.Component{
-    constructor(props) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
+	constructor(props) {
+		super(props);
+		this.handleClick = this.handleClick.bind(this);
+	}
 
-    handleClick() {
-        this.props.selectToggleTag(this.props.tagIndex);
-    }
+	handleClick() {
+		this.props.selectToggleTag(this.props.tagIndex);
+	}
 
 
-    render() {
-        return <span onClick={this.handleClick}>
-                {this.props.tagDetails.tag}</span>;
-    }
+	render() {
+		return <span onClick={this.handleClick}>
+			{this.props.tagDetails.tag}</span>;
+	}
 }
 
 export default connect(null, {selectToggleTag})(Tag);
