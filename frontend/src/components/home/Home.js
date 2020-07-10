@@ -111,16 +111,10 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                <switch>
-                    <Route exact path={'/home/chats'} >
-                        <ContactList />
-                    </Route>
-                    <Route exact path="/home">
-                        {Home}
-                    </Route>
-                    {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
-
-                </switch>
+                <div className={classes.content}>
+                    <InputArea/>
+                    <PostList/>
+                </div>
 
                 {/* right side bar */}
                 <div className={classes.root}>
