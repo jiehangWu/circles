@@ -107,6 +107,21 @@ router.post('/logout', (req, res) => {
     }
 });
 
+// TODO: query all tags
+router.post('/profile', async (req, res) => {
+    const userId = req.session.userId;
+    logger.info(userId);
+    const result = await UserController.findUserByUserId(userId);
+    if (result) {
+        const username = result.username;
+        logger.info(`Display ${username}`);
+        res.status(200).send({ username, userId });
+    } else {
+        logger.error(result);
+        res.status(400).send("please login");
+    }
+});
+
 router.get('/', redirect, (req, res, next) => {
     // TODO: to be refactored
 });

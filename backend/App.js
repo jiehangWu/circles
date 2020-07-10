@@ -36,6 +36,7 @@ app.use(cookieParser());
 const authRoutes = require('./routes/authRoutes');
 const awsRoutes = require('./routes/awsRoutes');
 const postRoutes = require('./routes/postRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 const MAX_AGE = 15 * 60 * 1000;
 app.use(session({
@@ -52,6 +53,7 @@ app.use(session({
 app.use('/', authRoutes);
 app.use('/aws', awsRoutes);
 app.use('/post', postRoutes);
+app.use('/chat', chatRoutes);
 
 let socketControl = {};
 let userList = {};
