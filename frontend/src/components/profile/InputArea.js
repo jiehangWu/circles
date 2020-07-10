@@ -53,24 +53,24 @@ class InputArea extends React.Component {
                             </Avatar>
                         </div>
                         <div className="col-lg-10">
-                                <textarea className="text-box mx-2 mt-3"
-                                          rows="3"
-                                          placeholder="What's up?"
-                                          required
-                                          onChange={(e) => {this.handleChange(e)}}
-                                          ref={this.textArea}>
-    
-                                </textarea>
+                            <textarea className="text-box mx-2 mt-3"
+                                rows="3"
+                                placeholder="What's up?"
+                                required
+                                onChange={(e) => { this.handleChange(e) }}
+                                ref={this.textArea}>
+
+                            </textarea>
                             <IconButton aria-label="upload image">
-                                <ImageIcon/>
+                                <ImageIcon />
                             </IconButton>
                             <IconButton aria-label="add emoji">
-                                <EmojiEmotionsIcon/>
+                                <EmojiEmotionsIcon />
                             </IconButton>
-                            <button type="button" 
-                                    className={"btn btn-primary float-right mx-4 mb-3" 
-                                        + (this.state.content ? "" : " disabled")} 
-                                    onClick={this.handleSubmit}>
+                            <button type="button"
+                                className={"btn btn-primary float-right mx-4 mb-3"
+                                    + (this.state.content ? "" : " disabled")}
+                                onClick={this.handleSubmit}>
                                 Submit
                             </button>
                         </div>

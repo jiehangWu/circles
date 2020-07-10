@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {inputTag} from '../../actions';
+import { inputTag } from '../../actions';
 
 
 class InputTagArea extends React.Component {
@@ -21,7 +21,7 @@ class InputTagArea extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {input: state.input};
+    return { input: state.input };
 };
 
-export default connect(mapStateToProps, {inputTag})(InputTagArea);
+export default connect(mapStateToProps, { inputTag })(InputTagArea);

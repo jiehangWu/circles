@@ -1,17 +1,17 @@
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import IconButton from "@material-ui/core/IconButton";
 import React from "react";
-import {userActions} from "../../actions/user.actions";
-import {connect} from "react-redux";
+import { userActions } from "../../actions/user.actions";
+import { connect } from "react-redux";
 
-class  LogOutButton extends React.Component{
+class LogOutButton extends React.Component {
     constructor(props) {
         super(props);
 
     }
 
     render() {
-        return <div onClick = {()=>this.props.logOut()}><IconButton ><PowerSettingsNewIcon color='secondary'/></IconButton></div>;
+        return <div onClick={() => this.props.logOut()}><IconButton ><PowerSettingsNewIcon color='secondary' /></IconButton></div>;
     }
 }
 

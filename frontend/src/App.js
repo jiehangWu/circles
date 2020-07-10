@@ -12,12 +12,12 @@ import ChatPage from './components/Chat/ChatPage';
 // import MessageList from './components/Chat/MessageList'
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-        history.listen((location, action) => {
-            this.props.clearMessage();
-        });
-    }
+	constructor(props) {
+		super(props);
+		history.listen((location, action) => {
+			this.props.clearMessage();
+		});
+	}
 
     render() {
         const { message } = this.props;
@@ -28,11 +28,10 @@ class App extends React.Component {
                     <Switch>
                         <PrivateRoute exact path="/" component={LoginForm} />
                         <Route path="/login" component={LoginForm} />
-                        <Route path="/register" component={RegisterForm} />
+                        <Route path="/regƒister" component={RegisterForm} />
                         <Route path="/home" component={Home} />
                         <Route path="/profile" component={Profile} />
                         <Route path="/chat" component={ChatPage} />
-                        {/* <Route path="/chat" component={MessageList} /> */}
                         <Redirect from="*" to="/login" />
                     </Switch>
                 </Router>
@@ -42,11 +41,11 @@ class App extends React.Component {
 }
 
 const mapDispatch = (dispatch) => {
-    return {
-        clearMessage: () => {
-            dispatch({ type: "CLEAR_MESSAGE" })
-        }
-    };
+	return {
+		clearMessage: () => {
+			dispatch({ type: 'CLEAR_MESSAGE' });
+		}
+	};
 };
 
 export default connect(null, mapDispatch)(App);

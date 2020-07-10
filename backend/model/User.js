@@ -16,8 +16,8 @@ const UserSchema = new mongoose.Schema({
         }
     ],
     tags: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'tags',
+        type: String
+        // ref: 'tags',
     }],
     posts: [{
         type: mongoose.Schema.Types.ObjectId,

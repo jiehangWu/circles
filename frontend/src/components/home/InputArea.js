@@ -6,6 +6,9 @@ import IconButton from "@material-ui/core/IconButton";
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
 
 class InputArea extends React.Component {
     constructor(props) {
@@ -13,6 +16,7 @@ class InputArea extends React.Component {
         this.textArea = React.createRef();
         this.state = {
             content: "",
+            selectedImage: null
         };
     }
 
@@ -21,7 +25,7 @@ class InputArea extends React.Component {
             content: "",
         });
         this.textArea.current.value = "";
-    }
+    };
 
     handleSubmit = () => {
         if (this.state.content) {
@@ -29,7 +33,8 @@ class InputArea extends React.Component {
                 userId: this.props.userId,
                 content: this.state.content,
                 date: new Date(),
-                tags: []
+                tags: [],
+                imgLink: this.props.uploadedImgLink,
             });
             this.clearAll();
         }
@@ -39,34 +44,54 @@ class InputArea extends React.Component {
         this.setState({
             content: e.target.value,
         });
-    }
+    };
+
+    imageChangeHandler = (e) => {
+        this.setState({
+            selectedImage: e.target.files[0]
+        });
+        if (e.target.files[0].name) {
+            const data = new FormData();
+            const fileName = e.target.files[0].name;
+            data.append(fileName, e.target.files[0], fileName);
+            this.props.uploadImage(data);
+        }
+    };
 
     render() {
-        console.log("$$$$$$$$$$$$$$$$$"+ this.state);
+        console.log("$$$$$$$$$$$$$$$$$" + this.state);
         return (
             <div className="container">
                 <Card className="input-area my-3">
                     <div className="row">
-                  
+
                         <div className="col-lg-10">
-                                <textarea className="text-box mx-2 mt-3"
-                                          rows="3"
-                                          placeholder="Press Enter to send"
-                                          required
-                                          onChange={(e) => {this.handleChange(e)}}
-                                          ref={this.textArea}>
-    
-                                </textarea>
-                            <IconButton aria-label="upload image">
-                                <ImageIcon/>
+                            <textarea className="text-box mx-2 mt-3"
+                                rows="3"
+                                placeholder="What's up?"
+                                value={this.props.input}
+                                required
+                                onChange={(e) => { this.handleChange(e) }}
+                                ref={this.textArea}>
+
+                            </textarea>
+                            <input className="hide" style={{ display: 'none' }} type="file" ref={'file-upload'} onChange={this.imageChangeHandler} />
+
+                            <IconButton aria-label="upload image" onClick={e => {
+                                this.refs['file-upload'].click()
+                            }}>
+                                <ImageIcon />
                             </IconButton>
+
+
+
                             <IconButton aria-label="add emoji">
-                                <EmojiEmotionsIcon/>
+                                <EmojiEmotionsIcon />
                             </IconButton>
-                            <button type="button" 
-                                    className={"btn btn-primary float-right mx-4 mb-3" 
-                                        + (this.state.content ? "" : " disabled")} 
-                                    onClick={this.handleSubmit}>
+                            <button type="button"
+                                className={"btn btn-primary float-right mx-4 mb-3"
+                                    + (this.state.content ? "" : " disabled")}
+                                onClick={this.handleSubmit}>
                                 Submit
                             </button>
                         </div>
@@ -79,13 +104,15 @@ class InputArea extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        userId: state.userinfo.userId
+        userId: state.userinfo.userId,
+        uploadedImgLink: state.posts.uploadedImgLink,
     };
 }
 
 const mapAction = {
     submitPost: PostActions.submitPost,
-    likePost: PostActions.likePost
+    likePost: PostActions.likePost,
+    uploadImage: PostActions.uploadImage,
 }
 
 export default connect(mapStateToProps, mapAction)(InputArea);

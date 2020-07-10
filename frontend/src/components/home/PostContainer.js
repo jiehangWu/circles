@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -14,77 +14,118 @@ import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
 import { displayDate } from '../../helpers/util';
 import ClearIcon from '@material-ui/icons/Clear';
+import Modal from '@material-ui/core/Modal';
+import CommentSection from './CommentSection';
 
 const styles = makeStyles((theme) => ({
-    post: {
-        margin: '1rem'
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%',
-    },
-    avatar: {
-        backgroundColor: blue[200]
-    },
-    postContainer: {
-        width: "60%",
-        marginLeft: "20%",
-        marginRight: "20%"
-    }
+	post: {
+		margin: '1rem'
+	},
+	media: {
+		height: 0,
+		paddingTop: '56.25%',
+	},
+	avatar: {
+		backgroundColor: blue[200]
+	},
+	postContainer: {
+		width: '60%',
+		marginLeft: '20%',
+		marginRight: '20%'
+	},
+	modal: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		overflow: 'auto'
+	},
+	paper: {
+		position: 'absolute',
+		width: '70%',
+		backgroundColor: theme.palette.background.paper,
+		border: '2px solid #000',
+		boxShadow: theme.shadows[5],
+		// padding: theme.spacing(2, 4, 3),
+		top: '10%',
+		left: '15%'
+	}
 }));
 
 const PostContainer = (props) => {
-    const classes = styles();
-    return (
-        <div className={classes.postContainer}>
-            <Card className={classes.post} >
-                <CardHeader
-                    avatar={
-                        <Avatar aria-label="profile-pic" className={classes.avatar}>
-                            {props.username}
-                        </Avatar>
-                    }
-                    action={
-                        props.currUserId === props.userId ?
-                            <IconButton aria-label="settings">
-                                <ClearIcon onClick={() => props.deletePost(props.postId)} />
-                            </IconButton> : ""
-                    }
-                    title={props.username}
-                    subheader={displayDate(props.date)}
-                >
-                </CardHeader>
-                {props.imgLink
+	const [modalIsOpen, setIsOpen] = React.useState(false);
+	const openModal = () => { setIsOpen(true); };
+	const closeModal = () => { setIsOpen(false); };
+	const classes = styles();
+
+	const body = (
+		<div className={classes.paper}>
+			<h2 id="simple-modal-title">Text in a modal</h2>
+			<p id="simple-modal-description">
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+			</p>
+		</div>
+	);
+
+
+	return (
+		<div className={classes.postContainer}>
+			<Card className={classes.post} >
+				<CardHeader
+					avatar={
+						<Avatar aria-label="profile-pic" className={classes.avatar}>
+							{props.username}
+						</Avatar>
+					}
+					action={
+						props.currUserId === props.userId ?
+							<IconButton aria-label="settings">
+								<ClearIcon onClick={() => props.deletePost(props.postId)} />
+							</IconButton> : ''
+					}
+					title={props.username}
+					subheader={displayDate(props.date)}
+				>
+				</CardHeader>
+				{props.imgLink
                     && <CardMedia
-                        className={classes.media}
-                        image={props.imgLink}
+                    	className={classes.media}
+                    	image={props.imgLink}
                     />}
-                <CardContent>
-                    <Typography variant="body2" color="textPrimary" component="p">
-                        {props.content}
-                    </Typography>
-                </CardContent>
-                <IconButton aria-label="chat">
-                    <ChatBubbleOutlineOutlinedIcon color='primary' />
-                </IconButton>
-                <IconButton aria-label="like" onClick={() => props.likePost(props.postId)}>
-                    <FavoriteIcon color='secondary' />
-                </IconButton>
-                <span>{props.likes}</span>
-            </Card>
-        </div>
-    );
-}
+				<CardContent>
+					<Typography variant="body2" color="textPrimary" component="p">
+						{props.content}
+					</Typography>
+				</CardContent>
+				<IconButton aria-label="chat">
+					<ChatBubbleOutlineOutlinedIcon color='primary' onClick={openModal} />
+				</IconButton>
+				<Modal
+					open={modalIsOpen}
+					onClose={closeModal}
+					className={classes.modal}
+				>
+					<div className={classes.paper}>
+						<CommentSection postId={props.postId} comments={props.comments}/>
+					</div>
+				</Modal>
+				<IconButton aria-label="like" onClick={() => props.likePost(props.postId)}>
+					<FavoriteIcon color='secondary' />
+				</IconButton>
+				<span>{props.likes}</span>
+			</Card>
+		</div>
+	);
+};
 
 const mapStateToProps = (state) => {
-    return {
-        currUserId: state.userinfo.userId
-    };
-}
+	return {
+		currUserId: state.userinfo.userId
+	};
+};
 
 const mapAction = {
-    likePost: PostActions.likePost,
-    deletePost: PostActions.deletePost,
-}
+	likePost: PostActions.likePost,
+	deletePost: PostActions.deletePost,
+};
 
 export default connect(mapStateToProps, mapAction)(PostContainer);

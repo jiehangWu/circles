@@ -1,24 +1,23 @@
-import React, {useEffect, useState} from "react";
-import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import PostList from './PostList';
 import InputArea from './InputArea';
-import LogOutButton from "./LogOutButton";
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import LogOutButton from './LogOutButton';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {blue, blueGrey} from '@material-ui/core/colors';
+import { blue, blueGrey } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import {history} from "../../helpers/history"
-import {HomeActions} from "../../actions/home.actions";
-import {connect} from "react-redux";
-import SocketComponent from '../Chat/SocketComponent'
-import ContactList from "../Chat/ContactList";
-import LoginForm from "../entrance/LoginForm";
-import {PrivateRoute} from "../../helpers/PrivateRouter";
-import ChatPage from "../Chat/ChatPage";
+import { history } from '../../helpers/history';
+import { HomeActions } from '../../actions/home.actions';
+import { connect } from 'react-redux';
+import SocketComponent from '../chat/SocketComponent';
+import ContactList from '../chat/ContactList';
+import LoginForm from '../entrance/LoginForm';
+import { PrivateRoute } from '../../helpers/PrivateRouter';
 
 const drawerWidth = 150;
 
@@ -61,35 +60,32 @@ const Home = (props) => {
     const theme = useTheme();
     const name = (
         <div className={classes.name}>
-            <h4 style={{fontWeight: '900'}}> {props.username}</h4>
-            <p>@{props.username}123</p><br/>
+            <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
+            <p>@{props.username}123</p><br />
         </div>
     );
 
     const leftSideBar = (
         <div className={classes.background}>
-            
-            <SocketComponent/>
-
-            <div className={classes.toolbar}/>
+            <SocketComponent />
+            <div className={classes.toolbar} />
             <Avatar aria-label="profile-pic" className={classes.avatar}>
                 W
-            </Avatar>
+			</Avatar>
             {name}
             <IconButton color='primary'>
-                <AccountCircleIcon/>
-                <Link to="profile" className="btn btn-link">Profile</Link>
+                <AccountCircleIcon />
             </IconButton>
             <IconButton color='primary'>
-                <SettingsIcon/>
+                <SettingsIcon />
             </IconButton>
         </div>
     );
 
     const Home = (
         <div className={classes.content}>
-            <InputArea/>
-            <PostList/>
+            <InputArea />
+            <PostList />
         </div>
     );
 
@@ -97,10 +93,9 @@ const Home = (props) => {
         props.loadHome();
     }, []);
 
-    console.log("@@@@@@@@@@@@"+ props.values);
     return (
         <React.Fragment>
-            <CssBaseline/>
+            <CssBaseline />
             <div className="d-flex justify-content-center">
                 {/* left side bar */}
                 <div className={classes.root}>
@@ -116,13 +111,16 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                    <switch>
-                        <Route exact path="/home">
-                            {Home}
-                        </Route>
-                        {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
+                <switch>
+                    <Route exact path={'/home/chats'} >
+                        <ContactList />
+                    </Route>
+                    <Route exact path="/home">
+                        {Home}
+                    </Route>
+                    {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
 
-                    </switch>
+                </switch>
 
                 {/* right side bar */}
                 <div className={classes.root}>
@@ -134,7 +132,7 @@ const Home = (props) => {
                         }}
                         anchor="right"
                     >
-                        <LogOutButton/>
+                        <LogOutButton />
                     </Drawer>
                 </div>
 
@@ -144,7 +142,7 @@ const Home = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return {username: state.userinfo.username};
+    return { username: state.userinfo.username };
 };
 
 const mapAction = {
