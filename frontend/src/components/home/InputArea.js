@@ -6,9 +6,6 @@ import IconButton from "@material-ui/core/IconButton";
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import Button from '@material-ui/core/Button';
-import Hidden from '@material-ui/core/Hidden';
 
 class InputArea extends React.Component {
     constructor(props) {
@@ -59,7 +56,6 @@ class InputArea extends React.Component {
     };
 
     render() {
-        console.log("$$$$$$$$$$$$$$$$$" + this.state);
         return (
             <div className="container">
                 <Card className="input-area my-3">

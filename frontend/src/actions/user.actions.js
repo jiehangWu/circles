@@ -112,8 +112,14 @@ const register = (username, password) => (dispatch) => {
   });
 };
 
+const toProfile = () => {
+  history.push('/profile');
+  return {};
+};
+
 export const userActions = {
   login,
   register,
   logOut,
+  toProfile
 };

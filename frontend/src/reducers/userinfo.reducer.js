@@ -5,6 +5,12 @@ export const userinfo = (state = {}, action) => {
         userId: action.payload.userId,
         username: action.payload.username,
       };
+      case "LOAD_PROFILE":
+        return {
+            userId: action.payload.userId,
+            username: action.payload.username,
+            tags: action.payload.tags,
+        };
     default:
       return state;
   }

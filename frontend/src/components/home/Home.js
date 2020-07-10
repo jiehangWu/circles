@@ -19,6 +19,7 @@ import ContactList from '../chat/ContactList';
 import LoginForm from '../entrance/LoginForm';
 import { PrivateRoute } from '../../helpers/PrivateRouter';
 
+
 const drawerWidth = 150;
 
 const styles = makeStyles((theme) => ({
@@ -67,14 +68,15 @@ const Home = (props) => {
 
     const leftSideBar = (
         <div className={classes.background}>
-            <SocketComponent />
+            {/* <SocketComponent /> */}
             <div className={classes.toolbar} />
             <Avatar aria-label="profile-pic" className={classes.avatar}>
                 W
 			</Avatar>
             {name}
             <IconButton color='primary'>
-                <AccountCircleIcon />
+                <AccountCircleIcon/>
+                <Link to="profile" className="btn btn-link">profile</Link>
             </IconButton>
             <IconButton color='primary'>
                 <SettingsIcon />
@@ -111,16 +113,10 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                <switch>
-                    <Route exact path={'/home/chats'} >
-                        <ContactList />
-                    </Route>
-                    <Route exact path="/home">
-                        {Home}
-                    </Route>
-                    {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
-
-                </switch>
+                <div className={classes.content}>
+                    <InputArea/>
+                    <PostList/>
+                </div>
 
                 {/* right side bar */}
                 <div className={classes.root}>

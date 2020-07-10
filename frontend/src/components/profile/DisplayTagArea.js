@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Tag from "./Tag";
-import Button from "./TagButton";
 
 class DisplayTagArea extends React.Component {
     constructor(props) {

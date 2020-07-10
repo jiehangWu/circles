@@ -13,17 +13,16 @@ import HomeIcon from '@material-ui/icons/Home';
 import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { history } from "../../helpers/history"
-import { HomeActions } from "../../actions/home.actions";
+import { history } from "../../helpers/history";
 import { connect } from "react-redux";
 
 import PreferenceBar from "./PreferenceBar";
 import Display from './DisplayTagArea';
-import InputTagArea from './InputTagArea';
 import ReactDOM from "react-dom";
 
 import Box from '@material-ui/core/Box';
 import "./profile.css";
+import { ProfileActions } from "../../actions/profile.actions";
 
 const drawerWidth = 150;
 
@@ -88,7 +87,7 @@ const Profile = (props) => {
 
                 <IconButton color='primary'>
                     <HomeIcon />
-                    <Link to="home" className="btn btn-link"></Link>
+                    <Link to="home" className="btn btn-link">home</Link>
                 </IconButton>
 
                 <IconButton>
@@ -125,7 +124,7 @@ const Profile = (props) => {
     );
 
     useEffect(() => {
-        props.loadHome();
+        props.loadProfile();
     }, []);
 
     return (
@@ -188,7 +187,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapAction = {
-    loadHome: HomeActions.loadHome,
+    loadProfile: ProfileActions.loadProfile,
 };
 
 export default connect(mapStateToProps, mapAction)(Profile);

@@ -99,6 +99,22 @@ router.post('/home', async (req, res) => {
     }
 });
 
+router.get('/profile', async (req, res) => {
+    const userId = req.session.userId;
+    logger.info(userId);
+    const result = await UserController.findUserByUserId(userId);
+    if (result) {
+        const username = result.username;
+        const tags = result.tags;
+        const posts = result.posts;
+        logger.info(`Display ${username}`);
+        res.status(200).send({ username, userId, tags, posts});
+    } else {
+        logger.error(result);
+        res.status(400).send("please login");
+    }
+});
+
 router.post('/logout', (req, res) => {
     if (req.session.userId !== null && req.session.userId !== undefined) {
         // maybe cookie needs to be deleted too?
@@ -124,15 +140,12 @@ router.put('/home/tag', async (req, res) => {
             await SearchController.updateUserTags(id, tags);
             res.status(200).send(response); 
         } else {
-            res.status(500).send(err);
+            res.status(500).send();
         }
     } catch (err) {
         res.status(500).send(err);
     }
 });
 
-router.get('/', redirect, (req, res, next) => {
-    // TODO: to be refactored
-});
 
 module.exports = router;

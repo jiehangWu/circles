@@ -27,7 +27,7 @@ class App extends React.Component {
                     <Switch>
                         <PrivateRoute exact path="/" component={LoginForm} />
                         <Route path="/login" component={LoginForm} />
-                        <Route path="/regƒister" component={RegisterForm} />
+                        <Route path="/register" component={RegisterForm} />
                         <Route path="/home" component={Home} />
                         <Route path="/profile" component={Profile} />
                         <Route path="/chat" component={ChatPage} />

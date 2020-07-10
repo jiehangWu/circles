@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectToggleTag, deleteTag } from "../../actions";
+import { deleteTag } from "../../actions/tags.actions";
 
 import Chip from '@material-ui/core/Chip'
-import FaceIcon from '@material-ui/icons/Face';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
 class Tag extends React.Component {
