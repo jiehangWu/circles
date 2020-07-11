@@ -1,23 +1,32 @@
-export const tags = (arr = [
-    { tag: "Sports", selected: false, color: "green" },
-    { tag: "Animation", selected: false, color: "red" },
-    { tag: "Music", selected: false, color: "yellow" },
-    { tag: "Movie", selected: false, color: "blue" },
-    { tag: "Game", selected: false, color: "purple" }], action) => {
+const initialState = { tags: ["Sports", "Cars", "Sportscars"] };
+
+export const tags = (state, action) => {
+    state = state || initialState;
+
     switch (action.type) {
         case "ADD_TAG":
-            let addArray = arr.slice();
-            let item = {};
-            item.tag = action.tag;
-            item.selected = false;
-            addArray.splice(addArray.length, 0, item);
-            return addArray;
+            return {
+                ...state,
+                tags: state.tags.concat(action.tag)
+            };
+
         case "DELETE_TAG":
-            let delArray = arr.slice();
-            delArray.splice(action.index, 1);
-            return delArray;
+            let updatedTags = { tags: [] };
+            state.tags.forEach((tag) => {
+                if (tag != action.tag) {
+                    updatedTags.tags.push(tag);
+                }
+            });
+            console.log(updatedTags);
+            return updatedTags;
+
+        case "INIT_TAGS":
+            state.tags = action.payload;
+            console.log("int iniit" + state.tags);
+            return state;
+
         default:
-            return arr;
+            return state;
     }
 };
 

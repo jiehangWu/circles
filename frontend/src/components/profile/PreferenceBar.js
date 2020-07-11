@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addTag, addTagSuccess } from "../../actions/tags.actions";
+import { addTag, addTagSuccess, loadAllTags } from "../../actions/tags.actions";
 import Card from '@material-ui/core/Card';
 import "./tagCard.css";
 
@@ -15,6 +15,10 @@ class PreferenceBar extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.props.loadAllTags(this.props.userId);
+    }
+
     clearAll = () => {
         this.setState({
             content: "",
@@ -23,6 +27,7 @@ class PreferenceBar extends React.Component {
     }
 
     handleAdd = () => {
+        // console.log("userid" + this.props.userId);
         if (this.state.content) {
             this.props.addTag(this.props.userId, this.state.content);
             //TODO: delete and fix server response
@@ -63,10 +68,12 @@ class PreferenceBar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { input: state.input,
-            userId: state.userinfo.userId,
-            tags: state.userinfo.tags };
+    return {
+        input: state.input,
+        userId: state.userinfo.userId,
+        tags: state.userinfo.tags
+    };
 };
 
-export default connect(mapStateToProps, { addTag, addTagSuccess })(PreferenceBar);
+export default connect(mapStateToProps, { addTag, addTagSuccess, loadAllTags })(PreferenceBar);
 

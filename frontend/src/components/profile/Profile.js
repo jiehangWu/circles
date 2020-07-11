@@ -17,7 +17,7 @@ import { history } from "../../helpers/history";
 import { connect } from "react-redux";
 
 import PreferenceBar from "./PreferenceBar";
-import Display from './DisplayTagArea';
+import DisplayTagArea from './DisplayTagArea';
 import ReactDOM from "react-dom";
 
 import Box from '@material-ui/core/Box';
@@ -101,7 +101,7 @@ const Profile = (props) => {
 
 
                 <br></br>
-                <Display />
+                <DisplayTagArea/>
                 <br></br>
             </center>
         </div>
@@ -159,7 +159,7 @@ const Profile = (props) => {
                         {/* <InputTagArea/> */}
                         <PreferenceBar />
                     </center>
-                    <InputArea/>
+                    <InputArea />
                     {/* <PostList /> */}
                 </div>
 
