@@ -14,11 +14,11 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {history} from "../../helpers/history"
 import {HomeActions} from "../../actions/home.actions";
 import {connect} from "react-redux";
-import SocketComponent from '../Chat/SocketComponent'
-import ContactList from "../Chat/ContactList";
+import SocketComponent from '../chat/SocketComponent'
+import ContactList from "../chat/ContactList";
 import LoginForm from "../entrance/LoginForm";
 import {PrivateRoute} from "../../helpers/PrivateRouter";
-import ChatPage from "../Chat/ChatPage";
+import ChatPage2 from "../chat/ChatPage2";
 
 const drawerWidth = 150;
 
@@ -119,6 +119,9 @@ const Home = (props) => {
                     <switch>
                         <Route exact path="/home">
                             {Home}
+                        </Route>
+                        <Route path="/home/chat">
+                            <ChatPage2/>
                         </Route>
                         {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
 

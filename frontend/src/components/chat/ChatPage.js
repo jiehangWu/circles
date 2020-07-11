@@ -23,7 +23,7 @@ import {ChatActions} from "../../actions/chat.actions";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Message from './message';
-import "./chatPage.css";
+import "./ChatPage.css";
 
 const styles = makeStyles((theme) => ({
     root: {

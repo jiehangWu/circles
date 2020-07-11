@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 // import {createConnect} from "react-redux/lib/connect/connect";
 import SockJS from "sockjs";
+import {history} from "../../helpers/history";
 
 // this component is used to reconnect socket and document the rules
 // (including heart check, reconnect, receiving messages handler,etc.)
@@ -70,10 +71,15 @@ const SocketComponent =  (props)=> {
                     restart = false;
                 }
                 hc.start();
+                props.socketInitContactsList(message.payload);
                 props.socketInitContacts(message.payload);
             }
             if (message.purpose === "SOCKET_ADD_CONTACT") {
                 props.socketAddContact(message.payload);
+                props.socketAddContactList(message.payload);
+            }
+            if(message.purpose === "SOCKET_SEND_MESSAGE") {
+                props.addOneMessageClient(message.payload);
             }
             hc.reset();
         };
@@ -88,7 +94,7 @@ const SocketComponent =  (props)=> {
             restart = true;
         };
 
-        }, [props.username, props.socket]);
+        }, [props.username, props.socket, history]);
     return <div></div>;
 };
 
@@ -108,8 +114,20 @@ const mapAction = {
     },
     socketAddContact: (user)=> {
         return ({
-            type: "SOCKET_ADD_CONTACT",
+            type: "ADD_ONE_CONTACT",
             payload: user
+        });
+    },
+    socketAddContactList: (user)=> {
+        return ({
+            type: "ADD_ONE_CONTACT_LIST",
+            payload: user
+        });
+    },
+    socketInitContactsList: (users)=> {
+        return ({
+            type:"SOCKET_INIT_CONTACTS_LIST",
+            payload: users
         });
     },
     socketInitContacts: (users)=> {
@@ -117,8 +135,19 @@ const mapAction = {
             type:"SOCKET_INIT_CONTACTS",
             payload: users
         });
+    },
+    addOneMessage:(message)=> {
+        return {
+            type: "ADD_ONE_MESSAGE",
+            payload: message
+        }
+    },
+    addOneMessageClient: (message) => {
+        return {
+            type: "ADD_ONE_MESSAGE_CLIENT",
+            payload: message
+        }
     }
-
 };
 
 export default connect(mapStateToProps, mapAction)(SocketComponent);

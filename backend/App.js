@@ -61,9 +61,10 @@ wss.on('connection', (ws,req) => {
     logger.info("hello");
     ws.on('message',function incoming(message) {
         let m = JSON.parse(message);
+        //HEART_BEAT
         if (m.purpose === "HEART_BEAT") {
             logger.info(wss.clients.size);
-            logger.info(m);
+            //logger.info(m);
             ws.send(JSON.stringify({
                 purpose: "HEART_BEAT"
             }));
@@ -76,7 +77,7 @@ wss.on('connection', (ws,req) => {
                 delete userList[m.payload];
                 Object.values(userList).forEach((client)=> {
                 client.send(JSON.stringify({
-                    purpose: "SOCKET_INIT_CONTACTS",
+                    purpose: "SOCKET_INIT_CONTACT",
                     payload: Object.keys(userList)
                 }));
             });
@@ -84,17 +85,32 @@ wss.on('connection', (ws,req) => {
             },10000);
             socketControl[m.payload] = tm;
         }
-        if (m.purpose === "SOCKET_ADD_USER") {
-            userList[m.payload] = ws;
+        // SOCKET_ADD_USER
+        if (m.purpose === "CLIENT_ADD_USER") {
+
             //add one user
+
+            // send all the online users
+            userList[m.payload] = ws;
             Object.values(userList).forEach((client)=> {
                 client.send(JSON.stringify({
                     purpose: "SOCKET_INIT_CONTACTS",
                     payload: Object.keys(userList)
                 }));
             });
+
             logger.info(Object.keys(userList));
-            // send all the online users
+        }
+        if (m.purpose === "CLIENT_SEND_MESSAGE") {
+            logger.info(m);
+            let message = m.payload;
+            let receiver = message.receiver;
+            if(userList[receiver]) {
+                userList[receiver].send(JSON.stringify({
+                    purpose: "SOCKET_SEND_MESSAGE",
+                    payload: message
+                }));
+            }
         }
     });
 });
