@@ -21,13 +21,13 @@ const loadHome = () => (dispatch) => {
       payload: parsedMsg,
     });
     // send message to reducer->socket server
-    dispatch({
-      type: 'SOCKET_ADD_USER',
-      payload: {
-        purpose: 'SOCKET_ADD_USER',
-        payload: parsedMsg.username,
-      },
-    });
+    // dispatch({
+    //   type: 'SOCKET_ADD_USER',
+    //   payload: {
+    //     purpose: 'SOCKET_ADD_USER',
+    //     payload: parsedMsg.username,
+    //   },
+    // });
   }).catch((err) => {
     history.push('/login');
     console.log('going back');

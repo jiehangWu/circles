@@ -67,7 +67,7 @@ const Home = (props) => {
 
     const leftSideBar = (
         <div className={classes.background}>
-            <SocketComponent />
+            {/* <SocketComponent /> */}
             <div className={classes.toolbar} />
             <Avatar aria-label="profile-pic" className={classes.avatar}>
                 W
