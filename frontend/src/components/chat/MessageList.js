@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { initChat } from '../../actions/chat.actions';
 import InputArea from './InputArea';
-import Message from "./message"
+import Message from "./Message"
 
 const messagesLi = ["a", "b", "c", "d"];
 class MessageList extends React.Component {
@@ -15,6 +15,7 @@ class MessageList extends React.Component {
      }
 
      initAllChat() {
+          // for testing
           this.props.initChat(["a", "b", "c"]);
      }
 

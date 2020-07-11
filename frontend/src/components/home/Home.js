@@ -70,13 +70,13 @@ const Home = (props) => {
         <div className={classes.background}>
             {/* <SocketComponent /> */}
             <div className={classes.toolbar} />
-            <Avatar aria-label="profile-pic" className={classes.avatar}>
+            <Avatar aria-label="profile-pic" className={classes.avatar}
+                onClick={() => history.push('./profile')}>
                 W
 			</Avatar>
             {name}
             <IconButton color='primary'>
-                <AccountCircleIcon/>
-                <Link to="profile" className="btn btn-link">profile</Link>
+                <AccountCircleIcon onClick={() => history.push('./profile')} />
             </IconButton>
             <IconButton color='primary'>
                 <SettingsIcon />
@@ -114,8 +114,8 @@ const Home = (props) => {
                 </div>
 
                 <div className={classes.content}>
-                    <InputArea/>
-                    <PostList/>
+                    <InputArea />
+                    <PostList />
                 </div>
 
                 {/* right side bar */}

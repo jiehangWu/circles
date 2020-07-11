@@ -44,7 +44,7 @@ router.post('/register', async (req, res, next) => {
             res.status(400).send("duplicate username");
         } else {
             user = await UserController.createUser(username, password);
-        
+
             const id = user._id;
             const tags = user.tags;
 
@@ -118,11 +118,11 @@ router.put('/home/tag', async (req, res) => {
     let response;
     try {
         response = await UserController.addTag(id, tag);
-        
+
         if (response !== null) {
             const tags = response.tags;
-            await SearchController.updateUserTags(id, tags);
-            res.status(200).send(response); 
+            // await SearchController.updateUserTags(id, tags);
+            res.status(200).send(response);
         } else {
             res.status(500).send();
         }
@@ -140,7 +140,7 @@ router.get('/profile', async (req, res) => {
         const tags = result.tags;
         const posts = result.posts;
         logger.info(`Display ${username}`);
-        res.status(200).send({ username, userId, tags, posts});
+        res.status(200).send({ username, userId, tags, posts });
     } else {
         logger.error(result);
         res.status(400).send("please login");

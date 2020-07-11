@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import InputArea from './InputArea';
+import { connect } from "react-redux";
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { history } from "../../helpers/history";
+import SocketComponent from "./SocketComponent";
+import MessageList from "./MessageList";
+import { ChatActions } from "../../actions/chat.actions";
+//@material-ui
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,8 +14,6 @@ import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -17,13 +21,9 @@ import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Grid from '@material-ui/core/Grid';
-import SocketComponent from "./SocketComponent";
-import MessageList from "./MessageList";
-import { ChatActions } from "../../actions/chat.actions";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Message from './message';
-import "./chatPage.css";
+
 
 const styles = makeStyles((theme) => ({
     root: {
@@ -46,7 +46,7 @@ const styles = makeStyles((theme) => ({
         backgroundColor: blueGrey[50]
     },
     innerdrawerPaper: {
-        width: 1100,
+        width: 950,
         backgroundColor: blueGrey[50]
     },
     // necessary for content to be below app bar
@@ -75,11 +75,11 @@ const styles = makeStyles((theme) => ({
     },
     chatHistory: {
         width: '53ch',
-        maxWidth: '188ch',
+        maxWidth: '53ch',
         backgroundColor: theme.palette.background.paper,
     },
     appBar: {
-        maxWidth: '140ch',
+        maxWidth: '120ch',
         height: '7.88ch'
     },
     inline: {
@@ -107,8 +107,7 @@ const ChatPage = (props) => {
             </Avatar>
             {name}
             <IconButton color='primary'>
-                <AccountCircleIcon />
-                <Link to="profile" className="btn btn-link">Profile</Link>
+                <AccountCircleIcon onClick={() => history.push('./profile')} />
             </IconButton>
             <IconButton color='primary'>
                 <SettingsIcon />

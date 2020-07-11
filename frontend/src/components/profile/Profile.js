@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
-// import PostList from './PostList';
 import InputArea from './InputArea';
 import LogOutButton from "./LogOutButton";
+import { history } from "../../helpers/history";
+import { connect } from "react-redux";
+import PreferenceBar from "./PreferenceBar";
+import DisplayTagArea from './DisplayTagArea';
+import { ProfileActions } from "../../actions/profile.actions";
+import "./profile.css";
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,16 +18,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { history } from "../../helpers/history";
-import { connect } from "react-redux";
-
-import PreferenceBar from "./PreferenceBar";
-import DisplayTagArea from './DisplayTagArea';
-import ReactDOM from "react-dom";
-
 import Box from '@material-ui/core/Box';
-import "./profile.css";
-import { ProfileActions } from "../../actions/profile.actions";
 
 const drawerWidth = 150;
 
@@ -86,8 +82,7 @@ const Profile = (props) => {
                 {name}
 
                 <IconButton color='primary'>
-                    <HomeIcon />
-                    <Link to="home" className="btn btn-link">home</Link>
+                    <HomeIcon onClick={() => history.push('./home')} />
                 </IconButton>
 
                 <IconButton>
@@ -95,13 +90,12 @@ const Profile = (props) => {
                 </IconButton>
 
                 <IconButton color='secondary'>
-                    <ChatIcon />
-                    <Link to="chat" className="btn btn-link"></Link>
+                    <ChatIcon onClick={() => history.push('./chat')} />
                 </IconButton>
 
 
                 <br></br>
-                <DisplayTagArea/>
+                <DisplayTagArea />
                 <br></br>
             </center>
         </div>
@@ -115,7 +109,7 @@ const Profile = (props) => {
             </Avatar>
             {name}
             <IconButton color='primary'>
-                <AccountCircleIcon />
+                <AccountCircleIcon onClick={() => history.push('./home')} />
             </IconButton>
             <IconButton color='primary'>
                 <SettingsIcon />

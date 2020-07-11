@@ -12,8 +12,10 @@ module.exports = {
     },
 
     createUser: (username, password) => {
-        const user = new User({ username, password,
-         tags: ["Sports", "Cars", "SportsCars"] });
+        const user = new User({
+            username, password,
+            tags: ["Sports", "Cars", "SportsCars"]
+        });
         return user.save();
     },
 
@@ -21,7 +23,7 @@ module.exports = {
         const query = {
             username: username
         };
-        return User.findOne(query);  
+        return User.findOne(query);
     },
 
     addTag: async (id, tag) => {
@@ -29,7 +31,7 @@ module.exports = {
         user.tags.push(tag);
         // return user.save();
         user.save();
-        return 
+        return
     },
 
     deleteTag: async (userId, tagContent) => {
