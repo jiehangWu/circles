@@ -112,7 +112,6 @@ const Profile = (props) => {
         <div className={classes.background}>
             <div className={classes.toolbar} />
             <Avatar aria-label="profile-pic" className={classes.logo}>
-                假装logo
             </Avatar>
             {name}
             <IconButton color='primary'>

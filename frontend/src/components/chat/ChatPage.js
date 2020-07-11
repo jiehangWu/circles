@@ -103,7 +103,6 @@ const ChatPage = (props) => {
         <div className={classes.background}>
             <div className={classes.toolbar} />
             <Avatar aria-label="profile-pic" className={classes.logo}>
-                假装logo
             </Avatar>
             {name}
             <IconButton color='primary'>
@@ -132,7 +131,7 @@ const ChatPage = (props) => {
                                 className={classes.inline}
                                 color="textPrimary"
                             >
-                                God Wu
+                                Richard
                   </Typography>
                             {" — I'll be in your neighborhood doing errands this…"}
                         </React.Fragment>
@@ -156,7 +155,7 @@ const ChatPage = (props) => {
                                 className={classes.inline}
                                 color="textPrimary"
                             >
-                                Brother Fan
+                                Terry
                   </Typography>
                             {" — Wish I could come, but I'm out of town this…"}
                         </React.Fragment>
@@ -180,9 +179,9 @@ const ChatPage = (props) => {
                                 className={classes.inline}
                                 color="textPrimary"
                             >
-                                Master Xiaobo
+                                Claire
                   </Typography>
-                            {' — Do you have Paris recommendations? Have you ever…'}
+                            {' — Do you have any recommendations? Have you ever…'}
 
                         </React.Fragment>
                     }
