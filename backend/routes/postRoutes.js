@@ -50,7 +50,6 @@ router.get("/", checkPostCache, async (req, res, next) => {
     return PostController.loadPostsByIds(postIds).then((posts) => {
         logger.info(posts);
         addToCache(userId, posts);
->>>>>>> origin/develop-wjh
         res.status(200).json(posts);
     }).catch((err) => {
         logger.error(err);
@@ -100,6 +99,19 @@ router.put("/l/:id", (req, res, next) => {
     logger.info("userId is" + userId);
     return PostController.likePost(userId, postId).then((numLikes) => {
         res.status(200).send(numLikes.toString());
+    }).catch((err) => {
+        logger.error(err);
+        res.status(500).end();   
+    });
+});
+
+router.delete("/:postId", (req, res, next) => {
+    const postId = req.params.postId;
+    const userId = req.session.userId;
+    return PostController.deletePost(userId, postId).then(async () => {
+        deleteFromCache(userId, postId);
+        await searchController.deletePostFromCluster(postId);
+        res.status(200).end();
     }).catch((err) => {
         logger.error(err);
         res.status(500).end();

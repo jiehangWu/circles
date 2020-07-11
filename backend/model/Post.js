@@ -2,11 +2,7 @@ const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
     content: String,
-<<<<<<< HEAD
-    date: String,
-=======
     date: Date,
->>>>>>> origin/develop-wjh
     imgLink: {
         type: String,
         default: "",
