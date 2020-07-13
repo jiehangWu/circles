@@ -13,11 +13,13 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { history } from '../../helpers/history';
 import { HomeActions } from '../../actions/home.actions';
+
 import { connect } from 'react-redux';
 import SocketComponent from '../chat/SocketComponent';
-import ContactList from '../chat/ContactList';
 import LoginForm from '../entrance/LoginForm';
 import { PrivateRoute } from '../../helpers/PrivateRouter';
+import { passPostId } from '../../actions/user.actions';
+
 
 
 const drawerWidth = 150;
@@ -70,13 +72,21 @@ const Home = (props) => {
         <div className={classes.background}>
             {/* <SocketComponent /> */}
             <div className={classes.toolbar} />
-            <Avatar aria-label="profile-pic" className={classes.avatar}
-                onClick={() => history.push('./profile')}>
+            <Avatar aria-label="profile-pic" className={classes.avatar}>
                 W
 			</Avatar>
             {name}
-            <IconButton color='primary'>
-                <AccountCircleIcon onClick={() => history.push('./profile')} />
+            <IconButton color='primary' onClick={
+                    async () => {
+                        // no need to passID since it must be profile of myself
+                        // props.passId(props.userId); history.push('./profile')
+                        history.push({
+                            pathname: './profile',
+                            state: { homeId: props.userId }
+                        });
+                    }
+                }>
+                <AccountCircleIcon/>
             </IconButton>
             <IconButton color='primary'>
                 <SettingsIcon />
@@ -138,11 +148,16 @@ const Home = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return { username: state.userinfo.username };
+    return {
+        username: state.userinfo.username,
+        userId: state.userinfo.userId,
+        tags: state.tags
+    };
 };
 
 const mapAction = {
     loadHome: HomeActions.loadHome,
+    passId: passPostId
 };
 
 export default connect(mapStateToProps, mapAction)(Home);

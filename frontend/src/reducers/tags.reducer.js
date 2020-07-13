@@ -13,7 +13,7 @@ export const tags = (state, action) => {
         case "DELETE_TAG":
             let updatedTags = { tags: [] };
             state.tags.forEach((tag) => {
-                if (tag != action.tag) {
+                if (tag !== action.tag) {
                     updatedTags.tags.push(tag);
                 }
             });
@@ -22,7 +22,6 @@ export const tags = (state, action) => {
 
         case "INIT_TAGS":
             state.tags = action.payload;
-            console.log("int iniit" + state.tags);
             return state;
 
         default:

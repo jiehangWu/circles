@@ -16,6 +16,9 @@ import { displayDate } from '../../helpers/util';
 import ClearIcon from '@material-ui/icons/Clear';
 import Modal from '@material-ui/core/Modal';
 import CommentSection from './CommentSection';
+import { history } from '../../helpers/history';
+import { passPostId } from '../../actions/user.actions';
+
 
 const styles = makeStyles((theme) => ({
 	post: {
@@ -61,20 +64,30 @@ const PostContainer = (props) => {
 		<div className={classes.paper}>
 			<h2 id="simple-modal-title">Text in a modal</h2>
 			<p id="simple-modal-description">
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+				Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
 			</p>
 		</div>
 	);
-
 
 	return (
 		<div className={classes.postContainer}>
 			<Card className={classes.post} >
 				<CardHeader
 					avatar={
-						<Avatar aria-label="profile-pic" className={classes.avatar}>
-							{props.username}
-						</Avatar>
+						props.currUserId === props.userId ?
+							<Avatar aria-label="profile-pic" className={classes.avatar}>
+								{props.username}
+							</Avatar> : <Avatar aria-label="profile-pic" className={classes.avatar}
+								onClick={() => { 
+									// props.passId(props.userId); history.push('./profile/' + props.userId); 
+									history.push({
+										pathname: './profile',
+										state: { homeId: props.userId }
+									 });
+									
+									}}>
+								{props.username}
+							</Avatar>
 					}
 					action={
 						props.currUserId === props.userId ?
@@ -87,10 +100,10 @@ const PostContainer = (props) => {
 				>
 				</CardHeader>
 				{props.imgLink
-                    && <CardMedia
-                    	className={classes.media}
-                    	image={props.imgLink}
-                    />}
+					&& <CardMedia
+						className={classes.media}
+						image={props.imgLink}
+					/>}
 				<CardContent>
 					<Typography variant="body2" color="textPrimary" component="p">
 						{props.content}
@@ -105,7 +118,7 @@ const PostContainer = (props) => {
 					className={classes.modal}
 				>
 					<div className={classes.paper}>
-						<CommentSection postId={props.postId} comments={props.comments}/>
+						<CommentSection postId={props.postId} comments={props.comments} />
 					</div>
 				</Modal>
 				<IconButton aria-label="like" onClick={() => props.likePost(props.postId)}>
@@ -126,6 +139,7 @@ const mapStateToProps = (state) => {
 const mapAction = {
 	likePost: PostActions.likePost,
 	deletePost: PostActions.deletePost,
+	passId: passPostId,
 };
 
 export default connect(mapStateToProps, mapAction)(PostContainer);

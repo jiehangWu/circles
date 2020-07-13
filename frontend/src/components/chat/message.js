@@ -2,7 +2,7 @@ import React from 'react';
 import Avatar from "@material-ui/core/Avatar";
 import Card from "@material-ui/core/Card";
 import { connect } from 'react-redux';
-import './message.css'
+// import './message.css'
 
 class Message extends React.Component {
   constructor(props) {

@@ -6,6 +6,7 @@ const logger = log4js.getLogger();
 logger.level = 'debug';
 
 const UserController = require('../controller/UserController');
+const PostController = require('../controller/PostController');
 const SearchController = require('../controller/SearchController');
 
 const redirect = (req, res, next) => {
@@ -114,31 +115,31 @@ router.post('/logout', (req, res) => {
 });
 
 router.put('/home/tag', async (req, res) => {
+    // logger.info("putting" + req.body.id);
     const { id, tag } = req.body;
     let response;
     try {
         response = await UserController.addTag(id, tag);
-
-        if (response !== null) {
-            const tags = response.tags;
-            // await SearchController.updateUserTags(id, tags);
-            res.status(200).send(response);
-        } else {
-            res.status(500).send();
-        }
+        const tags = response.tags;
+        await SearchController.updateUserTags(id, tags);
+        const returnTag = tags[tags.length - 1];
+        res.status(200).send({ returnTag });
     } catch (err) {
         res.status(500).send(err);
     }
 });
 
-router.get('/profile', async (req, res) => {
-    const userId = req.session.userId;
+router.get('/profile/:id', async (req, res) => {
+    const userId = req.params.id;
     logger.info(userId);
     const result = await UserController.findUserByUserId(userId);
     if (result) {
         const username = result.username;
         const tags = result.tags;
-        const posts = result.posts;
+        const posts = await PostController.loadPostsByIds(result.posts);
+
+
+        // const posts = result.posts;
         logger.info(`Display ${username}`);
         res.status(200).send({ username, userId, tags, posts });
     } else {
@@ -148,14 +149,14 @@ router.get('/profile', async (req, res) => {
 });
 
 router.get("/tags/:userId", async (req, res, next) => {
-    logger.info("getting all tags");
+    // logger.info("getting all tags");
     const userId = req.params.userId;
     // logger.info(userId);
     const result = await UserController.findUserByUserId(userId);
 
     if (result) {
         const tags = result.tags;
-        // logger.info(`Display for tag ${tags}`);
+        logger.info(`Display for tag ${tags}`);
         // res.status(200).send({tags});
         return (res.json(tags));
     } else {

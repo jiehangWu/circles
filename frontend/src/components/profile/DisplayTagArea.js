@@ -6,17 +6,17 @@ import Tag from "./Tag";
 class DisplayTagArea extends React.Component {
     constructor(props) {
         super(props);
-        this.props.loadAllTags(this.props.userId);
     }
 
-    componentDidMount() {
-        this.props.loadAllTags(this.props.userId);
+    componentDidMount = () => {
+        this.props.loadAllTags(this.props.currID);
     }
 
     render() {
+        // console.log("from superior component", this.props.profileTags);
+        // const profileTags = this.props.profileTags;
         return (
             <div>
-                {this.componentDidMount()}
                 {this.props.tags.map((content) =>
                     <Tag
                         content={content}

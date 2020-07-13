@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import InputArea from './InputArea';
-import LogOutButton from "./LogOutButton";
+import LogOutButton from "../home/LogOutButton";
 import { history } from "../../helpers/history";
 import { connect } from "react-redux";
 import PreferenceBar from "./PreferenceBar";
 import DisplayTagArea from './DisplayTagArea';
 import { ProfileActions } from "../../actions/profile.actions";
-import "./profile.css";
+import PostList from './PostList';
+
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { blue, blueGrey } from '@material-ui/core/colors';
+import { blue, blueGrey, grey } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import HomeIcon from '@material-ui/icons/Home';
@@ -23,6 +23,16 @@ import Box from '@material-ui/core/Box';
 const drawerWidth = 150;
 
 const styles = makeStyles((theme) => ({
+
+    mainBox: {
+        width: '100%',
+        border: 5,
+        borderRadius: 3,
+        borderColor: blueGrey[5000],
+        backgroundColor: grey[200]
+    },
+
+
     root: {
         display: 'flex',
     },
@@ -63,6 +73,9 @@ const styles = makeStyles((theme) => ({
 }));
 
 const Profile = (props) => {
+    const idFromHome = history.location.state.homeId;
+    props.loadProfile(idFromHome);
+
     const classes = styles();
     const theme = useTheme();
     const name = (
@@ -82,7 +95,8 @@ const Profile = (props) => {
                 {name}
 
                 <IconButton color='primary'>
-                    <HomeIcon onClick={() => history.push('./home')} />
+                    {/* <HomeIcon onClick={() => history.push('./home')} /> */}
+                    <HomeIcon onClick={() => history.goBack()} />
                 </IconButton>
 
                 <IconButton>
@@ -95,7 +109,7 @@ const Profile = (props) => {
 
 
                 <br></br>
-                <DisplayTagArea />
+                <DisplayTagArea profileTags={props.tags.tags} currID = {idFromHome} />
                 <br></br>
             </center>
         </div>
@@ -105,11 +119,11 @@ const Profile = (props) => {
         <div className={classes.background}>
             <div className={classes.toolbar} />
             <Avatar aria-label="profile-pic" className={classes.logo}>
-                假装logo
+                logo
             </Avatar>
             {name}
             <IconButton color='primary'>
-                <AccountCircleIcon onClick={() => history.push('./home')} />
+                <AccountCircleIcon onClick={() => history.push('./profile')} />
             </IconButton>
             <IconButton color='primary'>
                 <SettingsIcon />
@@ -118,9 +132,21 @@ const Profile = (props) => {
     );
 
     useEffect(() => {
-        props.loadProfile();
+        // console.log(`---CurrID ${props.currUserId} ---prevID ${props.prevId}---`);
+        // console.log("props.tags:   ___", props.tags, "_user_name_", props.username);
+        // alert(`${props.username} ---abc ${props.currUserId} --- ${props.userId}---`);
+        // need to get the id string pushed from the url
+        // alert(`---History ${history.URL}`);
+        // console.log("props.posts", props.posts.postList);
+        // console.log("props.for jack", props);
+        // console.log("props.tags for jack", props.tags);
+        // console.log("---History URL", history);
+        // props.loadProfile(idFromHome);
+        // console.log("after load props.tag", props.tags);
     }, []);
 
+    // only need to disable delete button in the post container if the id doesn't match the CurrID
+    // if (props.currUserId === props.userId) {
     return (
         <React.Fragment>
             <CssBaseline />
@@ -141,20 +167,17 @@ const Profile = (props) => {
                     </Drawer>
                 </div>
 
-
                 <div className={classes.content}>
 
-                    <Box color={blue} className='main-box' clone>
+                    <Box color={blue} className={classes.mainBox} clone>
                         {avatarBar}
                     </Box>
                     <br></br>
                     <br></br>
                     <center>
-                        {/* <InputTagArea/> */}
                         <PreferenceBar />
                     </center>
-                    <InputArea />
-                    {/* <PostList /> */}
+                    <PostList currID = {idFromHome} />
                 </div>
 
                 {/* right side bar */}
@@ -176,8 +199,16 @@ const Profile = (props) => {
     );
 };
 
+
 const mapStateToProps = (state) => {
-    return { username: state.userinfo.username };
+    return {
+        username: state.userinfo.username,
+        prevId: state.userinfo.prevId,
+        currUserId: state.userinfo.userId,
+        tags: state.tags,
+        posts: state.posts
+
+    };
 };
 
 const mapAction = {

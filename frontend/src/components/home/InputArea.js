@@ -7,6 +7,20 @@ import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
 
+const styles = {
+    textBox: {
+        width: "95%",
+        border: '0',
+    },
+
+    container: {
+        width: "60%",
+        height: "18%",
+        border: '0',
+        backgroundColor: 'transparent'
+    }
+}
+
 class InputArea extends React.Component {
     constructor(props) {
         super(props);
@@ -57,12 +71,15 @@ class InputArea extends React.Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container" 
+                style={styles.container}>
                 <Card className="input-area my-3">
                     <div className="row">
 
                         <div className="col-lg-10">
+                            {/* <textarea className="text-box mx-2 mt-3" */}
                             <textarea className="text-box mx-2 mt-3"
+                                style={styles.textBox}
                                 rows="3"
                                 placeholder="What's up?"
                                 value={this.props.input}

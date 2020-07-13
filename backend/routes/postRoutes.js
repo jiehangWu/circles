@@ -17,7 +17,7 @@ const PostController = require('../controller/PostController');
 //     logger.info("getting");
 //     return PostController.loadAllPosts().then((posts) => {
 //         logger.info(posts);
-//         redis_client.setex("posts", 3600, JSON.stringify(posts));
+//         // redis_client.setex("posts", 3600, JSON.stringify(posts));
 //         res.status(200).json(posts);
 //     }).catch((err) => {
 //         logger.error(err);

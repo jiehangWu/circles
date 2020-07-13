@@ -29,9 +29,7 @@ module.exports = {
     addTag: async (id, tag) => {
         let user = await User.findById(id);
         user.tags.push(tag);
-        // return user.save();
-        user.save();
-        return
+        return user.save();
     },
 
     deleteTag: async (userId, tagContent) => {

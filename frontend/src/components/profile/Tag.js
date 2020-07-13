@@ -10,9 +10,9 @@ class Tag extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        this.props.loadAllTags(this.props.userId);
-    }
+    // componentDidMount() {
+    //     this.props.loadAllTags(this.props.userId);
+    // }
 
     handleDelete = () => {
         console.log(this.props.content);
@@ -21,11 +21,13 @@ class Tag extends React.Component {
 
     render() {
         return (
-            <Chip size="medium"
-                label={this.props.content}
-                onDelete={this.handleDelete}
-                color="primary"
-                icon={<LoyaltyIcon />}> </Chip>
+            // <div>
+                <Chip size="medium"
+                    label={this.props.content}
+                    onDelete={this.handleDelete}
+                    color="primary"
+                    icon={<LoyaltyIcon />}> </Chip>
+            // </div>
         )
     }
 }

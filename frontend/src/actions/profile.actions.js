@@ -1,8 +1,8 @@
 import { history } from "../helpers/history";
 
-export const loadProfile = () => {
+export const loadProfile = (currId) => {
     return dispatch => {
-        fetch('http://localhost:5000/profile', {
+        fetch('http://localhost:5000/profile/' + currId, {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -29,5 +29,5 @@ export const loadProfile = () => {
 };
 
 export const ProfileActions = {
-    loadProfile,
+    loadProfile
 };

@@ -5,12 +5,19 @@ export const userinfo = (state = {}, action) => {
         userId: action.payload.userId,
         username: action.payload.username,
       };
-      case "LOAD_PROFILE":
-        return {
-            userId: action.payload.userId,
-            username: action.payload.username,
-            tags: action.payload.tags,
-        };
+    case "LOAD_PROFILE":
+      console.log("posts in reducer", action.payload.posts)
+      return {
+        userId: action.payload.userId,
+        username: action.payload.username,
+        tags: action.payload.tags,
+        posts: action.payload.posts
+      };
+    case "PASS_ID":
+      return {
+        ...state,
+        prevId: action.payload,
+      };
     default:
       return state;
   }

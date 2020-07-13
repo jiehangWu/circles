@@ -112,14 +112,13 @@ const register = (username, password) => (dispatch) => {
   });
 };
 
-const toProfile = () => {
-  history.push('/profile');
-  return {};
-};
-
 export const userActions = {
   login,
   register,
-  logOut,
-  toProfile
+  logOut
 };
+
+export const passPostId = (id) => ({
+  type: 'PASS_ID',
+  payload: id,
+});

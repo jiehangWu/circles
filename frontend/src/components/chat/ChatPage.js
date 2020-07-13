@@ -5,6 +5,7 @@ import { history } from "../../helpers/history";
 import SocketComponent from "./SocketComponent";
 import MessageList from "./MessageList";
 import { ChatActions } from "../../actions/chat.actions";
+
 //@material-ui
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -230,6 +231,7 @@ const ChatPage = (props) => {
                     </Drawer>
                 </div>
 
+
                 <Grid
                     container
                     spacing={0}
@@ -260,16 +262,7 @@ const ChatPage = (props) => {
                     {/* <MessageList/> */}
                     {chatWindow}
 
-
                 </Drawer>
-
-                <switch>
-
-                    <Route exact path="/chat">
-                    </Route>
-
-                </switch>
-
             </div>
         </React.Fragment>
     );

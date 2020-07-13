@@ -1,6 +1,6 @@
 const initial = {
     users: [ ],
-    messages: [ "abc", "abcd"]
+    messages: [ "Hi", "Jerome"]
 }
 
 export const chatMessage = (state = initial, action) => {

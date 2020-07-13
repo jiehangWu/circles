@@ -2,7 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addTag, addTagSuccess, loadAllTags } from "../../actions/tags.actions";
 import Card from '@material-ui/core/Card';
-import "./tagCard.css";
+
+
+const styles = {
+    textBox: {
+        width: "95%",
+        border: '0',
+    },
+
+    container: {
+        width: "36%",
+        height: "18%",
+        border: '0',
+        padding: '10px',
+        backgroundColor: 'transparent'
+    }
+}
 
 class PreferenceBar extends React.Component {
     constructor(props) {
@@ -15,9 +30,9 @@ class PreferenceBar extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.props.loadAllTags(this.props.userId);
-    }
+    // componentDidMount = async () => {
+    //     this.props.loadAllTags(this.props.userId);
+    // }
 
     clearAll = () => {
         this.setState({
@@ -27,11 +42,8 @@ class PreferenceBar extends React.Component {
     }
 
     handleAdd = () => {
-        // console.log("userid" + this.props.userId);
         if (this.state.content) {
             this.props.addTag(this.props.userId, this.state.content);
-            //TODO: delete and fix server response
-            this.props.addTagSuccess(this.state.content);
         }
         this.clearAll();
     }
@@ -44,11 +56,13 @@ class PreferenceBar extends React.Component {
 
     render() {
         return (
-            <div className={"Container"}>
+            <div className="container" style = {styles.container}>
+                {/* {this.componentDidMount()} */}
                 <Card>
-                    <div className={"DisplayTags"}>
+                    <div className={"DisplayTags"} >
 
                         <textarea className="text-box mx-2 mt-3"
+                            style={styles.textBox}
                             rows="2"
                             placeholder="Which tags can represent you?"
                             requiredvalue={this.props.input}
@@ -58,7 +72,7 @@ class PreferenceBar extends React.Component {
                         <button type="button"
                             className={"btn btn-primary float-right mx-4 mb-3"
                                 + (this.props.input ? "" : " disabled")}
-                            onClick={this.handleAdd}>Add Tag
+                            onClick={() => { this.handleAdd(); this.componentDidMount() }}>Add Tag
                     </button>
                     </div>
                 </Card>
