@@ -131,20 +131,6 @@ const Profile = (props) => {
         </div>
     );
 
-    useEffect(() => {
-        // console.log(`---CurrID ${props.currUserId} ---prevID ${props.prevId}---`);
-        // console.log("props.tags:   ___", props.tags, "_user_name_", props.username);
-        // alert(`${props.username} ---abc ${props.currUserId} --- ${props.userId}---`);
-        // need to get the id string pushed from the url
-        // alert(`---History ${history.URL}`);
-        // console.log("props.posts", props.posts.postList);
-        // console.log("props.for jack", props);
-        // console.log("props.tags for jack", props.tags);
-        // console.log("---History URL", history);
-        // props.loadProfile(idFromHome);
-        // console.log("after load props.tag", props.tags);
-    }, []);
-
     // only need to disable delete button in the post container if the id doesn't match the CurrID
     // if (props.currUserId === props.userId) {
     return (

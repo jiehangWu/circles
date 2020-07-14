@@ -30,10 +30,6 @@ class PreferenceBar extends React.Component {
         }
     }
 
-    // componentDidMount = async () => {
-    //     this.props.loadAllTags(this.props.userId);
-    // }
-
     clearAll = () => {
         this.setState({
             content: "",

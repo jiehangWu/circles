@@ -13,8 +13,6 @@ class DisplayTagArea extends React.Component {
     }
 
     render() {
-        // console.log("from superior component", this.props.profileTags);
-        // const profileTags = this.props.profileTags;
         return (
             <div>
                 {this.props.tags.map((content) =>
