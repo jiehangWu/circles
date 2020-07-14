@@ -64,7 +64,7 @@ wss.on('connection', (ws,req) => {
         //HEART_BEAT
         if (m.purpose === "HEART_BEAT") {
             logger.info(wss.clients.size);
-            //logger.info(m);
+            logger.info(m);
             ws.send(JSON.stringify({
                 purpose: "HEART_BEAT"
             }));
@@ -77,12 +77,12 @@ wss.on('connection', (ws,req) => {
                 delete userList[m.payload];
                 Object.values(userList).forEach((client)=> {
                 client.send(JSON.stringify({
-                    purpose: "SOCKET_INIT_CONTACT",
+                    purpose: "SOCKET_INIT_CONTACTS",
                     payload: Object.keys(userList)
                 }));
             });
                 delete socketControl[m.payload];
-            },10000);
+            },5000);
             socketControl[m.payload] = tm;
         }
         // SOCKET_ADD_USER

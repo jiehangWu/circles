@@ -11,7 +11,7 @@ import {history} from "../../helpers/history";
 let url = "ws://127.0.0.1:5000";
 
 function heartCheck(socket, username) {
-    this.timeout = 5000; //5s
+    this.timeout = 2000; //5s
     this.timeoutObj = null;
     this.serverTimeoutObj = null;
     this.reset = ()=> {

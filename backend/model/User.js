@@ -15,6 +15,10 @@ const UserSchema = new mongoose.Schema({
             ref: 'chats',
         }
     ],
+    unReadContacts:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users"
+    }],
     tags: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'tags',
