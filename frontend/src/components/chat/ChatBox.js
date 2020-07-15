@@ -26,7 +26,7 @@ class ChatWindow extends React.Component {
         drawer: {
             [theme.breakpoints.up('sm')]: {
                 width: drawerWidth,
-                flexShrink: 0,
+hrink: 0,
             }
         },
         innerDrawer: {

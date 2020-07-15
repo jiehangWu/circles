@@ -11,13 +11,13 @@ import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import {history} from "../../helpers/history"
-import {HomeActions} from "../../actions/home.actions";
-import {connect} from "react-redux";
+import { history } from "../../helpers/history"
+import { HomeActions } from "../../actions/home.actions";
+import { connect } from "react-redux";
 import SocketComponent from '../chat/SocketComponent'
 import ContactList from "../chat/ContactList";
 import LoginForm from "../entrance/LoginForm";
-import {PrivateRoute} from "../../helpers/PrivateRouter";
+import { PrivateRoute } from "../../helpers/PrivateRouter";
 import ChatPage2 from "../chat/ChatPage2";
 
 const drawerWidth = 150;
@@ -36,13 +36,21 @@ const styles = makeStyles((theme) => ({
         width: drawerWidth,
         backgroundColor: blueGrey[50]
     },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
     content: {
+        width: 500,
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(3),
+
+        // backgroundColor: blue[500],
+        padding: '0 0px',
     },
+    // necessary for content to be below app bar
+    toolbar: theme.mixins.toolbar,
+    // content: {
+    //     flexGrow: 1,
+    //     backgroundColor: theme.palette.background.default,
+    //     padding: theme.spacing(3),
+    // },
     avatar: {
         backgroundColor: blue[500],
         width: theme.spacing(7),
@@ -68,23 +76,26 @@ const Home = (props) => {
 
     const leftSideBar = (
         <div className={classes.background}>
-            {/* <SocketComponent /> */}
+            <SocketComponent />
             <div className={classes.toolbar} />
             <Avatar aria-label="profile-pic" className={classes.avatar}>
                 W
 			</Avatar>
             {name}
             <IconButton color='primary' onClick={
-                    async () => {
-                        // no need to passID since it must be profile of myself
-                        // props.passId(props.userId); history.push('./profile')
-                        history.push({
-                            pathname: './profile',
-                            state: { homeId: props.userId }
-                        });
-                    }
-                }>
-                <AccountCircleIcon/>
+                async () => {
+                    // no need to passID since it must be profile of myself
+                    // props.passId(props.userId); history.push('./profile')
+                    history.push({
+                        pathname: './profile',
+                        state: {
+                            homeId: props.userId,
+                            self: true
+                        }
+                    });
+                }
+            }>
+                <AccountCircleIcon />
             </IconButton>
             <IconButton color='primary'>
                 <SettingsIcon />
@@ -126,16 +137,16 @@ const Home = (props) => {
                     <PostList />
                 </div> */}
 
-                    <switch>
-                        <Route exact path="/home">
-                            {Home}
-                        </Route>
-                        <Route path="/home/chat">
-                            <ChatPage2/>
-                        </Route>
-                        {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
+                <switch>
+                    <Route exact path="/home">
+                        {Home}
+                    </Route>
+                    <Route path="/home/chat">
+                        <ChatPage2 />
+                    </Route>
+                    {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
 
-                    </switch>
+                </switch>
 
                 {/* right side bar */}
                 <div className={classes.root}>

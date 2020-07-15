@@ -20,15 +20,22 @@ class Tag extends React.Component {
     };
 
     render() {
-        return (
-            // <div>
-            <Chip size="medium"
-                label={this.props.content}
-                onDelete={this.handleDelete}
-                color="primary"
-                icon={<LoyaltyIcon />}> </Chip>
-            // </div>
-        )
+        if (this.props.self) {
+            return (
+                <Chip size="medium"
+                    label={this.props.content}
+                    onDelete={this.handleDelete}
+                    color="primary"
+                    icon={<LoyaltyIcon />}> </Chip>
+            )
+        } else {
+            return (
+                <Chip size="medium"
+                    label={this.props.content}
+                    color="primary"
+                    icon={<LoyaltyIcon />}> </Chip>
+            )
+        }
     }
 }
 

@@ -19,7 +19,6 @@ export const userinfo = (state = {}, action) => {
         username: action.payload.username,
       };
     case "LOAD_PROFILE":
-      console.log("posts in reducer", action.payload.posts)
       return {
         ...state,
         userId: action.payload.userId,

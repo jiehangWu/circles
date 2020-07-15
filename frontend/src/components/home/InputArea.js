@@ -9,13 +9,13 @@ import { connect } from 'react-redux';
 
 const styles = {
     textBox: {
-        width: "95%",
+        width: "100%",
         border: '0',
     },
 
     container: {
-        width: "60%",
-        height: "18%",
+        width: "136%",
+        height: "26%",
         border: '0',
         backgroundColor: 'transparent'
     }

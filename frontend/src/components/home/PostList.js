@@ -3,6 +3,7 @@ import PostContainer from './PostContainer';
 import { connect } from 'react-redux';
 import { PostActions } from '../../actions/posts.actions';
 
+
 class PostList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,6 +18,7 @@ class PostList extends React.Component {
 			<div>
 				{this.props.posts.postList.map((post) =>
 					<PostContainer  postId={post._id} 
+
 						username={post.user.username}
 						userId={post.user._id} 
 						date={post.date} 

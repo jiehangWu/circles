@@ -4,9 +4,6 @@ import { loadAllTags } from "../../actions/tags.actions";
 import Tag from "./Tag";
 
 class DisplayTagArea extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount = () => {
         this.props.loadAllTags(this.props.currID);
@@ -18,7 +15,8 @@ class DisplayTagArea extends React.Component {
                 {this.props.tags.map((content) =>
                     <Tag
                         content={content}
-                        key={content} />
+                        key={content}
+                        self = {this.props.self} />
                 )}
 
             </div>);

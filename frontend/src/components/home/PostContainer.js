@@ -32,7 +32,7 @@ const styles = makeStyles((theme) => ({
 		backgroundColor: blue[200]
 	},
 	postContainer: {
-		width: '60%',
+		width: '100%',
 		marginLeft: '20%',
 		marginRight: '20%'
 	},
@@ -78,14 +78,17 @@ const PostContainer = (props) => {
 							<Avatar aria-label="profile-pic" className={classes.avatar}>
 								{props.username}
 							</Avatar> : <Avatar aria-label="profile-pic" className={classes.avatar}
-								onClick={() => { 
+								onClick={() => {
 									// props.passId(props.userId); history.push('./profile/' + props.userId); 
 									history.push({
 										pathname: './profile',
-										state: { homeId: props.userId }
-									 });
-									
-									}}>
+										state: {
+											homeId: props.userId,
+											self: false
+										}
+									});
+
+								}}>
 								{props.username}
 							</Avatar>
 					}
