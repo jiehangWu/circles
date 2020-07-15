@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import InputArea from './InputArea';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { blue, blueGrey } from '@material-ui/core/colors';
+import {blue, blueGrey} from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -85,7 +85,7 @@ const styles = makeStyles((theme) => ({
     inline: {
         display: 'inline',
     }
-    
+
 }));
 
 const ChatPage = (props) => {
@@ -94,24 +94,24 @@ const ChatPage = (props) => {
 
     const name = (
         <div className={classes.name}>
-            <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
-            <p>@{props.username}123</p><br />
+            <h4 style={{fontWeight: '900'}}> {props.username}</h4>
+            <p>@{props.username}123</p><br/>
         </div>
     );
 
     const leftSideBar = (
         <div className={classes.background}>
-            <div className={classes.toolbar} />
+            <div className={classes.toolbar}/>
             <Avatar aria-label="profile-pic" className={classes.logo}>
                 假装logo
             </Avatar>
             {name}
             <IconButton color='primary'>
-                <AccountCircleIcon />
+                <AccountCircleIcon/>
                 <Link to="profile" className="btn btn-link">Profile</Link>
             </IconButton>
             <IconButton color='primary'>
-                <SettingsIcon />
+                <SettingsIcon/>
             </IconButton>
         </div>
     );
@@ -120,7 +120,7 @@ const ChatPage = (props) => {
         <List className={classes.chatHistory}>
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
                 </ListItemAvatar>
                 <ListItemText
                     primary="Brunch this weekend?"
@@ -133,18 +133,18 @@ const ChatPage = (props) => {
                                 color="textPrimary"
                             >
                                 God Wu
-                  </Typography>
+                            </Typography>
                             {" — I'll be in your neighborhood doing errands this…"}
                         </React.Fragment>
                     }
                 />
             </ListItem>
 
-            <Divider variant="inset" component="li" />
+            <Divider variant="inset" component="li"/>
 
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+                    <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg"/>
                 </ListItemAvatar>
                 <ListItemText
                     primary="Summer BBQ"
@@ -157,18 +157,18 @@ const ChatPage = (props) => {
                                 color="textPrimary"
                             >
                                 Brother Fan
-                  </Typography>
+                            </Typography>
                             {" — Wish I could come, but I'm out of town this…"}
                         </React.Fragment>
                     }
                 />
             </ListItem>
 
-            <Divider variant="inset" component="li" />
+            <Divider variant="inset" component="li"/>
 
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg"/>
                 </ListItemAvatar>
                 <ListItemText
                     primary="Oui Oui"
@@ -181,32 +181,32 @@ const ChatPage = (props) => {
                                 color="textPrimary"
                             >
                                 Master Xiaobo
-                  </Typography>
+                            </Typography>
                             {' — Do you have Paris recommendations? Have you ever…'}
 
                         </React.Fragment>
                     }
                 />
             </ListItem>
-            
+
         </List>
     );
 
     const chatWindow = (<div className={classes.root}>
-        <CssBaseline />
+        <CssBaseline/>
         <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" noWrap>
-              Chat with user.1
-            </Typography>
-          </Toolbar>
+            <Toolbar>
+                <Typography variant="h6" noWrap>
+                    Chat with user.1
+                </Typography>
+            </Toolbar>
         </AppBar>
 
         <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <MessageList/>
+            <div className={classes.toolbar}/>
+            <MessageList/>
         </main>
-      </div>);
+    </div>);
 
     useEffect(() => {
         props.loadChats();
@@ -214,8 +214,8 @@ const ChatPage = (props) => {
 
     return (
         <React.Fragment>
-            <CssBaseline />
-        <SocketComponent/>
+            <CssBaseline/>
+            <SocketComponent/>
             <div className="d-flex justify-content-center">
                 {/* left side bar */}
                 <div className={classes.root}>
@@ -237,39 +237,38 @@ const ChatPage = (props) => {
                     direction="column"
                     alignItems="flex-start"
                     justify="flex-start"
-                    wrap = "reverse"
-                    style={{ minHeight: '100vh' }}
+                    wrap="reverse"
+                    style={{minHeight: '100vh'}}
                 >
                     <Grid item xs={4}>
                         {previousTalk}
                     </Grid>
 
-                </Grid> 
-
+                </Grid>
 
 
                 <Drawer
-                        className={classes.drawer}
-                        variant="permanent"
-                        classes={{
-                            paper: classes.innerdrawerPaper,
-                        }}
-                        alignItems="flex-end"
-                        justify="flex-end"
-                        anchor="right"
-                    >
-                        {/* <MessageList/> */}
-                        {chatWindow}
-                        
-                
-                    </Drawer>
+                    className={classes.drawer}
+                    variant="permanent"
+                    classes={{
+                        paper: classes.innerdrawerPaper,
+                    }}
+                    alignItems="flex-end"
+                    justify="flex-end"
+                    anchor="right"
+                >
+                    {/* <MessageList/> */}
+                    {chatWindow}
 
-                    <switch>
-   
-                        <Route exact path="/chat">
-                        </Route>
 
-                    </switch>
+                </Drawer>
+
+                <switch>
+
+                    <Route exact path="/chat">
+                    </Route>
+
+                </switch>
 
             </div>
         </React.Fragment>
@@ -277,8 +276,10 @@ const ChatPage = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return { username: state.users,
-             messages: state.messages };
+    return {
+        username: state.users,
+        messages: state.messages
+    };
 };
 
 const mapAction = {

@@ -3,6 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import React, {useEffect, useState} from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {connect} from "react-redux";
+
 const styles = makeStyles((theme) => ({
     avatar2: {
         width: theme.spacing(5),
@@ -15,19 +16,30 @@ const styles = makeStyles((theme) => ({
     },
 }));
 
-const Contact = (props)=>{
+const Contact = (props) => {
     const [chosen, setChosen] = useState(false);
-    useEffect(()=>{if(props.currentChatter === props.name){
-        setChosen(true);
-    }else {setChosen(false)}},[props.currentChatter])
+
+    useEffect(() => {
+        if (props.currentChatter === props.name) {
+            setChosen(true);
+        } else {
+            setChosen(false)
+        }
+    }, [props.currentChatter])
     const classes = styles();
-    return <Grid item style = {{display: 'flex', alignItems:'center'}} className="pl-1 pr-0 mr-0 ml-1 mb-1" >
-        <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center" style = {(!chosen)||!props.displayName?{backgroundColor: '#e03d38'}:{
-            backgroundColor: '#e03d38', border: '2px solid #58d68d'}}>
-            {props.name.substring(0,2)}
+
+    return <Grid item style={{display: 'flex', alignItems: 'center'}} className="pl-1 pr-0 mr-0 ml-1 mb-1">
+        <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+                style={(!chosen) || !props.displayName ? {backgroundColor: '#e03d38'} : {
+                    backgroundColor: '#e03d38', border: '2px solid #58d68d'
+                }}>
+            {props.name.substring(0, 2)}
         </Avatar>
-        { props.displayName?
-            <div className="pr-2" onClick={()=>{props.switchChatter(props.name);setChosen(!chosen)}}>
+        {props.displayName ?
+            <div className="pr-2" onClick={() => {
+                props.switchChatter(props.name);
+                setChosen(!chosen)
+            }}>
                 {props.name}
             </div> :
             <div></div>
@@ -47,7 +59,7 @@ const mapStateToProps = (state) => {
 
 
 const mapAction = {
-    switchChatter: (person)=> {
+    switchChatter: (person) => {
         return {
             type: "CHAT_SWITCH",
             payload: person

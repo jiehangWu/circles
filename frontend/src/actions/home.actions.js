@@ -1,4 +1,4 @@
-import { history } from "../helpers/history";
+import {history} from "../helpers/history";
 
 
 const loadHome = () => {
@@ -22,7 +22,7 @@ const loadHome = () => {
                 type: "LOAD_HOME",
                 payload: parsedMsg
             });
-            // send message to reducer->socket server
+            // send message to socket to add user
             dispatch({
                 type: "CLIENT_ADD_USER",
                 payload: {
@@ -30,6 +30,7 @@ const loadHome = () => {
                     payload: parsedMsg.username
                 }
             });
+            // add self as the current chatter
             dispatch({
                 type: "CHAT_SWITCH",
                 payload: parsedMsg.username

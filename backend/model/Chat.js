@@ -1,18 +1,21 @@
 const mongoose = require('mongoose');
 
-const ChatSchema = new mongoose.Schema ({
+const ChatSchema = new mongoose.Schema({
     contact0: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
     },
-    contact1:{
+    contact1: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
     },
-    c1HasRead: Boolean,
-    c2HasRead: Boolean,
-    updateDate: String,
-    messages: [String]
+    //c1HasRead: Boolean,
+    //c2HasRead: Boolean,
+    //updateDate: String,
+    messages: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'messages'
+    }]
 });
 
 const Chat = mongoose.model('chats', ChatSchema);

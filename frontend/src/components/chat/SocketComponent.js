@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
-// import {HomeActions} from "../../actions/home.actions";
 import {connect} from "react-redux";
-// import {createConnect} from "react-redux/lib/connect/connect";
 import SockJS from "sockjs";
 import {history} from "../../helpers/history";
 
@@ -11,37 +9,36 @@ import {history} from "../../helpers/history";
 let url = "ws://127.0.0.1:5000";
 
 function heartCheck(socket, username) {
-    this.timeout = 2000; //5s
+    this.timeout = 2000; //2s
     this.timeoutObj = null;
     this.serverTimeoutObj = null;
-    this.reset = ()=> {
+    this.reset = () => {
         clearTimeout(this.timeoutObj);
         clearTimeout(this.serverTimeoutObj);
         this.start();
     };
-    this.start = ()=> {
+    this.start = () => {
         let self = this;
-        this.timeoutObj = setTimeout(()=> {
-            console.log("username "+ username);
-                socket.send(JSON.stringify({
+        this.timeoutObj = setTimeout(() => {
+            console.log("username " + username);
+            socket.send(JSON.stringify({
                 purpose: "HEART_BEAT",
                 payload: username
             }));
-            self.serverTimeoutObj = setTimeout(()=> {
+            self.serverTimeoutObj = setTimeout(() => {
                 socket.close();
             }, self.timeout)
         }, this.timeout)
     };
 }
 
-const SocketComponent =  (props)=> {
-    console.log("socket -------"+props);
-    const [response, setResponse] = useState("");
+const SocketComponent = (props) => {
+    console.log("socket -------" + props);
 
     let hc;
     let restart;
 
-    const startSocket = ()=> {
+    const startSocket = () => {
         if (!window.WebSocket) {
             console.log("MozWebSocket");
             window.WebSocket = window.MozWebSocket;
@@ -49,7 +46,7 @@ const SocketComponent =  (props)=> {
         }
         if (window.WebSocket) {
             console.log('WebSocket');
-            props.connectSocket( new WebSocket(url));
+            props.connectSocket(new WebSocket(url));
         } else {
             console.log("SOCKJS");
             props.connectSocket(new SockJS(url));
@@ -57,11 +54,11 @@ const SocketComponent =  (props)=> {
     };
 
     useEffect(() => {
-        props.socket.onopen = ()=> {
+        props.socket.onopen = () => {
 
         };
         // receiving message handler
-        props.socket.onmessage = (event)=>{
+        props.socket.onmessage = (event) => {
             let message = JSON.parse(event.data);
             console.log(message);
             if (message.purpose === "SOCKET_INIT_CONTACTS") {
@@ -71,6 +68,7 @@ const SocketComponent =  (props)=> {
                     restart = false;
                 }
                 hc.start();
+                // init contact list and empty message array
                 props.socketInitContactsList(message.payload);
                 props.socketInitContacts(message.payload);
             }
@@ -78,23 +76,23 @@ const SocketComponent =  (props)=> {
                 props.socketAddContact(message.payload);
                 props.socketAddContactList(message.payload);
             }
-            if(message.purpose === "SOCKET_SEND_MESSAGE") {
+            if (message.purpose === "SOCKET_SEND_MESSAGE") {
                 props.addOneMessageClient(message.payload);
             }
             hc.reset();
         };
-        props.socket.onerror = ()=> {
+        props.socket.onerror = () => {
             console.log("socket error");
             startSocket();
             restart = true;
         };
-        props.socket.onclose = (e)=> {
+        props.socket.onclose = (e) => {
             console.log(e);
-           startSocket();
+            startSocket();
             restart = true;
         };
 
-        }, [props.username, props.socket, history]);
+    }, [props.username, props.socket, history]);
     return <div></div>;
 };
 
@@ -106,37 +104,37 @@ const mapStateToProps = (state) => {
 };
 
 const mapAction = {
-    connectSocket: (socket)=> {
+    connectSocket: (socket) => {
         return ({
             type: 'SOCKET_CONNECT',
             payload: socket
         });
     },
-    socketAddContact: (user)=> {
+    socketAddContact: (user) => {
         return ({
             type: "ADD_ONE_CONTACT",
             payload: user
         });
     },
-    socketAddContactList: (user)=> {
+    socketAddContactList: (user) => {
         return ({
             type: "ADD_ONE_CONTACT_LIST",
             payload: user
         });
     },
-    socketInitContactsList: (users)=> {
+    socketInitContactsList: (users) => {
         return ({
-            type:"SOCKET_INIT_CONTACTS_LIST",
+            type: "SOCKET_INIT_CONTACTS_LIST",
             payload: users
         });
     },
-    socketInitContacts: (users)=> {
+    socketInitContacts: (users) => {
         return ({
-            type:"SOCKET_INIT_CONTACTS",
+            type: "SOCKET_INIT_CONTACTS",
             payload: users
         });
     },
-    addOneMessage:(message)=> {
+    addOneMessage: (message) => {
         return {
             type: "ADD_ONE_MESSAGE",
             payload: message

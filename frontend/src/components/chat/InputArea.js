@@ -1,8 +1,5 @@
 import React from 'react';
-import Card from "@material-ui/core/Card";
-import {submitChatMessage } from '../../actions/chat.actions';
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import Grid from "@material-ui/core/Grid";
 
 class InputArea extends React.Component {
@@ -19,29 +16,30 @@ class InputArea extends React.Component {
             content: "",
         });
         this.textArea.current.value = "";
-    }
+    };
 
     handleSubmit = () => {
         if (this.state.content) {
             this.props.submitChat(
                 {
                     sender: this.props.username,
-                        receiver: this.props.currentChatter,
-                        content:this.state.content
+                    receiver: this.props.currentChatter,
+                    content: this.state.content
 
                 });
             this.props.addOneMessage({
                 sender: this.props.username,
                 receiver: this.props.currentChatter,
-                content:this.state.content
+                content: this.state.content
             });
             console.log({
                 purpose: "CLIENT_SEND_MESSAGE",
                 payload: {
                     sender: this.props.username,
                     receiver: this.props.currentChatter,
-                    content:this.state.content
-            }});
+                    content: this.state.content
+                }
+            });
             this.clearAll();
         }
     };
@@ -50,34 +48,39 @@ class InputArea extends React.Component {
         this.setState({
             content: e.target.value,
         });
-    }
+    };
 
     render() {
         return (
-
-                  
-                        <Grid container direction="row" alignItems="flex-end">
-                            <Grid item>
+            <Grid container direction="row" alignItems="flex-end">
+                <Grid item>
                                 <textarea className="text-box ml-2 mr-1 my-1 mt-2"
-                                          style={{width:"500px", outlineColor:"grey", outlineWidth:"1px", backgroundColor:"white"}}
+                                          style={{
+                                              width: "500px",
+                                              outlineColor: "grey",
+                                              outlineWidth: "1px",
+                                              backgroundColor: "white"
+                                          }}
                                           id="outlined-required"
                                           rows="3"
                                           placeholder="Press Enter to send"
                                           required
-                                          onChange={(e) => {this.handleChange(e)}}
+                                          onChange={(e) => {
+                                              this.handleChange(e)
+                                          }}
                                           ref={this.textArea}>
     
                                 </textarea>
-                            </Grid>
-                            <Grid item>
-                            <button type="button" 
-                                    className={"btn btn-primary float-right mx-2 mb-3"
-                                        + (this.state.content ? "" : " disabled")} 
-                                    onClick={this.handleSubmit}>
-                                Submit
-                            </button>
-                            </Grid>
-                        </Grid>
+                </Grid>
+                <Grid item>
+                    <button type="button"
+                            className={"btn btn-primary float-right mx-2 mb-3"
+                            + (this.state.content ? "" : " disabled")}
+                            onClick={this.handleSubmit}>
+                        Submit
+                    </button>
+                </Grid>
+            </Grid>
         );
     }
 }
@@ -85,20 +88,18 @@ class InputArea extends React.Component {
 const mapStateToProps = (state) => {
     return {
         username: state.userinfo.username,
-        inputChat: state.inputChatReducer,
         currentChatter: state.currentChatPerson
-
     };
-}
+};
 
 const mapAction = {
-    submitChat: (message)=> {
+    submitChat: (message) => {
         return {
             type: 'CLIENT_SEND_MESSAGE',
             payload: message
         };
     },
-    addOneMessage:(message)=> {
+    addOneMessage: (message) => {
         return {
             type: "ADD_ONE_MESSAGE",
             payload: message
@@ -106,7 +107,6 @@ const mapAction = {
     }
 
 };
-
 
 
 export default connect(mapStateToProps, mapAction)(InputArea);

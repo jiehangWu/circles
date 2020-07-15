@@ -5,8 +5,9 @@ const MessageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
     },
-    date: String,
     content: String
+},{
+    timestamps: {}
 });
 
 const Message = mongoose.model('messages', MessageSchema);
