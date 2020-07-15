@@ -18,9 +18,9 @@ class DisplayTagArea extends React.Component {
                 {this.props.tags.map((content) =>
                     <Tag
                         content={content}
-                        key = {content} />
+                        key={content} />
                 )}
- 
+
             </div>);
     }
 }

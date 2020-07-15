@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-export const contacts = (init = [], action) => {
-  if (action.type === 'SOCKET_INIT_CONTACTS') {
-    console.log(action.payload);
-    return action.payload;
-  }
-  if (action.type === 'SOCKET_ADD_CONTACT') {
-    const addArray = init.slice();
-    addArray.splice(addArray.length, 0, action.payload);
-    console.log(addArray);
-    return addArray;
-  }
-  return init;
-=======
 // currently not in use, reserve for reference
 // deep object reducer for chat
 // init has 3 parts: 1 chats (key value) 2 order display order of chats 3 current chatter
@@ -99,5 +85,4 @@ export const chatsReducer = (init = {}, action) => {
     }
 
     return init;
->>>>>>> origin/chat_temp
 };

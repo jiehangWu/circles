@@ -1,24 +1,5 @@
 // store the socket in Reducer and can reconnect(i.e., replace) easily
 // also used to send message to server(a little strange, but the information can be managed together)
-<<<<<<< HEAD:frontend/src/reducers/socket.reducer.js
-import socket from '../components/chat/socket';
-
-export const socketReducer = (init = socket, action) => {
-  if (action.type === 'SOCKET_CONNECT') {
-    init.close();
-    return action.payload;
-  }
-  if (action.type === 'SOCKET_CLOSE') {
-    if (init !== null) {
-      init.close();
-    }
-    return init;
-  }
-  if (action.type === 'SOCKET_ADD_USER') {
-    if (init !== null) {
-      init.send(JSON.stringify(action.payload));
-    }
-=======
 import socket from "../components/chat/socket";
 
 let add = 0;
@@ -54,9 +35,8 @@ export const chatSocketReducer = (init = socket, action) => {
         return init;
     }
 
->>>>>>> origin/chat_temp:frontend/src/reducers/chat.socket.reducer.js
     return init;
   }
 
-  return init;
-};
+//   return init;
+// };

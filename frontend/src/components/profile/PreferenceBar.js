@@ -52,7 +52,7 @@ class PreferenceBar extends React.Component {
 
     render() {
         return (
-            <div className="container" style = {styles.container}>
+            <div className="container" style={styles.container}>
                 {/* {this.componentDidMount()} */}
                 <Card>
                     <div className={"DisplayTags"} >

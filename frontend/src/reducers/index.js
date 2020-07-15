@@ -19,8 +19,6 @@ export const rootReducer = combineReducers({
     register,
     posts,
     userinfo,
-    contacts,
-    socketReducer,
     chatMessage,
     tags,
     chatsReducer,
