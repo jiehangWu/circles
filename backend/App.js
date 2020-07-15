@@ -25,9 +25,9 @@ logger.level = 'info';
 // The ordering is important too
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server: server , maxPayload:200});
+const wss = new WebSocket.Server({server: server, maxPayload: 200});
 
-mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
+mongoose.connect(process.env.DB_URI, {useNewUrlParser: true});
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true,
@@ -62,13 +62,13 @@ app.use('/search', searchRoutes);
 let socketControl = {};
 let userList = {};
 
+//websocket server
 wss.on('connection', (ws, req) => {
-    logger.info("size " + wss.clients.size);
     logger.info('WebSocket is connected...');
     logger.info("hello");
-    ws.on('message', (message) => {
-        logger.info("size " + wss.clients.size);
+    ws.on('message', function incoming(message) {
         let m = JSON.parse(message);
+        //HEART_BEAT
         if (m.purpose === "HEART_BEAT") {
             //logger.info(wss.clients.size);
             logger.info(m);
@@ -89,12 +89,12 @@ wss.on('connection', (ws, req) => {
                     }));
                 });
                 delete socketControl[m.payload];
-            }, 10000);
+            }, 5000);
             socketControl[m.payload] = tm;
         }
-        if (m.purpose === "SOCKET_ADD_USER") {
+        // SOCKET_ADD_USER
+        if (m.purpose === "CLIENT_ADD_USER") {
             userList[m.payload] = ws;
-            //add one user
             Object.values(userList).forEach((client) => {
                 client.send(JSON.stringify({
                     purpose: "SOCKET_INIT_CONTACTS",
@@ -102,7 +102,17 @@ wss.on('connection', (ws, req) => {
                 }));
             });
             logger.info(Object.keys(userList));
-            // send all the online users
+        }
+        if (m.purpose === "CLIENT_SEND_MESSAGE") {
+            logger.info(m);
+            let message = m.payload;
+            let receiver = message.receiver;
+            if (userList[receiver]) {
+                userList[receiver].send(JSON.stringify({
+                    purpose: "SOCKET_SEND_MESSAGE",
+                    payload: message
+                }));
+            }
         }
     });
 });

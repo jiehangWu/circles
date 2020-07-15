@@ -26,8 +26,6 @@ const loadAllChats = () => {
 };
 
 
-
-
 export const initChat = (messages) => {
     return {
         type: 'INIT_CHAT',
@@ -41,7 +39,6 @@ export const initChat = (messages) => {
 //         users: ["usr1", "usr2"]
 //     }
 // }
-
 
 
 export const submitChatMessage = (message, time) => {

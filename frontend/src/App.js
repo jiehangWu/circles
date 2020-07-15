@@ -9,6 +9,7 @@ import Home from "./components/home/Home";
 import { PrivateRoute } from "./helpers/PrivateRouter";
 import Profile from "./components/profile/Profile";
 import ChatPage from './components/chat/ChatPage';
+// import MessageList from './components/Chat/MessageList'
 
 class App extends React.Component {
 	constructor(props) {

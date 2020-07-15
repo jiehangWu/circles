@@ -11,6 +11,7 @@ import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+<<<<<<< HEAD
 import { history } from '../../helpers/history';
 import { HomeActions } from '../../actions/home.actions';
 
@@ -21,6 +22,16 @@ import { PrivateRoute } from '../../helpers/PrivateRouter';
 import { passPostId } from '../../actions/user.actions';
 
 
+=======
+import {history} from "../../helpers/history"
+import {HomeActions} from "../../actions/home.actions";
+import {connect} from "react-redux";
+import SocketComponent from '../chat/SocketComponent'
+import ContactList from "../chat/ContactList";
+import LoginForm from "../entrance/LoginForm";
+import {PrivateRoute} from "../../helpers/PrivateRouter";
+import ChatPage2 from "../chat/ChatPage2";
+>>>>>>> origin/chat_temp
 
 const drawerWidth = 150;
 
@@ -123,10 +134,21 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                <div className={classes.content}>
+                {/* <div className={classes.content}>
                     <InputArea />
                     <PostList />
-                </div>
+                </div> */}
+
+                    <switch>
+                        <Route exact path="/home">
+                            {Home}
+                        </Route>
+                        <Route path="/home/chat">
+                            <ChatPage2/>
+                        </Route>
+                        {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
+
+                    </switch>
 
                 {/* right side bar */}
                 <div className={classes.root}>

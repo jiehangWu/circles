@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
@@ -8,13 +9,23 @@ import { ChatActions } from "../../actions/chat.actions";
 
 //@material-ui
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+=======
+import React, {useEffect, useState} from "react";
+import InputArea from './InputArea';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
+>>>>>>> origin/chat_temp
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { blue, blueGrey } from '@material-ui/core/colors';
+import {blue, blueGrey} from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+<<<<<<< HEAD
+=======
+import {connect} from "react-redux";
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
+>>>>>>> origin/chat_temp
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -24,7 +35,12 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+<<<<<<< HEAD
 
+=======
+import Message from './message';
+import "./ChatPage.css";
+>>>>>>> origin/chat_temp
 
 const styles = makeStyles((theme) => ({
     root: {
@@ -95,23 +111,28 @@ const ChatPage = (props) => {
 
     const name = (
         <div className={classes.name}>
-            <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
-            <p>@{props.username}123</p><br />
+            <h4 style={{fontWeight: '900'}}> {props.username}</h4>
+            <p>@{props.username}123</p><br/>
         </div>
     );
 
     const leftSideBar = (
         <div className={classes.background}>
-            <div className={classes.toolbar} />
+            <div className={classes.toolbar}/>
             <Avatar aria-label="profile-pic" className={classes.logo}>
                 假装logo
             </Avatar>
             {name}
             <IconButton color='primary'>
+<<<<<<< HEAD
                 <AccountCircleIcon onClick={() => history.push('./profile')} />
+=======
+                <AccountCircleIcon/>
+                <Link to="profile" className="btn btn-link">Profile</Link>
+>>>>>>> origin/chat_temp
             </IconButton>
             <IconButton color='primary'>
-                <SettingsIcon />
+                <SettingsIcon/>
             </IconButton>
         </div>
     );
@@ -120,7 +141,7 @@ const ChatPage = (props) => {
         <List className={classes.chatHistory}>
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
                 </ListItemAvatar>
                 <ListItemText
                     primary="Brunch this weekend?"
@@ -133,18 +154,18 @@ const ChatPage = (props) => {
                                 color="textPrimary"
                             >
                                 God Wu
-                  </Typography>
+                            </Typography>
                             {" — I'll be in your neighborhood doing errands this…"}
                         </React.Fragment>
                     }
                 />
             </ListItem>
 
-            <Divider variant="inset" component="li" />
+            <Divider variant="inset" component="li"/>
 
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+                    <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg"/>
                 </ListItemAvatar>
                 <ListItemText
                     primary="Summer BBQ"
@@ -157,18 +178,18 @@ const ChatPage = (props) => {
                                 color="textPrimary"
                             >
                                 Brother Fan
-                  </Typography>
+                            </Typography>
                             {" — Wish I could come, but I'm out of town this…"}
                         </React.Fragment>
                     }
                 />
             </ListItem>
 
-            <Divider variant="inset" component="li" />
+            <Divider variant="inset" component="li"/>
 
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg"/>
                 </ListItemAvatar>
                 <ListItemText
                     primary="Oui Oui"
@@ -181,7 +202,7 @@ const ChatPage = (props) => {
                                 color="textPrimary"
                             >
                                 Master Xiaobo
-                  </Typography>
+                            </Typography>
                             {' — Do you have Paris recommendations? Have you ever…'}
 
                         </React.Fragment>
@@ -193,18 +214,27 @@ const ChatPage = (props) => {
     );
 
     const chatWindow = (<div className={classes.root}>
-        <CssBaseline />
+        <CssBaseline/>
         <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
                 <Typography variant="h6" noWrap>
                     Chat with user.1
+<<<<<<< HEAD
             </Typography>
+=======
+                </Typography>
+>>>>>>> origin/chat_temp
             </Toolbar>
         </AppBar>
 
         <main className={classes.content}>
+<<<<<<< HEAD
             <div className={classes.toolbar} />
             <MessageList />
+=======
+            <div className={classes.toolbar}/>
+            <MessageList/>
+>>>>>>> origin/chat_temp
         </main>
     </div>);
 
@@ -214,8 +244,13 @@ const ChatPage = (props) => {
 
     return (
         <React.Fragment>
+<<<<<<< HEAD
             <CssBaseline />
 
+=======
+            <CssBaseline/>
+            <SocketComponent/>
+>>>>>>> origin/chat_temp
             <div className="d-flex justify-content-center">
                 {/* left side bar */}
                 <div className={classes.root}>
@@ -239,14 +274,21 @@ const ChatPage = (props) => {
                     alignItems="flex-start"
                     justify="flex-start"
                     wrap="reverse"
+<<<<<<< HEAD
                     style={{ minHeight: '100vh' }}
+=======
+                    style={{minHeight: '100vh'}}
+>>>>>>> origin/chat_temp
                 >
                     <Grid item xs={4}>
                         {previousTalk}
                     </Grid>
 
                 </Grid>
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/chat_temp
 
 
                 <Drawer
@@ -261,6 +303,19 @@ const ChatPage = (props) => {
                 >
                     {/* <MessageList/> */}
                     {chatWindow}
+<<<<<<< HEAD
+=======
+
+
+                </Drawer>
+
+                <switch>
+
+                    <Route exact path="/chat">
+                    </Route>
+
+                </switch>
+>>>>>>> origin/chat_temp
 
                 </Drawer>
             </div>
