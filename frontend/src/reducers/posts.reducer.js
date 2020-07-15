@@ -60,6 +60,11 @@ export const posts = (state = initial, action) => {
         uploadedImgLink: '',
         postList: state.postList,
       };
+    case 'LOAD_PROFILE_POSTS':
+      console.log("fffffffffffffffffff");
+      return {
+        postList: action.payload.posts,
+      };
     default:
       return state;
   }

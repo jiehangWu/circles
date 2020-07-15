@@ -138,6 +138,33 @@ const submitComment = (comment) => (dispatch) => {
   });
 };
 
+const loadProfilePosts = (currId) => {
+  return dispatch => {
+      fetch('http://localhost:5000/post/profile/posts/' + currId, {
+          method: "GET",
+          headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+          },
+          credentials: 'include',
+      }).then((response) => {
+          if (response.ok) {
+              return response.text();
+          }
+          throw new Error("error in response");
+      }).then((msg) => {
+          let parsedMsg = JSON.parse(msg);
+          console.log(parsedMsg);
+          dispatch({
+              type: "LOAD_PROFILE_POSTS",
+              payload: parsedMsg
+          });
+      }).catch((err) => {
+          console.log("going back");
+      });
+  };
+};
+
 export const PostActions = {
   submitPost,
   likePost,
@@ -145,4 +172,5 @@ export const PostActions = {
   loadAllPosts,
   uploadImage,
   submitComment,
+  loadProfilePosts
 };

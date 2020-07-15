@@ -136,10 +136,10 @@ router.get('/profile/:id', async (req, res) => {
     if (result) {
         const username = result.username;
         const tags = result.tags;
-        const posts = await PostController.loadPostsByIds(result.posts);
+        // const posts = await PostController.loadPostsByIds(result.posts);
 
 
-        // const posts = result.posts;
+        const posts = result.posts;
         logger.info(`Display ${username}`);
         res.status(200).send({ username, userId, tags, posts });
     } else {

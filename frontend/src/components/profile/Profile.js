@@ -131,6 +131,11 @@ const Profile = (props) => {
         </div>
     );
 
+    useEffect(() => {
+        props.loadProfile(history.location.state.homeId);
+    }, []);
+
+
     // only need to disable delete button in the post container if the id doesn't match the CurrID
     // if (props.currUserId === props.userId) {
     return (

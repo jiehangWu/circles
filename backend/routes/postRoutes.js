@@ -144,4 +144,17 @@ router.delete("/:postId", (req, res, next) => {
     })
 });
 
+router.get('/profile/posts/:id', async (req, res) => {
+    const userId = req.params.id;
+    logger.info(userId);
+    const result = await userController.findUserByUserId(userId);
+    if (result) {
+        const posts = await PostController.loadPostsByIds(result.posts);
+        res.status(200).send({ posts });
+    } else {
+        logger.error(result);
+        res.status(400).send("error fetching posts for one user");
+    }
+});
+
 module.exports = router;

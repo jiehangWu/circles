@@ -2,6 +2,7 @@ import React from 'react';
 import PostContainer from '../home/PostContainer';
 import { connect } from 'react-redux';
 import { ProfileActions } from '../../actions/profile.actions';
+import { PostActions } from '../../actions/posts.actions'; 
 
 class PostList extends React.Component {
 	constructor(props) {
@@ -9,18 +10,19 @@ class PostList extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.loadProfile(this.props.currID);
+		this.props.loadPosts(this.props.currID);
 	}
 
 	componentWillMount() {
-		this.props.loadProfile(this.props.currID);
+		this.props.loadPosts(this.props.currID);
 	}
 
 	render() {
+		console.log("_________))))))______", this.props.state)
 		return (
 			<React.Fragment>
-				{this.props.posts ?
-					this.props.posts.map((post) =>
+				{this.props.postList ?
+					this.props.postList.map((post) =>
 						<PostContainer postId={post._id}
 							username={post.user.username}
 							userId={post.user._id}
@@ -30,6 +32,7 @@ class PostList extends React.Component {
 							imgLink={post.imgLink}
 							comments={post.comments} />
 					) : ''}
+					{/* {this.props.posts} */}
 			</React.Fragment>
 		);
 	}
@@ -38,11 +41,14 @@ class PostList extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		posts: state.userinfo.posts,
+		postList: state.posts.postList,
+		state: state
 	};
 };
 
 const mapAction = {
-	loadProfile: ProfileActions.loadProfile
+	loadProfile: ProfileActions.loadProfile,
+	loadPosts: PostActions.loadProfilePosts
 };
 
 export default connect(mapStateToProps, mapAction)(PostList);
