@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import LogOutButton from "../home/LogOutButton";
 import { history } from "../../helpers/history";
 import { connect } from "react-redux";
@@ -77,7 +77,6 @@ const Profile = (props) => {
     props.loadProfile(idFromHome);
 
     const classes = styles();
-    const theme = useTheme();
     const name = (
         <div className={classes.name}>
             <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
@@ -95,8 +94,7 @@ const Profile = (props) => {
                 {name}
 
                 <IconButton color='primary'>
-                    {/* <HomeIcon onClick={() => history.push('./home')} /> */}
-                    <HomeIcon onClick={() => history.goBack()} />
+                    <HomeIcon onClick={() => history.push("./home")} />
                 </IconButton>
 
                 <IconButton>
@@ -109,7 +107,7 @@ const Profile = (props) => {
 
 
                 <br></br>
-                <DisplayTagArea profileTags={props.tags.tags} currID = {idFromHome} />
+                <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} />
                 <br></br>
             </center>
         </div>
@@ -168,7 +166,7 @@ const Profile = (props) => {
                     <center>
                         <PreferenceBar />
                     </center>
-                    <PostList currID = {idFromHome} />
+                    <PostList currID={idFromHome} />
                 </div>
 
                 {/* right side bar */}

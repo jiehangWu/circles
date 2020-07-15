@@ -61,7 +61,6 @@ export const posts = (state = initial, action) => {
         postList: state.postList,
       };
     case 'LOAD_PROFILE_POSTS':
-      console.log("fffffffffffffffffff");
       return {
         postList: action.payload.posts,
       };

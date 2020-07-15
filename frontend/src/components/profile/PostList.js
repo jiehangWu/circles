@@ -18,7 +18,6 @@ class PostList extends React.Component {
 	}
 
 	render() {
-		console.log("_________))))))______", this.props.state)
 		return (
 			<React.Fragment>
 				{this.props.postList ?
@@ -32,7 +31,6 @@ class PostList extends React.Component {
 							imgLink={post.imgLink}
 							comments={post.comments} />
 					) : ''}
-					{/* {this.props.posts} */}
 			</React.Fragment>
 		);
 	}
@@ -41,8 +39,7 @@ class PostList extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		posts: state.userinfo.posts,
-		postList: state.posts.postList,
-		state: state
+		postList: state.posts.postList
 	};
 };
 

@@ -22,11 +22,11 @@ class Tag extends React.Component {
     render() {
         return (
             // <div>
-                <Chip size="medium"
-                    label={this.props.content}
-                    onDelete={this.handleDelete}
-                    color="primary"
-                    icon={<LoyaltyIcon />}> </Chip>
+            <Chip size="medium"
+                label={this.props.content}
+                onDelete={this.handleDelete}
+                color="primary"
+                icon={<LoyaltyIcon />}> </Chip>
             // </div>
         )
     }
