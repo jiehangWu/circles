@@ -118,7 +118,3 @@ export const userActions = {
   logOut
 };
 
-export const passPostId = (id) => ({
-  type: 'PASS_ID',
-  payload: id,
-});

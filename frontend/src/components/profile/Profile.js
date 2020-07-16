@@ -7,6 +7,7 @@ import DisplayTagArea from './DisplayTagArea';
 import { ProfileActions } from "../../actions/profile.actions";
 import PostList from './PostList';
 
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -90,7 +91,6 @@ const Profile = (props) => {
             <center>
                 <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
                 {name}
-                {/* <Avatar src="circles/resources/avatar0.jpg" /> */}
 
                 <IconButton color='primary'>
                     <HomeIcon onClick={() => history.push("./home")} />
@@ -126,7 +126,7 @@ const Profile = (props) => {
     );
 
     useEffect(() => {
-        // props.loadProfile(history.location.state.homeId);
+        // props.loadProfile(hixrstory.location.state.homeId);
     }, []);
 
     return (

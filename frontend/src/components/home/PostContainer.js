@@ -17,7 +17,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 import Modal from '@material-ui/core/Modal';
 import CommentSection from './CommentSection';
 import { history } from '../../helpers/history';
-import { passPostId } from '../../actions/user.actions';
 
 
 const styles = makeStyles((theme) => ({
@@ -141,7 +140,6 @@ const mapStateToProps = (state) => {
 const mapAction = {
 	likePost: PostActions.likePost,
 	deletePost: PostActions.deletePost,
-	passId: passPostId,
 };
 
 export default connect(mapStateToProps, mapAction)(PostContainer);

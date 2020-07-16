@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import PostList from './PostList';
+import CirclesList from './CirclesList';
 import InputArea from './InputArea';
 import LogOutButton from './LogOutButton';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -68,7 +69,7 @@ const Home = (props) => {
 
     const leftSideBar = (
         <div className={classes.background}>
-            <SocketComponent />
+            {/* <SocketComponent /> */}
             <div className={classes.toolbar} />
             <Avatar aria-label="profile-pic" className={classes.avatar}>
                 W
@@ -151,6 +152,7 @@ const Home = (props) => {
                         anchor="right"
                     >
                         <LogOutButton />
+                        <CirclesList />
                     </Drawer>
                 </div>
 
