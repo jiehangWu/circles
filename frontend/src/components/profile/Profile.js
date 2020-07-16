@@ -91,7 +91,7 @@ const Profile = (props) => {
             <center>
                 <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
                 {name}
-                {/* <Avatar src= "circles/resources/avatar0.jpg" /> */}
+                <Avatar src= "circles/resources/avatar0.jpg" />
 
                 <IconButton color='primary'>
                     <HomeIcon onClick={() => history.push("./home")} />
