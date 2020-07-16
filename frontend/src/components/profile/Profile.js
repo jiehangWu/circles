@@ -159,7 +159,7 @@ const Profile = (props) => {
                     <center>
                         <PreferenceBar self={self} />
                     </center>
-                    <PostList currID={idFromHome} />
+                    <PostList currID={idFromHome} self={self}/>
                 </div>
 
                 {/* right side bar */}

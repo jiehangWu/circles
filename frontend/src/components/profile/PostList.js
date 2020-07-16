@@ -2,22 +2,22 @@ import React from 'react';
 import PostContainer from '../home/PostContainer';
 import { connect } from 'react-redux';
 import { ProfileActions } from '../../actions/profile.actions';
-import { PostActions } from '../../actions/posts.actions'; 
+import { PostActions } from '../../actions/posts.actions';
 
 const styles = {
 	textBox: {
-	    width: "5%",
-	    border: '0',
+		width: "5%",
+		border: '0',
 	},
- 
+
 	container: {
-	    width: "36%",
-	    height: "18%",
-	    border: '0',
-	    padding: '10px',
-	    backgroundColor: 'transparent'
+		width: "36%",
+		height: "18%",
+		border: '0',
+		padding: '10px',
+		backgroundColor: 'transparent'
 	}
- }
+}
 
 class PostList extends React.Component {
 	constructor(props) {
@@ -28,19 +28,15 @@ class PostList extends React.Component {
 		this.props.loadPosts(this.props.currID);
 	}
 
-	componentWillMount() {
-		this.props.loadPosts(this.props.currID);
-	}
-
 	render() {
 		return (
 			<React.Fragment>
 				{this.props.postList ?
 					this.props.postList.map((post) =>
 						<PostContainer postId={post._id}
-						style={styles.textBox}
+							style={styles.textBox}
 							username={post.user.username}
-							userId={post.user._id}
+							userId={this.props.self ? this.props.currID : ""}
 							date={post.date}
 							content={post.content}
 							likes={post.likes}

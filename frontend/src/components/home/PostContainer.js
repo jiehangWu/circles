@@ -79,7 +79,6 @@ const PostContainer = (props) => {
 								{props.username}
 							</Avatar> : <Avatar aria-label="profile-pic" className={classes.avatar}
 								onClick={() => {
-									// props.passId(props.userId); history.push('./profile/' + props.userId); 
 									history.push({
 										pathname: './profile',
 										state: {
@@ -93,7 +92,7 @@ const PostContainer = (props) => {
 							</Avatar>
 					}
 					action={
-						props.currUserId === props.userId ?
+						props.currUserId === props.userId ? 
 							<IconButton aria-label="settings">
 								<ClearIcon onClick={() => props.deletePost(props.postId)} />
 							</IconButton> : ''

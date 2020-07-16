@@ -77,7 +77,6 @@ class InputArea extends React.Component {
                     <div className="row">
 
                         <div className="col-lg-10">
-                            {/* <textarea className="text-box mx-2 mt-3" */}
                             <textarea className="text-box mx-2 mt-3"
                                 style={styles.textBox}
                                 rows="3"
