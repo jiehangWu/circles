@@ -95,6 +95,7 @@ wss.on('connection', (ws, req) => {
         // SOCKET_ADD_USER
         if (m.purpose === "CLIENT_ADD_USER") {
             userList[m.payload] = ws;
+            logger.info(m);
             Object.values(userList).forEach((client) => {
                 client.send(JSON.stringify({
                     purpose: "SOCKET_INIT_CONTACTS",
