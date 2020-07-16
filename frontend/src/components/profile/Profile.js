@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import LogOutButton from "../home/LogOutButton";
 import { history } from "../../helpers/history";
 import { connect } from "react-redux";
@@ -6,7 +6,6 @@ import PreferenceBar from "./PreferenceBar";
 import DisplayTagArea from './DisplayTagArea';
 import { ProfileActions } from "../../actions/profile.actions";
 import PostList from './PostList';
-
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -75,6 +74,7 @@ const styles = makeStyles((theme) => ({
 const Profile = (props) => {
     const idFromHome = history.location.state.homeId;
     props.loadProfile(idFromHome);
+    const self = history.location.state.self;
 
     const classes = styles();
     const name = (
@@ -88,10 +88,9 @@ const Profile = (props) => {
         <div className={classes.background}>
             <div className={classes.toolbar} />
             <center>
-                <Avatar aria-label="profile-pic" className={classes.avatar}>
-                    W
-                </Avatar>
+                <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
                 {name}
+                {/* <Avatar src="circles/resources/avatar0.jpg" /> */}
 
                 <IconButton color='primary'>
                     <HomeIcon onClick={() => history.push("./home")} />
@@ -103,12 +102,9 @@ const Profile = (props) => {
 
                 <IconButton color='secondary'>
                     <ChatIcon onClick={() => history.push('./chat')} />
-                </IconButton>
+                </IconButton><br></br>
 
-
-                <br></br>
-                <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} />
-                <br></br>
+                <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} self={self} /><br></br>
             </center>
         </div>
     );
@@ -130,12 +126,9 @@ const Profile = (props) => {
     );
 
     useEffect(() => {
-        props.loadProfile(history.location.state.homeId);
+        // props.loadProfile(history.location.state.homeId);
     }, []);
 
-
-    // only need to disable delete button in the post container if the id doesn't match the CurrID
-    // if (props.currUserId === props.userId) {
     return (
         <React.Fragment>
             <CssBaseline />
@@ -164,7 +157,7 @@ const Profile = (props) => {
                     <br></br>
                     <br></br>
                     <center>
-                        <PreferenceBar />
+                        <PreferenceBar self={self} />
                     </center>
                     <PostList currID={idFromHome} />
                 </div>

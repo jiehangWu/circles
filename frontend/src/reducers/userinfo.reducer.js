@@ -27,11 +27,6 @@ export const userinfo = (state = {}, action) => {
         tags: action.payload.tags,
         posts: action.payload.posts
       };
-    case "PASS_ID":
-      return {
-        ...state,
-        prevId: action.payload,
-      };
     default:
       return state;
   }

@@ -4,6 +4,21 @@ import { connect } from 'react-redux';
 import { ProfileActions } from '../../actions/profile.actions';
 import { PostActions } from '../../actions/posts.actions'; 
 
+const styles = {
+	textBox: {
+	    width: "5%",
+	    border: '0',
+	},
+ 
+	container: {
+	    width: "36%",
+	    height: "18%",
+	    border: '0',
+	    padding: '10px',
+	    backgroundColor: 'transparent'
+	}
+ }
+
 class PostList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,6 +38,7 @@ class PostList extends React.Component {
 				{this.props.postList ?
 					this.props.postList.map((post) =>
 						<PostContainer postId={post._id}
+						style={styles.textBox}
 							username={post.user.username}
 							userId={post.user._id}
 							date={post.date}
