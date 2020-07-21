@@ -39,7 +39,7 @@ const authRoutes = require('./routes/authRoutes');
 const awsRoutes = require('./routes/awsRoutes');
 const postRoutes = require('./routes/postRoutes');
 const chatRoutes = require('./routes/chatRoutes');
-const searchRoutes = require('./routes/SearchRoutes');
+const searchRoutes = require('./routes/searchRoutes');
 
 const MAX_AGE = 60 * 60 * 1000;
 app.use(session({

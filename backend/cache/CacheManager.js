@@ -2,7 +2,7 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const redis = require('redis');
 
-const redis_client = redis.createClient(process.env.PORT_REDIS);
+const redis_client = redis.createClient({host: 'redis'});
 
 const CACHE_EXPIRATION_TIME = 15 * 60;
 
