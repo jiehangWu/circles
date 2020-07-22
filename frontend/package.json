@@ -34,7 +34,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://circles-ubc-api.azurewebsites.net",
   "browserslist": {
     "production": [
       ">0.2%",

@@ -1,6 +1,6 @@
 const loadAllChats = () => {
     return dispatch => {
-        fetch('/chat', {
+        fetch('https://circles-ubc-api.azurewebsites.net/chat', {
             method: "GET",
             headers: {
                 Accept: "application/json",

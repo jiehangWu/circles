@@ -3,7 +3,7 @@ import { history } from "../helpers/history";
 
 const loadProfile = () => {
      return dispatch => {
-          fetch('/profile', {
+          fetch('https://circles-ubc-api.azurewebsites.net/profile', {
                method: "POST",
                headers: {
                     Accept: "application/json",

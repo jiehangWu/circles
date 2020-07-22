@@ -1,7 +1,7 @@
 import { history } from '../helpers/history';
 
 const loadHome = () => (dispatch) => {
-  fetch('/home', {
+  fetch('https://circles-ubc-api.azurewebsites.net/home', {
     method: 'POST',
     headers: {
       Accept: 'application/json',

@@ -29,7 +29,7 @@ const login = (username, password) => (dispatch) => {
 };
 
 const serviceCall = async (type, username, password) => {
-  const response = await fetch(`/${type}`, {
+  const response = await fetch(`https://circles-ubc-api.azurewebsites.net/${type}`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -75,7 +75,7 @@ const logOut = () => (dispatch) => {
 };
 
 const serviceCallLogOut = async () => {
-  await fetch('/logout', {
+  await fetch('https://circles-ubc-api.azurewebsites.net/logout', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
