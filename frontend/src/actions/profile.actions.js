@@ -3,7 +3,7 @@ import { history } from "../helpers/history";
 
 const loadProfile = () => {
      return dispatch => {
-          fetch('http://localhost:5000/profile', {
+          fetch('/profile', {
                method: "POST",
                headers: {
                     Accept: "application/json",

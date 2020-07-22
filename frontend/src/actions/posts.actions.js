@@ -1,5 +1,5 @@
 const submitPost = (post) => (dispatch) => {
-  fetch('http://localhost:5000/post/', {
+  fetch('/post', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -26,7 +26,7 @@ const submitPost = (post) => (dispatch) => {
 };
 
 const likePost = (postId) => (dispatch) => {
-  fetch(`http://localhost:5000/post/l/${postId}`, {
+  fetch(`/post/l/${postId}`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
@@ -52,7 +52,7 @@ const likePost = (postId) => (dispatch) => {
 };
 
 const loadAllPosts = () => (dispatch) => {
-  fetch('http://localhost:5000/post/', {
+  fetch('/post', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -76,7 +76,7 @@ const loadAllPosts = () => (dispatch) => {
 };
 
 const deletePost = (postId) => (dispatch) => {
-  fetch(`http://localhost:5000/post/${postId}`, {
+  fetch(`/post/${postId}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -99,7 +99,7 @@ const deletePost = (postId) => (dispatch) => {
 };
 
 const uploadImage = (data) => (dispatch) => {
-  fetch('http://localhost:5000/aws/upload', {
+  fetch('/aws/upload', {
     method: 'POST',
     body: data,
   }).then((response) => response.text()).then((address) => {
@@ -112,7 +112,7 @@ const uploadImage = (data) => (dispatch) => {
 };
 
 const submitComment = (comment) => (dispatch) => {
-  fetch(`http://localhost:5000/post/c/${comment.postId}`, {
+  fetch(`/post/c/${comment.postId}`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',

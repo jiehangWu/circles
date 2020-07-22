@@ -1,7 +1,7 @@
 import { history } from '../helpers/history';
 
 const loadHome = () => (dispatch) => {
-  fetch('http://localhost:5000/home', {
+  fetch('/home', {
     method: 'POST',
     headers: {
       Accept: 'application/json',

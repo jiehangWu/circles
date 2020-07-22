@@ -29,7 +29,7 @@ const login = (username, password) => (dispatch) => {
 };
 
 const serviceCall = async (type, username, password) => {
-  const response = await fetch(`http://localhost:5000/${type}`, {
+  const response = await fetch(`/${type}`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -75,7 +75,7 @@ const logOut = () => (dispatch) => {
 };
 
 const serviceCallLogOut = async () => {
-  await fetch('http://localhost:5000/logout', {
+  await fetch('/logout', {
     method: 'POST',
     headers: {
       Accept: 'application/json',

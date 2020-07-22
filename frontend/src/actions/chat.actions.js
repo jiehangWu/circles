@@ -1,6 +1,6 @@
 const loadAllChats = () => {
     return dispatch => {
-        fetch('http://localhost:5000/chat/', {
+        fetch('/chat', {
             method: "GET",
             headers: {
                 Accept: "application/json",
