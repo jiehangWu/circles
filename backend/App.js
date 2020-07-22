@@ -48,7 +48,6 @@ app.use(session({
     saveUninitialized: true,
     secret: keys.COOKIE_SECRET,
     cookie: {
-        domain: "localhost",
         maxAge: MAX_AGE,
     },
 }));
