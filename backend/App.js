@@ -28,7 +28,10 @@ const server = http.createServer(app);
 // const wss = new WebSocket.Server({ server: server , maxPayload:200});
 
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:3000', "https://circles-ubc.azurewebsites.net"],
+    credentials: true,
+}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
