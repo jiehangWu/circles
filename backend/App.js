@@ -28,10 +28,7 @@ const server = http.createServer(app);
 // const wss = new WebSocket.Server({ server: server , maxPayload:200});
 
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-}));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
