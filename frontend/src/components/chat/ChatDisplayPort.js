@@ -3,21 +3,39 @@ import {connect} from "react-redux";
 import Paper from '@material-ui/core/Paper';
 import Message from "./message";
 import {HomeActions} from "../../actions/home.actions";
+import {ChatActions} from "../../actions/chat.actions";
 
 
 export function ChatDisplayPort(props) {
+    let messagesEnd;
+    useEffect(() => {
+        props.loadChats();
+        scrollToBottom();
+    },[]);
+
+    useEffect(() => {
+        scrollToBottom();
+    },[props.chatsReducer1, props.person.userId]);
+
+
+    let scrollToBottom = () => {
+        messagesEnd.scrollIntoView({ behavior: "smooth" });
+    };
 
     return <React.Fragment>
         <Paper style={{background: "white"}}>
             <div style={{width: "600px", height: "400px", padding: "10px", margin: "0px", overflow: "scroll"}}>
-                {props.chatsReducer1[props.person] ?
-                    props.chatsReducer1[props.person].map((ele) => {
-                        if (ele.sender === props.username) {
-                            return <Message content={ele.content} name={ele.sender} left={false}/>
+                {props.chatsReducer1[props.person.userId] ?
+                    props.chatsReducer1[props.person.userId].map((ele) => {
+                        if (ele.sender.username === props.username) {
+                            return <Message content={ele.content} chatter={ele.sender} left={false}/>
                         } else
-                            return <Message content={ele.content} name={ele.sender} left={true}/>;
+                            return <Message content={ele.content} chatter={ele.sender} left={true}/>;
                     }) : <div></div>
                 }
+                <div style={{ float:"left", clear: "both" }}
+                     ref={(el) => { messagesEnd = el; }}>
+                </div>
             </div>
         </Paper>
     </React.Fragment>
@@ -33,7 +51,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapAction = {
-    loadHome: HomeActions.loadHome,
+
+    loadChats: ChatActions.loadChats,
 
 };
 

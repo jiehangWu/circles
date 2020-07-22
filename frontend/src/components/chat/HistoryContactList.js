@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import {HomeActions} from "../../actions/home.actions";
 import {connect} from "react-redux";
 
-function ContactList(props) {
+function HistoryContactList(props) {
 
     useEffect(() => {
         console.log(props.chatsReducer);
@@ -24,9 +24,9 @@ function ContactList(props) {
 
 const mapStateToProps = (state) => {
     return {
-        order: state.chatsListReducer,
+        order: state.historyContactsReducer,
         person: state.currentChatPerson
     };
 };
 
-export default connect(mapStateToProps, {})(ContactList);
+export default connect(mapStateToProps, {})(HistoryContactList);

@@ -23,7 +23,7 @@ class Message extends React.Component {
         return (
             <Grid container className="messageLeft, mt-1" direction="row" spacing={0} style={{float: "left"}}>
                 <Grid item>
-                <Contact name={this.props.name} displayName = {false}  online = {true}/>
+                <Contact chatter={this.props.chatter} displayName = {false}  online = {true}/>
                 </Grid>
                 <Grid item className="mt-1">
                 <Paper className="mt-2" >
@@ -43,14 +43,15 @@ class Message extends React.Component {
 
 
                 <Grid item>
-                    <Contact name={this.props.name} displayName = {false}/>
+                    <Contact chatter = {this.props.chatter} displayName = {false}/>
                 </Grid>
                 <Grid item className="mt-1">
-                    <Paper className="mt-2" style={{background:"#ADD8E6"}}>
+                    <Paper className="mt-2" style={{background:"#0080FF"}}>
                         <p style={{maxWidth:"300px", padding: "5px", height: "auto",
                             wordWrap:"break-word",
                             wordBreak:"break-all",
-                            overflow: "hidden"}}>
+                            overflow: "hidden",
+                        color: 'white'}}>
                             {msg}
                         </p>
                     </Paper>
@@ -73,4 +74,4 @@ const mapAction = {
 
 }
 
-export default connect(mapStateToProps, mapAction)(Message);
+export default connect(null, {})(Message);

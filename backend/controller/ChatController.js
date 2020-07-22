@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-const UserController = require('./UserController');
-
 logger.level = 'debug';
 
 const Chat = mongoose.model("chats");
@@ -10,82 +8,79 @@ const Message = mongoose.model("messages");
 
 module.exports = {
 
-    addChatMessage: (content, date, userId, otherUserId) => {
+    addChatMessage: (content, date, sender, receiver) => {
         const newMessage = new Message({
-            date: date,
-            content: content
-        })
-
-        newMessage.save(); 
-        
-        //  need to put
-        const messages = [newMessage];
-        const users = [userId, otherUserId];
-
-        const chat = new Chat({
-            users: users,
-            messages: messages
+            sender: sender,
+            content: content,
+            date: date
         });
-
-        return chat.save().then(() => {
-            return UserController.findUserByUserId(userId);
-        }).then((doc) => {
-            doc.chats.push(chat._id);
+        const messageId = newMessage._id;
+        return Chat.findOne({$or: [{chatter0: sender, chatter1: receiver},{chatter1: sender, chatter0: receiver}]}).
+        then((doc)=> {
+            if (doc === null) {
+                const newChat = new Chat({
+                    chatter0: sender,
+                    chatter1: receiver,
+                    c0HasRead: true,
+                    c1HasRead: false,
+                    messages:[]
+                });
+                return newChat.save();
+            } else {
+                if (doc.chatter0 === sender) {
+                    doc.c0HasRead = true;
+                    doc.c1HasRead = false;
+                } else {
+                    doc.c1HasRead = false;
+                    doc.c0HasRead = true;
+                }
+                return doc.save();
+            }
+        }).then((doc)=> {
+            doc.messages.push(messageId);
             return doc.save();
-        }).then(() => {
-            logger.info("chats info:  ", chat);
-            return chat.populate({path: 'user', select: 'username'}).execPopulate();
-        }).then((doc) => {
-            logger.info(doc);
-            logger.info("success!");
-            return Promise.resolve(doc);
+        }).then(()=> {
+            return newMessage.save();
+        }).then((doc)=> {
+            return doc.populate({path:"sender", select: "username"}).execPopulate();
+        }).then((messageDoc) => {
+            return Promise.resolve(messageDoc);
+        }).catch((err) => {
+            logger.error(err);
+            return Promise.reject(err);
+        })
+    },
+
+    loadChats: (userId) => {
+        return Chat.find({$or: [{chatter0: userId},{chatter1: userId}]}).then((docs) => {
+            return Chat.populate(docs, {path: "chatter0", select: "username"});
+        }).then((docs)=> {
+            return Chat.populate(docs, {path: "chatter1", select: "username"});
+        }).then((docs) => {
+            return Chat.populate(docs, {path: "messages", populate:{ path: "sender", select: "username"}});
+        }).then((docs) => {
+            return Promise.resolve(docs);
         }).catch((err) => {
             logger.error(err);
             return Promise.reject(err);
         });
     },
 
-    continueChat: (content, date, userId, otherUserId) => {
-        const newMessage = new Message({
-            date: date,
-            content: content
-        })
-
-        newMessage.save(); 
-        
-        //  need to put
-        const messages = [newMessage];
-        const users = [userId, otherUserId];
-
-        const chat = new Chat({
-            users: users,
-            messages: messages
-        });
-
-        return chat.save().then(() => {
-            return UserController.findUserByUserId(userId);
+    // one has read it or not indicating by bool
+    setChatStatus: (setUserId, userId2, bool) => {
+        return Chat.findOne({$or: [{chatter0: setUserId, chatter1: userId2},{chatter1: userId2, chatter0: setUserId}]}).then((doc) => {
+            if (doc !== null) {
+                if (setUserId === doc.chatter0) {
+                    doc.c0HasRead = bool;
+                } else {
+                    doc.c1HasRead = bool;
+                }
+                return doc.save();
+            }
         }).then((doc) => {
-            doc.chats.push(chat._id);
-            return doc.save();
-        }).then(() => {
-            logger.info("chats info:  ", chat);
-            return chat.populate({path: 'user', select: 'username'}).execPopulate();
-        }).then((doc) => {
-            logger.info(doc);
-            logger.info("success!");
             return Promise.resolve(doc);
         }).catch((err) => {
             logger.error(err);
-            return Promise.reject(err);
         });
     },
-
-    loadAllChats: () => {
-        return Chat.find({}).then((docs) => {
-            return Chat.populate(docs, {path: 'user', select: 'username'});
-        }).catch((err) => {
-            logger.error(err);
-            return Promise.reject(err);
-        });
-    }
 };

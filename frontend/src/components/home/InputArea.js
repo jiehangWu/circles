@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import Avatar from "@material-ui/core/Avatar";
 import Card from "@material-ui/core/Card";
 import ImageIcon from '@material-ui/icons/Image';
@@ -14,7 +14,7 @@ const styles = {
     },
 
     container: {
-        width: "60%",
+        width: "100%",
         height: "18%",
         border: '0',
         backgroundColor: 'transparent'
@@ -76,7 +76,7 @@ class InputArea extends React.Component {
                 <Card className="input-area my-3">
                     <div className="row">
 
-                        <div className="col-lg-10">
+                        <div className="col-lg-10" style={{margin:"0 auto"}}>
                             {/* <textarea className="text-box mx-2 mt-3" */}
                             <textarea className="text-box mx-2 mt-3"
                                 style={styles.textBox}

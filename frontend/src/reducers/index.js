@@ -7,8 +7,9 @@ import { userinfo } from './userinfo.reducer';
 import { chatSocketReducer } from './chat.socket.reducer';
 import { tags } from './tags.reducer';
 import { currentChatPerson } from './chat.currentChatPerson1';
-import { chatsListReducer } from './chat.chatList1';
+import { chatsListReducer } from './chat.onlineUsers';
 import { chatsReducer1 } from './chat.reducer1';
+import {historyContactsReducer} from "./chat.historyContacts";
 
 export const rootReducer = combineReducers({
   currentChatPerson,
@@ -21,4 +22,5 @@ export const rootReducer = combineReducers({
   socketReducer: chatSocketReducer,
   chatsListReducer,
   chatsReducer1,
+  historyContactsReducer,
 });

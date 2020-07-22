@@ -22,16 +22,29 @@ const loadHome = () => (dispatch) => {
     });
     // send message to reducer->socket server
     dispatch({
+      type: 'SOCKET_INIT',
+      payload: {
+        userId: parsedMsg.userId,
+        username: parsedMsg.username,
+      },
+    });
+    dispatch({
       type: 'CLIENT_ADD_USER',
       payload: {
         purpose: 'CLIENT_ADD_USER',
-        payload: parsedMsg.username,
+        payload: {
+          userId: parsedMsg.userId,
+          username: parsedMsg.username,
+        },
       },
     });
     // add self as the current chatter
     dispatch({
       type: 'CHAT_SWITCH',
-      payload: parsedMsg.username,
+      payload: {
+        userId: parsedMsg.userId,
+        username: parsedMsg.username,
+      },
     });
   }).catch((err) => {
     history.push('/login');

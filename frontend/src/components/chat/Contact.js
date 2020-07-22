@@ -1,8 +1,10 @@
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import React, {useEffect, useState} from "react";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import {makeStyles, withStyles} from "@material-ui/core/styles";
 import {connect} from "react-redux";
+import {currentChatPerson} from "../../reducers/chat.currentChatPerson1";
+import Badge from '@material-ui/core/Badge';
 
 const styles = makeStyles((theme) => ({
     avatar2: {
@@ -14,33 +16,81 @@ const styles = makeStyles((theme) => ({
         marginRight: '0.5rem',
 
     },
+
 }));
 
-const Contact = (props) => {
-    const [chosen, setChosen] = useState(false);
+const StyledBadge = withStyles((theme) => ({
+    badge: {
+        backgroundColor: '#44b700',
+        color: '#44b700',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+        '&::after': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            animation: '$ripple 1.2s infinite ease-in-out',
+            border: '1px solid currentColor',
+            content: '""',
+        },
+    },
+    '@keyframes ripple': {
+        '0%': {
+            transform: 'scale(.8)',
+            opacity: 1,
+        },
+        '100%': {
+            transform: 'scale(2.4)',
+            opacity: 0,
+        },
+    },
+}))(Badge);
 
-    useEffect(() => {
-        if (props.currentChatter === props.name) {
-            setChosen(true);
-        } else {
-            setChosen(false)
-        }
-    }, [props.currentChatter])
+const Contact = (props) => {
     const classes = styles();
 
     return <Grid item style={{display: 'flex', alignItems: 'center'}} className="pl-1 pr-0 mr-0 ml-1 mb-1">
-        <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
-                style={(!chosen) || !props.displayName ? {backgroundColor: '#e03d38'} : {
-                    backgroundColor: '#e03d38', border: '2px solid #58d68d'
-                }}>
-            {props.name.substring(0, 2)}
-        </Avatar>
+        {(props.chatter.read === false)?
+            <StyledBadge
+                overlap="circle"
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                variant="dot"
+            >
+            <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+                    style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#e03d38'} : {
+                        backgroundColor: '#e03d38', border: '2px solid #58d68d'
+                    }}>
+                {props.chatter.username.substring(0, 2)}
+            </Avatar>
+            </StyledBadge>:
+            <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+            style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#e03d38'} : {
+            backgroundColor: '#e03d38', border: '2px solid #58d68d'
+        }}>
+        {props.chatter.username.substring(0, 2)}
+            </Avatar>
+
+        }
         {props.displayName ?
             <div className="pr-2" onClick={() => {
-                props.switchChatter(props.name);
-                setChosen(!chosen)
+                props.switchChatter(props.chatter);
+                props.clientSetRead({
+                    purpose: "CLIENT_SET_READ",
+                    payload: {
+                        setUserId:props.userId,
+                        userId2:props.chatter.userId,
+                        bool:true,
+                    }
+                });
+                props.localSetRead(props.chatter.userId);
+                props.historySetRead(props.chatter.userId);
             }}>
-                {props.name}
+                {props.chatter.username}
             </div> :
             <div></div>
         }
@@ -51,9 +101,8 @@ const Contact = (props) => {
 const mapStateToProps = (state) => {
     return {
         username: state.userinfo.username,
-        inputChat: state.inputChatReducer,
+        userId: state.userinfo.userId,
         currentChatter: state.currentChatPerson
-
     };
 }
 
@@ -63,6 +112,24 @@ const mapAction = {
         return {
             type: "CHAT_SWITCH",
             payload: person
+        }
+    },
+    clientSetRead: (chat)=> {
+        return {
+            type: 'CLIENT_SET_READ',
+            payload: chat
+        }
+    },
+    localSetRead: (userId)=> {
+        return {
+            type: 'LOCAL_SET_READ',
+            payload: userId
+        }
+    },
+    historySetRead: (userId)=> {
+        return {
+            type: 'HISTORY_CONTACTS_SET_READ',
+            payload: userId
         }
     }
 };
