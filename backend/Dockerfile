@@ -10,4 +10,4 @@ COPY . /backend/
 
 EXPOSE 5000
 # Run the app when the container launches
-CMD ["npm", "run", "start-server"]
+CMD ["npm", "run", "start"]
