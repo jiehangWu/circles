@@ -2,7 +2,7 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const redis = require('redis');
 
-const redis_client = redis.createClient({host: 'redis'});
+const redis_client = redis.createClient({ host: 'redis', port: process.env.PORT_REDIS });
 
 const CACHE_EXPIRATION_TIME = 15 * 60;
 
@@ -48,7 +48,7 @@ const deleteFromCache = (userId, postId) => {
             return;
         }
         let posts = JSON.parse(reply);
-        
+
         posts = posts.filter(post => post._id !== postId);
         addToCache(userId, posts);
     });
