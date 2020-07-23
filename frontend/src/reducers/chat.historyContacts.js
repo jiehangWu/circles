@@ -29,8 +29,8 @@ export const historyContactsReducer = (init = [], action) => {
       });
     });
     ret.sort((a, b) => (a.date < b.date ? 1 : -1));
-    console.log(ret);
-    return ret;
+    let newRet = init.slice().concat(ret);
+    return newRet;
   }
   if (action.type === 'HEAD_HISTORY_CONTACTS_RECEIVE') {
     const ret = init.slice();
