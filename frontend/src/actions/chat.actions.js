@@ -1,5 +1,6 @@
 // reserve for modify
 import { store } from '../helpers/store';
+import {history} from "../helpers/history";
 const loadChats = () => (dispatch) => {
   fetch('http://localhost:5000/chat/', {
     method: 'GET',
@@ -58,9 +59,35 @@ export const updateChatLog = (message, userName) => ({
   userName,
 });
 
+const beginChat = (chatter)=> (dispatch)=> {
+  new Promise((resolve => {
+    dispatch({
+      type: 'ADD_ONE_CONTACT',
+      payload: chatter
+    });
+    resolve('next');
+  })).then((str)=> {
+    dispatch({
+      type: 'HISTORY_CONTACTS_ADD_CONTACT',
+      payload: chatter
+    });
+    return Promise.resolve('next');
+  }).then((str) => {
+    dispatch({
+      type: "CHAT_SWITCH",
+      payload: chatter
+    });
+    return Promise.resolve('next');
+  }).then((str)=> {
+    history.push('./chat');
+  })
+};
+
+
 export const ChatActions = {
   loadChats,
   initChat,
   submitChatMessage,
   updateChatLog,
+  beginChat,
 };

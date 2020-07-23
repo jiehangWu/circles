@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 function HistoryContactList(props) {
 
     useEffect(() => {
-        console.log(props.chatsReducer);
+        console.log(props.order);
     }, []);
 
     return <React.Fragment>

@@ -63,6 +63,7 @@ export const chatsReducer1 = (init = {}, action) => {
     if (!Object.keys(init).includes(action.payload.userId)) {
       ret[action.payload.userId] = [];
     }
+    console.log(ret);
     return ret;
   }
 

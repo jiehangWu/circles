@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PreferenceBar from "./PreferenceBar";
 import DisplayTagArea from './DisplayTagArea';
 import { ProfileActions } from "../../actions/profile.actions";
+import {ChatActions} from "../../actions/chat.actions";
 import PostList from './PostList';
 import { Link } from "react-router-dom";
 
@@ -109,7 +110,13 @@ const Profile = (props) => {
                 </IconButton>
 
                 <IconButton color='secondary'>
-                    <ChatIcon onClick={() => history.push('./chat')} />
+                    <ChatIcon onClick={() =>
+                    {
+                       props.beginChat({
+                           username:props.username,
+                           userId:props.userId
+                       })
+                    }} />
                 </IconButton><br></br>
 
                 <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} self={self} /><br></br>
@@ -163,7 +170,7 @@ const mapStateToProps = (state) => {
     return {
         username: state.userinfo.profileUsername,
         prevId: state.userinfo.prevId,
-        currUserId: state.userinfo.userId,
+        userId: state.userinfo.profileUserId,
         tags: state.tags,
         posts: state.posts
     };
@@ -171,6 +178,25 @@ const mapStateToProps = (state) => {
 
 const mapAction = {
     loadProfile: ProfileActions.loadProfile,
+    chatSwitch: (chatter)=> {
+        return {
+            type: "CHAT_SWITCH",
+            payload: chatter
+        }
+    },
+    historyAddContact: (chatter) => {
+        return {
+            type: 'HISTORY_CONTACTS_ADD_CONTACT',
+            payload: chatter
+        }
+    },
+    addChat: (chatter) => {
+        return {
+            type: 'ADD_ONE_CONTACT',
+            payload: chatter
+        }
+},
+    beginChat: ChatActions.beginChat,
 };
 
 export default connect(mapStateToProps, mapAction)(Profile);
