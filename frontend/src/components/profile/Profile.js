@@ -6,7 +6,7 @@ import PreferenceBar from "./PreferenceBar";
 import DisplayTagArea from './DisplayTagArea';
 import { ProfileActions } from "../../actions/profile.actions";
 import PostList from './PostList';
-
+import { Link } from "react-router-dom";
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -52,6 +52,8 @@ const styles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing(3),
+        marginLeft: '8.8rem',
+        width: 1200,
     },
     avatar: {
         backgroundColor: blue[500],
@@ -93,7 +95,21 @@ const Profile = (props) => {
                 {name}
 
                 <IconButton color='primary'>
-                    <HomeIcon onClick={() => history.push("./home")} />
+                    {/* <HomeIcon onClick={() => history.replace(".")} /> */}
+                    {/* <HomeIcon onClick={() => history.replace({
+                        pathname: '.',
+                        state: {
+                            homeId: props.userId,
+                            self: true
+                        }
+                    })} /> */}
+                    <HomeIcon onClick={() => history.go({
+                        pathname: 'home',
+                        state: {
+                            homeId: props.userId,
+                            self: true
+                        }
+                    })} />
                 </IconButton>
 
                 <IconButton>
@@ -135,7 +151,7 @@ const Profile = (props) => {
 
             <div className="d-flex justify-content-center">
                 {/* left side bar */}
-                <div className={classes.root}>
+                {/* <div className={classes.root}>
                     <Drawer
                         className={classes.drawer}
                         variant="permanent"
@@ -147,7 +163,7 @@ const Profile = (props) => {
                         {leftSideBar}
 
                     </Drawer>
-                </div>
+                </div> */}
 
                 <div className={classes.content}>
 
@@ -159,7 +175,7 @@ const Profile = (props) => {
                     <center>
                         <PreferenceBar self={self} />
                     </center>
-                    <PostList currID={idFromHome} self={self}/>
+                    <PostList currID={idFromHome} self={self} />
                 </div>
 
                 {/* right side bar */}

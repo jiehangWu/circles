@@ -14,10 +14,11 @@ const styles = {
     },
 
     container: {
-        width: "60%",
+        width: "100%",
         height: "18%",
         border: '0',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        margin:"0 auto"
     }
 }
 

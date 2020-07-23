@@ -15,6 +15,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { history } from "../../helpers/history"
 import { HomeActions } from "../../actions/home.actions";
 import { connect } from "react-redux";
+import Profile from "../profile/Profile"
 import SocketComponent from '../chat/SocketComponent'
 import ContactList from "../chat/ContactList";
 import LoginForm from "../entrance/LoginForm";
@@ -42,6 +43,7 @@ const styles = makeStyles((theme) => ({
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
+        width: 666,
         padding: theme.spacing(3),
     },
     avatar: {
@@ -75,12 +77,12 @@ const Home = (props) => {
                 W
 			</Avatar>
             {name}
-            <IconButton color='primary' onClick={
+            <IconButton color='primary' to="/home/profile" onClick={ 
                 async () => {
                     // no need to passID since it must be profile of myself
                     // props.passId(props.userId); history.push('./profile')
-                    history.push({
-                        pathname: './profile',
+                    history.replace({
+                        pathname: './home/profile',
                         state: {
                             homeId: props.userId,
                             self: true
@@ -95,6 +97,10 @@ const Home = (props) => {
             </IconButton>
         </div>
     );
+
+    const ProfilePage = (<div>
+        <Profile />
+    </div>)
 
     const Home = (
         <div className={classes.content}>
@@ -125,19 +131,20 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                {/* <div className={classes.content}>
-                    <InputArea />
-                    <PostList />
-                </div> */}
-
                 <switch>
                     <Route exact path="/home">
                         {Home}
                     </Route>
+
+                    <Route exact path="/home/profile">
+                        {ProfilePage}
+                    </Route>
+
+
                     <Route path="/home/chat">
                         <ChatPage2 />
                     </Route>
-                    {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
+                    <Redirect from ="/home/*"  to="/home" /> 
 
                 </switch>
 
