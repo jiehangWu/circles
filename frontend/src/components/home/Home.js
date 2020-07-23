@@ -38,6 +38,10 @@ const styles = makeStyles((theme) => ({
         width: drawerWidth,
         backgroundColor: blueGrey[50]
     },
+    rightDrawerPaper: { 
+        width: 200,
+        backgroundColor: blueGrey[50]
+    },
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     content: {
@@ -77,11 +81,9 @@ const Home = (props) => {
                 W
 			</Avatar>
             {name}
-            <IconButton color='primary' to="/home/profile" onClick={ 
-                async () => {
-                    // no need to passID since it must be profile of myself
-                    // props.passId(props.userId); history.push('./profile')
-                    history.replace({
+            <IconButton color='primary' onClick={ 
+                () => {
+                    history.push({
                         pathname: './home/profile',
                         state: {
                             homeId: props.userId,
@@ -140,10 +142,10 @@ const Home = (props) => {
                         {ProfilePage}
                     </Route>
 
-
-                    <Route path="/home/chat">
+                    <Route exact path="/home/chat">
                         <ChatPage2 />
                     </Route>
+
                     <Redirect from ="/home/*"  to="/home" /> 
 
                 </switch>
@@ -154,7 +156,7 @@ const Home = (props) => {
                         className={classes.drawer}
                         variant="permanent"
                         classes={{
-                            paper: classes.drawerPaper,
+                            paper: classes.rightDrawerPaper,
                         }}
                         anchor="right"
                     >
@@ -170,6 +172,7 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
     return {
+        sideBarName: state.userinfo.username,
         username: state.userinfo.username,
         userId: state.userinfo.userId,
         tags: state.tags

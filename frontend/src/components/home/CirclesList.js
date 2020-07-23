@@ -10,6 +10,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import ChatIcon from '@material-ui/icons/Chat';
+import { history } from "../../helpers/history";
 
 
 class PostList extends React.Component {
@@ -27,7 +28,6 @@ class PostList extends React.Component {
 				{this.props.circlesList ?
 					<List dense className="classes.root">
 						{this.props.circlesList.map((value) => {
-						{/* {[1, 2, 3].map((value) => { */}
 							const labelId = `checkbox-list-secondary-label-${value}`;
 							return (
 								<ListItem key={value} button>
@@ -40,7 +40,7 @@ class PostList extends React.Component {
 									<ListItemText id={labelId} primary={`${value}`} />
 									<ListItemSecondaryAction>
 
-										<ChatIcon color = "primary"/>
+										<ChatIcon color = "primary" onClick={() => history.push('./home/chat')}/>
 									</ListItemSecondaryAction>
 								</ListItem>
 							);

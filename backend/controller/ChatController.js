@@ -68,7 +68,7 @@ module.exports = {
 
     // one has read it or not indicating by bool
     setChatStatus: (setUserId, userId2, bool) => {
-        return Chat.findOne({$or: [{chatter0: setUserId, chatter1: userId2},{chatter1: userId2, chatter0: setUserId}]}).then((doc) => {
+        return Chat.findOne({$or: [{chatter0: setUserId, chatter1: userId2},{chatter0: userId2, chatter1: setUserId}]}).then((doc) => {
             if (doc !== null) {
                 if (setUserId === doc.chatter0) {
                     doc.c0HasRead = bool;

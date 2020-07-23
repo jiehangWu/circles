@@ -72,5 +72,21 @@ export const historyContactsReducer = (init = [], action) => {
     }
     return ret;
   }
+  if (action.type === 'HISTORY_CONTACTS_ADD_CONTACT') {
+    const ret = init.slice();
+    const {userId} = action.payload;
+    const {username} = action.payload;
+    const index = ret.findIndex((ele) => ele.userId === userId);
+    let chatter = {
+      userId,
+      username,
+      read: true,
+    };
+    if (index !== -1) {
+      ret.splice(index, 1);
+    }
+    ret.splice(0, 0, chatter);
+    return ret;
+  }
   return init;
 };

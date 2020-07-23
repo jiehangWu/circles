@@ -23,7 +23,7 @@ export const userinfo = (state = {}, action) => {
       return {
         ...state,
         userId: action.payload.userId,
-        username: action.payload.username,
+        profileUsername: action.payload.username,
         tags: action.payload.tags,
         posts: action.payload.posts
       };

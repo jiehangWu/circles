@@ -95,16 +95,8 @@ const Profile = (props) => {
                 {name}
 
                 <IconButton color='primary'>
-                    {/* <HomeIcon onClick={() => history.replace(".")} /> */}
-                    {/* <HomeIcon onClick={() => history.replace({
-                        pathname: '.',
-                        state: {
-                            homeId: props.userId,
-                            self: true
-                        }
-                    })} /> */}
                     <HomeIcon onClick={() => history.go({
-                        pathname: 'home',
+                        pathname: './home',
                         state: {
                             homeId: props.userId,
                             self: true
@@ -125,22 +117,6 @@ const Profile = (props) => {
         </div>
     );
 
-    const leftSideBar = (
-        <div className={classes.background}>
-            <div className={classes.toolbar} />
-            <Avatar aria-label="profile-pic" className={classes.logo}>
-                logo
-            </Avatar>
-            {name}
-            <IconButton color='primary'>
-                <AccountCircleIcon onClick={() => history.push('./profile')} />
-            </IconButton>
-            <IconButton color='primary'>
-                <SettingsIcon />
-            </IconButton>
-        </div>
-    );
-
     useEffect(() => {
         // props.loadProfile(hixrstory.location.state.homeId);
     }, []);
@@ -150,23 +126,8 @@ const Profile = (props) => {
             <CssBaseline />
 
             <div className="d-flex justify-content-center">
-                {/* left side bar */}
-                {/* <div className={classes.root}>
-                    <Drawer
-                        className={classes.drawer}
-                        variant="permanent"
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        anchor="left"
-                    >
-                        {leftSideBar}
-
-                    </Drawer>
-                </div> */}
 
                 <div className={classes.content}>
-
                     <Box color={blue} className={classes.mainBox} clone>
                         {avatarBar}
                     </Box>
@@ -200,12 +161,11 @@ const Profile = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        username: state.userinfo.username,
+        username: state.userinfo.profileUsername,
         prevId: state.userinfo.prevId,
         currUserId: state.userinfo.userId,
         tags: state.tags,
         posts: state.posts
-
     };
 };
 
