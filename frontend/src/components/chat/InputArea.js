@@ -20,18 +20,30 @@ class InputArea extends React.Component {
 
     handleSubmit = () => {
         if (this.state.content) {
+            let date = Date.now();
             this.props.submitChat(
-                {
-                    sender: this.props.username,
-                    receiver: this.props.currentChatter,
-                    content: this.state.content
-
+                {purpose: "CLIENT_SEND_MESSAGE",
+                    payload: {
+                        sender: {
+                            userId: this.props.userId,
+                            username: this.props.username
+                        },
+                        receiver: this.props.currentChatter,
+                        content: this.state.content,
+                        date: date
+                    }
                 });
             this.props.addOneMessage({
-                sender: this.props.username,
+                sender: {
+                    userId: this.props.userId,
+                    username: this.props.username
+                },
                 receiver: this.props.currentChatter,
-                content: this.state.content
+                content: this.state.content,
+                date: date
             });
+            this.props.headContactList(this.props.currentChatter);
+            this.props.headHistoryContactsSend(this.props.currentChatter);
             console.log({
                 purpose: "CLIENT_SEND_MESSAGE",
                 payload: {
@@ -87,6 +99,7 @@ class InputArea extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        userId: state.userinfo.userId,
         username: state.userinfo.username,
         currentChatter: state.currentChatPerson
     };
@@ -104,9 +117,21 @@ const mapAction = {
             type: "ADD_ONE_MESSAGE",
             payload: message
         }
-    }
+    },
+    headContactList: (user) => {
+        return {
+            type: "HEAD_CONTACT_LIST",
+            payload: user
+        }
+    },
+    headHistoryContactsSend: (user) => {
+        return {
+            type: 'HEAD_HISTORY_CONTACT_LIST',
+            payload: user
+        }
+    },
 
-};
+}
 
 
 export default connect(mapStateToProps, mapAction)(InputArea);

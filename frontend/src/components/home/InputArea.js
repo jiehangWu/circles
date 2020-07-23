@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import Avatar from "@material-ui/core/Avatar";
 import Card from "@material-ui/core/Card";
 import ImageIcon from '@material-ui/icons/Image';
@@ -77,7 +77,12 @@ class InputArea extends React.Component {
                 <Card className="input-area my-3">
                     <div className="row">
 
+<<<<<<< HEAD
                         <div className="col-lg-10">
+=======
+                        <div className="col-lg-10" style={{margin:"0 auto"}}>
+                            {/* <textarea className="text-box mx-2 mt-3" */}
+>>>>>>> origin/qxb7_15chats
                             <textarea className="text-box mx-2 mt-3"
                                 style={styles.textBox}
                                 rows="3"

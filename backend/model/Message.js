@@ -5,6 +5,7 @@ const MessageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
     },
+    date: Date,
     content: String
 },{
     timestamps: {}

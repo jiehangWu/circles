@@ -1,6 +1,7 @@
 import Grid from "@material-ui/core/Grid";
 import React from "react";
 import ContactList from "./ContactList";
+import HistoryContactList from "./HistoryContactList";
 import {connect} from "react-redux";
 import Paper from '@material-ui/core/Paper';
 import InputArea from "./InputArea";
@@ -12,6 +13,11 @@ export function ChatPage2(props) {
 
     return <React.Fragment>
         <Grid container direction="row" alignItems="flex-start" style={{}}>
+            <Grid item className="my-3">
+                <Paper style={{background: "white"}}>
+                    <HistoryContactList/>
+                </Paper>
+            </Grid>
             <Grid item className="my-3">
                 <Paper style={{background: "white"}}>
                     <ContactList/>

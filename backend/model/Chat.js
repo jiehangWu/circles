@@ -1,17 +1,16 @@
 const mongoose = require('mongoose');
 
 const ChatSchema = new mongoose.Schema({
-    contact0: {
+    chatter0: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
     },
-    contact1: {
+    chatter1: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
     },
-    //c1HasRead: Boolean,
-    //c2HasRead: Boolean,
-    //updateDate: String,
+    c0HasRead: Boolean,
+    c1HasRead: Boolean,
     messages: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'messages'

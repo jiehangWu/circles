@@ -1,5 +1,6 @@
 // reserve for modify
-const loadAllChats = () => (dispatch) => {
+import { store } from '../helpers/store';
+const loadChats = () => (dispatch) => {
   fetch('http://localhost:5000/chat/', {
     method: 'GET',
     headers: {
@@ -15,8 +16,18 @@ const loadAllChats = () => (dispatch) => {
   }).then((chats) => {
     console.log(chats);
     dispatch({
-      type: 'INIT_CHAT',
-      payload: chats,
+      type: 'FILL_HISTORY_CHATS',
+      payload: {
+        userId: store.getState().userinfo.userId,
+        chats
+      },
+    });
+    dispatch({
+      type: 'INIT_HISTORY_CONTACTS',
+      payload: {
+        userId: store.getState().userinfo.userId,
+        chats
+      },
     });
   }).catch((err) => {
     console.log(err);
@@ -48,7 +59,7 @@ export const updateChatLog = (message, userName) => ({
 });
 
 export const ChatActions = {
-  loadAllChats,
+  loadChats,
   initChat,
   submitChatMessage,
   updateChatLog,
