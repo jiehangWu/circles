@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
+const util = require("../utils/util");
 
 logger.level = 'debug';
 
@@ -11,17 +12,18 @@ module.exports = {
         return User.findById(id);
     },
 
-    createUser: (username, password) => {
+    createUser: (registerName, password) => {
+        const username = util.getRandomName();
         const user = new User({
-            username, password,
+            registerName, username, password,
             tags: ["Sports", "Cars", "SportsCars"]
         });
         return user.save();
     },
 
-    findUserByUserName: (username) => {
+    findUserByRegisterName: (registerName) => {
         const query = {
-            username: username
+            registerName: registerName
         };
         return User.findOne(query);
     },
