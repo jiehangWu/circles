@@ -11,10 +11,16 @@ function HistoryContactList(props) {
     }, []);
 
     return <React.Fragment>
-        <Grid container direction="column" alignItems="flex-start">
+        <Grid container direction="column" alignItems="flex-start" style={{height:'calc(94vh)'}}>
             {
                 props.order.map((ele) => {
-                    return <Contact chatter={ele} displayName={true} online={true}/>;
+                    return <Grid item style={{display:'flex'}}>
+                        <Contact chatter={ele} displayName={true} online={true}/>
+                        <div>
+                            {props.chatsReducer1[ele.userId]?
+                                props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1].content:''}
+                        </div>
+                    </Grid>
                 })
             }
         </Grid>
@@ -25,7 +31,8 @@ function HistoryContactList(props) {
 const mapStateToProps = (state) => {
     return {
         order: state.historyContactsReducer,
-        person: state.currentChatPerson
+        person: state.currentChatPerson,
+        chatsReducer1: state.chatsReducer1,
     };
 };
 

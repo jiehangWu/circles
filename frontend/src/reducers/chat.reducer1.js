@@ -57,9 +57,11 @@ export const chatsReducer1 = (init = {}, action) => {
     console.log(`sender ${sender}`);
     return ret;
   }
-
   if (action.type === 'ADD_ONE_CONTACT') {
-    const ret = { ...init, [action.payload.userId]: [] };
+    let ret = { ...init};
+    if (!Object.keys(init).includes(action.payload.userId)) {
+      ret[action.payload.userId] = [];
+    }
     return ret;
   }
 

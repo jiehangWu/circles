@@ -21,8 +21,8 @@ const styles = makeStyles((theme) => ({
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
-        backgroundColor: '#44b700',
-        color: '#44b700',
+        backgroundColor: 'red',
+        color: 'red',
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
         '&::after': {
             position: 'absolute',
@@ -52,7 +52,7 @@ const Contact = (props) => {
     const classes = styles();
 
     return <Grid item style={{display: 'flex', alignItems: 'center'}} className="pl-1 pr-0 mr-0 ml-1 mb-1">
-        {(props.chatter.read === false)?
+        {(props.chatter.read !== undefined && props.chatter.read === false)?
             <StyledBadge
                 overlap="circle"
                 anchorOrigin={{
@@ -62,22 +62,22 @@ const Contact = (props) => {
                 variant="dot"
             >
             <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
-                    style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#e03d38'} : {
-                        backgroundColor: '#e03d38', border: '2px solid #58d68d'
+                    style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
+                        backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
                     }}>
                 {props.chatter.username.substring(0, 2)}
             </Avatar>
             </StyledBadge>:
             <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
-            style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#e03d38'} : {
-            backgroundColor: '#e03d38', border: '2px solid #58d68d'
+            style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
+            backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
         }}>
         {props.chatter.username.substring(0, 2)}
             </Avatar>
 
         }
         {props.displayName ?
-            <div className="pr-2" onClick={() => {
+            <div className="pr-2" style={{fontWeight: '550'}} onClick={() => {
                 props.switchChatter(props.chatter);
                 props.clientSetRead({
                     purpose: "CLIENT_SET_READ",

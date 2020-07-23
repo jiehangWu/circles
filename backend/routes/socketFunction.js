@@ -64,6 +64,7 @@ const socketFunction = (ws, req)=> {
         }
         if (m.purpose === 'CLIENT_SET_READ') {
             let message = m.payload;
+            logger.info(m);
             chatController.setChatStatus(message.setUserId, message.userId2, message.bool);
         }
     });

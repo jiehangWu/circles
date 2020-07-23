@@ -127,12 +127,14 @@ const Home = (props) => {
                     <PostList />
                 </div> */}
 
-                    <switch>
+                    <switch style={history.location.pathname === '/home'?{}:{width: '100%'}}>
                         <Route exact path="/home">
                             {Home}
                         </Route>
                         <Route path="/home/chat">
+                            <div  >
                             <ChatPage2/>
+                            </div>
                         </Route>
                         {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
 

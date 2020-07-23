@@ -64,32 +64,30 @@ class InputArea extends React.Component {
 
     render() {
         return (
-            <Grid container direction="row" alignItems="flex-end">
-                <Grid item>
-                    <textarea className="text-box ml-2 mr-1 my-1 mt-2"
+            <Grid container direction="row" alignItems="flex-end" style={{height:'calc(8vh)'}}>
+                <Grid item style={{width: '90%'}}>
+                    <textarea className="text-box ml-2 mr-1 my-2 mt-2"
                         style={{
-                            width: "500px",
                             outlineColor: "grey",
                             outlineWidth: "1px",
-                            backgroundColor: "white"
+                            backgroundColor: "white",
                         }}
                         id="outlined-required"
-                        rows="3"
+                        rows="2"
                         placeholder="Press Enter to send"
                         required
                         onChange={(e) => {
                             this.handleChange(e)
                         }}
                         ref={this.textArea}>
-
                     </textarea>
                 </Grid>
                 <Grid item>
                     <button type="button"
-                        className={"btn btn-primary float-right mx-2 mb-3"
+                        className={"btn btn-default float-right mx-0 mb-3"
                             + (this.state.content ? "" : " disabled")}
-                        onClick={this.handleSubmit}>
-                        Submit
+                        onClick={this.handleSubmit} style={{color:'#0080FF', fontWeight: 'bold'}}>
+                        Send
                     </button>
                 </Grid>
             </Grid>

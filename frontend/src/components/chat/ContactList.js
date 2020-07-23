@@ -11,10 +11,12 @@ function ContactList(props) {
     }, []);
 
     return <React.Fragment>
-        <Grid container direction="column" alignItems="flex-start">
+        <Grid container direction="column" alignItems="flex-start" >
             {
                 props.order.map((ele) => {
-                    return <Contact chatter={ele} displayName={true} online={true}/>;
+                    return <Grid item>
+                        <Contact chatter={ele} displayName={true} online={true}/>
+                    </Grid>
                 })
             }
         </Grid>
@@ -25,7 +27,8 @@ function ContactList(props) {
 const mapStateToProps = (state) => {
     return {
         order: state.chatsListReducer,
-        person: state.currentChatPerson
+        person: state.currentChatPerson,
+        chatsReducer1: state.chatsReducer1,
     };
 };
 
