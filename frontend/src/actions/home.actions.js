@@ -1,4 +1,4 @@
-import { history } from '../helpers/history';
+import {history} from "../helpers/history";
 
 const loadHome = () => (dispatch) => {
   fetch('http://localhost:5000/home', {
@@ -53,5 +53,5 @@ const loadHome = () => (dispatch) => {
 };
 
 export const HomeActions = {
-  loadHome,
+    loadHome,
 };

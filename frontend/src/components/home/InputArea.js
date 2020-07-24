@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 const styles = {
     textBox: {
-        width: "95%",
+        width: "100%",
         border: '0',
     },
 

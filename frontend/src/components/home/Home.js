@@ -19,6 +19,7 @@ import Profile from "../profile/Profile"
 import SocketComponent from '../chat/SocketComponent'
 import ChatPage2 from "../chat/ChatPage2";
 import Grid from '@material-ui/core/Grid';
+import HomeIcon from '@material-ui/icons/Home';
 
 const drawerWidth = 200;
 
@@ -70,6 +71,36 @@ const Home = (props) => {
         </div>
     );
 
+    const buttonAtBar = (history.location.pathname === '/home' ?
+        (<IconButton color='primary' onClick={
+            () => {
+                history.push({
+                    pathname: './home/profile',
+                    state: {
+                        homeId: props.userId,
+                        self: true
+                    }
+                });
+            }
+        }>
+            <AccountCircleIcon />
+        </IconButton>) :
+        (<IconButton color='primary' onClick={
+            () => {
+                history.go({
+                    pathname: './home',
+                    state: {
+                        homeId: props.userId,
+                        self: true
+                    }
+                });
+            }
+        }>
+            <HomeIcon />
+        </IconButton> )
+    );
+
+
     const leftSideBar = (
         <div className={classes.background}>
             <SocketComponent />
@@ -78,19 +109,8 @@ const Home = (props) => {
             <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
             {name}
 
-            <IconButton color='primary' onClick={
-                () => {
-                    history.push({
-                        pathname: './home/profile',
-                        state: {
-                            homeId: props.userId,
-                            self: true
-                        }
-                    });
-                }
-            }>
-                <AccountCircleIcon />
-            </IconButton>
+            {buttonAtBar}
+
             <IconButton color='primary'>
                 <SettingsIcon />
             </IconButton>
@@ -119,11 +139,8 @@ const Home = (props) => {
                     }}
                     anchor="right"
                 >
-
-                    <br></br>
                     <br></br>
                     <LogOutButton />
-
                     <br></br>
                     <br></br>
                     <Grid container justify="center" className="mb-5">
