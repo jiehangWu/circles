@@ -5,9 +5,10 @@ import { connect } from "react-redux";
 import PreferenceBar from "./PreferenceBar";
 import DisplayTagArea from './DisplayTagArea';
 import { ProfileActions } from "../../actions/profile.actions";
-import {ChatActions} from "../../actions/chat.actions";
+import { ChatActions } from "../../actions/chat.actions";
 import PostList from './PostList';
-import { Link } from "react-router-dom";
+import Loading from './Loading';
+
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -75,10 +76,16 @@ const styles = makeStyles((theme) => ({
     }
 }));
 
+function wait(sec) {
+    return new Promise(res => setTimeout(res, sec));
+}
+
 const Profile = (props) => {
     const idFromHome = history.location.state.homeId;
     props.loadProfile(idFromHome);
     const self = history.location.state.self;
+
+    const loading = React.createRef();
 
     const classes = styles();
     const name = (
@@ -96,13 +103,17 @@ const Profile = (props) => {
                 {name}
 
                 <IconButton color='primary'>
-                    <HomeIcon onClick={() => history.go({
-                        pathname: './home',
-                        state: {
-                            homeId: props.userId,
-                            self: true
-                        }
-                    })} />
+                    <HomeIcon onClick={async () => {
+                        loading.current.style.display = 'block';
+                        await wait(3000);
+                        history.go({
+                            pathname: './home',
+                            state: {
+                                homeId: props.userId,
+                                self: true
+                            }
+                        });
+                    }} />
                 </IconButton>
 
                 <IconButton>
@@ -110,12 +121,13 @@ const Profile = (props) => {
                 </IconButton>
 
                 <IconButton color='secondary'>
-                    <ChatIcon onClick={() =>
-                    {
-                       props.beginChat({
-                           username:props.username,
-                           userId:props.userId
-                       })
+                    <ChatIcon onClick={async () => {
+                        loading.current.style.display = 'block';
+                        await wait(450);
+                        props.beginChat({
+                            username: props.username,
+                            userId: props.userId
+                        })
                     }} />
                 </IconButton><br></br>
 
@@ -126,11 +138,15 @@ const Profile = (props) => {
 
     useEffect(() => {
         // props.loadProfile(hixrstory.location.state.homeId);
+        // const loading = React.createRef();
+        // console.log("loading$$$$$$$", loading);
     }, []);
 
     return (
         <React.Fragment>
             <CssBaseline />
+
+            <Loading ref={loading} />
 
             <div className="d-flex justify-content-center">
 
@@ -178,7 +194,7 @@ const mapStateToProps = (state) => {
 
 const mapAction = {
     loadProfile: ProfileActions.loadProfile,
-    chatSwitch: (chatter)=> {
+    chatSwitch: (chatter) => {
         return {
             type: "CHAT_SWITCH",
             payload: chatter
@@ -195,7 +211,7 @@ const mapAction = {
             type: 'ADD_ONE_CONTACT',
             payload: chatter
         }
-},
+    },
     beginChat: ChatActions.beginChat,
 };
 

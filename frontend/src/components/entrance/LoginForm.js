@@ -3,6 +3,32 @@ import { userActions } from "../../actions/user.actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { history } from "../../helpers/history"
+import Particles from 'react-particles-js';
+
+
+const styles = {
+    particles: {
+    position: "fixed",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    // z-index: -1,
+  }
+}
+
+const particlesOptions = {
+    particles: {
+        number: {
+            value: 30,
+            density: {
+                enable: true,
+                value_area: 100
+            }
+        },
+        color: "#3CA9D1",
+    }
+}
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -36,6 +62,10 @@ class LoginForm extends React.Component {
         const { message } = this.props;
         return (
             <div className="jumbotron">
+                <Particles className='particles'
+                    params={particlesOptions}
+                    style={styles.particles}
+                />
                 <div className="container">
                     <div className="col-sm-8 col-sm-offset-2">
                         {message.message &&
