@@ -34,7 +34,7 @@ class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            registerName: "",
             password: "",
             submitted: false
         }
@@ -52,13 +52,13 @@ class LoginForm extends React.Component {
         this.setState({
             submitted: true,
         });
-        if (this.state.username && this.state.password) {
-            this.props.login(this.state.username, this.state.password);
+        if (this.state.registerName && this.state.password) {
+            this.props.login(this.state.registerName, this.state.password);
         }
     };
 
     render() {
-        const { username, password, submitted } = this.state;
+        const { registerName, password, submitted } = this.state;
         const { message } = this.props;
         return (
             <div className="jumbotron">
@@ -75,10 +75,10 @@ class LoginForm extends React.Component {
                             <h2>Login</h2>
                             <form name="form" onSubmit={e => this.handleSubmit(e)}>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="username">Username</label>
-                                    <input type="text" className="form-control" name="username"
+                                    <label htmlFor="registerName">Username</label>
+                                    <input type="text" className="form-control" name="registerName"
                                         onChange={e => this.handleChange(e)} />
-                                    {submitted && !username && <div className="text-danger">Username is required</div>}
+                                    {submitted && !registerName && <div className="text-danger">Username is required</div>}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="password">Password</label>

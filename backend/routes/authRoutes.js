@@ -28,23 +28,23 @@ const redirect = (req, res, next) => {
  */
 
 router.post('/register', async (req, res, next) => {
-    const { username, password } = req.body;
+    const { registerName, password } = req.body;
     let user = null;
 
-    const checkIfUserExists = async (username) => {
-        user = await UserController.findUserByUserName(username);
+    const checkIfUserExists = async (registerName) => {
+        user = await UserController.findUserByRegisterName(registerName);
         if (user !== null) {
-            return user.username === username;
+            return user.registerName === registerName;
         }
         return false;
     };
 
-    (async (username) => {
-        if (await (checkIfUserExists(username))) {
+    (async (registerName) => {
+        if (await (checkIfUserExists(registerName))) {
             logger.info("duplicate username")
             res.status(400).send("duplicate username");
         } else {
-            user = await UserController.createUser(username, password);
+            user = await UserController.createUser(registerName, password);
 
             const id = user._id;
             const tags = user.tags;
@@ -56,17 +56,17 @@ router.post('/register', async (req, res, next) => {
                 res.status(404).send("error in register");
             }
         }
-    })(username)
+    })(registerName)
 });
 
 router.post('/login', async (req, res, next) => {
-    const { username, password } = req.body;
+    const { registerName, password } = req.body;
     let user = null;
 
     const validate = async () => {
-        user = await UserController.findUserByUserName(username);
+        user = await UserController.findUserByRegisterName(registerName);
         if (user !== null) {
-            return user.username === username && user.password === password;
+            return user.registerName === registerName && user.password === password;
         }
         return false;
     };
@@ -92,8 +92,9 @@ router.post('/home', async (req, res) => {
     const result = await UserController.findUserByUserId(userId);
     if (result) {
         const username = result.username;
+        const registerName = result.registerName;
         logger.info(`Display ${username}`);
-        res.status(200).send({ username, userId });
+        res.status(200).send({ registerName, username, userId });
     } else {
         logger.error(result);
         res.status(400).send("please login");
