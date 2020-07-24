@@ -27,7 +27,7 @@ function ContactList(props) {
                                         <div style={{alignSelf: 'flex-end', color:'#aab7b8', position:'relative', right: '25px'}}>
                                             {props.chatsReducer1[ele.userId] !== undefined &&
                                             props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1] !== undefined?
-                                                props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1].content:''}
+                                                props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1].content.slice(0,10) + "...":''}
                                         </div>
                                     </Grid>
                                 </Grid>

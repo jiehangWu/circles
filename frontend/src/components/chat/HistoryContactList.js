@@ -27,7 +27,7 @@ function HistoryContactList(props) {
                         <Contact chatter={ele} displayName={true} online={true}/>
                         <div style={{alignSelf: 'flex-end', color:'#aab7b8', position:'relative', right: '25px'}}>
                             {props.chatsReducer1[ele.userId]?
-                                props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1].content:''}
+                                props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1].content.slice(0,15) + "...":''}
                         </div>
                         </Grid>
                         </Grid>
