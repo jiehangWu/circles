@@ -48,8 +48,12 @@ const mapAction = {
     type: 'ADD_ONE_MESSAGE_CLIENT',
     payload: message,
   }),
-  headContactList: (user) => ({
-    type: 'HEAD_CONTACT_LIST',
+  headContactListReceive: (user) => ({
+    type: 'HEAD_CONTACT_LIST_RECEIVE',
+    payload: user,
+  }),
+  headContactListSend: (user) => ({
+    type: 'HEAD_CONTACT_LIST_SEND',
     payload: user,
   }),
   headHistoryContactsReceive: (user) => ({
@@ -119,8 +123,11 @@ export default function SocketChat() {
       }
       if (message.purpose === 'SOCKET_SEND_MESSAGE') {
         store.dispatch(mapAction.addOneMessageClient(message.payload));
-        store.dispatch(mapAction.headContactList(message.payload.sender));
-        store.dispatch(mapAction.headHistoryContactsReceive(message.payload.sender));
+        store.dispatch(mapAction.headContactListReceive({
+          ...message.payload.sender,
+          dateStr: new Date().toUTCString()}));
+        store.dispatch(mapAction.headHistoryContactsReceive({ ...message.payload.sender,
+          dateStr: new Date().toUTCString()}));
         setTimeout(() => {
           const currentChat = store.getState().currentChatPerson;
           if (message.payload.sender.userId === currentChat.userId) {

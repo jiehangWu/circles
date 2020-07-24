@@ -42,8 +42,8 @@ class InputArea extends React.Component {
                 content: this.state.content,
                 date: date
             });
-            this.props.headContactList(this.props.currentChatter);
-            this.props.headHistoryContactsSend(this.props.currentChatter);
+            this.props.headContactListSend({...this.props.currentChatter, date: date});
+            this.props.headHistoryContactsSend({...this.props.currentChatter, dateStr: new Date().toUTCString()});
             console.log({
                 purpose: "CLIENT_SEND_MESSAGE",
                 payload: {
@@ -116,9 +116,9 @@ const mapAction = {
             payload: message
         }
     },
-    headContactList: (user) => {
+    headContactListSend: (user) => {
         return {
-            type: "HEAD_CONTACT_LIST",
+            type: "HEAD_CONTACT_LIST_SEND",
             payload: user
         }
     },

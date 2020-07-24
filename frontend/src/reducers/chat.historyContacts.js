@@ -20,17 +20,27 @@ export const historyContactsReducer = (init = [], action) => {
         chatterName = ele.chatter0.username;
         read = ele.c1HasRead;
       }
+      let d = ele.messages[ele.messages.length - 1].date;
       const date = Date.parse(ele.messages[ele.messages.length - 1].date);
       return ({
         userId: chatterId,
         username: chatterName,
         read,
         date,
+        dateStr: d
       });
     });
     ret.sort((a, b) => (a.date < b.date ? 1 : -1));
-    let newRet = init.slice().concat(ret);
-    return newRet;
+    let orig = init.slice();
+    let list = ret.map((ele) => {
+      return ele.userId;
+    })
+    init.slice().forEach((ele) => {
+      if (!list.includes(ele.userId)) {
+        ret.push(ele);
+      }
+    });
+    return ret;
   }
   if (action.type === 'HEAD_HISTORY_CONTACTS_RECEIVE') {
     const ret = init.slice();
@@ -47,6 +57,7 @@ export const historyContactsReducer = (init = [], action) => {
   if (action.type === 'HEAD_HISTORY_CONTACTS_SEND') {
     const ret = init.slice();
     const chatPerson = action.payload;
+    chatPerson.read = true;
     const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
     if (index !== -1) {
       ret.splice(index,1);

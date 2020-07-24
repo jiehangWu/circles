@@ -17,14 +17,28 @@ export const chatsListReducer = (init = [], action) => {
     return ret;
   }
   // move the contact to first place
-  if (action.type === 'HEAD_CONTACT_LIST') {
+  if (action.type === 'HEAD_CONTACT_LIST_RECEIVE') {
     const ret = init.slice();
-    const user = action.payload;
-    const index = ret.findIndex((ele) => { return ele.userId === user.userId; });
-    const chatPerson = ret[index];
-    ret.splice(index, 1);
-    ret.splice(0, 0, chatPerson);
-    console.log(ret);
+    const chatPerson = action.payload;
+    chatPerson.read = false;
+    console.log(ret.map((ele) => ele.userId));
+    const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
+    if (index !== -1) {
+      ret.splice(index,1);
+    }
+    ret.splice(0,0, chatPerson);
+    return ret;
+  }
+  if (action.type === 'HEAD_CONTACT_LIST_SEND') {
+    const ret = init.slice();
+    const chatPerson = action.payload;
+    chatPerson.read = true;
+    console.log(ret.map((ele) => ele.userId));
+    const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
+    if (index !== -1) {
+      ret.splice(index,1);
+    }
+    ret.splice(0,0, chatPerson);
     return ret;
   }
   if (action.type === 'ADD_ONE_CONTACT_LIST') {
@@ -36,6 +50,7 @@ export const chatsListReducer = (init = [], action) => {
   }
   if (action.type === 'LOCAL_SET_READ') {
     const ret = init.slice();
+    console.log(ret);
     const userId = action.payload;
     const chat = ret.find((ele) => ele.userId === userId);
     if (chat) {

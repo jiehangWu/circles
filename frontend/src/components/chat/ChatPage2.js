@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import InputArea from "./InputArea";
 import {HomeActions} from "../../actions/home.actions";
 import ChatDisplayPort from "./ChatDisplayPort";
+import ChatPanel from "./ChatPanel";
 
 
 export function ChatPage2(props) {
@@ -17,17 +18,22 @@ export function ChatPage2(props) {
             <div className="mx-2 my-1" style={{fontSize: "large"}}> Circle Chat</div>
         </div>
         <Grid container direction="row" alignItems="flex-start" style = {{}}>
-            <Grid item className="" style={{width: '20%',height: '100%'}}>
+            <Grid item className="" style={{width: '24%',height: '100%'}}>
+                <Paper style={{background: "white"}} >
+                    <ChatPanel/>
+                </Paper>
+            </Grid>
+            {/*<Grid item className="" style={{width: '24%',height: '100%'}}>
                 <Paper style={{background: "white"}} >
                     <HistoryContactList/>
                 </Paper>
-            </Grid>
-            {/*<Grid item className="" style={{width: '10%'}}>
+            </Grid>*/}
+            {/*<Grid item className="" style={{width: '24%'}}>
                 <Paper style={{background: "white"}}>
                     <ContactList/>
                 </Paper>
             </Grid>*/}
-            <Grid item className="" style={{width: '80%'}}>
+            <Grid item className="" style={{width: '76%'}}>
                 <Paper style={{background: "white"}}>
                     <ChatDisplayPort/>
                 </Paper>

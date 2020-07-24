@@ -77,7 +77,7 @@ const Contact = (props) => {
 
         }
         {props.displayName ?
-            <div className="pr-2" style={{fontWeight: '550'}} onClick={() => {
+            <div className="pr-2" style={{fontWeight: '550', position:'relative', bottom:'2px'}} onClick={() => {
                 props.switchChatter(props.chatter);
                 props.clientSetRead({
                     purpose: "CLIENT_SET_READ",
