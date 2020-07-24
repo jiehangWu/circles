@@ -13,20 +13,21 @@ const loadChats = () => (dispatch) => {
       return response.json();
     }
     throw new Error('error when fetching all chats');
-  }).then((chats) => {
-    console.log(chats);
+  }).then((data) => {
+    console.log(data);
+    console.log(store.getState());
     dispatch({
       type: 'FILL_HISTORY_CHATS',
       payload: {
-        userId: store.getState().userinfo.userId,
-        chats
+        userId: data.userId,
+        chats:data.chats,
       },
     });
     dispatch({
       type: 'INIT_HISTORY_CONTACTS',
       payload: {
-        userId: store.getState().userinfo.userId,
-        chats
+        userId: data.userId,
+        chats: data.chats
       },
     });
   }).catch((err) => {

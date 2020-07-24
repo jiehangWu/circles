@@ -14,7 +14,10 @@ router.get("/", async (req, res, next) => {
     if (result) {
         const chats = await ChatController.loadChats(userId);
         logger.info(chats);
-        res.status(200).send(chats);
+        res.status(200).send({
+            chats,
+            userId
+        });
     } else {
         logger.error(result);
         res.status(400).send("error fetching chats for " + userId);
