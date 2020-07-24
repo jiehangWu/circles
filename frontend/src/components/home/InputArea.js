@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import Avatar from "@material-ui/core/Avatar";
 import Card from "@material-ui/core/Card";
 import ImageIcon from '@material-ui/icons/Image';
@@ -9,15 +9,16 @@ import { connect } from 'react-redux';
 
 const styles = {
     textBox: {
-        width: "100%",
+        width: "95%",
         border: '0',
     },
 
     container: {
-        width: "136%",
-        height: "26%",
+        width: "100%",
+        height: "18%",
         border: '0',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        margin:"0 auto"
     }
 }
 
@@ -77,7 +78,6 @@ class InputArea extends React.Component {
                     <div className="row">
 
                         <div className="col-lg-10">
-                            {/* <textarea className="text-box mx-2 mt-3" */}
                             <textarea className="text-box mx-2 mt-3"
                                 style={styles.textBox}
                                 rows="3"

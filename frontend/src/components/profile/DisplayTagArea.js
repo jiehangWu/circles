@@ -16,7 +16,7 @@ class DisplayTagArea extends React.Component {
                     <Tag
                         content={content}
                         key={content}
-                        self = {this.props.self} />
+                        self={this.props.self} />
                 )}
 
             </div>);

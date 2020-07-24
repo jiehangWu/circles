@@ -3,12 +3,38 @@ import { userActions } from "../../actions/user.actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { history } from "../../helpers/history"
+import Particles from 'react-particles-js';
+
+
+const styles = {
+    particles: {
+    position: "fixed",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    // z-index: -1,
+  }
+}
+
+const particlesOptions = {
+    particles: {
+        number: {
+            value: 30,
+            density: {
+                enable: true,
+                value_area: 100
+            }
+        },
+        color: "#3CA9D1",
+    }
+}
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            registerName: "",
             password: "",
             submitted: false
         }
@@ -26,16 +52,20 @@ class LoginForm extends React.Component {
         this.setState({
             submitted: true,
         });
-        if (this.state.username && this.state.password) {
-            this.props.login(this.state.username, this.state.password);
+        if (this.state.registerName && this.state.password) {
+            this.props.login(this.state.registerName, this.state.password);
         }
     };
 
     render() {
-        const { username, password, submitted } = this.state;
+        const { registerName, password, submitted } = this.state;
         const { message } = this.props;
         return (
             <div className="jumbotron">
+                <Particles className='particles'
+                    params={particlesOptions}
+                    style={styles.particles}
+                />
                 <div className="container">
                     <div className="col-sm-8 col-sm-offset-2">
                         {message.message &&
@@ -45,10 +75,10 @@ class LoginForm extends React.Component {
                             <h2>Login</h2>
                             <form name="form" onSubmit={e => this.handleSubmit(e)}>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="username">Username</label>
-                                    <input type="text" className="form-control" name="username"
+                                    <label htmlFor="registerName">Username</label>
+                                    <input type="text" className="form-control" name="registerName"
                                         onChange={e => this.handleChange(e)} />
-                                    {submitted && !username && <div className="text-danger">Username is required</div>}
+                                    {submitted && !registerName && <div className="text-danger">Username is required</div>}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="password">Password</label>

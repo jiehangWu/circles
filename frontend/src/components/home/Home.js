@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import PostList from './PostList';
+import CirclesList from './CirclesList';
 import InputArea from './InputArea';
 import LogOutButton from './LogOutButton';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -14,6 +15,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { history } from "../../helpers/history"
 import { HomeActions } from "../../actions/home.actions";
 import { connect } from "react-redux";
+import Profile from "../profile/Profile"
 import SocketComponent from '../chat/SocketComponent'
 import ContactList from "../chat/ContactList";
 import LoginForm from "../entrance/LoginForm";
@@ -36,21 +38,18 @@ const styles = makeStyles((theme) => ({
         width: drawerWidth,
         backgroundColor: blueGrey[50]
     },
-    content: {
-        width: 500,
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
-
-        // backgroundColor: blue[500],
-        padding: '0 0px',
+    rightDrawerPaper: { 
+        width: 200,
+        backgroundColor: blueGrey[50]
     },
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
-    // content: {
-    //     flexGrow: 1,
-    //     backgroundColor: theme.palette.background.default,
-    //     padding: theme.spacing(3),
-    // },
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        width: 666,
+        padding: theme.spacing(3),
+    },
     avatar: {
         backgroundColor: blue[500],
         width: theme.spacing(7),
@@ -82,12 +81,10 @@ const Home = (props) => {
                 W
 			</Avatar>
             {name}
-            <IconButton color='primary' onClick={
-                async () => {
-                    // no need to passID since it must be profile of myself
-                    // props.passId(props.userId); history.push('./profile')
+            <IconButton color='primary' onClick={ 
+                () => {
                     history.push({
-                        pathname: './profile',
+                        pathname: './home/profile',
                         state: {
                             homeId: props.userId,
                             self: true
@@ -102,6 +99,10 @@ const Home = (props) => {
             </IconButton>
         </div>
     );
+
+    const ProfilePage = (<div>
+        <Profile />
+    </div>)
 
     const Home = (
         <div className={classes.content}>
@@ -132,19 +133,20 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                {/* <div className={classes.content}>
-                    <InputArea />
-                    <PostList />
-                </div> */}
-
-                <switch>
+                <switch style={history.location.pathname === '/home'?{}:{width: '100%'}}>
                     <Route exact path="/home">
                         {Home}
                     </Route>
-                    <Route path="/home/chat">
+
+                    <Route exact path="/home/profile">
+                        {ProfilePage}
+                    </Route>
+
+                    <Route exact path="/home/chat">
                         <ChatPage2 />
                     </Route>
-                    {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
+
+                    <Redirect from ="/home/*"  to="/home" /> 
 
                 </switch>
 
@@ -154,11 +156,12 @@ const Home = (props) => {
                         className={classes.drawer}
                         variant="permanent"
                         classes={{
-                            paper: classes.drawerPaper,
+                            paper: classes.rightDrawerPaper,
                         }}
                         anchor="right"
                     >
                         <LogOutButton />
+                        <CirclesList />
                     </Drawer>
                 </div>
 
@@ -169,6 +172,7 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
     return {
+        sideBarName: state.userinfo.username,
         username: state.userinfo.username,
         userId: state.userinfo.userId,
         tags: state.tags

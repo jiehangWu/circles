@@ -68,18 +68,13 @@ class PreferenceBar extends React.Component {
                             <button type="button"
                                 className={"btn btn-primary float-right mx-4 mb-3"
                                     + (this.props.input ? "" : " disabled")}
-                                onClick={() => { this.handleAdd(); this.componentDidMount() }}>Add Tag
+                                onClick={() => { this.handleAdd(); }}>Add Tag
                     </button>
                         </div>
                     </Card>
                 </div>
             );
-        } else {
-            return (
-                <div className="container" style={styles.container}>
-                </div>
-            );
-        }
+        } else { return (<div> </div>); }
     }
 }
 

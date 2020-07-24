@@ -10,10 +10,6 @@ class Tag extends React.Component {
         super(props);
     }
 
-    // componentDidMount() {
-    //     this.props.loadAllTags(this.props.userId);
-    // }
-
     handleDelete = () => {
         console.log(this.props.content);
         this.props.deleteTag(this.props.userId, this.props.content);
