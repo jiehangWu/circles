@@ -46,7 +46,8 @@ const styles = makeStyles((theme) => ({
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        width: 666,
+        // width: 888,
+        width: "100%",
         padding: theme.spacing(3),
     },
     avatar: {
@@ -177,7 +178,7 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                <switch style={history.location.pathname === '/home' ? {} : { width: '100%' }}>
+                <switch style={history.location.pathname === '/home' ? {width: '50%'} : { width: '100%' }}>
                     <Route exact path="/home">
                         {Home}
                     </Route>
