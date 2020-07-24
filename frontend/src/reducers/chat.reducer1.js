@@ -39,9 +39,12 @@ export const chatsReducer1 = (init = {}, action) => {
   if (action.type === 'ADD_ONE_MESSAGE') {
     const message = action.payload;
     const { receiver } = message;
+    const ret = { ...init };
+    if (!Object.keys(ret).includes(receiver.userId)) {
+      ret[receiver.userId] = [];
+    }
     const list = init[receiver.userId].slice();
     list.push(action.payload);
-    const ret = { ...init };
     ret[receiver.userId] = list;
     console.log(`sender ${receiver}`);
     return ret;
@@ -50,9 +53,12 @@ export const chatsReducer1 = (init = {}, action) => {
   if (action.type === 'ADD_ONE_MESSAGE_CLIENT') {
     const message = action.payload;
     const { sender } = message;
+    const ret = { ...init };
+    if (!Object.keys(ret).includes(sender.userId)) {
+      ret[sender.userId] = [];
+    }
     const list = init[sender.userId].slice();
     list.push(action.payload);
-    const ret = { ...init };
     ret[sender.userId] = list;
     console.log(`sender ${sender}`);
     return ret;

@@ -42,7 +42,7 @@ class InputArea extends React.Component {
                 content: this.state.content,
                 date: date
             });
-            this.props.headContactListSend({...this.props.currentChatter, date: date});
+            this.props.headContactListSend({...this.props.currentChatter, dateStr: new Date().toUTCString()});
             this.props.headHistoryContactsSend({...this.props.currentChatter, dateStr: new Date().toUTCString()});
             console.log({
                 purpose: "CLIENT_SEND_MESSAGE",

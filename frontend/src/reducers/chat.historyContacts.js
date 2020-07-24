@@ -5,6 +5,7 @@
 // });
 export const historyContactsReducer = (init = [], action) => {
   if (action.type === 'INIT_HISTORY_CONTACTS') {
+    console.log(action.payload);
     const arr = action.payload.chats;
     const userId = action.payload.userId;
     const ret = arr.map((ele) => {
