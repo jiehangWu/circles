@@ -10,7 +10,7 @@ import PostList from './PostList';
 import Loading from './Loading';
 
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { blue, blueGrey, grey } from '@material-ui/core/colors';
@@ -19,7 +19,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import HomeIcon from '@material-ui/icons/Home';
 import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Box from '@material-ui/core/Box';
 
 const drawerWidth = 150;
@@ -123,7 +122,7 @@ const Profile = (props) => {
                 <IconButton color='secondary'>
                     <ChatIcon onClick={async () => {
                         loading.current.style.display = 'block';
-                        await wait(450);
+                        await wait(100);
                         props.beginChat({
                             username: props.username,
                             userId: props.userId
@@ -138,8 +137,6 @@ const Profile = (props) => {
 
     useEffect(() => {
         // props.loadProfile(hixrstory.location.state.homeId);
-        // const loading = React.createRef();
-        // console.log("loading$$$$$$$", loading);
     }, []);
 
     return (

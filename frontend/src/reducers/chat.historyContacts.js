@@ -31,10 +31,6 @@ export const historyContactsReducer = (init = [], action) => {
       });
     });
     ret.sort((a, b) => (a.date < b.date ? 1 : -1));
-<<<<<<< HEAD
-    let newRet = init.slice().concat(ret);
-    return newRet;
-=======
     let orig = init.slice();
     let list = ret.map((ele) => {
       return ele.userId;
@@ -45,7 +41,6 @@ export const historyContactsReducer = (init = [], action) => {
       }
     });
     return ret;
->>>>>>> origin/qxb7_15chats
   }
   if (action.type === 'HEAD_HISTORY_CONTACTS_RECEIVE') {
     const ret = init.slice();
@@ -102,10 +97,6 @@ export const historyContactsReducer = (init = [], action) => {
       ret.splice(index, 1);
     }
     ret.splice(0, 0, chatter);
-<<<<<<< HEAD
-    console.log(ret);
-=======
->>>>>>> origin/qxb7_15chats
     return ret;
   }
   return init;

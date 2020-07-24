@@ -69,14 +69,9 @@ module.exports = {
     // one has read it or not indicating by bool
     setChatStatus: (setUserId, userId2, bool) => {
         return Chat.findOne({$or: [{chatter0: setUserId, chatter1: userId2},{chatter0: userId2, chatter1: setUserId}]}).then((doc) => {
-<<<<<<< HEAD
-            if (doc !== null) {
-                if (setUserId === doc.chatter0) {
-=======
             if (doc !== undefined) {
                 logger.info(doc);
                 if (setUserId ===  Chat.populate(doc, {path:'chatter0'})) {
->>>>>>> origin/qxb7_15chats
                     doc.c0HasRead = bool;
                 } else {
                     doc.c1HasRead = bool;
