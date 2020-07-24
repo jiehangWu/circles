@@ -1,27 +1,48 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import RegisterForm from "./components/entrance/RegisterForm";
+import LoginForm from "./components/entrance/LoginForm";
+import { history } from "./helpers/history";
+import { connect, Provider } from "react-redux";
+import { Redirect, Route, Switch, Router } from "react-router-dom"
+import Home from "./components/home/Home";
+import { PrivateRoute } from "./helpers/PrivateRouter";
+import Profile from "./components/profile/Profile";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+		history.listen((location, action) => {
+			this.props.clearMessage();
+		});
+	}
+
+    render() {
+        const { message } = this.props;
+        return (
+            
+            <React.Fragment>
+                <Router history={history}>
+                    <Switch>
+                        <PrivateRoute exact path="/" component={LoginForm} />
+                        <Route path="/login" component={LoginForm} />
+                        <Route path="/register" component={RegisterForm} />
+                        <Route path="/home" component={Home} />
+                        <Route path="/profile" component={Profile} />
+                        <Redirect from="*" to="/login" />
+                    </Switch>
+                </Router>
+            </React.Fragment>
+        );
+    }
 }
 
-export default App;
+const mapDispatch = (dispatch) => {
+	return {
+		clearMessage: () => {
+			dispatch({ type: 'CLEAR_MESSAGE' });
+		}
+	};
+};
+
+export default connect(null, mapDispatch)(App);

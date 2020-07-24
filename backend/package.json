@@ -1,0 +1,40 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-server": "nodemon App.js",
+    "lint": "./node_modules/.bin/eslint .",
+    "lint-fix": "./node_modules/.bin/eslint . --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.707.0",
+    "body-parser": "^1.19.0",
+    "cookie": "^0.4.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "elasticsearch": "^16.7.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "formidable": "^1.2.2",
+    "log4js": "^6.3.0",
+    "mongoose": "^5.9.19",
+    "nodemon": "^2.0.4",
+    "redis": "^3.0.2",
+    "uuid": "^8.1.0",
+    "ws": "^7.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}
