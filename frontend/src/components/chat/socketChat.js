@@ -105,7 +105,7 @@ export default function SocketChat() {
     // receiving message handler
     this.socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
-      //console.log(message);
+      // console.log(message);
       if (message.purpose === 'SOCKET_INIT_CONTACTS') {
         // if new heartCheck, the old one will not be handled(bug)
         if (this.hc === undefined || this.restart === true) {
@@ -125,9 +125,12 @@ export default function SocketChat() {
         store.dispatch(mapAction.addOneMessageClient(message.payload));
         store.dispatch(mapAction.headContactListReceive({
           ...message.payload.sender,
-          dateStr: new Date().toUTCString()}));
-        store.dispatch(mapAction.headHistoryContactsReceive({ ...message.payload.sender,
-          dateStr: new Date().toUTCString()}));
+          dateStr: new Date().toUTCString(),
+        }));
+        store.dispatch(mapAction.headHistoryContactsReceive({
+          ...message.payload.sender,
+          dateStr: new Date().toUTCString(),
+        }));
         setTimeout(() => {
           const currentChat = store.getState().currentChatPerson;
           if (message.payload.sender.userId === currentChat.userId) {
