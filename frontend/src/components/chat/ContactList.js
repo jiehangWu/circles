@@ -11,7 +11,7 @@ import {Divider} from "@material-ui/core";
 function ContactList(props) {
 
     useEffect(() => {
-        console.log(props.chatsReducer);
+        // console.log(props.chatsReducer);
     }, []);
 
     return <React.Fragment>
@@ -24,7 +24,7 @@ function ContactList(props) {
                                 <Grid item>
                                     <Grid container direction="row">
                                         <Contact chatter={ele} displayName={true} online={true}/>
-                                        <div style={{alignSelf: 'flex-end', color:'#aab7b8', position:'relative', right: '25px'}}>
+                                        <div style={{alignSelf: 'flex-end', color:'#aab7b8', position:'relative', right: '250px'}}>
                                             {props.chatsReducer1[ele.userId] !== undefined &&
                                             props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1] !== undefined?
                                                 props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1].content.slice(0,10) + "...":''}

@@ -3,7 +3,8 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-logger.level = 'debug';
+// logger.level = 'debug';
+logger.level = 'OFF';
 
 const UserController = require('../controller/UserController');
 const PostController = require('../controller/PostController');

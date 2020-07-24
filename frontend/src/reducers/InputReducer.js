@@ -6,7 +6,7 @@ const inputReducer = (init = '', action) => {
     const address = action.payload;
     // let newStr = (' '+init).slice(1);
     // newStr = newStr + "\n"+ "[img]"+address+"[/img]";
-    console.log(address);
+    // console.log(address);
     return address;
   }
   return init;

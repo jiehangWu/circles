@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import { PostActions } from '../../actions/posts.actions';
 
 class PostList extends React.Component {
-	constructor(props) {
-		super(props);
-	}
 
 	componentDidMount() {
 		this.props.loadAllPosts();

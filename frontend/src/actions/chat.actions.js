@@ -15,8 +15,8 @@ const loadChats = () => (dispatch) => {
     }
     throw new Error('error when fetching all chats');
   }).then((data) => {
-    console.log(data);
-    console.log(store.getState());
+    // console.log(data);
+    // console.log(store.getState());
     dispatch({
       type: 'FILL_HISTORY_CHATS',
       payload: {
@@ -32,7 +32,7 @@ const loadChats = () => (dispatch) => {
       },
     });
   }).catch((err) => {
-    console.log(err);
+    // console.log(err);
   });
 };
 

@@ -20,7 +20,7 @@ function heartCheck(socket, username) {
     this.start = () => {
         let self = this;
         this.timeoutObj = setTimeout(() => {
-            console.log("username " + username);
+            // console.log("username " + username);
             socket.send(JSON.stringify({
                 purpose: "HEART_BEAT",
                 payload: username
@@ -33,22 +33,22 @@ function heartCheck(socket, username) {
 }
 
 const SocketComponent = (props) => {
-    console.log("socket -------" + props);
+    // console.log("socket -------" + props);
 
 	let hc;
 	let restart;
 
     const startSocket = () => {
         if (!window.WebSocket) {
-            console.log("MozWebSocket");
+            // console.log("MozWebSocket");
             window.WebSocket = window.MozWebSocket;
             props.connectSocket(new WebSocket(url));
         }
         if (window.WebSocket) {
-            console.log('WebSocket');
+            // console.log('WebSocket');
             props.connectSocket(new WebSocket(url));
         } else {
-            console.log("SOCKJS");
+            // console.log("SOCKJS");
             props.connectSocket(new SockJS(url));
         }
     };
@@ -60,7 +60,7 @@ const SocketComponent = (props) => {
         // receiving message handler
         props.socket.onmessage = (event) => {
             let message = JSON.parse(event.data);
-            console.log(message);
+            // console.log(message);
             if (message.purpose === "SOCKET_INIT_CONTACTS") {
                 // if new heartCheck, the old one will not be handled(bug)
                 if (hc === undefined || restart === true) {
@@ -82,12 +82,12 @@ const SocketComponent = (props) => {
             hc.reset();
         };
         props.socket.onerror = () => {
-            console.log("socket error");
+            // console.log("socket error");
             startSocket();
             restart = true;
         };
         props.socket.onclose = (e) => {
-            console.log(e);
+            // console.log(e);
             startSocket();
             restart = true;
         };

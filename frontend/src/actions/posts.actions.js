@@ -65,7 +65,7 @@ const loadAllPosts = () => (dispatch) => {
     }
     throw new Error('error when fetching all posts');
   }).then((posts) => {
-    console.log(posts);
+    // console.log(posts);
     dispatch({
       type: 'LOAD_ALL',
       payload: posts,
@@ -154,7 +154,7 @@ const loadProfilePosts = (currId) => {
           throw new Error("error in response");
       }).then((msg) => {
           let parsedMsg = JSON.parse(msg);
-          console.log(parsedMsg);
+          // console.log(parsedMsg);
           dispatch({
               type: "LOAD_PROFILE_POSTS",
               payload: parsedMsg

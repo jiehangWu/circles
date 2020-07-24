@@ -14,11 +14,11 @@ export const chatSocketReducer = (init = socketChat, action) => {
   }
   if (action.type === 'CLIENT_ADD_USER') {
     init.send(JSON.stringify(action.payload));
-    console.log(JSON.stringify(action.payload));
+    // console.log(JSON.stringify(action.payload));
     return init;
   }
   if (action.type === 'CLIENT_SEND_MESSAGE') {
-    console.log(action.payload);
+    // console.log(action.payload);
     init.send(JSON.stringify(action.payload));
     return init;
   }

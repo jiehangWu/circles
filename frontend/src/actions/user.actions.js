@@ -15,7 +15,7 @@ const login = (registerName, password) => (dispatch) => {
       payload: registerName,
     });
     history.push('/home');
-    console.log('login success');
+    // console.log('login success');
   }).catch((e) => {
     dispatch({
       type: 'FAILED_MESSAGE',
@@ -41,9 +41,9 @@ const serviceCall = async (type, registerName, password) => {
     }),
     credentials: 'include',
   });
-  console.log(response);
+  // console.log(response);
   const message = await response.text();
-  console.log(message);
+  // console.log(message);
   if (response.ok) {
     return true;
   }

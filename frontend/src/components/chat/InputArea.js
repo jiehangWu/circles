@@ -44,14 +44,14 @@ class InputArea extends React.Component {
             });
             this.props.headContactListSend({...this.props.currentChatter, dateStr: new Date().toUTCString()});
             this.props.headHistoryContactsSend({...this.props.currentChatter, dateStr: new Date().toUTCString()});
-            console.log({
-                purpose: "CLIENT_SEND_MESSAGE",
-                payload: {
-                    sender: this.props.username,
-                    receiver: this.props.currentChatter,
-                    content: this.state.content
-                }
-            });
+            // console.log({
+            //     purpose: "CLIENT_SEND_MESSAGE",
+            //     payload: {
+            //         sender: this.props.username,
+            //         receiver: this.props.currentChatter,
+            //         content: this.state.content
+            //     }
+            // });
             this.clearAll();
         }
     };

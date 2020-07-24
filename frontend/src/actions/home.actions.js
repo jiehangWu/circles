@@ -15,7 +15,7 @@ const loadHome = () => (dispatch) => {
     throw new Error('error in response');
   }).then((msg) => {
     const parsedMsg = JSON.parse(msg);
-    console.log(parsedMsg);
+    // console.log(parsedMsg);
     dispatch({
       type: 'LOAD_HOME',
       payload: parsedMsg,
@@ -48,7 +48,7 @@ const loadHome = () => (dispatch) => {
     });
   }).catch((err) => {
     history.push('/login');
-    console.log('going back');
+    // console.log('going back');
   });
 };
 
