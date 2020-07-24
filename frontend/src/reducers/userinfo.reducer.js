@@ -26,7 +26,7 @@ export const userinfo = (state = {}, action) => {
         profileUserId: action.payload.userId,
         profileUsername: action.payload.username,
         tags: action.payload.tags,
-        posts: action.payload.posts
+        profilePosts: action.payload.posts
       };
     default:
       return state;

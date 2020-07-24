@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import PostList from './PostList';
 import CirclesList from './CirclesList';
@@ -17,12 +17,10 @@ import { HomeActions } from "../../actions/home.actions";
 import { connect } from "react-redux";
 import Profile from "../profile/Profile"
 import SocketComponent from '../chat/SocketComponent'
-import ContactList from "../chat/ContactList";
-import LoginForm from "../entrance/LoginForm";
-import { PrivateRoute } from "../../helpers/PrivateRouter";
 import ChatPage2 from "../chat/ChatPage2";
+import Grid from '@material-ui/core/Grid';
 
-const drawerWidth = 150;
+const drawerWidth = 200;
 
 const styles = makeStyles((theme) => ({
     root: {
@@ -38,7 +36,7 @@ const styles = makeStyles((theme) => ({
         width: drawerWidth,
         backgroundColor: blueGrey[50]
     },
-    rightDrawerPaper: { 
+    rightDrawerPaper: {
         width: 200,
         backgroundColor: blueGrey[50]
     },
@@ -65,7 +63,6 @@ const styles = makeStyles((theme) => ({
 
 const Home = (props) => {
     const classes = styles();
-    const theme = useTheme();
     const name = (
         <div className={classes.name}>
             <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
@@ -77,11 +74,11 @@ const Home = (props) => {
         <div className={classes.background}>
             <SocketComponent />
             <div className={classes.toolbar} />
-            <Avatar aria-label="profile-pic" className={classes.avatar}>
-                W
-			</Avatar>
+
+            <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
             {name}
-            <IconButton color='primary' onClick={ 
+
+            <IconButton color='primary' onClick={
                 () => {
                     history.push({
                         pathname: './home/profile',
@@ -111,6 +108,36 @@ const Home = (props) => {
         </div>
     );
 
+    const rightBar = (history.location.pathname === '/home/chat' ? <div></div> : (
+        <div className={classes.root}>
+            <div>
+                <Drawer
+                    className={classes.drawer}
+                    variant="permanent"
+                    classes={{
+                        paper: classes.rightDrawerPaper,
+                    }}
+                    anchor="right"
+                >
+
+                    <br></br>
+                    <br></br>
+                    <LogOutButton />
+
+                    <br></br>
+                    <br></br>
+                    <Grid container justify="center" className="mb-5">
+                        <div style={{ fontSize: 16, fontWeight: '800' }}>
+                            Explore your Circles!
+                        </div>
+                    </Grid>
+
+                    <CirclesList />
+                </Drawer>
+            </div>
+        </div>)
+    );
+
     useEffect(() => {
         props.loadHome();
     }, []);
@@ -133,7 +160,7 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                <switch style={history.location.pathname === '/home'?{}:{width: '100%'}}>
+                <switch style={history.location.pathname === '/home' ? {} : { width: '100%' }}>
                     <Route exact path="/home">
                         {Home}
                     </Route>
@@ -146,25 +173,11 @@ const Home = (props) => {
                         <ChatPage2 />
                     </Route>
 
-                    <Redirect from ="/home/*"  to="/home" /> 
+                    <Redirect from="/home/*" to="/home" />
 
                 </switch>
 
-                {/* right side bar */}
-                <div className={classes.root}>
-                    <Drawer
-                        className={classes.drawer}
-                        variant="permanent"
-                        classes={{
-                            paper: classes.rightDrawerPaper,
-                        }}
-                        anchor="right"
-                    >
-                        <LogOutButton />
-                        <CirclesList />
-                    </Drawer>
-                </div>
-
+                {rightBar}
             </div>
         </React.Fragment>
     );

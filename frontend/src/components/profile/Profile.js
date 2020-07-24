@@ -54,7 +54,7 @@ const styles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing(3),
         marginLeft: '8.8rem',
-        width: 1200,
+        width: 1100,
     },
     avatar: {
         backgroundColor: blue[500],

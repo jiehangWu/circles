@@ -50,7 +50,7 @@ class PostList extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		posts: state.userinfo.posts,
+		posts: state.userinfo.profilePosts,
 		postList: state.posts.postList
 	};
 };
