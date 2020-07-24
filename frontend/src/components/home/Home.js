@@ -133,7 +133,7 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                <switch>
+                <switch style={history.location.pathname === '/home'?{}:{width: '100%'}}>
                     <Route exact path="/home">
                         {Home}
                     </Route>

@@ -23,8 +23,8 @@ export function ChatDisplayPort(props) {
     };
 
     return <React.Fragment>
-        <Paper style={{background: "white"}}>
-            <div style={{width: "600px", height: "400px", padding: "10px", margin: "0px", overflow: "scroll"}}>
+
+            <div style={{height: "calc(86vh)", padding: "10px", margin: "0px", overflow: "scroll"}}>
                 {props.chatsReducer1[props.person.userId] ?
                     props.chatsReducer1[props.person.userId].map((ele) => {
                         if (ele.sender.username === props.username) {
@@ -37,7 +37,7 @@ export function ChatDisplayPort(props) {
                      ref={(el) => { messagesEnd = el; }}>
                 </div>
             </div>
-        </Paper>
+
     </React.Fragment>
 
 }
