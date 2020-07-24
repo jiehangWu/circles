@@ -11,6 +11,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import ChatIcon from '@material-ui/icons/Chat';
 import { history } from "../../helpers/history";
+import { Badge } from '@material-ui/core';
 
 
 class PostList extends React.Component {
@@ -39,8 +40,9 @@ class PostList extends React.Component {
 									</ListItemAvatar>
 									<ListItemText id={labelId} primary={`${value}`} />
 									<ListItemSecondaryAction>
-
+										<Badge color = "secondary" badgeContent={0} showZero>
 										<ChatIcon color = "primary" onClick={() => history.push('./home/chat')}/>
+										</Badge>
 									</ListItemSecondaryAction>
 								</ListItem>
 							);
