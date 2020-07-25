@@ -1,9 +1,7 @@
 // reserve for modify
 import { store } from '../helpers/store';
-<<<<<<< HEAD
-=======
+
 import {history} from "../helpers/history";
->>>>>>> jerome
 const loadChats = () => (dispatch) => {
   fetch('http://localhost:5000/chat/', {
     method: 'GET',
@@ -37,11 +35,8 @@ const loadChats = () => (dispatch) => {
       },
     });
   }).catch((err) => {
-<<<<<<< HEAD
-    console.log(err);
-=======
+
     // console.log(err);
->>>>>>> jerome
   });
 };
 
@@ -68,8 +63,6 @@ export const updateChatLog = (message, userName) => ({
   message,
   userName,
 });
-<<<<<<< HEAD
-=======
 
 const beginChat = (chatter)=> (dispatch)=> {
   new Promise((resolve => {
@@ -95,15 +88,12 @@ const beginChat = (chatter)=> (dispatch)=> {
   })
 };
 
->>>>>>> jerome
+
 
 export const ChatActions = {
   loadChats,
   initChat,
   submitChatMessage,
   updateChatLog,
-<<<<<<< HEAD
-=======
   beginChat,
->>>>>>> jerome
 };

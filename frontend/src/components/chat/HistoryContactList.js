@@ -12,11 +12,9 @@ import {light} from "@material-ui/core/styles/createPalette";
 function HistoryContactList(props) {
 
     useEffect(() => {
-<<<<<<< HEAD
-        console.log(props.chatsReducer);
-=======
+
         // console.log(props.order);
->>>>>>> jerome
+
     }, []);
 
     return <React.Fragment>
