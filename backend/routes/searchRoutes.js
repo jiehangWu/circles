@@ -4,7 +4,9 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const searchController = require('../controller/searchController');
 
-logger.level = 'debug';
+// logger.level = 'debug';
+
+logger.level = 'OFF';
 
 /**
  * Search all the contents that have the corresponding keyword.

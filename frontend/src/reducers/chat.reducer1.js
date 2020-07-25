@@ -4,8 +4,9 @@
 
 export const chatsReducer1 = (init = {}, action) => {
   if (action.type === 'SOCKET_INIT_CONTACTS') {
-    console.log('0');
-    const retChats = Object.assign({}, init);
+
+    // console.log('0');
+      const retChats = Object.assign({}, init);
     Object.keys(action.payload).map((ele) => {
       if (retChats[ele] === undefined) {
         retChats[ele] = [];
@@ -15,14 +16,16 @@ export const chatsReducer1 = (init = {}, action) => {
     return retChats;
   }
   if (action.type === 'FILL_HISTORY_CHATS') {
-    console.log(action.payload);
+
+    // console.log(action.payload);
     let retChats = Object.assign({}, init);
     let arr = action.payload.chats;
-    console.log(arr);
+    // console.log(arr);
     const userId = action.payload.userId;
     if (arr) {
       arr.forEach((ele) => {
-        console.log(ele);
+        // console.log(ele);
+
         let chatterId;
         if (ele.chatter0._id === userId) {
           chatterId = ele.chatter1._id;
@@ -46,7 +49,9 @@ export const chatsReducer1 = (init = {}, action) => {
     const list = init[receiver.userId].slice();
     list.push(action.payload);
     ret[receiver.userId] = list;
-    console.log(`sender ${receiver}`);
+
+    // console.log(`sender ${receiver}`);
+
     return ret;
   }
   // receive a message
@@ -60,7 +65,9 @@ export const chatsReducer1 = (init = {}, action) => {
     const list = init[sender.userId].slice();
     list.push(action.payload);
     ret[sender.userId] = list;
-    console.log(`sender ${sender}`);
+
+    // console.log(`sender ${sender}`);
+
     return ret;
   }
   if (action.type === 'ADD_ONE_CONTACT') {

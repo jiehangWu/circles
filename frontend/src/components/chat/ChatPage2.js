@@ -14,26 +14,19 @@ export function ChatPage2(props) {
 
     return <React.Fragment>
         <div>
-        <div style={{width: "100%",backgroundColor: "#9B59B6", color: 'white', display:'flex',height:'calc(5vh)'}} >
-            <div className="mx-2 my-1" style={{fontSize: "large"}}> Circle Chat</div>
+
+        <div style={{ marginLeft: '0.9%', width: "99%",backgroundColor: "#9B59B6", color: 'white', display:'flex',height:'calc(5vh)'}} >
+            <div className="mx-2 my-1" style={{fontSize: "large"}}> Circles Chat</div>
         </div>
         <Grid container direction="row" alignItems="flex-start" style = {{}}>
-            <Grid item className="" style={{width: '24%',height: '100%'}}>
+            <Grid item className="" style={{marginLeft: '1%', width: '29%',height: '100%'}}>
                 <Paper style={{background: "white"}} >
                     <ChatPanel/>
                 </Paper>
             </Grid>
-            {/*<Grid item className="" style={{width: '24%',height: '100%'}}>
-                <Paper style={{background: "white"}} >
-                    <HistoryContactList/>
-                </Paper>
-            </Grid>*/}
-            {/*<Grid item className="" style={{width: '24%'}}>
-                <Paper style={{background: "white"}}>
-                    <ContactList/>
-                </Paper>
-            </Grid>*/}
-            <Grid item className="" style={{width: '76%'}}>
+
+            <Grid item className="" style={{ marginLeft: '1%', width: '69%'}}>
+
                 <Paper style={{background: "white"}}>
                     <ChatDisplayPort/>
                 </Paper>

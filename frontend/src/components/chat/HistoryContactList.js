@@ -12,7 +12,11 @@ import {light} from "@material-ui/core/styles/createPalette";
 function HistoryContactList(props) {
 
     useEffect(() => {
+<<<<<<< HEAD
         console.log(props.chatsReducer);
+=======
+        // console.log(props.order);
+>>>>>>> jerome
     }, []);
 
     return <React.Fragment>
@@ -25,8 +29,11 @@ function HistoryContactList(props) {
                         <Grid item>
                         <Grid container direction="row">
                         <Contact chatter={ele} displayName={true} online={true}/>
-                        <div style={{alignSelf: 'flex-end', color:'#aab7b8', position:'relative', right: '25px'}}>
-                            {props.chatsReducer1[ele.userId]?
+
+                        <div style={{alignSelf: 'flex-end', color:'dimgrey', position:'fixed', left: '20%'}}>
+                            {props.chatsReducer1[ele.userId] !== undefined &&
+                            props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1] !== undefined?
+
                                 props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1].content.slice(0,10) + "...":''}
                         </div>
                         </Grid>

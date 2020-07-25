@@ -17,7 +17,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 import Modal from '@material-ui/core/Modal';
 import CommentSection from './CommentSection';
 import { history } from '../../helpers/history';
-import { passPostId } from '../../actions/user.actions';
 
 
 const styles = makeStyles((theme) => ({
@@ -32,8 +31,8 @@ const styles = makeStyles((theme) => ({
 		backgroundColor: blue[200]
 	},
 	postContainer: {
-		width: '60%',
-		marginLeft: '20%',
+		width: '100%',
+		marginLeft: '0%',
 		marginRight: '20%'
 	},
 	modal: {
@@ -78,19 +77,21 @@ const PostContainer = (props) => {
 							<Avatar aria-label="profile-pic" className={classes.avatar}>
 								{props.username}
 							</Avatar> : <Avatar aria-label="profile-pic" className={classes.avatar}
-								onClick={() => { 
-									// props.passId(props.userId); history.push('./profile/' + props.userId); 
+								onClick={() => {
 									history.push({
-										pathname: './profile',
-										state: { homeId: props.userId }
-									 });
-									
-									}}>
+										pathname: './home/profile',
+										state: {
+											homeId: props.userId,
+											self: false
+										}
+									});
+
+								}}>
 								{props.username}
 							</Avatar>
 					}
 					action={
-						props.currUserId === props.userId ?
+						props.currUserId === props.userId ? 
 							<IconButton aria-label="settings">
 								<ClearIcon onClick={() => props.deletePost(props.postId)} />
 							</IconButton> : ''
@@ -139,7 +140,6 @@ const mapStateToProps = (state) => {
 const mapAction = {
 	likePost: PostActions.likePost,
 	deletePost: PostActions.deletePost,
-	passId: passPostId,
 };
 
 export default connect(mapStateToProps, mapAction)(PostContainer);

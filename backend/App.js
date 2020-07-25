@@ -20,7 +20,8 @@ require('./model/Comment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-logger.level = 'info';
+// logger.level = 'info';
+logger.level = "OFF";
 
 // The ordering is important too
 const app = express();

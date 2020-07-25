@@ -1,5 +1,9 @@
 // reserve for modify
 import { store } from '../helpers/store';
+<<<<<<< HEAD
+=======
+import {history} from "../helpers/history";
+>>>>>>> jerome
 const loadChats = () => (dispatch) => {
   fetch('http://localhost:5000/chat/', {
     method: 'GET',
@@ -14,8 +18,10 @@ const loadChats = () => (dispatch) => {
     }
     throw new Error('error when fetching all chats');
   }).then((data) => {
-    console.log(data);
-    console.log(store.getState());
+
+    // console.log(data);
+    // console.log(store.getState());
+
     dispatch({
       type: 'FILL_HISTORY_CHATS',
       payload: {
@@ -31,7 +37,11 @@ const loadChats = () => (dispatch) => {
       },
     });
   }).catch((err) => {
+<<<<<<< HEAD
     console.log(err);
+=======
+    // console.log(err);
+>>>>>>> jerome
   });
 };
 
@@ -58,10 +68,42 @@ export const updateChatLog = (message, userName) => ({
   message,
   userName,
 });
+<<<<<<< HEAD
+=======
+
+const beginChat = (chatter)=> (dispatch)=> {
+  new Promise((resolve => {
+    dispatch({
+      type: 'ADD_ONE_CONTACT',
+      payload: chatter
+    });
+    resolve('next');
+  })).then((str)=> {
+    dispatch({
+      type: 'HISTORY_CONTACTS_ADD_CONTACT',
+      payload: chatter
+    });
+    return Promise.resolve('next');
+  }).then((str) => {
+    dispatch({
+      type: "CHAT_SWITCH",
+      payload: chatter
+    });
+    return Promise.resolve('next');
+  }).then((str)=> {
+    history.push('./chat');
+  })
+};
+
+>>>>>>> jerome
 
 export const ChatActions = {
   loadChats,
   initChat,
   submitChatMessage,
   updateChatLog,
+<<<<<<< HEAD
+=======
+  beginChat,
+>>>>>>> jerome
 };

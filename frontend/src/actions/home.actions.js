@@ -1,4 +1,4 @@
-import { history } from '../helpers/history';
+import {history} from "../helpers/history";
 
 const loadHome = () => (dispatch) => {
   fetch('http://localhost:5000/home', {
@@ -15,7 +15,7 @@ const loadHome = () => (dispatch) => {
     throw new Error('error in response');
   }).then((msg) => {
     const parsedMsg = JSON.parse(msg);
-    console.log(parsedMsg);
+    // console.log(parsedMsg);
     dispatch({
       type: 'LOAD_HOME',
       payload: parsedMsg,
@@ -48,10 +48,10 @@ const loadHome = () => (dispatch) => {
     });
   }).catch((err) => {
     history.push('/login');
-    console.log('going back');
+    // console.log('going back');
   });
 };
 
 export const HomeActions = {
-  loadHome,
+    loadHome,
 };

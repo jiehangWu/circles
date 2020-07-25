@@ -5,7 +5,9 @@
 // });
 export const historyContactsReducer = (init = [], action) => {
   if (action.type === 'INIT_HISTORY_CONTACTS') {
-    console.log(action.payload);
+
+    // console.log(action.payload);
+
     const arr = action.payload.chats;
     const userId = action.payload.userId;
     const ret = arr.map((ele) => {
@@ -47,7 +49,9 @@ export const historyContactsReducer = (init = [], action) => {
     const ret = init.slice();
     const chatPerson = action.payload;
     chatPerson.read = false;
-    console.log(ret.map((ele) => ele.userId));
+
+    // console.log(ret.map((ele) => ele.userId));
+
     const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
     if (index !== -1) {
       ret.splice(index,1);

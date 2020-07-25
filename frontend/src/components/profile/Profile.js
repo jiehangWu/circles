@@ -1,14 +1,16 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import LogOutButton from "../home/LogOutButton";
 import { history } from "../../helpers/history";
 import { connect } from "react-redux";
 import PreferenceBar from "./PreferenceBar";
 import DisplayTagArea from './DisplayTagArea';
 import { ProfileActions } from "../../actions/profile.actions";
+import { ChatActions } from "../../actions/chat.actions";
 import PostList from './PostList';
+import Loading from './Loading';
 
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { blue, blueGrey, grey } from '@material-ui/core/colors';
@@ -17,7 +19,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import HomeIcon from '@material-ui/icons/Home';
 import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Box from '@material-ui/core/Box';
 
 const drawerWidth = 150;
@@ -52,6 +53,8 @@ const styles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing(3),
+        marginLeft: '8.8rem',
+        width: 1100,
     },
     avatar: {
         backgroundColor: blue[500],
@@ -72,9 +75,16 @@ const styles = makeStyles((theme) => ({
     }
 }));
 
+function wait(sec) {
+    return new Promise(res => setTimeout(res, sec));
+}
+
 const Profile = (props) => {
     const idFromHome = history.location.state.homeId;
     props.loadProfile(idFromHome);
+    const self = history.location.state.self;
+
+    const loading = React.createRef();
 
     const classes = styles();
     const name = (
@@ -88,13 +98,21 @@ const Profile = (props) => {
         <div className={classes.background}>
             <div className={classes.toolbar} />
             <center>
-                <Avatar aria-label="profile-pic" className={classes.avatar}>
-                    W
-                </Avatar>
+                <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
                 {name}
 
                 <IconButton color='primary'>
-                    <HomeIcon onClick={() => history.push("./home")} />
+                    <HomeIcon onClick={async () => {
+                        loading.current.style.display = 'block';
+                        await wait(3000);
+                        history.go({
+                            pathname: './home',
+                            state: {
+                                homeId: props.userId,
+                                self: true
+                            }
+                        });
+                    }} />
                 </IconButton>
 
                 <IconButton>
@@ -102,71 +120,43 @@ const Profile = (props) => {
                 </IconButton>
 
                 <IconButton color='secondary'>
-                    <ChatIcon onClick={() => history.push('./chat')} />
-                </IconButton>
+                    <ChatIcon onClick={async () => {
+                        loading.current.style.display = 'block';
+                        await wait(100);
+                        props.beginChat({
+                            username: props.username,
+                            userId: props.userId
+                        })
+                    }} />
+                </IconButton><br></br>
 
-
-                <br></br>
-                <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} />
-                <br></br>
+                <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} self={self} /><br></br>
             </center>
         </div>
     );
 
-    const leftSideBar = (
-        <div className={classes.background}>
-            <div className={classes.toolbar} />
-            <Avatar aria-label="profile-pic" className={classes.logo}>
-                logo
-            </Avatar>
-            {name}
-            <IconButton color='primary'>
-                <AccountCircleIcon onClick={() => history.push('./profile')} />
-            </IconButton>
-            <IconButton color='primary'>
-                <SettingsIcon />
-            </IconButton>
-        </div>
-    );
-
     useEffect(() => {
-        props.loadProfile(history.location.state.homeId);
+        // props.loadProfile(hixrstory.location.state.homeId);
     }, []);
 
-
-    // only need to disable delete button in the post container if the id doesn't match the CurrID
-    // if (props.currUserId === props.userId) {
     return (
         <React.Fragment>
             <CssBaseline />
 
-            <div className="d-flex justify-content-center">
-                {/* left side bar */}
-                <div className={classes.root}>
-                    <Drawer
-                        className={classes.drawer}
-                        variant="permanent"
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        anchor="left"
-                    >
-                        {leftSideBar}
+            <Loading ref={loading} />
 
-                    </Drawer>
-                </div>
+            <div className="d-flex justify-content-center">
 
                 <div className={classes.content}>
-
                     <Box color={blue} className={classes.mainBox} clone>
                         {avatarBar}
                     </Box>
                     <br></br>
                     <br></br>
                     <center>
-                        <PreferenceBar />
+                        <PreferenceBar self={self} />
                     </center>
-                    <PostList currID={idFromHome} />
+                    <PostList currID={idFromHome} self={self} />
                 </div>
 
                 {/* right side bar */}
@@ -191,17 +181,35 @@ const Profile = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        username: state.userinfo.username,
+        username: state.userinfo.profileUsername,
         prevId: state.userinfo.prevId,
-        currUserId: state.userinfo.userId,
+        userId: state.userinfo.profileUserId,
         tags: state.tags,
         posts: state.posts
-
     };
 };
 
 const mapAction = {
     loadProfile: ProfileActions.loadProfile,
+    chatSwitch: (chatter) => {
+        return {
+            type: "CHAT_SWITCH",
+            payload: chatter
+        }
+    },
+    historyAddContact: (chatter) => {
+        return {
+            type: 'HISTORY_CONTACTS_ADD_CONTACT',
+            payload: chatter
+        }
+    },
+    addChat: (chatter) => {
+        return {
+            type: 'ADD_ONE_CONTACT',
+            payload: chatter
+        }
+    },
+    beginChat: ChatActions.beginChat,
 };
 
 export default connect(mapStateToProps, mapAction)(Profile);

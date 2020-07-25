@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import PostList from './PostList';
+import CirclesList from './CirclesList';
 import InputArea from './InputArea';
 import LogOutButton from './LogOutButton';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -11,16 +12,16 @@ import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import {history} from "../../helpers/history"
-import {HomeActions} from "../../actions/home.actions";
-import {connect} from "react-redux";
+import { history } from "../../helpers/history"
+import { HomeActions } from "../../actions/home.actions";
+import { connect } from "react-redux";
+import Profile from "../profile/Profile"
 import SocketComponent from '../chat/SocketComponent'
-import ContactList from "../chat/ContactList";
-import LoginForm from "../entrance/LoginForm";
-import {PrivateRoute} from "../../helpers/PrivateRouter";
 import ChatPage2 from "../chat/ChatPage2";
+import Grid from '@material-ui/core/Grid';
+import HomeIcon from '@material-ui/icons/Home';
 
-const drawerWidth = 150;
+const drawerWidth = 200;
 
 const styles = makeStyles((theme) => ({
     root: {
@@ -36,12 +37,19 @@ const styles = makeStyles((theme) => ({
         width: drawerWidth,
         backgroundColor: blueGrey[50]
     },
+    rightDrawerPaper: {
+        width: 200,
+        backgroundColor: blueGrey[50]
+    },
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
-        //backgroundColor: theme.palette.background.default,
-        backgroundColor: 'white',
+
+        backgroundColor: theme.palette.background.default,
+        // width: 888,
+        width: "100%",
+
         padding: theme.spacing(3),
     },
     avatar: {
@@ -59,7 +67,6 @@ const styles = makeStyles((theme) => ({
 
 const Home = (props) => {
     const classes = styles();
-    const theme = useTheme();
     const name = (
         <div className={classes.name}>
             <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
@@ -67,37 +74,90 @@ const Home = (props) => {
         </div>
     );
 
+    const buttonAtBar = (history.location.pathname === '/home' ?
+        (<IconButton color='primary' onClick={
+            () => {
+                history.push({
+                    pathname: './home/profile',
+                    state: {
+                        homeId: props.userId,
+                        self: true
+                    }
+                });
+            }
+        }>
+            <AccountCircleIcon />
+        </IconButton>) :
+        (<IconButton color='primary' onClick={
+            () => {
+                history.go({
+                    pathname: './home',
+                    state: {
+                        homeId: props.userId,
+                        self: true
+                    }
+                });
+            }
+        }>
+            <HomeIcon />
+        </IconButton> )
+    );
+
+
     const leftSideBar = (
         <div className={classes.background}>
+
             {/*<SocketComponent />*/}
+
             <div className={classes.toolbar} />
-            <Avatar aria-label="profile-pic" className={classes.avatar}>
-                W
-			</Avatar>
+
+            <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
             {name}
-            <IconButton color='primary' onClick={
-                    async () => {
-                        // no need to passID since it must be profile of myself
-                        // props.passId(props.userId); history.push('./profile')
-                        history.push({
-                            pathname: './profile',
-                            state: { homeId: props.userId }
-                        });
-                    }
-                }>
-                <AccountCircleIcon/>
-            </IconButton>
+
+            {buttonAtBar}
+
             <IconButton color='primary'>
                 <SettingsIcon />
             </IconButton>
         </div>
     );
 
+    const ProfilePage = (<div>
+        <Profile />
+    </div>)
+
     const Home = (
         <div className={classes.content}>
             <InputArea />
             <PostList />
         </div>
+    );
+
+    const rightBar = (history.location.pathname === '/home/chat' ? <div></div> : (
+        <div className={classes.root}>
+            <div>
+                <Drawer
+                    className={classes.drawer}
+                    variant="permanent"
+                    classes={{
+                        paper: classes.rightDrawerPaper,
+                    }}
+                    anchor="right"
+                >
+                    <br></br>
+                    <LogOutButton />
+                    <br></br>
+                    <br></br>
+                    <Grid container justify="center" className="mb-5">
+                        <div style={{ fontSize: 16, fontWeight: '800' }}>
+                            Explore your Circles!
+                        </div>
+                    </Grid>
+
+                    <CirclesList />
+                </Drawer>
+            </div>
+        </div>)
     );
 
     useEffect(() => {
@@ -122,38 +182,26 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                {/* <div className={classes.content}>
-                    <InputArea />
-                    <PostList />
-                </div> */}
+                <switch style={history.location.pathname === '/home' ? {width: '50%'} : { width: '100%' }}>
+                    <Route exact path="/home">
+                        {Home}
+                    </Route>
 
-                    <switch style={history.location.pathname === '/home'?{}:{width: '100%'}}>
-                        <Route exact path="/home">
-                            {Home}
-                        </Route>
-                        <Route path="/home/chat">
-                            <div  >
-                            <ChatPage2/>
-                            </div>
-                        </Route>
-                        {/*<Redirect from ="/home/*"  to="/home" />   always redirect? */}
 
-                    </switch>
+                    <Route exact path="/home/profile">
+                        {ProfilePage}
+                    </Route>
 
-                {/* right side bar */}
-                <div className={classes.root}>
-                    <Drawer
-                        className={classes.drawer}
-                        variant="permanent"
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        anchor="right"
-                    >
-                        <LogOutButton />
-                    </Drawer>
-                </div>
 
+                    <Route exact path="/home/chat">
+                        <ChatPage2 />
+                    </Route>
+
+                    <Redirect from="/home/*" to="/home" />
+
+                </switch>
+
+                {rightBar}
             </div>
         </React.Fragment>
     );
@@ -161,6 +209,7 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
     return {
+        sideBarName: state.userinfo.username,
         username: state.userinfo.username,
         userId: state.userinfo.userId,
         tags: state.tags

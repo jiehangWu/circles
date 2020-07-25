@@ -3,19 +3,19 @@ import { history } from '../helpers/history';
 const LOGIN = 'login';
 const REGISTER = 'register';
 
-const login = (username, password) => (dispatch) => {
+const login = (registerName, password) => (dispatch) => {
   dispatch({
     type: 'LOGIN_REQUEST',
-    payload: username,
+    payload: registerName,
   });
 
-  serviceCall(LOGIN, username, password).then((username) => {
+  serviceCall(LOGIN, registerName, password).then((registerName) => {
     dispatch({
       type: 'LOGIN_SUCCESS',
-      payload: username,
+      payload: registerName,
     });
     history.push('/home');
-    console.log('login success');
+    // console.log('login success');
   }).catch((e) => {
     dispatch({
       type: 'FAILED_MESSAGE',
@@ -28,7 +28,7 @@ const login = (username, password) => (dispatch) => {
   });
 };
 
-const serviceCall = async (type, username, password) => {
+const serviceCall = async (type, registerName, password) => {
   const response = await fetch(`http://localhost:5000/${type}`, {
     method: 'POST',
     headers: {
@@ -36,14 +36,14 @@ const serviceCall = async (type, username, password) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username,
+      registerName,
       password,
     }),
     credentials: 'include',
   });
-  console.log(response);
+  // console.log(response);
   const message = await response.text();
-  console.log(message);
+  // console.log(message);
   if (response.ok) {
     return true;
   }
@@ -84,16 +84,16 @@ const serviceCallLogOut = async () => {
   });
 };
 
-const register = (username, password) => (dispatch) => {
+const register = (registerName, password) => (dispatch) => {
   dispatch({
     type: 'REGISTER_REQUEST',
-    payload: username,
+    payload: registerName,
   });
 
-  serviceCall(REGISTER, username, password).then(() => {
+  serviceCall(REGISTER, registerName, password).then(() => {
     dispatch({
       type: 'REGISTER_SUCCESS',
-      payload: username,
+      payload: registerName,
     });
     history.push('/login');
     dispatch({
@@ -118,7 +118,3 @@ export const userActions = {
   logOut
 };
 
-export const passPostId = (id) => ({
-  type: 'PASS_ID',
-  payload: id,
-});

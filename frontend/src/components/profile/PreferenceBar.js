@@ -51,29 +51,30 @@ class PreferenceBar extends React.Component {
     }
 
     render() {
-        return (
-            <div className="container" style={styles.container}>
-                {/* {this.componentDidMount()} */}
-                <Card>
-                    <div className={"DisplayTags"} >
+        if (this.props.self) {
+            return (
+                <div className="container" style={styles.container}>
+                    <Card>
+                        <div className={"DisplayTags"} >
 
-                        <textarea className="text-box mx-2 mt-3"
-                            style={styles.textBox}
-                            rows="2"
-                            placeholder="Which tags can represent you?"
-                            requiredvalue={this.props.input}
-                            onChange={this.handleChange}
-                            ref={this.textArea} />
+                            <textarea className="text-box mx-2 mt-3"
+                                style={styles.textBox}
+                                rows="2"
+                                placeholder="Which tags can represent you?"
+                                requiredvalue={this.props.input}
+                                onChange={this.handleChange}
+                                ref={this.textArea} />
 
-                        <button type="button"
-                            className={"btn btn-primary float-right mx-4 mb-3"
-                                + (this.props.input ? "" : " disabled")}
-                            onClick={() => { this.handleAdd(); this.componentDidMount() }}>Add Tag
+                            <button type="button"
+                                className={"btn btn-primary float-right mx-4 mb-3"
+                                    + (this.props.input ? "" : " disabled")}
+                                onClick={() => { this.handleAdd(); }}>Add Tag
                     </button>
-                    </div>
-                </Card>
-            </div>
-        );
+                        </div>
+                    </Card>
+                </div>
+            );
+        } else { return (<div> </div>); }
     }
 }
 

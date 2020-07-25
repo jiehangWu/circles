@@ -41,9 +41,18 @@ export const posts = (state = initial, action) => {
         ],
       };
     case 'LOAD_ALL':
+      // added for circles visualization
+      let circlesList = [];
+      action.payload.forEach(element => {
+        circlesList.push(element.user.username);
+      });
+      circlesList = circlesList.filter(function (id, index, self) {
+        return self.indexOf(id) === index;
+      });
       return {
         uploadedImgLink: state.uploadedImgLink,
         postList: action.payload,
+        circlesList: circlesList
       };
     case 'DELETE_POST':
       return {

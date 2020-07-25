@@ -10,25 +10,28 @@ class Tag extends React.Component {
         super(props);
     }
 
-    // componentDidMount() {
-    //     this.props.loadAllTags(this.props.userId);
-    // }
-
     handleDelete = () => {
-        console.log(this.props.content);
+        // console.log(this.props.content);
         this.props.deleteTag(this.props.userId, this.props.content);
     };
 
     render() {
-        return (
-            // <div>
-            <Chip size="medium"
-                label={this.props.content}
-                onDelete={this.handleDelete}
-                color="primary"
-                icon={<LoyaltyIcon />}> </Chip>
-            // </div>
-        )
+        if (this.props.self) {
+            return (
+                <Chip size="medium"
+                    label={this.props.content}
+                    onDelete={this.handleDelete}
+                    color="primary"
+                    icon={<LoyaltyIcon />}> </Chip>
+            )
+        } else {
+            return (
+                <Chip size="medium"
+                    label={this.props.content}
+                    color="primary"
+                    icon={<LoyaltyIcon />}> </Chip>
+            )
+        }
     }
 }
 

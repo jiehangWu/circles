@@ -5,7 +5,7 @@ const UserController = require('./UserController');
 const AwsController = require('./AwsController');
 const util = require("../utils/util");
 
-logger.level = 'debug';
+logger.level = 'OFF';
 
 const Post = mongoose.model("posts");
 const Comment = mongoose.model("comments");

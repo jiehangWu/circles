@@ -17,7 +17,6 @@ export const tags = (state, action) => {
                     updatedTags.tags.push(tag);
                 }
             });
-            console.log(updatedTags);
             return updatedTags;
 
         case "INIT_TAGS":
