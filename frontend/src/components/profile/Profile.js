@@ -90,7 +90,6 @@ const Profile = (props) => {
     const name = (
         <div className={classes.name}>
             <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
-            <p>@{props.username}123</p><br />
         </div>
     );
 

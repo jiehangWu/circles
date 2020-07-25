@@ -70,7 +70,7 @@ const Home = (props) => {
     const name = (
         <div className={classes.name}>
             <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
-            <p>@{props.username}123</p><br />
+            <p>@{props.registerName}</p>
         </div>
     );
 
@@ -211,6 +211,7 @@ const mapStateToProps = (state) => {
     return {
         sideBarName: state.userinfo.username,
         username: state.userinfo.username,
+        registerName: state.userinfo.registerName,
         userId: state.userinfo.userId,
         tags: state.tags
     };

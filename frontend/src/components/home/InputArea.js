@@ -112,7 +112,7 @@ class InputArea extends React.Component {
                                 <EmojiEmotionsIcon />
                             </IconButton>
                             <button type="button"
-                                className={"btn btn-primary float-right mx-4 mb-3"
+                                className={"btn btn-primary float-right mx-1 mb-3"
                                     + (this.state.content ? "" : " disabled")}
                                 onClick={this.handleSubmit}>
                                 Submit
