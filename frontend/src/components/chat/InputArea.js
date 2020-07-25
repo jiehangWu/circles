@@ -75,7 +75,7 @@ class InputArea extends React.Component {
                         }}
                         id="outlined-required"
                         rows="2"
-                        placeholder="Press Enter to send"
+                        placeholder="Press Send to send"
                         required
                         onChange={(e) => {
                             this.handleChange(e)

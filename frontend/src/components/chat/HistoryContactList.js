@@ -25,16 +25,7 @@ function HistoryContactList(props) {
                     <ListItem>
                     <Grid container direction="row" justify='space-between'>
                         <Grid item>
-                        <Grid container direction="row">
-                        <Contact chatter={ele} displayName={true} online={true}/>
-
-                        <div style={{alignSelf: 'flex-end', color:'dimgrey', position:'fixed', left: '20%'}}>
-                            {props.chatsReducer1[ele.userId] !== undefined &&
-                            props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1] !== undefined?
-
-                                props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1].content.slice(0,10) + "...":''}
-                        </div>
-                        </Grid>
+                           <Contact chatter={ele} displayName={true} online={true}/>
                         </Grid>
                             <Grid item style={{alignSelf: 'flex-end'}}>
                             <Grid container direction='row-reverse'>

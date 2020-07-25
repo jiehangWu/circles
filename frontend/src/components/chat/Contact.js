@@ -51,7 +51,9 @@ const StyledBadge = withStyles((theme) => ({
 const Contact = (props) => {
     const classes = styles();
 
-    return <Grid item style={{display: 'flex', alignItems: 'center'}} className="pl-1 pr-0 mr-0 ml-1 mb-1">
+    const messages = props.chatsReducer1[props.chatter.userId];
+
+    return <Grid item style={{display: 'flex', alignItems: 'flex-end'}} className="pl-1 pr-0 mr-0 ml-1 mb-1">
         {(props.chatter.read !== undefined && props.chatter.read === false)?
             <StyledBadge
                 overlap="circle"
@@ -77,7 +79,8 @@ const Contact = (props) => {
 
         }
         {props.displayName ?
-            <div className="pr-2" style={{fontWeight: '550', position:'relative', bottom:'2px'}} onClick={() => {
+            <div style={{display: 'flex', flexDirection:'column'}}>
+            <div className="pr-2" style={{fontWeight: '550'}} onClick={() => {
                 props.switchChatter(props.chatter);
                 props.clientSetRead({
                     purpose: "CLIENT_SET_READ",
@@ -91,7 +94,18 @@ const Contact = (props) => {
                 props.historySetRead(props.chatter.userId);
             }}>
                 {props.chatter.username}
-            </div> :
+            </div>
+                <div style={{alignSelf: 'flex-start', color:'dimgrey'}}>
+                    {
+                        messages!== undefined &&
+                        messages[messages.length - 1] !== undefined?
+                            messages[messages.length - 1].content.length > 20?
+                                messages[messages.length - 1].content.slice(0,20) + "..."
+                                :messages[messages.length - 1].content
+                            :''
+                    }
+                </div>
+            </div>:
             <div></div>
         }
     </Grid>;
@@ -102,7 +116,8 @@ const mapStateToProps = (state) => {
     return {
         username: state.userinfo.username,
         userId: state.userinfo.userId,
-        currentChatter: state.currentChatPerson
+        currentChatter: state.currentChatPerson,
+        chatsReducer1: state.chatsReducer1,
     };
 }
 

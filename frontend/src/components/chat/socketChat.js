@@ -159,7 +159,7 @@ export default function SocketChat() {
               payload: message.payload.sender.userId,
             });
           }
-        }, 2000);
+        }, 1000);
       }
       this.hc.reset();
     };

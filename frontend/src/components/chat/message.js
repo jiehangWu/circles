@@ -47,7 +47,7 @@ class Message extends React.Component {
                 </Grid>
                 <Grid item className="mt-1">
                     <Paper className="mt-2" style={{background:"#0080FF"}}>
-                        <p style={{maxWidth:"300px", padding: "5px", height: "auto",
+                        <p style={{maxWidth:"550px", padding: "5px", height: "auto",
                             wordWrap:"break-word",
                             wordBreak:"break-all",
                             overflow: "hidden",
