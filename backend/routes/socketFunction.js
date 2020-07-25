@@ -54,7 +54,8 @@ const socketFunction = (ws, req)=> {
             logger.info(m);
             let message = m.payload;
             let receiver = message.receiver;
-            if (userSocketList[receiver.userId]) {
+            let sender = message.sender;
+            if (receiver.userId !== sender.userId && userSocketList[receiver.userId]) {
                 userSocketList[receiver.userId].send(JSON.stringify({
                     purpose: "SOCKET_SEND_MESSAGE",
                     payload: message
