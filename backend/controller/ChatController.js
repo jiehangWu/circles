@@ -84,6 +84,6 @@ module.exports = {
             return Promise.resolve(doc);
         }).catch((err) => {
             logger.error(err);
-        });bv.toString()
+        });
     },
 };
