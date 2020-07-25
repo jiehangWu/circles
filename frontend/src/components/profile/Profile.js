@@ -8,6 +8,7 @@ import { ProfileActions } from "../../actions/profile.actions";
 import { ChatActions } from "../../actions/chat.actions";
 import PostList from './PostList';
 import Loading from './Loading';
+import GeoButton from './GeoButton';
 
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -116,9 +117,9 @@ const Profile = (props) => {
                 </IconButton>
 
                 <IconButton>
-                    <SettingsIcon />
+                    <GeoButton />
                 </IconButton>
-
+                
                 <IconButton color='secondary'>
                     <ChatIcon onClick={async () => {
                         loading.current.style.display = 'block';

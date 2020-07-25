@@ -5,10 +5,12 @@
   "dependencies": {
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
+    "@react-google-maps/api": "^1.9.9",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.0",
+    "google-maps-react": "^2.0.6",
     "history": "^4.10.1",
     "isomorphic-ws": "^4.0.1",
     "react": "^16.13.1",
