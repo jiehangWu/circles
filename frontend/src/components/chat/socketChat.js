@@ -190,14 +190,14 @@ export default function SocketChat() {
 
     this.socket.onerror = () => {
       console.log('socket error');
+      setTimeout(() => {
+        this.reconnect();
+        this.configSocket({ userId: this.userId, username: this.username, userAvatar: this.userAvatar });
+        this.restart = true;}, 1000);
     };
 
     this.socket.onclose = (e) => {
       console.log(e);
-      setTimeout(() => {
-        this.reconnect();
-        this.configSocket({ userId: this.userId, username: this.username, userAvatar: this.userAvatar });
-      this.restart = true;}, 1000);
     };
   };
 }

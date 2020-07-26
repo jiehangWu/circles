@@ -50,7 +50,7 @@ const styles = makeStyles((theme) => ({
         backgroundColor: blueGrey[50]
     },
     rightDrawerPaper: {
-        width: 200,
+        width: drawerWidth,
         backgroundColor: blueGrey[50]
     },
     // necessary for content to be below app bar
@@ -66,6 +66,7 @@ const styles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: "10%",
+        marginRight: "10%",
         marginTop: "2%"
     },
     avatar: {
@@ -89,13 +90,13 @@ const styles = makeStyles((theme) => ({
 
     //   added for responsive
     appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
+        width: `calc(100% - ${drawerWidth * 2}px)`,
         marginLeft: drawerWidth,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        marginLeft: drawerWidth,
+        marginRight: drawerWidth,
     },
     menuButton: {
         marginRight: theme.spacing(5),
@@ -117,6 +118,7 @@ const styles = makeStyles((theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
         marginLeft: 200,
+        marginRight: 200
     },
     search: {
         position: 'relative',
@@ -250,8 +252,9 @@ const Home = (props) => {
     );
 
     const contentRouter = (
-        <main className={clsx(classes.content, { [classes.contentShift]: open, })}>
-            <switch style={history.location.pathname === '/home' ? { width: '50%' } : { width: '100%' }}>
+        <main className={clsx(classes.content, { [classes.contentShift]: open, })} style={{width: '80%', display: "flex",justifyContent:'center'}}>
+            // {/*<switch></switch> is unrecognizable by browesers*/}
+            <div style={{width: '100%', display: "flex",justifyContent:'center'}}>
                 <Route exact path="/home">
                     {Home}
                 </Route>
@@ -262,7 +265,7 @@ const Home = (props) => {
                     <ChatPage2 />
                 </Route>
                 <Redirect from="/home/*" to="/home" />
-            </switch>
+            </div>
         </main>
     );
 
