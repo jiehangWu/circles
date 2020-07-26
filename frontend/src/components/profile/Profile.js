@@ -8,6 +8,7 @@ import { ProfileActions } from "../../actions/profile.actions";
 import { ChatActions } from "../../actions/chat.actions";
 import PostList from './PostList';
 import Loading from './Loading';
+import GeoButton from './GeoButton';
 
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -115,7 +116,7 @@ const Profile = (props) => {
                 </IconButton>
 
                 <IconButton>
-                    <SettingsIcon />
+                    <GeoButton />
                 </IconButton>
 
                 <IconButton color='secondary' onClick={async () => {
@@ -128,6 +129,7 @@ const Profile = (props) => {
                     })
                 }} >
                     <ChatIcon />
+
                 </IconButton><br></br>
 
                 <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} self={self} /><br></br>
@@ -157,20 +159,6 @@ const Profile = (props) => {
                         <PreferenceBar self={self} />
                     </center>
                     <PostList currID={idFromHome} self={self} />
-                </div>
-
-                {/* right side bar */}
-                <div className={classes.root}>
-                    <Drawer
-                        className={classes.drawer}
-                        variant="permanent"
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        anchor="right"
-                    >
-                        <LogOutButton />
-                    </Drawer>
                 </div>
 
             </div>
