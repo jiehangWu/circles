@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         width: '100%',
     },
+    indicator: {
+        display: 'none'
+    }
 }));
 
 export default function FullWidthTabs() {
@@ -78,7 +81,9 @@ export default function FullWidthTabs() {
                 <Tabs
                     value={value}
                     onChange={handleChange}
-                    indicatorColor="white"
+                    classes={{
+                        indicator: classes.indicator
+                    }}
                     textColor="primary"
                     variant="fullWidth"
                     aria-label="full width tabs example"

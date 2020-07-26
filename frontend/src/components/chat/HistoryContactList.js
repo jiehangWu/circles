@@ -18,7 +18,7 @@ function HistoryContactList(props) {
     }, []);
 
     return <React.Fragment>
-        <List container direction="column" alignItems="flex-start" style={{height:'calc(89vh)'}}>
+        <List direction="column" alignItems="flex-start" style={{height:'calc(89vh)'}}>
             {
                 props.order.map((ele) => {
                     return<React.Fragment>
@@ -27,14 +27,14 @@ function HistoryContactList(props) {
                         <Grid item>
                            <Contact chatter={ele} displayName={true} online={true}/>
                         </Grid>
-                            <Grid item style={{alignSelf: 'flex-end'}}>
+                        <Grid item style={{alignSelf: 'flex-end'}}>
                             <Grid container direction='row-reverse'>
-                            <div style={{color:'#aab7b8',fontSize:'0.8rem'}} className="mr-2">
-                            {ele.dateStr !== undefined?
-                                displayDate(ele.dateStr):''}
-                            </div>
-                                </Grid>
+                                <div style={{color:'#aab7b8',fontSize:'0.8rem'}} className="mr-2">
+                                    {ele.dateStr !== undefined?
+                                        displayDate(ele.dateStr):''}
+                                </div>
                             </Grid>
+                        </Grid>
 
                     </Grid>
                         </ListItem>

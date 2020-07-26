@@ -67,7 +67,7 @@ const socketFunction = (ws, req)=> {
                     payload: message
                 }));
             }
-            chatController.addChatMessage(message.content, message.date, message.sender.userId, message.receiver.userId);
+            logger.info(chatController.addChatMessage(message.content, message.date, message.sender.userId, message.receiver.userId));
         }
         if (m.purpose === 'CLIENT_SET_READ') {
             let message = m.payload;

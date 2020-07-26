@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect,Switch } from 'react-router-dom';
 import PostList from './PostList';
 import CirclesList from './CirclesList';
 import InputArea from './InputArea';
@@ -16,7 +16,6 @@ import { history } from "../../helpers/history"
 import { HomeActions } from "../../actions/home.actions";
 import { connect } from "react-redux";
 import Profile from "../profile/Profile"
-import SocketComponent from '../chat/SocketComponent'
 import ChatPage2 from "../chat/ChatPage2";
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
@@ -182,7 +181,7 @@ const Home = (props) => {
                     </Drawer>
                 </div>
 
-                <switch style={history.location.pathname === '/home' ? {width: '50%'} : { width: '100%' }}>
+                <div style={history.location.pathname === '/home' ? {width: '50%'} : { width: '100%' }}>
                     <Route exact path="/home">
                         {Home}
                     </Route>
@@ -199,7 +198,7 @@ const Home = (props) => {
 
                     <Redirect from="/home/*" to="/home" />
 
-                </switch>
+                </div>
 
                 {rightBar}
             </div>

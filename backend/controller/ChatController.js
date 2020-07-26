@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-
-logger.level = 'OFF';
-// logger.level = 'debug';
+const ObjectId = require('mongodb').ObjectID;
+//logger.level = 'OFF';
+logger.level = 'debug';
 
 const Chat = mongoose.model("chats");
 const Message = mongoose.model("messages");
@@ -12,29 +12,30 @@ module.exports = {
 
     addChatMessage: (content, date, sender, receiver) => {
         const newMessage = new Message({
-            sender: sender,
+            sender: ObjectId(sender),
             content: content,
             date: date
         });
         const messageId = newMessage._id;
-        return Chat.findOne({$or: [{chatter0: sender, chatter1: receiver},{chatter1: sender, chatter0: receiver}]}).
+        return Chat.findOne({$or: [{chatter0: ObjectId(sender), chatter1: ObjectId(receiver)},
+                {chatter1: ObjectId(sender), chatter0: ObjectId(receiver)}]}).
         then((doc)=> {
             if (doc === null) {
                 const newChat = new Chat({
-                    chatter0: sender,
-                    chatter1: receiver,
+                    chatter0: ObjectId(sender),
+                    chatter1: ObjectId(receiver),
                     c0HasRead: true,
                     c1HasRead: false,
                     messages:[]
                 });
                 return newChat.save();
             } else {
-                if (doc.chatter0 === sender) {
+                if (doc.chatter0.toString() === sender) {
                     doc.c0HasRead = true;
                     doc.c1HasRead = false;
                 } else {
-                    doc.c1HasRead = false;
-                    doc.c0HasRead = true;
+                    doc.c0HasRead = false;
+                    doc.c1HasRead = true;
                 }
                 return doc.save();
             }
@@ -44,7 +45,7 @@ module.exports = {
         }).then(()=> {
             return newMessage.save();
         }).then((doc)=> {
-            return doc.populate({path:"sender", select: "username"}).execPopulate();
+            return Promise.resolve(doc);
         }).then((messageDoc) => {
             return Promise.resolve(messageDoc);
         }).catch((err) => {
@@ -54,7 +55,7 @@ module.exports = {
     },
 
     loadChats: (userId) => {
-        return Chat.find({$or: [{chatter0: userId},{chatter1: userId}]}).then((docs) => {
+        return Chat.find({$or: [{chatter0: ObjectId(userId)},{chatter1: ObjectId(userId)}]}).then((docs) => {
             return Chat.populate(docs, {path: "chatter0", select: "username"});
         }).then((docs)=> {
             return Chat.populate(docs, {path: "chatter1", select: "username"});
@@ -70,10 +71,11 @@ module.exports = {
 
     // one has read it or not indicating by bool
     setChatStatus: (setUserId, userId2, bool) => {
-        return Chat.findOne({$or: [{chatter0: setUserId, chatter1: userId2},{chatter0: userId2, chatter1: setUserId}]}).then((doc) => {
+        return Chat.findOne({$or: [{chatter0: ObjectId(setUserId), chatter1: ObjectId(userId2)},
+                {chatter0: ObjectId(userId2), chatter1: ObjectId(setUserId)}]}).then((doc) => {
             if (doc !== undefined) {
                 logger.info(doc);
-                if (setUserId ===  Chat.populate(doc, {path:'chatter0'})) {
+                if (setUserId===  doc.chatter0.toString()) {
                     doc.c0HasRead = bool;
                 } else {
                     doc.c1HasRead = bool;
