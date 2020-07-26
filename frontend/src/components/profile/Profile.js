@@ -160,20 +160,6 @@ const Profile = (props) => {
                     <PostList currID={idFromHome} self={self} />
                 </div>
 
-                {/* right side bar */}
-                <div className={classes.root}>
-                    <Drawer
-                        className={classes.drawer}
-                        variant="permanent"
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        anchor="right"
-                    >
-                        <LogOutButton />
-                    </Drawer>
-                </div>
-
             </div>
         </React.Fragment>
     );
