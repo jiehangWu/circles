@@ -18,13 +18,20 @@ export const userinfo = (state = {}, action) => {
         userId: action.payload.userId,
         username: action.payload.username,
         registerName: action.payload.registerName,
+        avatar: action.payload.avatar
+      };
+    case 'UPLOAD_AVATAR':
+      return {
+        ...state,
+        avatar: action.payload
       };
     case "LOAD_PROFILE":
-      console.log("posts in reducer", action.payload.posts);
+      console.log("posts in reducer", action.payload);
       return {
         ...state,
         profileUserId: action.payload.userId,
         profileUsername: action.payload.username,
+        profileAvatar: action.payload.avatar,
         tags: action.payload.tags,
         profilePosts: action.payload.posts
       };

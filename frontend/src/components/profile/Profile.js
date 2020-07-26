@@ -81,7 +81,7 @@ function wait(sec) {
 
 const Profile = (props) => {
     const idFromHome = history.location.state.homeId;
-    props.loadProfile(idFromHome);
+    // props.loadProfile(idFromHome);
     const self = history.location.state.self;
 
     const loading = React.createRef();
@@ -97,7 +97,7 @@ const Profile = (props) => {
         <div className={classes.background}>
             <div className={classes.toolbar} />
             <center>
-                <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
+                <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>W</Avatar>
                 {name}
 
                 <IconButton color='primary'>
@@ -135,7 +135,7 @@ const Profile = (props) => {
     );
 
     useEffect(() => {
-        // props.loadProfile(hixrstory.location.state.homeId);
+        props.loadProfile(idFromHome);
     }, []);
 
     return (
@@ -183,6 +183,7 @@ const mapStateToProps = (state) => {
         username: state.userinfo.profileUsername,
         prevId: state.userinfo.prevId,
         userId: state.userinfo.profileUserId,
+        avatar: state.userinfo.profileAvatar,
         tags: state.tags,
         posts: state.posts
     };

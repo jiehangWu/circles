@@ -65,7 +65,7 @@ const loadAllPosts = () => (dispatch) => {
     }
     throw new Error('error when fetching all posts');
   }).then((posts) => {
-    // console.log(posts);
+    console.log(posts);
     dispatch({
       type: 'LOAD_ALL',
       payload: posts,
