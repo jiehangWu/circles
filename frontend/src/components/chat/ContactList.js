@@ -34,7 +34,7 @@ function ContactList(props) {
                                     <Grid container direction='row-reverse'>
                                         <div style={{color:'#aab7b8',fontSize:'0.8rem'}} className="mr-2">
                                             {
-                                                findData(ele) !== undefined? displayDate(findData(ele).dateStr):""
+                                                findData(ele) !== undefined && findData(ele).dateStr !== undefined? displayDate(findData(ele).dateStr):""
                                             }
                                         </div>
                                     </Grid>

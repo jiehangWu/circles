@@ -11,11 +11,14 @@ export function ChatDisplayPort(props) {
     useEffect(() => {
         props.loadChats();
         scrollToBottom();
+        navigator.geolocation.getCurrentPosition(function(position) {
+            console.log(position)
+        });
     },[]);
 
     useEffect(() => {
         scrollToBottom();
-    },[props.chatsReducer1, props.person.userId]);
+        },[props.chatsReducer1, props.person.userId]);
 
 
     let scrollToBottom = () => {
@@ -33,6 +36,9 @@ export function ChatDisplayPort(props) {
                             return <Message content={ele.content} chatter={ele.sender} left={true}/>;
                     }) : <div></div>
                 }
+                <div>
+
+                </div>
                 <div style={{ float:"left", clear: "both" }}
                      ref={(el) => { messagesEnd = el; }}>
                 </div>
