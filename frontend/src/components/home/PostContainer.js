@@ -74,9 +74,9 @@ const PostContainer = (props) => {
 				<CardHeader
 					avatar={
 						props.currUserId === props.userId ?
-							<Avatar aria-label="profile-pic" className={classes.avatar}>
+							<Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>
 								{props.username}
-							</Avatar> : <Avatar aria-label="profile-pic" className={classes.avatar}
+							</Avatar> : <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}
 								onClick={() => {
 									history.push({
 										pathname: './home/profile',

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Link, Redirect,Switch } from 'react-router-dom';
+
+import React, { useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import PostList from './PostList';
 import CirclesList from './CirclesList';
 import InputArea from './InputArea';
@@ -19,6 +20,7 @@ import Profile from "../profile/Profile"
 import ChatPage2 from "../chat/ChatPage2";
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
+import { userActions } from '../../actions/user.actions';
 
 const drawerWidth = 200;
 
@@ -65,11 +67,12 @@ const styles = makeStyles((theme) => ({
 }));
 
 const Home = (props) => {
+    const imgUpload = useRef(null);
     const classes = styles();
     const name = (
         <div className={classes.name}>
             <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
-            <p>@{props.username}123</p><br />
+            <p>@{props.registerName}</p>
         </div>
     );
 
@@ -102,6 +105,14 @@ const Home = (props) => {
         </IconButton> )
     );
 
+    const imageChangeHandler = () => {
+        if (imgUpload.current.files[0]) {
+            const data = new FormData();
+            const fileName = imgUpload.current.files[0].name;
+            data.append(fileName, imgUpload.current.files[0], fileName);
+            props.uploadAvatar(data);
+        }
+    }
 
     const leftSideBar = (
         <div className={classes.background}>
@@ -110,7 +121,14 @@ const Home = (props) => {
 
             <div className={classes.toolbar} />
 
-            <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
+            <IconButton onClick={() => {imgUpload.current.click()}}>
+                <input className="hide" style={{ display: 'none' }} type="file" ref={imgUpload} onChange={imageChangeHandler} />
+                {props.avatar ? 
+                    <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}/> : 
+                    <Avatar aria-label="profile-pic" className={classes.avatar}>{props.username && props.username[0]}</Avatar>}
+            </IconButton>
+            
+            
             {name}
 
             {buttonAtBar}
@@ -210,13 +228,16 @@ const mapStateToProps = (state) => {
     return {
         sideBarName: state.userinfo.username,
         username: state.userinfo.username,
+        registerName: state.userinfo.registerName,
         userId: state.userinfo.userId,
+        avatar: state.userinfo.avatar,
         tags: state.tags
     };
 };
 
 const mapAction = {
     loadHome: HomeActions.loadHome,
+    uploadAvatar: userActions.uploadAvatar,
 };
 
 export default connect(mapStateToProps, mapAction)(Home);

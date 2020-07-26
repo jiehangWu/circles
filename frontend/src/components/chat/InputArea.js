@@ -26,7 +26,8 @@ class InputArea extends React.Component {
                     payload: {
                         sender: {
                             userId: this.props.userId,
-                            username: this.props.username
+                            username: this.props.username,
+                            userAvatar: this.props.userAvatar
                         },
                         receiver: this.props.currentChatter,
                         content: this.state.content,
@@ -36,7 +37,8 @@ class InputArea extends React.Component {
             this.props.addOneMessage({
                 sender: {
                     userId: this.props.userId,
-                    username: this.props.username
+                    username: this.props.username,
+                    userAvatar: this.props.userAvatar
                 },
                 receiver: this.props.currentChatter,
                 content: this.state.content,
@@ -72,6 +74,7 @@ class InputArea extends React.Component {
                             outlineColor: "grey",
                             outlineWidth: "1px",
                             backgroundColor: "white",
+                            minWidth:'200px'
                         }}
                         id="outlined-required"
                         rows="2"
@@ -99,6 +102,7 @@ class InputArea extends React.Component {
 const mapStateToProps = (state) => {
     return {
         userId: state.userinfo.userId,
+        userAvatar: state.userinfo.avatar,
         username: state.userinfo.username,
         currentChatter: state.currentChatPerson
     };

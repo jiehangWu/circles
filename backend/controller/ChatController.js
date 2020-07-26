@@ -5,6 +5,7 @@ const ObjectId = require('mongodb').ObjectID;
 //logger.level = 'OFF';
 logger.level = 'debug';
 
+
 const Chat = mongoose.model("chats");
 const Message = mongoose.model("messages");
 
@@ -24,18 +25,18 @@ module.exports = {
                 const newChat = new Chat({
                     chatter0: ObjectId(sender),
                     chatter1: ObjectId(receiver),
-                    c0HasRead: true,
-                    c1HasRead: false,
+                    c0Unread: 0,
+                    c1Unread: 1,
                     messages:[]
                 });
                 return newChat.save();
             } else {
                 if (doc.chatter0.toString() === sender) {
-                    doc.c0HasRead = true;
-                    doc.c1HasRead = false;
+                    doc.c0Unread = 0;
+                    doc.c1Unread = doc.c1Unread + 1;
                 } else {
-                    doc.c0HasRead = false;
-                    doc.c1HasRead = true;
+                    doc.c0Unread = doc.c0Unread + 1;
+                    doc.c1Unread = 0;
                 }
                 return doc.save();
             }
@@ -56,9 +57,9 @@ module.exports = {
 
     loadChats: (userId) => {
         return Chat.find({$or: [{chatter0: ObjectId(userId)},{chatter1: ObjectId(userId)}]}).then((docs) => {
-            return Chat.populate(docs, {path: "chatter0", select: "username"});
+            return Chat.populate(docs, {path: "chatter0", select: ["username","avatar"]});
         }).then((docs)=> {
-            return Chat.populate(docs, {path: "chatter1", select: "username"});
+            return Chat.populate(docs, {path: "chatter1", select: ["username","avatar"]});
         }).then((docs) => {
             return Chat.populate(docs, {path: "messages", populate:{ path: "sender", select: "username"}});
         }).then((docs) => {
@@ -75,10 +76,18 @@ module.exports = {
                 {chatter0: ObjectId(userId2), chatter1: ObjectId(setUserId)}]}).then((doc) => {
             if (doc !== undefined) {
                 logger.info(doc);
-                if (setUserId===  doc.chatter0.toString()) {
-                    doc.c0HasRead = bool;
+                if (setUserId === doc.chatter0.toString()) {
+                    if (bool === true) {
+                        doc.c0Unread = 0;
+                    } else {
+                        doc.c0Unread = doc.c0Unread + 1;
+                    }
                 } else {
-                    doc.c1HasRead = bool;
+                    if (bool === true) {
+                        doc.c1Unread = 0;
+                    } else {
+                        doc.c1Unread = doc.c1Unread + 1;
+                    }
                 }
                 return doc.save();
             }

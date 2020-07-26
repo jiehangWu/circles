@@ -3,9 +3,6 @@ const logger = log4js.getLogger();
 const chatController = require('../controller/ChatController');
 
 
-logger.level = 'OFF';
-
-
 let socketControl = {};
 let userSocketList = {};
 let userInfoList = {};
@@ -43,7 +40,7 @@ const socketFunction = (ws, req)=> {
         // SOCKET_ADD_USER
         if (m.purpose === "CLIENT_ADD_USER") {
             userSocketList[m.payload.userId] = ws;
-            userInfoList[m.payload.userId] = m.payload.username;
+            userInfoList[m.payload.userId] = {username: m.payload.username, userAvatar: m.payload.userAvatar};
             logger.info(m);
             logger.info(userInfoList);
             Object.values(userSocketList).forEach((client) => {

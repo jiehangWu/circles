@@ -112,9 +112,62 @@ const register = (registerName, password) => (dispatch) => {
   });
 };
 
+const uploadAvatar = (data) => {
+  return (dispatch) => {
+    let avatarLink;
+    fetch('http://localhost:5000/aws/upload', { method: 'POST', body: data }).then((response) => {
+      return response.text();
+    }).then((response) => {
+      avatarLink = response;
+      return fetch('http://localhost:5000/avatar', {
+        method: 'PUT',
+        body: JSON.stringify({ avatarLink }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+    }).then((response) => {
+      if (response.ok) {
+        dispatch({
+          type: 'UPLOAD_AVATAR',
+          payload: avatarLink,
+        });
+      } else {
+        console.log('error uploading avatar');
+      }
+    });
+
+
+  //   let response1 = await fetch('http://localhost:5000/aws/upload', { method: 'POST', body: data });
+  //   let avatarLink = await response1.text();
+  //   console.log(avatarLink);
+  //   let response2 = await fetch('http://localhost:5000/avatar', {
+  //     method: 'PUT',
+  //     body: JSON.stringify({ avatarLink }),
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     credentials: 'include',
+  //   });
+  //   if (response2.ok) {
+  //     dispatch({
+  //       type: 'UPLOAD_AVATAR',
+  //       payload: avatarLink,
+  //     });
+  //   } else {
+  //     console.log('error uploading avatar');
+  //   }
+  }
+}
+
+
 export const userActions = {
   login,
   register,
-  logOut
+  logOut,
+  uploadAvatar
 };
 

@@ -115,12 +115,13 @@ export default function SocketChat() {
         if (this.hc === undefined || this.restart === true) {
           this.hc = new HeartCheck(this.socket, { userId, username });
           this.restart = false;
+          this.hc.start();
         }
-        this.hc.start();
         // init contact list and empty message array
         store.dispatch(mapAction.socketInitContactsList(message.payload));
         store.dispatch(mapAction.socketInitContacts(message.payload));
       }
+      // this is replaced by socket init contacts, reserve for improve
       if (message.purpose === 'SOCKET_ADD_CONTACT') {
         store.dispatch(mapAction.socketAddContact(message.payload));
         store.dispatch(mapAction.socketAddContactList(message.payload));

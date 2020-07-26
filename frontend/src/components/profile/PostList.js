@@ -3,6 +3,7 @@ import PostContainer from '../home/PostContainer';
 import { connect } from 'react-redux';
 import { ProfileActions } from '../../actions/profile.actions';
 import { PostActions } from '../../actions/posts.actions';
+import { posts } from '../../reducers/posts.reducer';
 
 const styles = {
 	textBox: {
@@ -37,6 +38,7 @@ class PostList extends React.Component {
 							style={styles.textBox}
 							username={post.user.username}
 							userId={this.props.self ? this.props.currID : ""}
+							avatar={post.user.avatar}
 							date={post.date}
 							content={post.content}
 							likes={post.likes}

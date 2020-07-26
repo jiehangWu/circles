@@ -1,24 +1,16 @@
 import Grid from '@material-ui/core/Grid';
 import Contact from "./Contact";
 import React, {useEffect, useState} from "react";
-import {HomeActions} from "../../actions/home.actions";
 import {connect} from "react-redux";
 import {displayDate} from "../../helpers/util";
 import { Divider } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import {light} from "@material-ui/core/styles/createPalette";
 
 function HistoryContactList(props) {
 
-    useEffect(() => {
-
-        // console.log(props.order);
-
-    }, []);
-
     return <React.Fragment>
-        <List direction="column" alignItems="flex-start" style={{height:'calc(89vh)'}}>
+        <List direction="column" style={{height:'calc(89vh)'}}>
             {
                 props.order.map((ele) => {
                     return<React.Fragment>

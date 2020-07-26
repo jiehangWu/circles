@@ -35,6 +35,7 @@ const loadHome = () => (dispatch) => {
         payload: {
           userId: parsedMsg.userId,
           username: parsedMsg.username,
+          userAvatar: parsedMsg.avatar
         },
       },
     });
@@ -44,6 +45,7 @@ const loadHome = () => (dispatch) => {
       payload: {
         userId: parsedMsg.userId,
         username: parsedMsg.username,
+        userAvatar: parsedMsg.avatar,
       },
     });
   }).catch((err) => {

@@ -16,7 +16,7 @@ export const loadProfile = (currId) => {
             throw new Error("error in response");
         }).then((msg) => {
             let parsedMsg = JSON.parse(msg);
-            // console.log(parsedMsg);
+            console.log('In profile: ', parsedMsg);
             dispatch({
                 type: "LOAD_PROFILE",
                 payload: parsedMsg

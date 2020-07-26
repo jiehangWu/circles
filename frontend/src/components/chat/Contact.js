@@ -1,9 +1,8 @@
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import {connect} from "react-redux";
-import {currentChatPerson} from "../../reducers/chat.currentChatPerson1";
 import Badge from '@material-ui/core/Badge';
 
 const styles = makeStyles((theme) => ({
@@ -14,9 +13,7 @@ const styles = makeStyles((theme) => ({
         marginDown: '0.5rem',
         marginLeft: '0.5rem',
         marginRight: '0.5rem',
-
     },
-
 }));
 
 const StyledBadge = withStyles((theme) => ({
@@ -54,7 +51,7 @@ const Contact = (props) => {
     const messages = props.chatsReducer1[props.chatter.userId];
 
     return <Grid item style={{display: 'flex', alignItems: 'flex-end'}} className="pl-1 pr-0 mr-0 ml-1 mb-1">
-        {(props.chatter.read !== undefined && props.chatter.read === false)?
+        {(props.chatter.unread !== undefined && props.chatter.unread > 0)?
             <StyledBadge
                 overlap="circle"
                 anchorOrigin={{
@@ -63,46 +60,61 @@ const Contact = (props) => {
                 }}
                 variant="dot"
             >
-            <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
-                    style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
-                        backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
-                    }}>
-                {props.chatter.username.substring(0, 2)}
-            </Avatar>
+                {props.chatter.userAvatar === ''?
+                    <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+                            style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
+                                backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
+                            }}>
+                        {props.chatter.username.substring(0, 2)}
+                    </Avatar>:
+                    <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+                            style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
+                                backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
+                            }} src={props.chatter.userAvatar}>
+                    </Avatar>
+                }
             </StyledBadge>:
-            <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
-            style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
-            backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
-        }}>
-        {props.chatter.username.substring(0, 2)}
-            </Avatar>
+            props.chatter.userAvatar === ''?
+                    <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+                            style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
+                                backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
+                            }}>
+                        {props.chatter.username.substring(0, 2)}
+                    </Avatar>:
+                    <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+                            style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
+                                backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
+                            }} src={props.chatter.userAvatar}>
+                    </Avatar>
 
         }
         {props.displayName ?
-            <div style={{display: 'flex', flexDirection:'column'}}>
-            <div className="pr-2" style={{fontWeight: '550'}} onClick={() => {
-                props.switchChatter(props.chatter);
-                props.clientSetRead({
-                    purpose: "CLIENT_SET_READ",
-                    payload: {
-                        setUserId:props.userId,
-                        userId2:props.chatter.userId,
-                        bool:true,
-                    }
-                });
-                props.localSetRead(props.chatter.userId);
-                props.historySetRead(props.chatter.userId);
-            }}>
-                {props.chatter.username}
-            </div>
+            <div style={{display: 'flex', flexDirection:'column', alignItems: 'top' }}>
+                <div className="pr-2" style={{fontWeight: '550'}} onClick={() => {
+                    props.switchChatter(props.chatter);
+                    props.clientSetRead({
+                        purpose: "CLIENT_SET_READ",
+                        payload: {
+                            setUserId:props.userId,
+                            userId2:props.chatter.userId,
+                            bool:true,
+                        }
+                    });
+                    props.localSetRead(props.chatter.userId);
+                    props.historySetRead(props.chatter.userId);
+                }}>
+                    {props.chatter.username}
+                </div>
                 <div style={{alignSelf: 'flex-start', color:'dimgrey'}}>
                     {
                         messages!== undefined &&
                         messages[messages.length - 1] !== undefined?
-                            messages[messages.length - 1].content.length > 20?
-                                messages[messages.length - 1].content.slice(0,20) + "..."
-                                :messages[messages.length - 1].content
-                            :''
+                            (messages[messages.length - 1].content.length > 20?
+                                (props.chatter.unread > 0? "(" + props.chatter.unread +")"+" " : '')
+                                + messages[messages.length - 1].content.slice(0,20) + "..."
+                                :(props.chatter.unread > 0? "(" + props.chatter.unread +")"+ " " : '')
+                                + "  " + messages[messages.length - 1].content)
+                            : <p> </p>
                     }
                 </div>
             </div>:

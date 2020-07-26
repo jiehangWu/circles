@@ -1,12 +1,9 @@
 import React from 'react';
-import Avatar from "@material-ui/core/Avatar";
-import Card from "@material-ui/core/Card";
 import { connect } from 'react-redux';
 import './message.css'
 import Contact from "./Contact";
 import Grid from "@material-ui/core/Grid";
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 
 class Message extends React.Component {
     constructor(props) {
@@ -64,14 +61,5 @@ class Message extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        userId: state.userinfo.userId,
-    };
-}
 
-const mapAction = {
-
-}
-
-export default connect(null, {})(Message);
+export default Message;

@@ -1,7 +1,5 @@
 import Grid from "@material-ui/core/Grid";
 import React from "react";
-import ContactList from "./ContactList";
-import HistoryContactList from "./HistoryContactList";
 import {connect} from "react-redux";
 import Paper from '@material-ui/core/Paper';
 import InputArea from "./InputArea";
