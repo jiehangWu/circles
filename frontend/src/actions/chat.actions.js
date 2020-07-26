@@ -1,5 +1,6 @@
 // reserve for modify
 import { store } from '../helpers/store';
+
 import {history} from "../helpers/history";
 const loadChats = () => (dispatch) => {
   fetch('http://localhost:5000/chat/', {
@@ -15,8 +16,10 @@ const loadChats = () => (dispatch) => {
     }
     throw new Error('error when fetching all chats');
   }).then((data) => {
+
     // console.log(data);
     // console.log(store.getState());
+
     dispatch({
       type: 'FILL_HISTORY_CHATS',
       payload: {
@@ -32,6 +35,7 @@ const loadChats = () => (dispatch) => {
       },
     });
   }).catch((err) => {
+
     // console.log(err);
   });
 };
@@ -83,6 +87,7 @@ const beginChat = (chatter)=> (dispatch)=> {
     history.push('./chat');
   })
 };
+
 
 
 export const ChatActions = {

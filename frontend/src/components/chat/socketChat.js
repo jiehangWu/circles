@@ -79,15 +79,19 @@ export default function SocketChat() {
 
   this.reconnect = () => {
     if (!window.WebSocket) {
+
       // console.log('MozWebSocket');
+
       window.WebSocket = window.MozWebSocket;
       this.socket = new WebSocket(url);
     }
     if (window.WebSocket) {
+
       // console.log('WebSocket');
       this.socket = new WebSocket(url);
     } else {
       // console.log('SOCKJS');
+
       this.socket = new SockJS(url);
     }
   };
@@ -160,13 +164,17 @@ export default function SocketChat() {
       this.hc.reset();
     };
     this.socket.onerror = () => {
+
       // console.log('socket error');
+
       this.reconnect();
       this.configSocket({ userId: this.userId, userName: this.userName });
       this.restart = true;
     };
     this.socket.onclose = (e) => {
+
       // console.log(e);
+
       this.reconnect({ userId: this.userId, userName: this.userName });
       this.restart = true;
     };

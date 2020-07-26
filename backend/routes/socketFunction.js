@@ -2,7 +2,9 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const chatController = require('../controller/ChatController');
 
+
 logger.level = 'OFF';
+
 
 let socketControl = {};
 let userSocketList = {};
@@ -56,7 +58,10 @@ const socketFunction = (ws, req)=> {
             logger.info(m);
             let message = m.payload;
             let receiver = message.receiver;
-            if (userSocketList[receiver.userId]) {
+
+            let sender = message.sender;
+            if (receiver.userId !== sender.userId && userSocketList[receiver.userId]) {
+
                 userSocketList[receiver.userId].send(JSON.stringify({
                     purpose: "SOCKET_SEND_MESSAGE",
                     payload: message

@@ -41,6 +41,7 @@ class InputArea extends React.Component {
                 receiver: this.props.currentChatter,
                 content: this.state.content,
                 date: date
+
             });
             this.props.headContactListSend({...this.props.currentChatter, dateStr: new Date().toUTCString()});
             this.props.headHistoryContactsSend({...this.props.currentChatter, dateStr: new Date().toUTCString()});

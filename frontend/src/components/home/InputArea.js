@@ -1,4 +1,6 @@
+
 import React from 'react';
+
 import Card from "@material-ui/core/Card";
 import ImageIcon from '@material-ui/icons/Image';
 import IconButton from "@material-ui/core/IconButton";
@@ -87,7 +89,6 @@ class InputArea extends React.Component {
                 style={styles.container}>
                 <Card className="input-area my-3">
                     <div className="row">
-
                         <div className="col-lg-10" style={styles.textArea}>
                             <textarea className="text-box mx-2 mt-3"
                                 style={styles.textBox}

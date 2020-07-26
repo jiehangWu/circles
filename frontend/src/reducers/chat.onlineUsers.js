@@ -13,7 +13,9 @@ export const chatsListReducer = (init = [], action) => {
       });
       return 0;
     });
+
     // console.log(ret);
+
     return ret;
   }
   // move the contact to first place
@@ -21,7 +23,9 @@ export const chatsListReducer = (init = [], action) => {
     const ret = init.slice();
     const chatPerson = action.payload;
     chatPerson.read = false;
+
     // console.log(ret.map((ele) => ele.userId));
+
     const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
     if (index !== -1) {
       ret.splice(index,1);
@@ -33,7 +37,9 @@ export const chatsListReducer = (init = [], action) => {
     const ret = init.slice();
     const chatPerson = action.payload;
     chatPerson.read = true;
+
     // console.log(ret.map((ele) => ele.userId));
+
     const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
     if (index !== -1) {
       ret.splice(index,1);
@@ -50,7 +56,9 @@ export const chatsListReducer = (init = [], action) => {
   }
   if (action.type === 'LOCAL_SET_READ') {
     const ret = init.slice();
+
     // console.log(ret);
+
     const userId = action.payload;
     const chat = ret.find((ele) => ele.userId === userId);
     if (chat) {

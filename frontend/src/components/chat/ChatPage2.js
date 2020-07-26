@@ -14,6 +14,7 @@ export function ChatPage2(props) {
 
     return <React.Fragment>
         <div>
+
         <div style={{ marginLeft: '0.9%', width: "99%",backgroundColor: "#9B59B6", color: 'white', display:'flex',height:'calc(5vh)'}} >
             <div className="mx-2 my-1" style={{fontSize: "large"}}> Circles Chat</div>
         </div>
@@ -25,6 +26,7 @@ export function ChatPage2(props) {
             </Grid>
 
             <Grid item className="" style={{ marginLeft: '1%', width: '69%'}}>
+
                 <Paper style={{background: "white"}}>
                     <ChatDisplayPort/>
                 </Paper>

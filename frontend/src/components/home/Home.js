@@ -56,6 +56,7 @@ const styles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
+
         backgroundColor: theme.palette.background.default,
         width: "80%",
         padding: theme.spacing(3),
@@ -221,7 +222,6 @@ const Home = (props) => {
 
     const leftSideBar = (
         <div className={classes.background}>
-            <SocketComponent />
             <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
             {name}
             {leftBarIcon}
