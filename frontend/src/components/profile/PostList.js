@@ -43,7 +43,8 @@ class PostList extends React.Component {
 							content={post.content}
 							likes={post.likes}
 							imgLink={post.imgLink}
-							comments={post.comments} />
+							comments={post.comments}
+							isAtProfile={true} />
 					) : ''}
 			</React.Fragment>
 		);

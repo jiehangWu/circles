@@ -73,7 +73,7 @@ const PostContainer = (props) => {
 			<Card className={classes.post} >
 				<CardHeader
 					avatar={
-						props.currUserId === props.userId ?
+						props.isAtProfile ?
 							<Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>
 								{props.username}
 							</Avatar> : <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}
