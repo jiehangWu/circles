@@ -15,7 +15,7 @@ const socketFunction = (ws, req)=> {
         //HEART_BEAT
         if (m.purpose === "HEART_BEAT") {
             //logger.info(wss.clients.size);
-            logger.info(m);
+            //logger.info(m);
             ws.send(JSON.stringify({
                 purpose: "HEART_BEAT"
             }));
@@ -39,6 +39,7 @@ const socketFunction = (ws, req)=> {
         }
         // SOCKET_ADD_USER
         if (m.purpose === "CLIENT_ADD_USER") {
+            logger.info(m);
             userSocketList[m.payload.userId] = ws;
             userInfoList[m.payload.userId] = {username: m.payload.username, userAvatar: m.payload.userAvatar};
             logger.info(m);

@@ -74,7 +74,7 @@ module.exports = {
     setChatStatus: (setUserId, userId2, bool) => {
         return Chat.findOne({$or: [{chatter0: ObjectId(setUserId), chatter1: ObjectId(userId2)},
                 {chatter0: ObjectId(userId2), chatter1: ObjectId(setUserId)}]}).then((doc) => {
-            if (doc !== undefined) {
+            if (doc !== null) {
                 logger.info(doc);
                 if (setUserId === doc.chatter0.toString()) {
                     if (bool === true) {
