@@ -90,13 +90,12 @@ const styles = makeStyles((theme) => ({
 
     //   added for responsive
     appBarShift: {
-        width: `calc(100% - ${drawerWidth * 2}px)`,
+        width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        marginRight: drawerWidth,
     },
     menuButton: {
         marginRight: theme.spacing(5),
