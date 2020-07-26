@@ -235,9 +235,7 @@ const Home = (props) => {
         <div className={classes.background}>
             <IconButton onClick={() => {imgUpload.current.click()}}>
                 <input className="hide" style={{ display: 'none' }} type="file" ref={imgUpload} onChange={imageChangeHandler} />
-                {props.avatar ? 
-                    <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}/> : 
-                    <Avatar aria-label="profile-pic" className={classes.avatar}>{props.username && props.username[0]}</Avatar>}
+                <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>{props.username && props.username[0]}</Avatar>
             </IconButton>
             {name}
             {leftBarIcon}

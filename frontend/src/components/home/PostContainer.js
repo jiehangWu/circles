@@ -87,7 +87,7 @@ const PostContainer = (props) => {
 									});
 
 								}}>
-								{props.username}
+								{props.username && props.username[0]}
 							</Avatar>
 					}
 					action={
