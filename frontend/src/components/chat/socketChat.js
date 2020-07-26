@@ -5,9 +5,10 @@ import { store } from '../../helpers/store';
 const url = 'ws://127.0.0.1:5000';
 
 function HeartCheck(socket0, { userId, username }) {
-  this.timeout = 2000; // 2s
+  this.timeout = 1000; // 1s
   this.timeoutObj = null;
   this.serverTimeoutObj = null;
+  this.restart = false;
   this.reset = () => {
     clearTimeout(this.timeoutObj);
     clearTimeout(this.serverTimeoutObj);
@@ -16,10 +17,12 @@ function HeartCheck(socket0, { userId, username }) {
   this.start = () => {
     const self = this;
     this.timeoutObj = setTimeout(() => {
-      socket0.send(JSON.stringify({
-        purpose: 'HEART_BEAT',
-        payload: { userId, username },
-      }));
+      if (socket0.readyState === 1) {
+        socket0.send(JSON.stringify({
+          purpose: 'HEART_BEAT',
+          payload: { userId, username },
+        }));
+      }
       self.serverTimeoutObj = setTimeout(() => {
         socket0.close();
       }, self.timeout);
@@ -72,45 +75,39 @@ export default function SocketChat() {
   this.username = '';
   this.userId = '';
   this.avatar = '';
+  this.restart = false;
 
   this.close = () => {
     this.socket.close();
   };
 
   this.reconnect = () => {
+    let newSocket;
     if (!window.WebSocket) {
 
       // console.log('MozWebSocket');
 
       window.WebSocket = window.MozWebSocket;
-      this.socket = new WebSocket(url);
+      newSocket = new WebSocket(url);
     }
     if (window.WebSocket) {
 
       // console.log('WebSocket');
-      this.socket = new WebSocket(url);
+      newSocket = new WebSocket(url);
     } else {
       // console.log('SOCKJS');
 
-      this.socket = new SockJS(url);
+      newSocket = new SockJS(url);
     }
-    store.dispatch({
-      type: 'CLIENT_ADD_USER',
-      payload: {
-        purpose: 'CLIENT_ADD_USER',
-        payload: {
-          userId: this.userId,
-          username: this.username,
-          userAvatar: this.avatar
-        },
-      },
-    });
-    this.hc = new HeartCheck(this.socket, { userId: this.userId, username: this.username });
+    this.hc = new HeartCheck(newSocket, {userId:this.userId, username:this.username});
+    this.socket = newSocket;
     this.hc.start();
   };
 
   this.send = (message) => {
-    this.socket.send(message);
+    if (this.socket.readyState === 1) {
+      this.socket.send(message);
+    }
   };
 
   this.configSocket = ({ userId, username, userAvatar }) => {
@@ -118,7 +115,20 @@ export default function SocketChat() {
     this.username = username;
     this.userAvatar = userAvatar;
     this.socket.onopen = () => {
-
+      if (this.restart) {
+        store.dispatch({
+          type: 'CLIENT_ADD_USER',
+          payload: {
+            purpose: 'CLIENT_ADD_USER',
+            payload: {
+              userId: userId,
+              username: username,
+              userAvatar: userAvatar
+            },
+          },
+        });
+        this.restart = false;
+      }
     };
     // receiving message handler
     this.socket.onmessage = (event) => {
@@ -129,6 +139,7 @@ export default function SocketChat() {
         if (this.hc === undefined) {
           this.hc = new HeartCheck(this.socket, { userId, username });
           this.hc.start();
+          this.restart = false;
         }
         // init contact list and empty message array
         store.dispatch(mapAction.socketInitContactsList(message.payload));
@@ -179,17 +190,14 @@ export default function SocketChat() {
 
     this.socket.onerror = () => {
       console.log('socket error');
-      setTimeout(() => {
-        this.reconnect();
-        this.configSocket({ userId: this.userId, userName: this.userName, userAvatar: this.userAvatar });
-        this.restart = true;}, 2000);
     };
+
     this.socket.onclose = (e) => {
       console.log(e);
       setTimeout(() => {
         this.reconnect();
-      this.configSocket({ userId: this.userId, userName: this.userName, userAvatar: this.userAvatar });
-      this.restart = true;}, 2000);
+        this.configSocket({ userId: this.userId, username: this.username, userAvatar: this.userAvatar });
+      this.restart = true;}, 1000);
     };
   };
 }
