@@ -15,7 +15,8 @@ class PostList extends React.Component {
 				{this.props.posts.postList.map((post) =>
 					<PostContainer  postId={post._id} 
 						username={post.user.username}
-						userId={post.user._id} 
+						userId={post.user._id}
+						avatar={post.user.avatar} 
 						date={post.date} 
 						content={post.content} 
 						likes={post.likes}

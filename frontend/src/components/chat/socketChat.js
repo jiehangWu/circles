@@ -68,10 +68,10 @@ const mapAction = {
 
 export default function SocketChat() {
   this.socket = socket;
-  this.restart = false;
   this.hc = undefined;
   this.username = '';
   this.userId = '';
+  this.avatar = '';
 
   this.close = () => {
     this.socket.close();
@@ -94,15 +94,29 @@ export default function SocketChat() {
 
       this.socket = new SockJS(url);
     }
+    store.dispatch({
+      type: 'CLIENT_ADD_USER',
+      payload: {
+        purpose: 'CLIENT_ADD_USER',
+        payload: {
+          userId: this.userId,
+          username: this.username,
+          userAvatar: this.avatar
+        },
+      },
+    });
+    this.hc = new HeartCheck(this.socket, { userId: this.userId, username: this.username });
+    this.hc.start();
   };
 
   this.send = (message) => {
     this.socket.send(message);
   };
 
-  this.configSocket = ({ userId, username }) => {
+  this.configSocket = ({ userId, username, userAvatar }) => {
     this.userId = userId;
     this.username = username;
+    this.userAvatar = userAvatar;
     this.socket.onopen = () => {
 
     };
@@ -112,11 +126,10 @@ export default function SocketChat() {
       // console.log(message);
       if (message.purpose === 'SOCKET_INIT_CONTACTS') {
         // if new heartCheck, the old one will not be handled(bug)
-        if (this.hc === undefined || this.restart === true) {
+        if (this.hc === undefined) {
           this.hc = new HeartCheck(this.socket, { userId, username });
-          this.restart = false;
+          this.hc.start();
         }
-        this.hc.start();
         // init contact list and empty message array
         store.dispatch(mapAction.socketInitContactsList(message.payload));
         store.dispatch(mapAction.socketInitContacts(message.payload));
@@ -159,24 +172,24 @@ export default function SocketChat() {
               payload: message.payload.sender.userId,
             });
           }
-        }, 2000);
+        }, 1000);
       }
       this.hc.reset();
     };
+
     this.socket.onerror = () => {
-
-      // console.log('socket error');
-
-      this.reconnect();
-      this.configSocket({ userId: this.userId, userName: this.userName });
-      this.restart = true;
+      console.log('socket error');
+      setTimeout(() => {
+        this.reconnect();
+        this.configSocket({ userId: this.userId, userName: this.userName, userAvatar: this.userAvatar });
+        this.restart = true;}, 2000);
     };
     this.socket.onclose = (e) => {
-
-      // console.log(e);
-
-      this.reconnect({ userId: this.userId, userName: this.userName });
-      this.restart = true;
+      console.log(e);
+      setTimeout(() => {
+        this.reconnect();
+      this.configSocket({ userId: this.userId, userName: this.userName, userAvatar: this.userAvatar });
+      this.restart = true;}, 2000);
     };
   };
 }

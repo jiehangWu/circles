@@ -1,12 +1,9 @@
 import React from 'react';
-import Avatar from "@material-ui/core/Avatar";
-import Card from "@material-ui/core/Card";
 import { connect } from 'react-redux';
 import './message.css'
 import Contact from "./Contact";
 import Grid from "@material-ui/core/Grid";
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 
 class Message extends React.Component {
     constructor(props) {
@@ -47,7 +44,7 @@ class Message extends React.Component {
                 </Grid>
                 <Grid item className="mt-1">
                     <Paper className="mt-2" style={{background:"#0080FF"}}>
-                        <p style={{maxWidth:"300px", padding: "5px", height: "auto",
+                        <p style={{maxWidth:"550px", padding: "5px", height: "auto",
                             wordWrap:"break-word",
                             wordBreak:"break-all",
                             overflow: "hidden",
@@ -64,14 +61,5 @@ class Message extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        userId: state.userinfo.userId,
-    };
-}
 
-const mapAction = {
-
-}
-
-export default connect(null, {})(Message);
+export default Message;

@@ -20,8 +20,8 @@ require('./model/Comment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-// logger.level = 'info';
-logger.level = "OFF";
+logger.level = 'ALL';
+// logger.level = "OFF";
 
 // The ordering is important too
 const app = express();
@@ -70,4 +70,5 @@ wss.on('connection',sockeFunction);
 server.listen(process.env.PORT, () => {
     logger.info(`Server is listening on PORT ${process.env.PORT}`);
 });
+
 

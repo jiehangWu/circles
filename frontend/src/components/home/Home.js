@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import PostList from './PostList';
 import CirclesList from './CirclesList';
@@ -8,8 +9,8 @@ import { history } from "../../helpers/history"
 import { HomeActions } from "../../actions/home.actions";
 import { connect } from "react-redux";
 import Profile from "../profile/Profile"
-import SocketComponent from '../chat/SocketComponent'
 import ChatPage2 from "../chat/ChatPage2";
+import { userActions } from '../../actions/user.actions';
 
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
@@ -159,6 +160,7 @@ const styles = makeStyles((theme) => ({
 }));
 
 const Home = (props) => {
+    const imgUpload = useRef(null);
     const classes = styles();
     const theme = useTheme();
 
@@ -175,7 +177,7 @@ const Home = (props) => {
     const name = (
         <div className={classes.name}>
             <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
-            <p>@{props.username}123</p><br />
+            <p>@{props.registerName}</p>
         </div>
     );
 
@@ -219,6 +221,15 @@ const Home = (props) => {
             <HomeIcon />
         </IconButton>)
     );
+
+    const imageChangeHandler = () => {
+        if (imgUpload.current.files[0]) {
+            const data = new FormData();
+            const fileName = imgUpload.current.files[0].name;
+            data.append(fileName, imgUpload.current.files[0], fileName);
+            props.uploadAvatar(data);
+        }
+    }
 
     const leftSideBar = (
         <div className={classes.background}>
@@ -286,9 +297,9 @@ const Home = (props) => {
                         inputProps={{ 'aria-label': 'search' }}
                     />
                 </div>
-
             </Toolbar>
         </AppBar>);
+
 
     const leftResponsiveBar = (
         <Drawer
@@ -344,13 +355,16 @@ const mapStateToProps = (state) => {
     return {
         sideBarName: state.userinfo.username,
         username: state.userinfo.username,
+        registerName: state.userinfo.registerName,
         userId: state.userinfo.userId,
+        avatar: state.userinfo.avatar,
         tags: state.tags
     };
 };
 
 const mapAction = {
     loadHome: HomeActions.loadHome,
+    uploadAvatar: userActions.uploadAvatar,
 };
 
 export default connect(mapStateToProps, mapAction)(Home);

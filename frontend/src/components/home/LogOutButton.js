@@ -1,48 +1,38 @@
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import IconButton from "@material-ui/core/IconButton";
 import React from "react";
-import { userActions } from "../../actions/user.actions";
-import { connect } from "react-redux";
+import {userActions} from "../../actions/user.actions";
+import {connect} from "react-redux";
+import {makeStyles} from "@material-ui/core/styles";
 import Fab from '@material-ui/core/Fab';
 
-const styles = {
+const styles = makeStyles((theme) => ({
 	log_out: {
-		background: 'grey',
-		color: 'white',
-		width: "66%",
-		marginLeft: "25%"
+		background: 'dimgrey',
+		color:'white',
+		fontSize: '0.8rem'
 	},
 	extendedIcon: {
-		padding: 10,
-		color: 'white',
-		fontSize: '0.80rem',
-		fontWeight: ('bold', '900')
+		marginRight: theme.spacing(1)
 	},
-	powerIcon: {
-		padding: 0,
-		color: 'secondary',
-		fontSize: '1.36rem',
-	},
-};
+}));
 
-class LogOutButton extends React.Component {
-	constructor(props) {
-		super(props);
 
-	}
-
-	render() {
-		return <Fab variant="contained" startIcon={<PowerSettingsNewIcon />} size="small"
-			style={styles.log_out}>
-			<div onClick={() => this.props.logOut()}>
-				<IconButton style={styles.extendedIcon}>
-					<PowerSettingsNewIcon color="secondary" style={styles.powerIcon} />  &nbsp; LOG OUT
-				</IconButton>
-
-			</div>
+function  LogOutButton(props) {
+	const classes = styles();
+	return <React.Fragment >
+		<div style={{display: 'flex', flexDirection:'row', justifyContent: 'center'}}>
+		<div style={{flexDirection:'row', justifyContent: 'center'}}>
+		<Fab variant = "extended" className={classes.log_out} size="small" onClick={props.logOut} style={{fontWeight: '500'
+			,fontSize:'0.7rem'}}>
+			<PowerSettingsNewIcon className={classes.extendedIcon} />
+			log out
 		</Fab>
-	}
+		</div>
+		</div>
+	</React.Fragment>;
 }
+
+
 
 const mapState = (state) => {
 	return { message: state.message };
@@ -51,6 +41,7 @@ const mapState = (state) => {
 const mapAction = {
 	logOut: userActions.logOut,
 };
+
 
 export default connect(mapState, mapAction)(LogOutButton);
 

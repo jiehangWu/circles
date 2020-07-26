@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
+const ObjectId = require('mongodb').ObjectID;
+//logger.level = 'OFF';
+logger.level = 'debug';
 
-logger.level = 'OFF';
-// logger.level = 'debug';
 
 const Chat = mongoose.model("chats");
 const Message = mongoose.model("messages");
@@ -12,29 +13,30 @@ module.exports = {
 
     addChatMessage: (content, date, sender, receiver) => {
         const newMessage = new Message({
-            sender: sender,
+            sender: ObjectId(sender),
             content: content,
             date: date
         });
         const messageId = newMessage._id;
-        return Chat.findOne({$or: [{chatter0: sender, chatter1: receiver},{chatter1: sender, chatter0: receiver}]}).
+        return Chat.findOne({$or: [{chatter0: ObjectId(sender), chatter1: ObjectId(receiver)},
+                {chatter1: ObjectId(sender), chatter0: ObjectId(receiver)}]}).
         then((doc)=> {
             if (doc === null) {
                 const newChat = new Chat({
-                    chatter0: sender,
-                    chatter1: receiver,
-                    c0HasRead: true,
-                    c1HasRead: false,
+                    chatter0: ObjectId(sender),
+                    chatter1: ObjectId(receiver),
+                    c0Unread: 0,
+                    c1Unread: 1,
                     messages:[]
                 });
                 return newChat.save();
             } else {
-                if (doc.chatter0 === sender) {
-                    doc.c0HasRead = true;
-                    doc.c1HasRead = false;
+                if (doc.chatter0.toString() === sender) {
+                    doc.c0Unread = 0;
+                    doc.c1Unread = doc.c1Unread + 1;
                 } else {
-                    doc.c1HasRead = false;
-                    doc.c0HasRead = true;
+                    doc.c0Unread = doc.c0Unread + 1;
+                    doc.c1Unread = 0;
                 }
                 return doc.save();
             }
@@ -44,7 +46,7 @@ module.exports = {
         }).then(()=> {
             return newMessage.save();
         }).then((doc)=> {
-            return doc.populate({path:"sender", select: "username"}).execPopulate();
+            return Promise.resolve(doc);
         }).then((messageDoc) => {
             return Promise.resolve(messageDoc);
         }).catch((err) => {
@@ -54,10 +56,10 @@ module.exports = {
     },
 
     loadChats: (userId) => {
-        return Chat.find({$or: [{chatter0: userId},{chatter1: userId}]}).then((docs) => {
-            return Chat.populate(docs, {path: "chatter0", select: "username"});
+        return Chat.find({$or: [{chatter0: ObjectId(userId)},{chatter1: ObjectId(userId)}]}).then((docs) => {
+            return Chat.populate(docs, {path: "chatter0", select: ["username","avatar"]});
         }).then((docs)=> {
-            return Chat.populate(docs, {path: "chatter1", select: "username"});
+            return Chat.populate(docs, {path: "chatter1", select: ["username","avatar"]});
         }).then((docs) => {
             return Chat.populate(docs, {path: "messages", populate:{ path: "sender", select: "username"}});
         }).then((docs) => {
@@ -70,13 +72,22 @@ module.exports = {
 
     // one has read it or not indicating by bool
     setChatStatus: (setUserId, userId2, bool) => {
-        return Chat.findOne({$or: [{chatter0: setUserId, chatter1: userId2},{chatter0: userId2, chatter1: setUserId}]}).then((doc) => {
-            if (doc !== undefined) {
+        return Chat.findOne({$or: [{chatter0: ObjectId(setUserId), chatter1: ObjectId(userId2)},
+                {chatter0: ObjectId(userId2), chatter1: ObjectId(setUserId)}]}).then((doc) => {
+            if (doc !== null) {
                 logger.info(doc);
-                if (setUserId ===  Chat.populate(doc, {path:'chatter0'})) {
-                    doc.c0HasRead = bool;
+                if (setUserId === doc.chatter0.toString()) {
+                    if (bool === true) {
+                        doc.c0Unread = 0;
+                    } else {
+                        doc.c0Unread = doc.c0Unread + 1;
+                    }
                 } else {
-                    doc.c1HasRead = bool;
+                    if (bool === true) {
+                        doc.c1Unread = 0;
+                    } else {
+                        doc.c1Unread = doc.c1Unread + 1;
+                    }
                 }
                 return doc.save();
             }
@@ -84,6 +95,6 @@ module.exports = {
             return Promise.resolve(doc);
         }).catch((err) => {
             logger.error(err);
-        });bv.toString()
+        });
     },
 };

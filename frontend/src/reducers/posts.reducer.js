@@ -70,6 +70,7 @@ export const posts = (state = initial, action) => {
         postList: state.postList,
       };
     case 'LOAD_PROFILE_POSTS':
+      console.log("payload here! ", action.payload.posts);
       return {
         postList: action.payload.posts,
       };

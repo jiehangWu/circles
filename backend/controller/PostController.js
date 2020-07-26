@@ -5,8 +5,6 @@ const UserController = require('./UserController');
 const AwsController = require('./AwsController');
 const util = require("../utils/util");
 
-logger.level = 'OFF';
-
 const Post = mongoose.model("posts");
 const Comment = mongoose.model("comments");
 
@@ -26,7 +24,7 @@ module.exports = {
             return comment.save();
         }).then((comment) => {
             logger.info("comment is ", comment);
-            return comment.populate({ path: 'user', select: 'username' }).execPopulate();
+            return comment.populate({ path: 'user', select: ['username', 'avatar'] }).execPopulate();
         }).then((comment) => {
             return Promise.resolve(comment);
         }).catch((err) => {
@@ -54,7 +52,7 @@ module.exports = {
             return doc.save();
         }).then(() => {
             logger.info("post is ", post);
-            return post.populate({ path: 'user', select: 'username' }).execPopulate();
+            return post.populate({ path: 'user', select: ['username', 'avatar'] }).execPopulate();
         }).then((doc) => {
             logger.info(doc);
             logger.info("success!");
@@ -131,8 +129,8 @@ module.exports = {
     loadAllPosts: () => {
         return Post.find({}).sort({ date: -1 }).then((docs) => {
             return Post.populate(docs,
-                [{ path: 'user', select: 'username' },
-                { path: 'comments', populate: { path: 'user', select: 'username' } }]);
+                [{ path: 'user', select: ['username', 'avatar'] },
+                { path: 'comments', populate: { path: 'user', select: ['username', 'avatar'] } }]);
         }).catch((err) => {
             logger.error(err);
             return Promise.reject(err);
@@ -143,8 +141,8 @@ module.exports = {
         try {
             let docs = await Post.find({ "_id": { "$in": ids } });
             return Post.populate(docs,
-                [{ path: 'user', select: 'username' },
-                { path: 'comments', populate: { path: 'user', select: 'username' } }]);
+                [{ path: 'user', select: ['username', 'avatar'] },
+                { path: 'comments', populate: { path: 'user', select: ['username', 'avatar'] } }]);
         } catch (err) {
             throw(err);
         }
