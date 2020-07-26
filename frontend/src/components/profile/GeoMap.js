@@ -27,9 +27,6 @@ export class MapContainer extends Component {
     });
     lat_from_IP = position.coords.latitude;
     lng_from_IP = position.coords.longitude;
-    // console.log("Latitude is :", position.coords.latitude);
-    // console.log("Longitude is :", position.coords.longitude);
-    // console.log("This state lng is :", this.state.lng_IP);
     return position.coords.latitude;
   }
 

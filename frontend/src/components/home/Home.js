@@ -4,6 +4,16 @@ import PostList from './PostList';
 import CirclesList from './CirclesList';
 import InputArea from './InputArea';
 import LogOutButton from './LogOutButton';
+import { history } from "../../helpers/history"
+import { HomeActions } from "../../actions/home.actions";
+import { connect } from "react-redux";
+import Profile from "../profile/Profile"
+import SocketComponent from '../chat/SocketComponent'
+import ChatPage2 from "../chat/ChatPage2";
+import LeftBarButton from "./LeftBarButton";
+
+import Grid from '@material-ui/core/Grid';
+import HomeIcon from '@material-ui/icons/Home';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,14 +22,6 @@ import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { history } from "../../helpers/history"
-import { HomeActions } from "../../actions/home.actions";
-import { connect } from "react-redux";
-import Profile from "../profile/Profile"
-import SocketComponent from '../chat/SocketComponent'
-import ChatPage2 from "../chat/ChatPage2";
-import Grid from '@material-ui/core/Grid';
-import HomeIcon from '@material-ui/icons/Home';
 
 const drawerWidth = 200;
 
@@ -72,7 +74,7 @@ const Home = (props) => {
         </div>
     );
 
-    const buttonAtBar = (history.location.pathname === '/home' ?
+    const leftBarIcon = (history.location.pathname === '/home' ?
         (<IconButton color='primary' onClick={
             () => {
                 history.push({
@@ -110,7 +112,7 @@ const Home = (props) => {
             <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
             {name}
 
-            {buttonAtBar}
+            {leftBarIcon}
 
             <IconButton color='primary'>
                 <SettingsIcon />
@@ -174,7 +176,8 @@ const Home = (props) => {
                         }}
                         anchor="left"
                     >
-                        {leftSideBar}
+                        {/* {leftSideBar} */}
+                        <LeftBarButton/>
                     </Drawer>
                 </div>
 
