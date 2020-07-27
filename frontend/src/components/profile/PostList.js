@@ -34,10 +34,12 @@ class PostList extends React.Component {
 			<React.Fragment>
 				{this.props.postList ?
 					this.props.postList.map((post) =>
-						<PostContainer postId={post._id}
+						<PostContainer
+							key={post._id} 
+							postId={post._id}
 							style={styles.textBox}
 							username={post.user.username}
-							userId={this.props.self ? this.props.currID : ""}
+							userId={post.user._id}
 							avatar={post.user.avatar}
 							date={post.date}
 							content={post.content}

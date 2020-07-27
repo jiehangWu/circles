@@ -193,7 +193,7 @@ const Home = (props) => {
         </div>
     );
 
-    const rightSideBar = (history.location.pathname === '/home/chat' ? <div></div> : (
+    const rightSideBar = (
         <div className={classes.background}>
             <div>
                 <br></br>
@@ -207,8 +207,7 @@ const Home = (props) => {
                 </Grid>
                 <CirclesList />
             </div>
-        </div>)
-    );
+        </div>);
 
     const leftBarIcon = (history.location.pathname === '/home' ?
         (<IconButton color='primary' onClick={() => {
