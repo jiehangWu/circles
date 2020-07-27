@@ -5,11 +5,12 @@ const socketChat = new SocketChat();
 
 export const chatSocketReducer = (init = socketChat, action) => {
   if (action.type === 'SOCKET_INIT') {
+    socketChat.reconnect(action.payload);
     socketChat.configSocket(action.payload);
     return socketChat;
   }
   if (action.type === 'SOCKET_CLOSE') {
-    init.close();
+    init.logOutClose();
     return init;
   }
   if (action.type === 'CLIENT_ADD_USER') {

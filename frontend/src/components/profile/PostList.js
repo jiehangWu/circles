@@ -32,9 +32,9 @@ class PostList extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				{this.props.postList ?
+				{this.props.postList?
 					this.props.postList.map((post) =>
-						<PostContainer
+						post.user?<PostContainer
 							key={post._id} 
 							postId={post._id}
 							style={styles.textBox}
@@ -46,7 +46,7 @@ class PostList extends React.Component {
 							likes={post.likes}
 							imgLink={post.imgLink}
 							comments={post.comments}
-							isAtProfile={true} />
+							isAtProfile={true} />:<div></div>
 					) : ''}
 			</React.Fragment>
 		);

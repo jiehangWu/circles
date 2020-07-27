@@ -9,6 +9,7 @@ export function ChatDisplayPort(props) {
     let messagesEnd;
     useEffect(() => {
         props.loadChats();
+
         scrollToBottom();
         },[]);
 

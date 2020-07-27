@@ -20,7 +20,7 @@ class PostList extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				{this.props.circlesList ?
+				{this.props.circlesList !== null && JSON.stringify(this.props.circlesList) !== "[]" && this.props.circlesList !== undefined?
 					<List dense className="classes.root">
 						{this.props.circlesList.map((value) => {
 							const labelId = `checkbox-list-secondary-label-${value.user._id}`;
