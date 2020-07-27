@@ -196,6 +196,7 @@ const Home = (props) => {
     const rightSideBar = (history.location.pathname === '/home/chat' ? <div></div> : (
         <div className={classes.background}>
             <div>
+                <br></br>
                 <LogOutButton />
                 <br></br>
                 <br></br>
@@ -255,15 +256,15 @@ const Home = (props) => {
     );
 
     const Home = (
-        <div className={classes.content}>
-            <InputArea /><br></br>
+        <div className={classes.content} style={{display:'flex',flexDirection:'column', height:'100%'}}>
+            <InputArea />
             <PostList />
         </div>
     );
 
     const contentRouter = (
         <main className={history.location.pathname === '/home/chat'?clsx(classes.content2, { [classes.contentShift]: open, })
-            :clsx(classes.content, { [classes.contentShift]: open, })} style={{width: '80%', display: "flex",justifyContent:'center'
+            :clsx(classes.content, { [classes.contentShift]: open, })} style={{width: '80%', height:"100%", display: "flex",justifyContent:'center'
             }}>
              {/*<switch></switch> is unrecognizable by browesers*/}
             <div style={{width: '100%', display: "flex",justifyContent:'center'}}>
@@ -329,7 +330,6 @@ const Home = (props) => {
                     {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </IconButton>
             </div>
-
             <Divider />
             {leftSideBar}
         </Drawer>);
@@ -342,7 +342,7 @@ const Home = (props) => {
             open={open}
             classes={{ paper: classes.drawerPaper, }}
         >
-            <div >
+            <div className={classes.drawerHeader}>
                 <IconButton onClick={handleDrawerClose}>
                     {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </IconButton>

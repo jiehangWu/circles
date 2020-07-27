@@ -23,7 +23,7 @@ const styles = {
     },
     container: {
         width: "100%",
-        height: "18%",
+        height: "100%",
         border: '0',
         backgroundColor: 'transparent',
     },
@@ -87,7 +87,7 @@ class InputArea extends React.Component {
         return (
             <div className="container"
                 style={styles.container}>
-                <Card className="input-area my-3">
+                <Card className="input-area my-0">
                     <div className="row">
                         <div className="col-lg-10" style={styles.textArea}>
                             <textarea className="text-box mx-2 mt-3"
