@@ -17,17 +17,13 @@ class PostList extends React.Component {
 		super(props);
 	}
 
-	componentDidMount() {
-		this.props.loadAllPosts();
-	}
-
 	render() {
 		return (
 			<React.Fragment>
 				{this.props.circlesList ?
 					<List dense className="classes.root">
 						{this.props.circlesList.map((value) => {
-							const labelId = `checkbox-list-secondary-label-${value}`;
+							const labelId = `checkbox-list-secondary-label-${value.user._id}`;
 							return (
 								<ListItem key={value} button>
 									<ListItemAvatar>
@@ -36,10 +32,31 @@ class PostList extends React.Component {
 											src={`/static/images/avatar/${value + 1}.jpg`}
 										/>
 									</ListItemAvatar>
-									<ListItemText id={labelId} primary={`${value}`} />
+									<ListItemText id={labelId} primary={`${value.user.username}`} />
 									<ListItemSecondaryAction>
 										<Badge color = "secondary" badgeContent={0} showZero>
-										<ChatIcon color = "primary" onClick={() => history.push('./home/chat')}/>
+										<ChatIcon color = "primary" onClick={() => {
+												if (history.location.pathname === '/home/profile') {
+													console.log("if");
+													history.push({
+														pathname: '',
+														state: {
+															homeId: value.user._id,
+															self: false
+														}
+													});
+												} else {
+													console.log("else");
+													history.push({
+														pathname: '/home/profile',
+														state: {
+															homeId: value.user._id,
+															self: false
+														}
+													});
+												}
+												
+											}}/>
 										</Badge>
 									</ListItemSecondaryAction>
 								</ListItem>

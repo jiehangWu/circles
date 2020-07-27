@@ -7,12 +7,12 @@ export const posts = (state = initial, action) => {
   switch (action.type) {
     case 'SUBMIT_POST':
       return {
-        uploadedImgLink: state.uploadedImgLink,
+        ...state,
         postList: [action.payload, ...state.postList],
       };
     case 'COMMENT_POST':
       return {
-        uploadedImgLink: state.uploadedImgLink,
+        ...state,
         postList: [
           ...state.postList.map((post) => {
             if (post._id === action.payload.post) {
@@ -27,7 +27,7 @@ export const posts = (state = initial, action) => {
       };
     case 'LIKE_POST':
       return {
-        uploadedImgLink: state.uploadedImgLink,
+        ...state,
         postList: [
           ...state.postList.map((post) => {
             if (post._id === action.payload.postId) {
@@ -41,37 +41,36 @@ export const posts = (state = initial, action) => {
         ],
       };
     case 'LOAD_ALL':
-      // added for circles visualization
-      let circlesList = [];
-      action.payload.forEach(element => {
-        circlesList.push(element.user.username);
-      });
-      circlesList = circlesList.filter(function (id, index, self) {
-        return self.indexOf(id) === index;
-      });
+      // let circlesList = [];
+      // action.payload.forEach(element => {
+      //   circlesList.push(element.user.username);
+      // });
+      // circlesList = circlesList.filter(function (id, index, self) {
+      //   return self.indexOf(id) === index;
+      // });
       return {
         uploadedImgLink: state.uploadedImgLink,
         postList: action.payload,
-        circlesList: circlesList
+        circlesList: action.payload,
       };
     case 'DELETE_POST':
       return {
-        uploadedImgLink: state.uploadedImgLink,
+        ...state,
         postList: state.postList.filter((post) => post._id !== action.payload),
       };
     case 'ADD_IMAGE':
       return {
+        ...state,
         uploadedImgLink: action.payload,
-        postList: state.postList,
       };
     case 'CLEAR_IMAGE':
       return {
+        ...state,
         uploadedImgLink: '',
-        postList: state.postList,
       };
     case 'LOAD_PROFILE_POSTS':
-      console.log("payload here! ", action.payload.posts);
       return {
+        ...state,
         postList: action.payload.posts,
       };
     default:

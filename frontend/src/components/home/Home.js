@@ -271,7 +271,8 @@ const Home = (props) => {
                 <Route exact path="/home">
                     {Home}
                 </Route>
-                <Route exact path="/home/profile">
+                <Route exact path="/home/profile" key={history.location.state
+                                                        && history.location.state.homeId}>
                     <Profile />
                 </Route>
                 <Route exact path="/home/chat">
