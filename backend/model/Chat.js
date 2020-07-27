@@ -9,8 +9,8 @@ const ChatSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
     },
-    c0HasRead: Boolean,
-    c1HasRead: Boolean,
+    c0Unread: Number,
+    c1Unread: Number,
     messages: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'messages'

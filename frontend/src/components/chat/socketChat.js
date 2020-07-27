@@ -5,9 +5,10 @@ import { store } from '../../helpers/store';
 const url = 'ws://127.0.0.1:5000';
 
 function HeartCheck(socket0, { userId, username }) {
-  this.timeout = 2000; // 2s
+  this.timeout = 1000; // 1s
   this.timeoutObj = null;
   this.serverTimeoutObj = null;
+  this.restart = false;
   this.reset = () => {
     clearTimeout(this.timeoutObj);
     clearTimeout(this.serverTimeoutObj);
@@ -16,10 +17,12 @@ function HeartCheck(socket0, { userId, username }) {
   this.start = () => {
     const self = this;
     this.timeoutObj = setTimeout(() => {
-      socket0.send(JSON.stringify({
-        purpose: 'HEART_BEAT',
-        payload: { userId, username },
-      }));
+      if (socket0.readyState === 1) {
+        socket0.send(JSON.stringify({
+          purpose: 'HEART_BEAT',
+          payload: { userId, username },
+        }));
+      }
       self.serverTimeoutObj = setTimeout(() => {
         socket0.close();
       }, self.timeout);
@@ -68,43 +71,64 @@ const mapAction = {
 
 export default function SocketChat() {
   this.socket = socket;
-  this.restart = false;
   this.hc = undefined;
   this.username = '';
   this.userId = '';
+  this.avatar = '';
+  this.restart = false;
 
   this.close = () => {
     this.socket.close();
   };
 
   this.reconnect = () => {
+    let newSocket;
     if (!window.WebSocket) {
 
       // console.log('MozWebSocket');
 
       window.WebSocket = window.MozWebSocket;
-      this.socket = new WebSocket(url);
+      newSocket = new WebSocket(url);
     }
     if (window.WebSocket) {
 
       // console.log('WebSocket');
-      this.socket = new WebSocket(url);
+      newSocket = new WebSocket(url);
     } else {
       // console.log('SOCKJS');
 
-      this.socket = new SockJS(url);
+      newSocket = new SockJS(url);
     }
+    this.hc = new HeartCheck(newSocket, {userId:this.userId, username:this.username});
+    this.socket = newSocket;
+    this.hc.start();
   };
 
   this.send = (message) => {
-    this.socket.send(message);
+    if (this.socket.readyState === 1) {
+      this.socket.send(message);
+    }
   };
 
-  this.configSocket = ({ userId, username }) => {
+  this.configSocket = ({ userId, username, userAvatar }) => {
     this.userId = userId;
     this.username = username;
+    this.userAvatar = userAvatar;
     this.socket.onopen = () => {
-
+      if (this.restart) {
+        store.dispatch({
+          type: 'CLIENT_ADD_USER',
+          payload: {
+            purpose: 'CLIENT_ADD_USER',
+            payload: {
+              userId: userId,
+              username: username,
+              userAvatar: userAvatar
+            },
+          },
+        });
+        this.restart = false;
+      }
     };
     // receiving message handler
     this.socket.onmessage = (event) => {
@@ -112,11 +136,11 @@ export default function SocketChat() {
       // console.log(message);
       if (message.purpose === 'SOCKET_INIT_CONTACTS') {
         // if new heartCheck, the old one will not be handled(bug)
-        if (this.hc === undefined || this.restart === true) {
+        if (this.hc === undefined) {
           this.hc = new HeartCheck(this.socket, { userId, username });
+          this.hc.start();
           this.restart = false;
         }
-        this.hc.start();
         // init contact list and empty message array
         store.dispatch(mapAction.socketInitContactsList(message.payload));
         store.dispatch(mapAction.socketInitContacts(message.payload));
@@ -159,24 +183,21 @@ export default function SocketChat() {
               payload: message.payload.sender.userId,
             });
           }
-        }, 2000);
+        }, 1000);
       }
       this.hc.reset();
     };
+
     this.socket.onerror = () => {
-
-      // console.log('socket error');
-
-      this.reconnect();
-      this.configSocket({ userId: this.userId, userName: this.userName });
-      this.restart = true;
+      console.log('socket error');
+      setTimeout(() => {
+        this.reconnect();
+        this.configSocket({ userId: this.userId, username: this.username, userAvatar: this.userAvatar });
+        this.restart = true;}, 1000);
     };
+
     this.socket.onclose = (e) => {
-
-      // console.log(e);
-
-      this.reconnect({ userId: this.userId, userName: this.userName });
-      this.restart = true;
+      console.log(e);
     };
   };
 }

@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import PostList from './PostList';
 import CirclesList from './CirclesList';
@@ -8,8 +9,8 @@ import { history } from "../../helpers/history"
 import { HomeActions } from "../../actions/home.actions";
 import { connect } from "react-redux";
 import Profile from "../profile/Profile"
-import SocketComponent from '../chat/SocketComponent'
 import ChatPage2 from "../chat/ChatPage2";
+import { userActions } from '../../actions/user.actions';
 
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
@@ -49,14 +50,13 @@ const styles = makeStyles((theme) => ({
         backgroundColor: blueGrey[50]
     },
     rightDrawerPaper: {
-        width: 200,
+        width: drawerWidth,
         backgroundColor: blueGrey[50]
     },
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
-
         backgroundColor: theme.palette.background.default,
         width: "80%",
         padding: theme.spacing(3),
@@ -65,7 +65,22 @@ const styles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: "10%",
-        marginTop: "2%"
+        marginRight: "10%",
+        marginTop: "2%",
+        display: "flex",
+        justifyContent:'center'
+    },
+    content2: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        width: "80%",
+        padding: theme.spacing(0),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: "10%",
+        marginRight: "10%",
     },
     avatar: {
         backgroundColor: blue[500],
@@ -79,7 +94,6 @@ const styles = makeStyles((theme) => ({
         width: '20%'
     },
     appBar: {
-        // width: "50%"
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -94,7 +108,6 @@ const styles = makeStyles((theme) => ({
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        marginLeft: drawerWidth,
     },
     menuButton: {
         marginRight: theme.spacing(5),
@@ -111,11 +124,11 @@ const styles = makeStyles((theme) => ({
         justifyContent: 'flex-end',
     },
     contentShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        marginLeft: 200,
     },
     search: {
         position: 'relative',
@@ -159,6 +172,7 @@ const styles = makeStyles((theme) => ({
 }));
 
 const Home = (props) => {
+    const imgUpload = useRef(null);
     const classes = styles();
     const theme = useTheme();
 
@@ -175,13 +189,14 @@ const Home = (props) => {
     const name = (
         <div className={classes.name}>
             <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
-            <p>@{props.username}123</p><br />
+            <p>@{props.registerName}</p>
         </div>
     );
 
     const rightSideBar = (history.location.pathname === '/home/chat' ? <div></div> : (
         <div className={classes.background}>
             <div>
+                <br></br>
                 <LogOutButton />
                 <br></br>
                 <br></br>
@@ -220,27 +235,39 @@ const Home = (props) => {
         </IconButton>)
     );
 
+    const imageChangeHandler = () => {
+        if (imgUpload.current.files[0]) {
+            const data = new FormData();
+            const fileName = imgUpload.current.files[0].name;
+            data.append(fileName, imgUpload.current.files[0], fileName);
+            props.uploadAvatar(data);
+        }
+    }
+
     const leftSideBar = (
         <div className={classes.background}>
-            <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
+            <IconButton onClick={() => {imgUpload.current.click()}}>
+                <input className="hide" style={{ display: 'none' }} type="file" ref={imgUpload} onChange={imageChangeHandler} />
+                <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>{props.username && props.username[0]}</Avatar>
+            </IconButton>
             {name}
             {leftBarIcon}
-            <IconButton color='primary'>
-                <SettingsIcon />
-            </IconButton>
         </div>
     );
 
     const Home = (
-        <div className={classes.content}>
-            <InputArea /><br></br>
+        <div className={classes.content} style={{display:'flex',flexDirection:'column', height:'100%'}}>
+            <InputArea />
             <PostList />
         </div>
     );
 
     const contentRouter = (
-        <main className={clsx(classes.content, { [classes.contentShift]: open, })}>
-            <switch style={history.location.pathname === '/home' ? { width: '50%' } : { width: '100%' }}>
+        <main className={history.location.pathname === '/home/chat'?clsx(classes.content2, { [classes.contentShift]: open, })
+            :clsx(classes.content, { [classes.contentShift]: open, })} style={{width: '80%', height:"100%", display: "flex",justifyContent:'center'
+            }}>
+             {/*<switch></switch> is unrecognizable by browesers*/}
+            <div style={{width: '100%', display: "flex",justifyContent:'center'}}>
                 <Route exact path="/home">
                     {Home}
                 </Route>
@@ -251,13 +278,13 @@ const Home = (props) => {
                     <ChatPage2 />
                 </Route>
                 <Redirect from="/home/*" to="/home" />
-            </switch>
+            </div>
         </main>
     );
 
     const circlesAppBar = (
         <AppBar
-            position="fixed"
+            position={history.location.pathname === '/home/chat'?"":"fixed"}
             className={clsx(classes.appBar, { [classes.appBarShift]: open, })}>
             <Toolbar>
                 <IconButton
@@ -286,9 +313,9 @@ const Home = (props) => {
                         inputProps={{ 'aria-label': 'search' }}
                     />
                 </div>
-
             </Toolbar>
         </AppBar>);
+
 
     const leftResponsiveBar = (
         <Drawer
@@ -303,7 +330,6 @@ const Home = (props) => {
                     {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </IconButton>
             </div>
-
             <Divider />
             {leftSideBar}
         </Drawer>);
@@ -316,7 +342,7 @@ const Home = (props) => {
             open={open}
             classes={{ paper: classes.drawerPaper, }}
         >
-            <div >
+            <div className={classes.drawerHeader}>
                 <IconButton onClick={handleDrawerClose}>
                     {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </IconButton>
@@ -331,7 +357,6 @@ const Home = (props) => {
 
     return (
         <React.Fragment>
-            <CssBaseline />
             {circlesAppBar}
             {leftResponsiveBar}
             {contentRouter}
@@ -344,13 +369,16 @@ const mapStateToProps = (state) => {
     return {
         sideBarName: state.userinfo.username,
         username: state.userinfo.username,
+        registerName: state.userinfo.registerName,
         userId: state.userinfo.userId,
+        avatar: state.userinfo.avatar,
         tags: state.tags
     };
 };
 
 const mapAction = {
     loadHome: HomeActions.loadHome,
+    uploadAvatar: userActions.uploadAvatar,
 };
 
 export default connect(mapStateToProps, mapAction)(Home);

@@ -8,8 +8,9 @@ export const chatsListReducer = (init = [], action) => {
     Object.keys(kv).map((key) => {
       ret.push({
         userId: key,
-        username: kv[key],
-        read: true,
+        username: kv[key].username,
+        userAvatar: kv[key].userAvatar,
+        unread: 0
       });
       return 0;
     });
@@ -22,24 +23,24 @@ export const chatsListReducer = (init = [], action) => {
   if (action.type === 'HEAD_CONTACT_LIST_RECEIVE') {
     const ret = init.slice();
     const chatPerson = action.payload;
-    chatPerson.read = false;
-
+    chatPerson.unread = 0;
     // console.log(ret.map((ele) => ele.userId));
-
     const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
     if (index !== -1) {
+      let chatP = ret[index];
+      chatP.unread = chatP.unread + 1;
       ret.splice(index,1);
+      ret.splice(0,0, chatP);
+    } else {
+      ret.splice(0,0, chatPerson);
     }
-    ret.splice(0,0, chatPerson);
     return ret;
   }
   if (action.type === 'HEAD_CONTACT_LIST_SEND') {
     const ret = init.slice();
     const chatPerson = action.payload;
-    chatPerson.read = true;
-
+    chatPerson.unread = 0;
     // console.log(ret.map((ele) => ele.userId));
-
     const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
     if (index !== -1) {
       ret.splice(index,1);
@@ -50,7 +51,7 @@ export const chatsListReducer = (init = [], action) => {
   if (action.type === 'ADD_ONE_CONTACT_LIST') {
     const ret = init.slice();
     const chatPerson = action.payload;
-    chatPerson.read = true;
+    chatPerson.unread = 0;
     ret.push(chatPerson);
     return ret;
   }
@@ -62,7 +63,7 @@ export const chatsListReducer = (init = [], action) => {
     const userId = action.payload;
     const chat = ret.find((ele) => ele.userId === userId);
     if (chat) {
-      chat.read = true;
+      chat.unread = 0;
     }
     return ret;
   }
@@ -71,7 +72,7 @@ export const chatsListReducer = (init = [], action) => {
     const userId = action.payload;
     const chat = ret.find((ele) => ele.userId === userId);
     if (chat) {
-      chat.read = false;
+      chat.unread = chat.unread + 1;
     }
     return ret;
   }

@@ -5,11 +5,9 @@ import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import HistoryContactList from "./HistoryContactList";
 import ContactList from "./ContactList";
-import {ChatDisplayPort} from "./ChatDisplayPort";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -57,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         width: '100%',
     },
+    indicator: {
+        display: 'none'
+    }
 }));
 
 export default function FullWidthTabs() {
@@ -74,11 +75,13 @@ export default function FullWidthTabs() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="default" style={{height:'calc(5vh)', width: ''}}>
+            <AppBar position="static" color="default" style={{height:'calc(5vh)', width: '', }}>
                 <Tabs
                     value={value}
                     onChange={handleChange}
-                    indicatorColor="white"
+                    classes={{
+                        indicator: classes.indicator
+                    }}
                     textColor="primary"
                     variant="fullWidth"
                     aria-label="full width tabs example"

@@ -26,7 +26,8 @@ class InputArea extends React.Component {
                     payload: {
                         sender: {
                             userId: this.props.userId,
-                            username: this.props.username
+                            username: this.props.username,
+                            userAvatar: this.props.userAvatar
                         },
                         receiver: this.props.currentChatter,
                         content: this.state.content,
@@ -36,7 +37,8 @@ class InputArea extends React.Component {
             this.props.addOneMessage({
                 sender: {
                     userId: this.props.userId,
-                    username: this.props.username
+                    username: this.props.username,
+                    userAvatar: this.props.userAvatar
                 },
                 receiver: this.props.currentChatter,
                 content: this.state.content,
@@ -65,17 +67,18 @@ class InputArea extends React.Component {
 
     render() {
         return (
-            <Grid container direction="row" alignItems="flex-end" style={{height:'calc(8vh)'}}>
-                <Grid item style={{width: '90%'}}>
-                    <textarea className="text-box ml-2 mr-1 my-2 mt-2"
+            <Grid container direction="row" alignItems="flex-end" justify="space-between" style={{height:'calc(8vh)'}}>
+                <Grid item  style = {{height: '100%',width: '90%'}} className="ml-2 mr-1 my-2 mt-2">
+                    <textarea
                         style={{
-                            outlineColor: "grey",
+                            outlineColor: "white",
                             outlineWidth: "1px",
                             backgroundColor: "white",
+                            width:'100%',
+                            height:'calc(6vh)'
                         }}
                         id="outlined-required"
-                        rows="2"
-                        placeholder="Press Enter to send"
+                              placeholder="Press Send to send"
                         required
                         onChange={(e) => {
                             this.handleChange(e)
@@ -83,11 +86,11 @@ class InputArea extends React.Component {
                         ref={this.textArea}>
                     </textarea>
                 </Grid>
-                <Grid item>
+                <Grid item style = {{height: '100%',width: '8%', display: "flex", flexDirection: 'row', alignItems:'flex-end'}}>
                     <button type="button"
                         className={"btn btn-default float-right mx-0 mb-3"
                             + (this.state.content ? "" : " disabled")}
-                        onClick={this.handleSubmit} style={{color:'#0080FF', fontWeight: 'bold'}}>
+                        onClick={this.handleSubmit} style={{color:'#0080FF', fontWeight: 'bold', alignSelf:'flex-end'}}>
                         Send
                     </button>
                 </Grid>
@@ -99,6 +102,7 @@ class InputArea extends React.Component {
 const mapStateToProps = (state) => {
     return {
         userId: state.userinfo.userId,
+        userAvatar: state.userinfo.avatar,
         username: state.userinfo.username,
         currentChatter: state.currentChatPerson
     };

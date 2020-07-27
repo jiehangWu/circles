@@ -3,8 +3,6 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-// logger.level = 'debug';
-logger.level = 'OFF';
 
 const UserController = require('../controller/UserController');
 const PostController = require('../controller/PostController');
@@ -90,12 +88,14 @@ router.post('/login', async (req, res, next) => {
 router.post('/home', async (req, res) => {
     const userId = req.session.userId;
     logger.info(userId);
+    console.log(userId);
     const result = await UserController.findUserByUserId(userId);
     if (result) {
         const username = result.username;
         const registerName = result.registerName;
+        const avatar = result.avatar;
         logger.info(`Display ${username}`);
-        res.status(200).send({ registerName, username, userId });
+        res.status(200).send({ registerName, username, userId, avatar });
     } else {
         logger.error(result);
         res.status(400).send("please login");
@@ -139,11 +139,11 @@ router.get('/profile/:id', async (req, res) => {
         const username = result.username;
         const tags = result.tags;
         // const posts = await PostController.loadPostsByIds(result.posts);
-
+        const avatar = result.avatar;
 
         const posts = result.posts;
         logger.info(`Display ${username}`);
-        res.status(200).send({ username, userId, tags, posts });
+        res.status(200).send({ username, userId, tags, posts, avatar });
     } else {
         logger.error(result);
         res.status(400).send("please login");
@@ -178,6 +178,25 @@ router.delete("/tags/:userId", (req, res, next) => {
         logger.error(err);
         res.status(500).end();
     })
+});
+
+router.put('/avatar', (req, res, next) => {
+    const userId = req.session.userId;
+    const { avatarLink } = req.body;
+    logger.info("avatar user id is: ", userId);
+    logger.info("avatar link is: ", avatarLink);
+    return UserController.uploadAvatar(userId, avatarLink).then(() => {
+        res.status(200).end();
+    }).catch((err) => {
+        res.status(500).end();
+    });
+    // try {
+    //     await UserController.uploadAvatar(userId, avatarLink);
+    //     res.status(200).end();
+    // } catch (err) {
+    //     logger.error(err);
+    //     res.status(500).send(err.message);
+    // }
 });
 
 module.exports = router;

@@ -1,7 +1,6 @@
 import Grid from '@material-ui/core/Grid';
 import Contact from "./Contact";
-import React, {useEffect, useState} from "react";
-import {HomeActions} from "../../actions/home.actions";
+import React from "react";
 import {connect} from "react-redux";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -9,35 +8,27 @@ import {displayDate} from "../../helpers/util";
 import {Divider} from "@material-ui/core";
 
 function ContactList(props) {
-
-    useEffect(() => {
-        // console.log(props.chatsReducer);
-    }, []);
+    function findData(ele) {
+        let data = props.order.find((item) => item.userId === ele.userId);
+        return data;
+    }
 
     return <React.Fragment>
-        <List container direction="column" alignItems="flex-start" style={{height:'calc(89vh)'}}>
+        <List container direction="column" style={{height:'calc(84vh)'}}>
             {
-                props.order.map((ele) => {
+                props.orderOnline.map((ele) => {
                     return<React.Fragment>
                         <ListItem>
                             <Grid container direction="row" justify='space-between'>
                                 <Grid item>
-                                    <Grid container direction="row">
-                                        <Contact chatter={ele} displayName={true} online={true}/>
-
-                                        <div style={{alignSelf: 'flex-end', color:'#aab7b8', position:'relative', right: '250px'}}>
-
-                                            {props.chatsReducer1[ele.userId] !== undefined &&
-                                            props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1] !== undefined?
-                                                props.chatsReducer1[ele.userId][props.chatsReducer1[ele.userId].length - 1].content.slice(0,10) + "...":''}
-                                        </div>
-                                    </Grid>
+                                    <Contact chatter={findData(ele) !== undefined? findData(ele):ele} displayName={true}/>
                                 </Grid>
                                 <Grid item style={{alignSelf: 'flex-end'}}>
                                     <Grid container direction='row-reverse'>
                                         <div style={{color:'#aab7b8',fontSize:'0.8rem'}} className="mr-2">
-                                            {ele.dateStr !== undefined?
-                                                displayDate(ele.dateStr):''}
+                                            {
+                                                findData(ele) !== undefined && findData(ele).dateStr !== undefined? displayDate(findData(ele).dateStr):""
+                                            }
                                         </div>
                                     </Grid>
                                 </Grid>
@@ -54,7 +45,8 @@ function ContactList(props) {
 
 const mapStateToProps = (state) => {
     return {
-        order: state.chatsListReducer,
+        order: state.historyContactsReducer,
+        orderOnline: state.chatsListReducer,
         person: state.currentChatPerson,
         chatsReducer1: state.chatsReducer1,
     };

@@ -54,7 +54,6 @@ const styles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing(3),
-        marginLeft: '8.8rem',
         width: 1100,
     },
     avatar: {
@@ -82,7 +81,7 @@ function wait(sec) {
 
 const Profile = (props) => {
     const idFromHome = history.location.state.homeId;
-    props.loadProfile(idFromHome);
+    // props.loadProfile(idFromHome);
     const self = history.location.state.self;
 
     const loading = React.createRef();
@@ -91,7 +90,6 @@ const Profile = (props) => {
     const name = (
         <div className={classes.name}>
             <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
-            <p>@{props.username}123</p><br />
         </div>
     );
 
@@ -99,36 +97,38 @@ const Profile = (props) => {
         <div className={classes.background}>
             <div className={classes.toolbar} />
             <center>
-                <Avatar aria-label="profile-pic" className={classes.avatar}>W</Avatar>
+                <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>W</Avatar>
                 {name}
 
-                <IconButton color='primary'>
-                    <HomeIcon onClick={async () => {
-                        loading.current.style.display = 'block';
-                        await wait(3000);
-                        history.go({
-                            pathname: './home',
-                            state: {
-                                homeId: props.userId,
-                                self: true
-                            }
-                        });
-                    }} />
+                <IconButton color='primary' onClick={async () => {
+                    loading.current.style.display = 'block';
+                    await wait(3000);
+                    history.go({
+                        pathname: './home',
+                        state: {
+                            homeId: props.userId,
+                            self: true
+                        }
+                    });
+                }}>
+                    <HomeIcon  />
                 </IconButton>
 
                 <IconButton>
                     <GeoButton />
                 </IconButton>
-                
-                <IconButton color='secondary'>
-                    <ChatIcon onClick={async () => {
-                        loading.current.style.display = 'block';
-                        await wait(100);
-                        props.beginChat({
-                            username: props.username,
-                            userId: props.userId
-                        })
-                    }} />
+
+                <IconButton color='secondary' onClick={async () => {
+                    loading.current.style.display = 'block';
+                    await wait(100);
+                    props.beginChat({
+                        username: props.username,
+                        userId: props.userId,
+                        userAvatar: props.avatar
+                    })
+                }} >
+                    <ChatIcon />
+
                 </IconButton><br></br>
 
                 <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} self={self} /><br></br>
@@ -137,7 +137,7 @@ const Profile = (props) => {
     );
 
     useEffect(() => {
-        // props.loadProfile(hixrstory.location.state.homeId);
+        props.loadProfile(idFromHome);
     }, []);
 
     return (
@@ -171,6 +171,7 @@ const mapStateToProps = (state) => {
         username: state.userinfo.profileUsername,
         prevId: state.userinfo.prevId,
         userId: state.userinfo.profileUserId,
+        avatar: state.userinfo.profileAvatar,
         tags: state.tags,
         posts: state.posts
     };

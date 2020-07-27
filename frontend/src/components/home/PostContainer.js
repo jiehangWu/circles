@@ -73,10 +73,10 @@ const PostContainer = (props) => {
 			<Card className={classes.post} >
 				<CardHeader
 					avatar={
-						props.currUserId === props.userId ?
-							<Avatar aria-label="profile-pic" className={classes.avatar}>
+						props.isAtProfile ?
+							<Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>
 								{props.username}
-							</Avatar> : <Avatar aria-label="profile-pic" className={classes.avatar}
+							</Avatar> : <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}
 								onClick={() => {
 									history.push({
 										pathname: './home/profile',
@@ -87,7 +87,7 @@ const PostContainer = (props) => {
 									});
 
 								}}>
-								{props.username}
+								{props.username && props.username[0]}
 							</Avatar>
 					}
 					action={

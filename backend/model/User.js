@@ -8,7 +8,10 @@ const UserSchema = new mongoose.Schema({
     },
     username: String,
     password: String,
-    avatar: String,
+    avatar: {
+        type: String,
+        default: '',
+    },
     emailAddress: String,
     chats: [
         {

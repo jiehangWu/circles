@@ -3,9 +3,6 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const util = require("../utils/util");
 
-// logger.level = 'debug';
-logger.level = 'OFF';
-
 const User = mongoose.model("users");
 
 module.exports = {
@@ -27,6 +24,17 @@ module.exports = {
             registerName: registerName
         };
         return User.findOne(query);
+    },
+
+    uploadAvatar: async (userId, avatarLink) => {
+        let user = await User.findById(userId);
+        console.log(user);
+        logger.info(user);
+        if (user.avatar) {
+            await AwsController.deleteObj(util.getKey(user.avatar));
+        }
+        user.avatar = avatarLink;
+        return user.save();
     },
 
     addTag: async (id, tag) => {
