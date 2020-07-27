@@ -47,8 +47,6 @@ module.exports = {
             return newMessage.save();
         }).then((doc)=> {
             return Promise.resolve(doc);
-        }).then((messageDoc) => {
-            return Promise.resolve(messageDoc);
         }).catch((err) => {
             logger.error(err);
             return Promise.reject(err);
@@ -71,19 +69,19 @@ module.exports = {
     },
 
     // one has read it or not indicating by bool
-    setChatStatus: (setUserId, userId2, bool) => {
+    setChatStatus: (setUserId, userId2, hasRead) => {
         return Chat.findOne({$or: [{chatter0: ObjectId(setUserId), chatter1: ObjectId(userId2)},
                 {chatter0: ObjectId(userId2), chatter1: ObjectId(setUserId)}]}).then((doc) => {
             if (doc !== null) {
                 logger.info(doc);
                 if (setUserId === doc.chatter0.toString()) {
-                    if (bool === true) {
+                    if (hasRead) {
                         doc.c0Unread = 0;
                     } else {
                         doc.c0Unread = doc.c0Unread + 1;
                     }
                 } else {
-                    if (bool === true) {
+                    if (hasRead) {
                         doc.c1Unread = 0;
                     } else {
                         doc.c1Unread = doc.c1Unread + 1;
