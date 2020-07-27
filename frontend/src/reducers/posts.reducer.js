@@ -1,6 +1,7 @@
 const initial = {
   uploadedImgLink: '',
   postList: [],
+  circlesList: []
 };
 
 export const posts = (state = initial, action) => {

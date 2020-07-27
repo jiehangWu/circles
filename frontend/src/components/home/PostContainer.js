@@ -82,7 +82,7 @@ const PostContainer = (props) => {
 										pathname: './home/profile',
 										state: {
 											homeId: props.userId,
-											self: false
+											self: props.currUserId === props.userId
 										}
 									});
 
