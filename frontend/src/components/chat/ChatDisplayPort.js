@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import Message from "./message";
 import {ChatActions} from "../../actions/chat.actions";
+import {chatEnter} from "../../reducers/chat.enter";
 
 
 export function ChatDisplayPort(props) {
@@ -15,14 +16,17 @@ export function ChatDisplayPort(props) {
         scrollToBottom();
         },[props.chatsReducer1, props.person.userId]);
 
+    useEffect(()=> {
+        console.log(props.chatEnter);
+        setTimeout(()=> {if(messagesEnd)scrollToBottom()}, 100);
+    },[props.chatEnter]);
 
     let scrollToBottom = () => {
         messagesEnd.scrollIntoView({ behavior: "smooth" });
     };
 
     return <React.Fragment>
-
-            <div style={{height: "calc(81vh)", padding: "10px", margin: "0px", overflow: "scroll"}}>
+        <div style={{height: "calc(81vh)", padding: "10px", margin: "0px", overflow: "scroll"}}>
                 {props.chatsReducer1[props.person.userId] ?
                     props.chatsReducer1[props.person.userId].map((ele) => {
                         if (ele.sender.username === props.username) {
@@ -33,9 +37,6 @@ export function ChatDisplayPort(props) {
                             return <Message content={ele.content} chatter={ele.sender} left={true}/>;}
                     }) : <div></div>
                 }
-                <div>
-
-                </div>
                 <div style={{ float:"left", clear: "both" }}
                      ref={(el) => { messagesEnd = el; }}>
                 </div>
@@ -50,7 +51,8 @@ const mapStateToProps = (state) => {
         chatsReducer1: state.chatsReducer1,
         username: state.userinfo.username,
         userAvatar: state.userinfo.avatar,
-        person: state.currentChatPerson
+        person: state.currentChatPerson,
+        chatEnter: state.chatEnter
     };
 };
 

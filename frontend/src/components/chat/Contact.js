@@ -90,7 +90,9 @@ const Contact = (props) => {
         }
         {props.displayName ?
             <div style={{display: 'flex', flexDirection:'column', alignItems: 'top' }}>
-                <div className="pr-2" style={{fontWeight: '550'}} onClick={() => {
+                <div className="pr-2" style={{fontWeight: '550',
+                        cursor:"pointer"
+                    }} onClick={() => {
                     props.switchChatter(props.chatter);
                     props.clientSetRead({
                         purpose: "CLIENT_SET_READ",
