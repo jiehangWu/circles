@@ -76,22 +76,21 @@ const PostContainer = (props) => {
 						props.isAtProfile ?
 							<Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>
 								{props.username}
-							</Avatar> : <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}
-								onClick={() => {
-									history.push({
-										pathname: './home/profile',
-										state: {
-											homeId: props.userId,
-											self: props.currUserId === props.userId
-										}
-									});
-
-								}}>
-								{props.username && props.username[0]}
 							</Avatar>
+							: <IconButton onClick={() => {
+								history.push({
+									pathname: './home/profile',
+									state: {
+										homeId: props.userId,
+										self: props.currUserId === props.userId
+									}
+								});
+							}}>
+								<Avatar aria-label="profile-pic" alt={props.username} className={classes.avatar} src={props.avatar} />
+							</IconButton>
 					}
 					action={
-						props.currUserId === props.userId ? 
+						props.currUserId === props.userId ?
 							<IconButton aria-label="settings">
 								<ClearIcon onClick={() => props.deletePost(props.postId)} />
 							</IconButton> : ''

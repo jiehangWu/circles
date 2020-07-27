@@ -42,18 +42,15 @@ export const posts = (state = initial, action) => {
         ],
       };
     case 'LOAD_ALL':
-      // let circlesList = [];
-      // action.payload.forEach(element => {
-      //   circlesList.push(element.user.username);
-      // });
-      // circlesList = circlesList.filter(function (id, index, self) {
-      //   return self.indexOf(id) === index;
-      // });
       return {
-        uploadedImgLink: state.uploadedImgLink,
+        ...state,
         postList: action.payload,
-        circlesList: action.payload,
       };
+    case 'LOAD_CIRCLES_LIST':
+      return {
+        ...state,
+        circlesList: action.payload
+      }
     case 'DELETE_POST':
       return {
         ...state,

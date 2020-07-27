@@ -111,6 +111,28 @@ const uploadImage = (data) => (dispatch) => {
   });
 };
 
+const loadCirclesList = () => async (dispatch) => {
+  try {
+    let response = await fetch('http://localhost:5000/search/circleslist', {
+      method: 'GET',
+      credentials: 'include',
+    });
+    if (response.ok) {
+      response = await response.text();
+      response = JSON.parse(response);
+      dispatch({
+        type: 'LOAD_CIRCLES_LIST',
+        payload: response
+      })
+    } else {
+      throw new Error('Error fetching circles list');
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+  
+}
+
 const submitComment = (comment) => (dispatch) => {
   fetch(`http://localhost:5000/post/c/${comment.postId}`, {
     method: 'PUT',
@@ -140,28 +162,28 @@ const submitComment = (comment) => (dispatch) => {
 
 const loadProfilePosts = (currId) => {
   return dispatch => {
-      fetch('http://localhost:5000/post/profile/posts/' + currId, {
-          method: "GET",
-          headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
-          },
-          credentials: 'include',
-      }).then((response) => {
-          if (response.ok) {
-              return response.text();
-          }
-          throw new Error("error in response");
-      }).then((msg) => {
-          let parsedMsg = JSON.parse(msg);
-          // console.log(parsedMsg);
-          dispatch({
-              type: "LOAD_PROFILE_POSTS",
-              payload: parsedMsg
-          });
-      }).catch((err) => {
-          console.log("going back");
+    fetch('http://localhost:5000/post/profile/posts/' + currId, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      credentials: 'include',
+    }).then((response) => {
+      if (response.ok) {
+        return response.text();
+      }
+      throw new Error("error in response");
+    }).then((msg) => {
+      let parsedMsg = JSON.parse(msg);
+      // console.log(parsedMsg);
+      dispatch({
+        type: "LOAD_PROFILE_POSTS",
+        payload: parsedMsg
       });
+    }).catch((err) => {
+      console.log("going back");
+    });
   };
 };
 
@@ -172,5 +194,6 @@ export const PostActions = {
   loadAllPosts,
   uploadImage,
   submitComment,
-  loadProfilePosts
+  loadProfilePosts,
+  loadCirclesList
 };
