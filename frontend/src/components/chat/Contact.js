@@ -105,7 +105,7 @@ const Contact = (props) => {
                 }}>
                     {props.chatter.username}
                 </div>
-                <div style={{alignSelf: 'flex-start', color:'dimgrey'}}>
+                <div style={{alignSelf: 'flex-start', color:'#aab7b8',fontSize:'0.9rem'}}>
                     {
                         messages!== undefined &&
                         messages[messages.length - 1] !== undefined?
