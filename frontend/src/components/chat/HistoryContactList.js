@@ -10,7 +10,7 @@ import ListItem from '@material-ui/core/ListItem';
 function HistoryContactList(props) {
 
     return <React.Fragment>
-        <List direction="column" style={{height:'calc(89vh)'}}>
+        <List direction="column" style={{height:'calc(84vh)'}}>
             {
                 props.order.map((ele) => {
                     return<React.Fragment>

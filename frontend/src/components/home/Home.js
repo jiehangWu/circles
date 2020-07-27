@@ -57,7 +57,6 @@ const styles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
-
         backgroundColor: theme.palette.background.default,
         width: "80%",
         padding: theme.spacing(3),
@@ -67,7 +66,21 @@ const styles = makeStyles((theme) => ({
         }),
         marginLeft: "10%",
         marginRight: "10%",
-        marginTop: "2%"
+        marginTop: "2%",
+        display: "flex",
+        justifyContent:'center'
+    },
+    content2: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        width: "80%",
+        padding: theme.spacing(0),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: "10%",
+        marginRight: "10%",
     },
     avatar: {
         backgroundColor: blue[500],
@@ -81,7 +94,6 @@ const styles = makeStyles((theme) => ({
         width: '20%'
     },
     appBar: {
-        // width: "50%"
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -112,12 +124,11 @@ const styles = makeStyles((theme) => ({
         justifyContent: 'flex-end',
     },
     contentShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        marginLeft: 200,
-        marginRight: 200
     },
     search: {
         position: 'relative',
@@ -251,8 +262,10 @@ const Home = (props) => {
     );
 
     const contentRouter = (
-        <main className={clsx(classes.content, { [classes.contentShift]: open, })} style={{width: '80%', display: "flex",justifyContent:'center'}}>
-            // {/*<switch></switch> is unrecognizable by browesers*/}
+        <main className={history.location.pathname === '/home/chat'?clsx(classes.content2, { [classes.contentShift]: open, })
+            :clsx(classes.content, { [classes.contentShift]: open, })} style={{width: '80%', display: "flex",justifyContent:'center'
+            }}>
+             {/*<switch></switch> is unrecognizable by browesers*/}
             <div style={{width: '100%', display: "flex",justifyContent:'center'}}>
                 <Route exact path="/home">
                     {Home}
@@ -270,7 +283,7 @@ const Home = (props) => {
 
     const circlesAppBar = (
         <AppBar
-            position="fixed"
+            position={history.location.pathname === '/home/chat'?"":"fixed"}
             className={clsx(classes.appBar, { [classes.appBarShift]: open, })}>
             <Toolbar>
                 <IconButton
@@ -344,7 +357,6 @@ const Home = (props) => {
 
     return (
         <React.Fragment>
-            <CssBaseline />
             {circlesAppBar}
             {leftResponsiveBar}
             {contentRouter}

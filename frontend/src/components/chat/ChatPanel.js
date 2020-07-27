@@ -75,7 +75,7 @@ export default function FullWidthTabs() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="default" style={{height:'calc(5vh)', width: ''}}>
+            <AppBar position="static" color="default" style={{height:'calc(5vh)', width: '', }}>
                 <Tabs
                     value={value}
                     onChange={handleChange}
