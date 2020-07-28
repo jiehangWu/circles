@@ -1,6 +1,6 @@
 import { history } from "../helpers/history";
 
-export const loadProfile = (currId) => {
+const loadProfile = (currId) => {
     return dispatch => {
         fetch('http://localhost:5000/profile/' + currId, {
             method: "GET",

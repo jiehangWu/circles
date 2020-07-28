@@ -15,11 +15,13 @@ const loadHome = () => (dispatch) => {
     throw new Error('error in response');
   }).then((msg) => {
     const parsedMsg = JSON.parse(msg);
-    // console.log(parsedMsg);
+    console.log(parsedMsg);
     dispatch({
       type: 'LOAD_HOME',
       payload: parsedMsg,
     });
+    return Promise.resolve(parsedMsg);
+  }).then((parsedMsg) => {
     // send message to reducer->socket server
     dispatch({
       type: 'SOCKET_INIT',
@@ -27,17 +29,6 @@ const loadHome = () => (dispatch) => {
         userId: parsedMsg.userId,
         username: parsedMsg.username,
         userAvatar: parsedMsg.avatar
-      },
-    });
-    dispatch({
-      type: 'CLIENT_ADD_USER',
-      payload: {
-        purpose: 'CLIENT_ADD_USER',
-        payload: {
-          userId: parsedMsg.userId,
-          username: parsedMsg.username,
-          userAvatar: parsedMsg.avatar
-        },
       },
     });
     // add self as the current chatter

@@ -24,17 +24,17 @@ const PostController = require('../controller/PostController');
 // });
 
 // Without Cache
-router.get("/", async (req, res, next) => {
-    logger.info("getting");
-    const { tags } = req.body;
-    return PostController.loadAllPosts().then((posts) => {
-        logger.info(posts);
-        res.status(200).json(posts);
-    }).catch((err) => {
-        logger.error(err);
-        res.status(500).end();
-    });
-});
+// router.get("/", async (req, res, next) => {
+//     logger.info("getting");
+//     const { tags } = req.body;
+//     return PostController.loadAllPosts().then((posts) => {
+//         logger.info(posts);
+//         res.status(200).json(posts);
+//     }).catch((err) => {
+//         logger.error(err);
+//         res.status(500).end();
+//     });
+// });
 
 // With Recommend and Cache
 // router.get("/", checkPostCache, async (req, res, next) => {
@@ -56,22 +56,22 @@ router.get("/", async (req, res, next) => {
 // });
 
 // With Recommend 
-// router.get("/", async (req, res) => {
-//     logger.info("getting");
-//     const userId = req.session.userId;
-//     const user = await userController.findUserByUserId(userId);
-//     const tags = processTags(user.tags);
-//     logger.info(tags);
-//     const postIds = await searchController.searchPostByKeyword(tags);
-//     logger.info(postIds);
-//     return PostController.loadPostsByIds(postIds).then((posts) => {
-//         logger.info(posts);
-//         res.status(200).json(posts);
-//     }).catch((err) => {
-//         logger.error(err);
-//         res.status(500).end();
-//     });
-// });
+router.get("/", async (req, res) => {
+    logger.info("getting");
+    const userId = req.session.userId;
+    const user = await userController.findUserByUserId(userId);
+    const tags = processTags(user.tags);
+    logger.info(tags);
+    const postIds = await searchController.searchPostByKeyword(tags);
+    logger.info(postIds);
+    return PostController.loadPostsByIds(postIds).then((posts) => {
+        logger.info(posts);
+        res.status(200).json(posts);
+    }).catch((err) => {
+        logger.error(err);
+        res.status(500).end();
+    });
+});
 
 router.post("/", (req, res, next) => {
     logger.info("posting");

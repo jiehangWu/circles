@@ -2,7 +2,49 @@ import React from "react";
 import { userActions } from "../../actions/user.actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { history } from "../../helpers/history"
+import { history } from "../../helpers/history";
+import CryptoJs from 'crypto-js';
+import Particles from 'react-particles-js';
+
+const styles = {
+    particles: {
+        position: "fixed",
+        top: "-45%",
+        right: 0,
+        bottom: 0,
+        left: 0,
+    }
+}
+
+const particlesOptions = {
+    particles: {
+        number: {
+            value: 30,
+            density: {
+                enable: true,
+                value_area: 150
+            },
+        },
+        line_linked: {
+            color: "#778899",
+            distance: 150,
+            opacity: 0.75,
+            width: 1
+        },
+    },
+    "interactivity": {
+        "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "repulse"
+            }
+        }
+    }
+}
 
 class RegisterForm extends React.Component {
     constructor(props) {
@@ -29,7 +71,9 @@ class RegisterForm extends React.Component {
             && this.state.password
             && this.state.repeatedPassword
             && this.state.password === this.state.repeatedPassword) {
-            this.props.register(this.state.registerName, this.state.password);
+            const ciphertext = CryptoJs.MD5(this.state.password).toString();
+            console.log(ciphertext);
+            this.props.register(this.state.registerName, ciphertext);
         }
     };
 
@@ -38,6 +82,10 @@ class RegisterForm extends React.Component {
         const { message } = this.props;
         return (
             <div className="jumbotron">
+                <Particles className='particles'
+                    params={particlesOptions}
+                    style={styles.particles}
+                />
                 <div className="container">
                     <div className="col-sm-8 col-sm-offset-2">
                         {message.message &&

@@ -176,7 +176,7 @@ const Home = (props) => {
     const classes = styles();
     const theme = useTheme();
 
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -193,7 +193,7 @@ const Home = (props) => {
         </div>
     );
 
-    const rightSideBar = (history.location.pathname === '/home/chat' ? <div></div> : (
+    const rightSideBar = (
         <div className={classes.background}>
             <div>
                 <br></br>
@@ -207,8 +207,7 @@ const Home = (props) => {
                 </Grid>
                 <CirclesList />
             </div>
-        </div>)
-    );
+        </div>);
 
     const leftBarIcon = (history.location.pathname === '/home' ?
         (<IconButton color='primary' onClick={() => {
@@ -271,7 +270,8 @@ const Home = (props) => {
                 <Route exact path="/home">
                     {Home}
                 </Route>
-                <Route exact path="/home/profile">
+                <Route exact path="/home/profile" key={history.location.state
+                                                        && history.location.state.homeId}>
                     <Profile />
                 </Route>
                 <Route exact path="/home/chat">

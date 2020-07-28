@@ -41,7 +41,7 @@ const awsRoutes = require('./routes/awsRoutes');
 const postRoutes = require('./routes/postRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const searchRoutes = require('./routes/SearchRoutes');
-const sockeFunction = require('./routes/socketFunction');
+const sockeFunction = require('./websocket/socketFunction');
 
 const MAX_AGE = 60 * 60 * 1000;
 app.use(session({

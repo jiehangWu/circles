@@ -49,9 +49,7 @@ export const chatsReducer1 = (init = {}, action) => {
     const list = init[receiver.userId].slice();
     list.push(action.payload);
     ret[receiver.userId] = list;
-
     // console.log(`sender ${receiver}`);
-
     return ret;
   }
   // receive a message

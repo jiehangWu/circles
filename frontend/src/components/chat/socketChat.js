@@ -3,12 +3,12 @@ import socket from './socket';
 import { store } from '../../helpers/store';
 
 const url = 'ws://127.0.0.1:5000';
+let restart = false;
 
 function HeartCheck(socket0, { userId, username }) {
   this.timeout = 1000; // 1s
   this.timeoutObj = null;
   this.serverTimeoutObj = null;
-  this.restart = false;
   this.reset = () => {
     clearTimeout(this.timeoutObj);
     clearTimeout(this.serverTimeoutObj);
@@ -25,7 +25,8 @@ function HeartCheck(socket0, { userId, username }) {
       }
       self.serverTimeoutObj = setTimeout(() => {
         socket0.close();
-      }, self.timeout);
+        restart = false;
+        }, self.timeout);
     }, this.timeout);
   };
 }
@@ -75,13 +76,20 @@ export default function SocketChat() {
   this.username = '';
   this.userId = '';
   this.avatar = '';
-  this.restart = false;
 
   this.close = () => {
     this.socket.close();
   };
 
-  this.reconnect = () => {
+  this.logOutClose = ()=> {
+    restart = true;
+    this.socket.close();
+  }
+
+  this.reconnect = ({ userId, username, userAvatar }) => {
+    this.userId = userId;
+    this.username = username;
+    this.userAvatar = userAvatar;
     let newSocket;
     if (!window.WebSocket) {
 
@@ -99,7 +107,7 @@ export default function SocketChat() {
 
       newSocket = new SockJS(url);
     }
-    this.hc = new HeartCheck(newSocket, {userId:this.userId, username:this.username});
+    this.hc = new HeartCheck(newSocket, {userId, username});
     this.socket = newSocket;
     this.hc.start();
   };
@@ -110,25 +118,16 @@ export default function SocketChat() {
     }
   };
 
-  this.configSocket = ({ userId, username, userAvatar }) => {
-    this.userId = userId;
-    this.username = username;
-    this.userAvatar = userAvatar;
+  this.configSocket = ({ userId, username }) => {
     this.socket.onopen = () => {
-      if (this.restart) {
-        store.dispatch({
-          type: 'CLIENT_ADD_USER',
-          payload: {
-            purpose: 'CLIENT_ADD_USER',
-            payload: {
-              userId: userId,
-              username: username,
-              userAvatar: userAvatar
-            },
-          },
-        });
-        this.restart = false;
-      }
+      this.socket.send(JSON.stringify({
+        purpose: 'CLIENT_ADD_USER',
+        payload: {
+          userId: this.userId,
+          username: this.username,
+          userAvatar: this.userAvatar
+        },
+      }));
     };
     // receiving message handler
     this.socket.onmessage = (event) => {
@@ -139,8 +138,8 @@ export default function SocketChat() {
         if (this.hc === undefined) {
           this.hc = new HeartCheck(this.socket, { userId, username });
           this.hc.start();
-          this.restart = false;
         }
+        restart = false;
         // init contact list and empty message array
         store.dispatch(mapAction.socketInitContactsList(message.payload));
         store.dispatch(mapAction.socketInitContacts(message.payload));
@@ -190,14 +189,24 @@ export default function SocketChat() {
 
     this.socket.onerror = () => {
       console.log('socket error');
-      setTimeout(() => {
-        this.reconnect();
-        this.configSocket({ userId: this.userId, username: this.username, userAvatar: this.userAvatar });
-        this.restart = true;}, 1000);
+      if (!restart) {
+        restart = true;
+        setTimeout(() => {
+          this.reconnect({ userId: this.userId, username: this.username, userAvatar: this.userAvatar });
+          this.configSocket({ userId: this.userId, username: this.username });
+         }, 1000);
+      }
     };
 
     this.socket.onclose = (e) => {
       console.log(e);
+      if (!restart) {
+        restart = true;
+        setTimeout(() => {
+          this.reconnect({ userId: this.userId, username: this.username, userAvatar: this.userAvatar });
+          this.configSocket({ userId: this.userId, username: this.username });
+          }, 1000);
+      }
     };
   };
 }

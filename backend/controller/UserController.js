@@ -10,6 +10,10 @@ module.exports = {
         return User.findById(id);
     },
 
+    findUsersByIds: (ids) => {
+        return User.find({ _id: { $in: ids } });
+    },
+
     createUser: (registerName, password) => {
         const username = util.getRandomName();
         const user = new User({

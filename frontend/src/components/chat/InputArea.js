@@ -83,6 +83,13 @@ class InputArea extends React.Component {
                         onChange={(e) => {
                             this.handleChange(e)
                         }}
+                        onKeyPress={(event) => {
+                            if (event.key === "Enter") {
+                                this.handleSubmit();
+                                this.props.chatEnter();
+                            }
+                        }
+                        }
                         ref={this.textArea}>
                     </textarea>
                 </Grid>
@@ -133,7 +140,11 @@ const mapAction = {
             payload: user
         }
     },
-
+    chatEnter: () => {
+        return {
+            type: "CHAT_ENTER"
+        }
+    }
 }
 
 

@@ -22,18 +22,14 @@ class Tag extends React.Component {
                     label={this.props.content}
                     onDelete={this.handleDelete}
                     color="primary"
-                    icon={<LoyaltyIcon />}
-                    style = {{margin: 2.5}}
-                    > 
-                    </Chip>
+                    icon={<LoyaltyIcon />}> </Chip>
             )
         } else {
             return (
                 <Chip size="medium"
                     label={this.props.content}
                     color="primary"
-                    icon={<LoyaltyIcon />}> 
-                </Chip>
+                    icon={<LoyaltyIcon />}> </Chip>
             )
         }
     }

@@ -4,17 +4,16 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { history } from "../../helpers/history"
 import Particles from 'react-particles-js';
-
+import CryptoJs from 'crypto-js';
 
 const styles = {
     particles: {
-    position: "fixed",
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    // z-index: -1,
-  }
+        position: "fixed",
+        top: "-52%",
+        right: 0,
+        bottom: 0,
+        left: 0,
+    }
 }
 
 const particlesOptions = {
@@ -23,12 +22,39 @@ const particlesOptions = {
             value: 30,
             density: {
                 enable: true,
-                value_area: 100
-            }
+                value_area: 150
+            },
         },
-        color: "#3CA9D1",
+        line_linked: {
+            color: "#778899",
+            distance: 150,
+            opacity: 0.75,
+            width: 1
+        },
+    },
+    "interactivity": {
+        "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "grab"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "modes": {
+                "grab": {
+                    "distance": 5000,
+                    line_linked: {
+                        opacity: 1,
+                    }
+                },
+            }
+        }
     }
 }
+
+
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -53,7 +79,8 @@ class LoginForm extends React.Component {
             submitted: true,
         });
         if (this.state.registerName && this.state.password) {
-            this.props.login(this.state.registerName, this.state.password);
+            const ciphertext = CryptoJs.MD5(this.state.password).toString();
+            this.props.login(this.state.registerName, ciphertext);
         }
     };
 

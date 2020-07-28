@@ -18,34 +18,49 @@ class PostList extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.loadAllPosts();
+		this.props.loadCirclesList();
 	}
 
 	render() {
 		return (
 			<React.Fragment>
-				{this.props.circlesList ?
+				{this.props.circlesList &&
 					<List dense className="classes.root">
-						{this.props.circlesList.map((value) => {
-							const labelId = `checkbox-list-secondary-label-${value}`;
+						{this.props.circlesList.map((user) => {
+							const labelId = `checkbox-list-secondary-label-${user._id}`;
 							return (
-								<ListItem key={value} button>
+								<ListItem key={user._id} button onClick={() => {
+									if (history.location.pathname === '/home/profile') {
+										console.log("if");
+										history.push({
+											state: {
+												homeId: user._id,
+												self: false
+											}
+										});
+									} else {
+										console.log("else");
+										history.push({
+											pathname: '/home/profile',
+											state: {
+												homeId: user._id,
+												self: false
+											}
+										});
+									}
+									
+								}}>
 									<ListItemAvatar>
 										<Avatar
-											alt={`Avatar n°${value + 1}`}
-											src={`/static/images/avatar/${value + 1}.jpg`}
+											alt={user.username}
+											src={user.avatar}
 										/>
 									</ListItemAvatar>
-									<ListItemText id={labelId} primary={`${value}`} />
-									<ListItemSecondaryAction>
-										<Badge color = "secondary" badgeContent={0} showZero>
-										<ChatIcon color = "primary" onClick={() => history.push('./home/chat')}/>
-										</Badge>
-									</ListItemSecondaryAction>
+									<ListItemText id={labelId} primary={`${user.username}`} />
 								</ListItem>
 							);
 						})}
-					</List>: ""}
+					</List>}
 			</React.Fragment>
 		);
 	}
@@ -53,13 +68,12 @@ class PostList extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		posts: state,
 		circlesList: state.posts.circlesList
 	};
 };
 
 const mapAction = {
-	loadAllPosts: PostActions.loadAllPosts
+	loadCirclesList: PostActions.loadCirclesList
 };
 
 export default connect(mapStateToProps, mapAction)(PostList);
