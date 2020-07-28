@@ -1,6 +1,6 @@
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-import React from "react";
+import React, {useEffect} from "react";
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import {connect} from "react-redux";
 import Badge from '@material-ui/core/Badge';
@@ -47,11 +47,14 @@ const StyledBadge = withStyles((theme) => ({
 
 const Contact = (props) => {
     const classes = styles();
-
+    useEffect(()=> {
+        console.log("change");
+    },[props.contactList0, props.contactList1]);
     const messages = props.chatsReducer1[props.chatter.userId];
+    const unread = props.chatter.unread;
 
     return <Grid item style={{display: 'flex', alignItems: 'flex-end'}} className="pl-1 pr-0 mr-0 ml-1 mb-1">
-        {(props.chatter.unread !== undefined && props.chatter.unread > 0)?
+        {(unread !== undefined && unread > 0)?
             <StyledBadge
                 overlap="circle"
                 anchorOrigin={{
@@ -61,13 +64,13 @@ const Contact = (props) => {
                 variant="dot"
             >
                 {props.chatter.userAvatar === ''?
-                    <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+                    <Avatar aria-label="profile-pic" className={classes.avatar2}
                             style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
                                 backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
                             }}>
                         {props.chatter.username.substring(0, 2)}
                     </Avatar>:
-                    <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+                    <Avatar aria-label="profile-pic" className={classes.avatar2}
                             style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
                                 backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
                             }} src={props.chatter.userAvatar}>
@@ -75,13 +78,13 @@ const Contact = (props) => {
                 }
             </StyledBadge>:
             props.chatter.userAvatar === ''?
-                    <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+                    <Avatar aria-label="profile-pic" className={classes.avatar2}
                             style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
                                 backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
                             }}>
                         {props.chatter.username.substring(0, 2)}
                     </Avatar>:
-                    <Avatar aria-label="profile-pic" className={classes.avatar2} alignItems="center"
+                    <Avatar aria-label="profile-pic" className={classes.avatar2}
                             style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
                                 backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
                             }} src={props.chatter.userAvatar}>
@@ -112,9 +115,9 @@ const Contact = (props) => {
                         messages!== undefined &&
                         messages[messages.length - 1] !== undefined?
                             (messages[messages.length - 1].content.length > 20?
-                                (props.chatter.unread > 0? "(" + props.chatter.unread +")"+" " : '')
+                                (unread > 0? "(" + unread +")"+" " : '')
                                 + messages[messages.length - 1].content.slice(0,20) + "..."
-                                :(props.chatter.unread > 0? "(" + props.chatter.unread +")"+ " " : '')
+                                :(unread > 0? "(" + unread +")"+ " " : '')
                                 + "  " + messages[messages.length - 1].content)
                             : <p> </p>
                     }
@@ -132,6 +135,8 @@ const mapStateToProps = (state) => {
         userId: state.userinfo.userId,
         currentChatter: state.currentChatPerson,
         chatsReducer1: state.chatsReducer1,
+        contactList0: state.historyContactsReducer,
+        contactList1: state.chatsListReducer
     };
 }
 

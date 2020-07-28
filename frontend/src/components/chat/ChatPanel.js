@@ -97,10 +97,10 @@ export default function FullWidthTabs() {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-                <TabPanel value={value} index={0} dir={theme.direction}>
+                <TabPanel value={value} index={0} dir={theme.direction} key ={"0"}>
                     <HistoryContactList/>
                 </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
+                <TabPanel value={value} index={1} dir={theme.direction} key={"1"}>
                     <ContactList/>
                 </TabPanel>
             </SwipeableViews>

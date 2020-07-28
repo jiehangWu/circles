@@ -17,8 +17,8 @@ function ContactList(props) {
         <List container direction="column" style={{height:'calc(84vh)'}}>
             {
                 props.orderOnline.map((ele) => {
-                    return<React.Fragment>
-                        <ListItem>
+                    return<React.Fragment key= {ele.userId}>
+                        <ListItem >
                             <Grid container direction="row" justify='space-between'>
                                 <Grid item>
                                     <Contact chatter={findData(ele) !== undefined? findData(ele):ele} displayName={true}/>

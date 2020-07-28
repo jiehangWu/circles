@@ -13,8 +13,8 @@ function HistoryContactList(props) {
         <List direction="column" style={{height:'calc(84vh)'}}>
             {
                 props.order.map((ele) => {
-                    return<React.Fragment>
-                    <ListItem>
+                    return<React.Fragment key={ele.userId}>
+                    <ListItem >
                     <Grid container direction="row" justify='space-between'>
                         <Grid item>
                            <Contact chatter={ele} displayName={true} online={true}/>

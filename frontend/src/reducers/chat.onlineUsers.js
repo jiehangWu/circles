@@ -28,7 +28,6 @@ export const chatsListReducer = (init = [], action) => {
     const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
     if (index !== -1) {
       let chatP = ret[index];
-      chatP.unread = chatP.unread + 1;
       ret.splice(index,1);
       ret.splice(0,0, chatP);
     } else {

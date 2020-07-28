@@ -57,7 +57,6 @@ export const historyContactsReducer = (init = [], action) => {
     const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
     if (index !== -1) {
       let chatP = Object.assign({},ret[index]);
-      chatP.unread = chatP.unread + 1;
       ret.splice(index,1);
       ret.splice(0,0, chatP);
     } else {
@@ -87,6 +86,7 @@ export const historyContactsReducer = (init = [], action) => {
     if (chat) {
       chat.unread = 0;
     }
+    console.log(chat.unread);
     return ret;
   }
   if (action.type === 'HISTORY_CONTACTS_SET_UNREAD') {
@@ -96,6 +96,7 @@ export const historyContactsReducer = (init = [], action) => {
     if (chat) {
       chat.unread = chat.unread + 1;
     }
+    console.log(chat.unread);
     return ret;
   }
   if (action.type === 'HISTORY_CONTACTS_ADD_CONTACT') {
