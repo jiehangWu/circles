@@ -32,24 +32,26 @@ const particlesOptions = {
             width: 1
         },
     },
-    "interactivity": {
-        "events": {
-            "onhover": {
-                "enable": true,
-                "mode": "grab"
+    interactivity: {
+        events: {
+            onhover: {
+                enable: true,
+                mode: "grab"
             },
-            "onclick": {
-                "enable": true,
-                "mode": "repulse"
+            onclick: {
+                enable: true,
+                mode: "repulse"
             },
-            "modes": {
+            modes: {
                 "grab": {
-                    "distance": 5000,
+                    distance: 50000,
                     line_linked: {
                         opacity: 1,
+                        width: 500
                     }
                 },
-            }
+            },
+            retina_detect: true
         }
     }
 }

@@ -32,15 +32,11 @@ const particlesOptions = {
             width: 1
         },
     },
-    "interactivity": {
-        "events": {
-            "onhover": {
-                "enable": true,
-                "mode": "repulse"
-            },
-            "onclick": {
-                "enable": true,
-                "mode": "repulse"
+    interactivity: {
+        events: {
+            onhover: {
+                enable: true,
+                mode: "repulse"
             }
         }
     }
