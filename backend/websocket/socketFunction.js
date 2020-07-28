@@ -15,7 +15,7 @@ const socketFunction = (ws, req)=> {
         //HEART_BEAT
         if (m.purpose === "HEART_BEAT") {
             //logger.info(wss.clients.size);
-            logger.info(m);
+            //logger.info(m);
             ws.send(JSON.stringify({
                 purpose: "HEART_BEAT"
             }));

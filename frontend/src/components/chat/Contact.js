@@ -48,8 +48,8 @@ const StyledBadge = withStyles((theme) => ({
 const Contact = (props) => {
     const classes = styles();
     useEffect(()=> {
-        console.log("change");
-    },[props.contactList0, props.contactList1]);
+        },[props.contactList0, props.contactList1]);
+
     const messages = props.chatsReducer1[props.chatter.userId];
     const unread = props.chatter.unread;
 
