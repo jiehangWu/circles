@@ -367,6 +367,7 @@ const Home = (props) => {
             console.log('Longtitude' + longitude);
             console.log('Accuracy' + accuracy);
             props.uploadGeolocation(latitude, longitude);
+            alert("Successfully added geolocation!")
         }
         function geoErr(error) {
             switch (error.code) {
