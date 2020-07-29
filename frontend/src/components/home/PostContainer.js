@@ -16,6 +16,8 @@ import { displayDate } from '../../helpers/util';
 import ClearIcon from '@material-ui/icons/Clear';
 import Modal from '@material-ui/core/Modal';
 import CommentSection from './CommentSection';
+import { history } from '../../helpers/history';
+
 
 const styles = makeStyles((theme) => ({
 	post: {
@@ -29,8 +31,8 @@ const styles = makeStyles((theme) => ({
 		backgroundColor: blue[200]
 	},
 	postContainer: {
-		width: '60%',
-		marginLeft: '20%',
+		width: '100%',
+		marginLeft: '0%',
 		marginRight: '20%'
 	},
 	modal: {
@@ -61,20 +63,31 @@ const PostContainer = (props) => {
 		<div className={classes.paper}>
 			<h2 id="simple-modal-title">Text in a modal</h2>
 			<p id="simple-modal-description">
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+				Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
 			</p>
 		</div>
 	);
-
 
 	return (
 		<div className={classes.postContainer}>
 			<Card className={classes.post} >
 				<CardHeader
 					avatar={
-						<Avatar aria-label="profile-pic" className={classes.avatar}>
-							{props.username}
-						</Avatar>
+						props.isAtProfile ?
+							<Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>
+								{props.username}
+							</Avatar>
+							: <IconButton onClick={() => {
+								history.push({
+									pathname: './home/profile',
+									state: {
+										homeId: props.userId,
+										self: props.currUserId === props.userId
+									}
+								});
+							}}>
+								<Avatar aria-label="profile-pic" alt={props.username} className={classes.avatar} src={props.avatar} />
+							</IconButton>
 					}
 					action={
 						props.currUserId === props.userId ?
@@ -87,10 +100,10 @@ const PostContainer = (props) => {
 				>
 				</CardHeader>
 				{props.imgLink
-                    && <CardMedia
-                    	className={classes.media}
-                    	image={props.imgLink}
-                    />}
+					&& <CardMedia
+						className={classes.media}
+						image={props.imgLink}
+					/>}
 				<CardContent>
 					<Typography variant="body2" color="textPrimary" component="p">
 						{props.content}
@@ -105,7 +118,7 @@ const PostContainer = (props) => {
 					className={classes.modal}
 				>
 					<div className={classes.paper}>
-						<CommentSection postId={props.postId} comments={props.comments}/>
+						<CommentSection postId={props.postId} comments={props.comments} />
 					</div>
 				</Modal>
 				<IconButton aria-label="like" onClick={() => props.likePost(props.postId)}>

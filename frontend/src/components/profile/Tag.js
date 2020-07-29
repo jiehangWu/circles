@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectToggleTag, deleteTag } from "../../actions";
+import { deleteTag, loadAllTags } from "../../actions/tags.actions";
 
 import Chip from '@material-ui/core/Chip'
-import FaceIcon from '@material-ui/icons/Face';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
 class Tag extends React.Component {
@@ -12,16 +11,36 @@ class Tag extends React.Component {
     }
 
     handleDelete = () => {
-        this.props.deleteTag(this.props.tagIndex);
+        // console.log(this.props.content);
+        this.props.deleteTag(this.props.userId, this.props.content);
     };
 
     render() {
-        return <Chip size="medium"
-            label={this.props.tagDetails.tag}
-            onDelete={this.handleDelete}
-            color="primary"
-            icon={<LoyaltyIcon />}> </Chip>
+        if (this.props.self) {
+            return (
+                <Chip size="medium"
+                    label={this.props.content}
+                    onDelete={this.handleDelete}
+                    color="primary"
+                    icon={<LoyaltyIcon />}> </Chip>
+            )
+        } else {
+            return (
+                <Chip size="medium"
+                    label={this.props.content}
+                    color="primary"
+                    icon={<LoyaltyIcon />}> </Chip>
+            )
+        }
     }
 }
 
-export default connect(null, { deleteTag })(Tag);
+const mapStateToProps = (state) => {
+    return {
+        input: state.input,
+        userId: state.userinfo.userId,
+        tags: state.userinfo.tags
+    };
+};
+
+export default connect(mapStateToProps, { deleteTag, loadAllTags })(Tag);

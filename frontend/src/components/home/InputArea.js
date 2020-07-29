@@ -1,14 +1,39 @@
+
 import React from 'react';
-import Avatar from "@material-ui/core/Avatar";
+
 import Card from "@material-ui/core/Card";
 import ImageIcon from '@material-ui/icons/Image';
 import IconButton from "@material-ui/core/IconButton";
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+import Avatar from "@material-ui/core/Avatar";
 import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import Button from '@material-ui/core/Button';
-import Hidden from '@material-ui/core/Hidden';
+import { blue } from '@material-ui/core/colors';
+
+const styles = {
+    textArea: {
+        width: "100%",
+        border: '0',
+        marginLeft: "2.5%",
+        marginTop: '0%',
+    },
+    textBox: {
+        width: "110%",
+        marginLeft: "10%",
+    },
+    container: {
+        width: "100%",
+        height: "100%",
+        border: '0',
+        backgroundColor: 'transparent',
+    },
+    avatar: {
+        marginLeft: '50%',
+        marginTop: '50%',
+        marginRight: '0%',
+        backgroundColor: blue[200]
+    },
+}
 
 class InputArea extends React.Component {
     constructor(props) {
@@ -59,14 +84,14 @@ class InputArea extends React.Component {
     };
 
     render() {
-        console.log("$$$$$$$$$$$$$$$$$" + this.state);
         return (
-            <div className="container">
-                <Card className="input-area my-3">
+            <div className="container"
+                style={styles.container}>
+                <Card className="input-area my-0">
                     <div className="row">
-
-                        <div className="col-lg-10">
+                        <div className="col-lg-10" style={styles.textArea}>
                             <textarea className="text-box mx-2 mt-3"
+                                style={styles.textBox}
                                 rows="3"
                                 placeholder="What's up?"
                                 value={this.props.input}
@@ -83,13 +108,11 @@ class InputArea extends React.Component {
                                 <ImageIcon />
                             </IconButton>
 
-
-
                             <IconButton aria-label="add emoji">
                                 <EmojiEmotionsIcon />
                             </IconButton>
                             <button type="button"
-                                className={"btn btn-primary float-right mx-4 mb-3"
+                                className={"btn btn-primary float-right mx-1 mb-3"
                                     + (this.state.content ? "" : " disabled")}
                                 onClick={this.handleSubmit}>
                                 Submit
@@ -105,6 +128,7 @@ class InputArea extends React.Component {
 const mapStateToProps = (state) => {
     return {
         userId: state.userinfo.userId,
+        username: state.userinfo.username,
         uploadedImgLink: state.posts.uploadedImgLink,
     };
 }

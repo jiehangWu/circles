@@ -3,7 +3,6 @@ const router = express.Router();
 const formidable = require('formidable');
 const logger = require('log4js').getLogger();
 
-logger.level = 'debug';
 
 const awsController = require('../controller/AwsController');
 

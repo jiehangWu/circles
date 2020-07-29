@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-    username: {
+    registerName: {
         type: String,
         unique: true,
         required: true
     },
+    username: String,
     password: String,
-    avatar: String,
+    avatar: {
+        type: String,
+        default: '',
+    },
     emailAddress: String,
     chats: [
         {
@@ -15,6 +19,10 @@ const UserSchema = new mongoose.Schema({
             ref: 'chats',
         }
     ],
+    unReadContacts:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users"
+    }],
     tags: [{
         type: String
         // ref: 'tags',

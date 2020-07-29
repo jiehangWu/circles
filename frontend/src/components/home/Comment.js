@@ -31,7 +31,7 @@ const Comment = (props) => {
 			<Card className={classes.post} >
 				<CardHeader
 					avatar={
-						<Avatar aria-label="profile-pic" className={classes.avatar}>
+						<Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>
 							{props.username}
 						</Avatar>
 					}

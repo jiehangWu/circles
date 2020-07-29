@@ -2,13 +2,51 @@ import React from "react";
 import { userActions } from "../../actions/user.actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { history } from "../../helpers/history"
+import { history } from "../../helpers/history";
+import CryptoJs from 'crypto-js';
+import Particles from 'react-particles-js';
+
+const styles = {
+    particles: {
+        position: "fixed",
+        top: "-45%",
+        right: 0,
+        bottom: 0,
+        left: 0,
+    }
+}
+
+const particlesOptions = {
+    particles: {
+        number: {
+            value: 30,
+            density: {
+                enable: true,
+                value_area: 150
+            },
+        },
+        line_linked: {
+            color: "#778899",
+            distance: 150,
+            opacity: 0.75,
+            width: 1
+        },
+    },
+    interactivity: {
+        events: {
+            onhover: {
+                enable: true,
+                mode: "repulse"
+            }
+        }
+    }
+}
 
 class RegisterForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            registerName: "",
             password: "",
             repeatedPassword: "",
             submitted: false,
@@ -25,19 +63,25 @@ class RegisterForm extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({ submitted: true });
-        if (this.state.username
+        if (this.state.registerName
             && this.state.password
             && this.state.repeatedPassword
             && this.state.password === this.state.repeatedPassword) {
-            this.props.register(this.state.username, this.state.password);
+            const ciphertext = CryptoJs.MD5(this.state.password).toString();
+            console.log(ciphertext);
+            this.props.register(this.state.registerName, ciphertext);
         }
     };
 
     render() {
-        const { username, password, repeatedPassword, submitted } = this.state;
+        const { registerName, password, repeatedPassword, submitted } = this.state;
         const { message } = this.props;
         return (
             <div className="jumbotron">
+                <Particles className='particles'
+                    params={particlesOptions}
+                    style={styles.particles}
+                />
                 <div className="container">
                     <div className="col-sm-8 col-sm-offset-2">
                         {message.message &&
@@ -46,11 +90,11 @@ class RegisterForm extends React.Component {
                         <div className="col-md-6 col-md-offset-3">
                             <h2>Register</h2>
                             <form name="form" onSubmit={this.handleSubmit}>
-                                <div className={"form-group" + (submitted && !username) ? " has-error" : ""}>
-                                    <label htmlFor="username" className="mt-2">Username</label>
-                                    <input type="text" className="form-control" name="username"
+                                <div className={"form-group" + (submitted && !registerName) ? " has-error" : ""}>
+                                    <label htmlFor="registerName" className="mt-2">Username</label>
+                                    <input type="text" className="form-control" name="registerName"
                                         onChange={(e) => this.handleChange(e)} />
-                                    {submitted && !username && <div className="text-danger">Username is required</div>}
+                                    {submitted && !registerName && <div className="text-danger">Username is required</div>}
                                 </div>
                                 <div className={"form-group" + (submitted && !password) ? " has-error" : ""}>
                                     <label htmlFor="password" className="mt-2">Password</label>

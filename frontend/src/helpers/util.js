@@ -8,7 +8,7 @@ export const displayDate = (date) => {
     const currDate = new Date();
     const diff = currDate - postDate;
     if (diff < MINUTE_LENGTH) {
-        return "less than a minute";
+        return "< 1 minute";
     } else if (diff < HOUR_LENGTH) {
         return Math.ceil(diff / MINUTE_LENGTH) + " mins ago";
     } else if (diff < DAY_LENGTH) {
@@ -17,3 +17,5 @@ export const displayDate = (date) => {
         return date.slice(0, 10);
     }
 }
+
+

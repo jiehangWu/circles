@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
-// import PostList from './PostList';
-import InputArea from './InputArea';
-import LogOutButton from "./LogOutButton";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, { useEffect } from "react";
+import LogOutButton from "../home/LogOutButton";
+import { history } from "../../helpers/history";
+import { connect } from "react-redux";
+import PreferenceBar from "./PreferenceBar";
+import DisplayTagArea from './DisplayTagArea';
+import { ProfileActions } from "../../actions/profile.actions";
+import { ChatActions } from "../../actions/chat.actions";
+import PostList from './PostList';
+import Loading from './Loading';
+import GeoButton from './GeoButton';
+
+
+import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { blue, blueGrey } from '@material-ui/core/colors';
+import { blue, blueGrey, grey } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import SettingsIcon from '@material-ui/icons/Settings';
 import HomeIcon from '@material-ui/icons/Home';
 import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { history } from "../../helpers/history"
-import { HomeActions } from "../../actions/home.actions";
-import { connect } from "react-redux";
-
-import PreferenceBar from "./PreferenceBar";
-import Display from './DisplayTagArea';
-import InputTagArea from './InputTagArea';
-import ReactDOM from "react-dom";
-
 import Box from '@material-ui/core/Box';
-import "./profile.css";
 
 const drawerWidth = 150;
 
 const styles = makeStyles((theme) => ({
+
+    mainBox: {
+        width: '100%',
+        border: 5,
+        borderRadius: 3,
+        borderColor: blueGrey[5000],
+        backgroundColor: grey[200]
+    },
+
+
     root: {
         display: 'flex',
     },
@@ -47,6 +54,7 @@ const styles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing(3),
+        width: 1100,
     },
     avatar: {
         backgroundColor: blue[500],
@@ -67,13 +75,21 @@ const styles = makeStyles((theme) => ({
     }
 }));
 
+function wait(sec) {
+    return new Promise(res => setTimeout(res, sec));
+}
+
 const Profile = (props) => {
+    const idFromHome = history.location.state.homeId;
+    // props.loadProfile(idFromHome);
+    const self = history.location.state.self;
+
+    const loading = React.createRef();
+
     const classes = styles();
-    const theme = useTheme();
     const name = (
         <div className={classes.name}>
             <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
-            <p>@{props.username}123</p><br />
         </div>
     );
 
@@ -81,101 +97,67 @@ const Profile = (props) => {
         <div className={classes.background}>
             <div className={classes.toolbar} />
             <center>
-                <Avatar aria-label="profile-pic" className={classes.avatar}>
-                    W
-                </Avatar>
+                <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>W</Avatar>
                 {name}
 
-                <IconButton color='primary'>
-                    <HomeIcon />
-                    <Link to="home" className="btn btn-link"></Link>
+                <IconButton color='primary' onClick={async () => {
+                    loading.current.style.display = 'block';
+                    await wait(3000);
+                    history.go({
+                        pathname: './home',
+                        state: {
+                            homeId: props.userId,
+                            self: true
+                        }
+                    });
+                }}>
+                    <HomeIcon  />
                 </IconButton>
 
                 <IconButton>
-                    <SettingsIcon />
+                    <GeoButton />
                 </IconButton>
 
-                <IconButton color='secondary'>
+                <IconButton color='secondary' onClick={async () => {
+                    loading.current.style.display = 'block';
+                    await wait(100);
+                    props.beginChat({
+                        username: props.username,
+                        userId: props.userId,
+                        userAvatar: props.avatar
+                    })
+                }} >
                     <ChatIcon />
-                    <Link to="chat" className="btn btn-link"></Link>
-                </IconButton>
 
+                </IconButton><br></br>
 
-                <br></br>
-                <Display />
-                <br></br>
+                <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} self={self} /><br></br>
             </center>
         </div>
     );
 
-    const leftSideBar = (
-        <div className={classes.background}>
-            <div className={classes.toolbar} />
-            <Avatar aria-label="profile-pic" className={classes.logo}>
-                假装logo
-            </Avatar>
-            {name}
-            <IconButton color='primary'>
-                <AccountCircleIcon />
-            </IconButton>
-            <IconButton color='primary'>
-                <SettingsIcon />
-            </IconButton>
-        </div>
-    );
-
     useEffect(() => {
-        props.loadHome();
+        props.loadProfile(idFromHome);
     }, []);
 
     return (
         <React.Fragment>
             <CssBaseline />
 
+            <Loading ref={loading} />
+
             <div className="d-flex justify-content-center">
-                {/* left side bar */}
-                <div className={classes.root}>
-                    <Drawer
-                        className={classes.drawer}
-                        variant="permanent"
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        anchor="left"
-                    >
-                        {leftSideBar}
-
-                    </Drawer>
-                </div>
-
 
                 <div className={classes.content}>
-
-                    <Box color={blue} className='main-box' clone>
+                    <Box color={blue} className={classes.mainBox} clone>
                         {avatarBar}
                     </Box>
                     <br></br>
                     <br></br>
                     <center>
-                        {/* <InputTagArea/> */}
-                        <PreferenceBar />
+                        <PreferenceBar self={self} />
                     </center>
-                    <InputArea/>
-                    {/* <PostList /> */}
-                </div>
-
-                {/* right side bar */}
-                <div className={classes.root}>
-                    <Drawer
-                        className={classes.drawer}
-                        variant="permanent"
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        anchor="right"
-                    >
-                        <LogOutButton />
-                    </Drawer>
+                    <PostList currID={idFromHome} self={self} />
                 </div>
 
             </div>
@@ -183,12 +165,39 @@ const Profile = (props) => {
     );
 };
 
+
 const mapStateToProps = (state) => {
-    return { username: state.userinfo.username };
+    return {
+        username: state.userinfo.profileUsername,
+        prevId: state.userinfo.prevId,
+        userId: state.userinfo.profileUserId,
+        avatar: state.userinfo.profileAvatar,
+        tags: state.tags,
+        posts: state.posts
+    };
 };
 
 const mapAction = {
-    loadHome: HomeActions.loadHome,
+    loadProfile: ProfileActions.loadProfile,
+    chatSwitch: (chatter) => {
+        return {
+            type: "CHAT_SWITCH",
+            payload: chatter
+        }
+    },
+    historyAddContact: (chatter) => {
+        return {
+            type: 'HISTORY_CONTACTS_ADD_CONTACT',
+            payload: chatter
+        }
+    },
+    addChat: (chatter) => {
+        return {
+            type: 'ADD_ONE_CONTACT',
+            payload: chatter
+        }
+    },
+    beginChat: ChatActions.beginChat,
 };
 
 export default connect(mapStateToProps, mapAction)(Profile);

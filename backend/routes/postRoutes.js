@@ -8,8 +8,6 @@ const searchController = require('../controller/SearchController');
 const userController = require('../controller/UserController');
 const { processTags } = require('../utils/util');
 
-logger.level = 'off';
-
 const PostController = require('../controller/PostController');
 
 // With Cache
@@ -17,7 +15,7 @@ const PostController = require('../controller/PostController');
 //     logger.info("getting");
 //     return PostController.loadAllPosts().then((posts) => {
 //         logger.info(posts);
-//         redis_client.setex("posts", 3600, JSON.stringify(posts));
+//         // redis_client.setex("posts", 3600, JSON.stringify(posts));
 //         res.status(200).json(posts);
 //     }).catch((err) => {
 //         logger.error(err);
@@ -39,26 +37,7 @@ const PostController = require('../controller/PostController');
 // });
 
 // With Recommend and Cache
-router.get("/", checkPostCache, async (req, res, next) => {
-    logger.info("getting");
-    const userId = req.session.userId;
-    const user = await userController.findUserByUserId(userId);
-    const tags = processTags(user.tags);
-    logger.info(tags);
-    const postIds = await searchController.searchPostByKeyword(tags);
-    logger.info(postIds);
-    return PostController.loadPostsByIds(postIds).then((posts) => {
-        logger.info(posts);
-        addToCache(userId, posts);
-        res.status(200).json(posts);
-    }).catch((err) => {
-        logger.error(err);
-        res.status(500).end();
-    });
-});
-
-// With Recommend 
-// router.get("/", async (req, res) => {
+// router.get("/", checkPostCache, async (req, res, next) => {
 //     logger.info("getting");
 //     const userId = req.session.userId;
 //     const user = await userController.findUserByUserId(userId);
@@ -68,12 +47,31 @@ router.get("/", checkPostCache, async (req, res, next) => {
 //     logger.info(postIds);
 //     return PostController.loadPostsByIds(postIds).then((posts) => {
 //         logger.info(posts);
+//         addToCache(userId, posts);
 //         res.status(200).json(posts);
 //     }).catch((err) => {
 //         logger.error(err);
 //         res.status(500).end();
 //     });
 // });
+
+// With Recommend 
+router.get("/", async (req, res) => {
+    logger.info("getting");
+    const userId = req.session.userId;
+    const user = await userController.findUserByUserId(userId);
+    const tags = processTags(user.tags);
+    logger.info(tags);
+    const postIds = await searchController.searchPostByKeyword(tags);
+    logger.info(postIds);
+    return PostController.loadPostsByIds(postIds).then((posts) => {
+        logger.info(posts);
+        res.status(200).json(posts);
+    }).catch((err) => {
+        logger.error(err);
+        res.status(500).end();
+    });
+});
 
 router.post("/", (req, res, next) => {
     logger.info("posting");
@@ -142,6 +140,20 @@ router.delete("/:postId", (req, res, next) => {
         logger.error(err);
         res.status(500).end();
     })
+});
+
+router.get('/profile/posts/:id', async (req, res) => {
+    const userId = req.params.id;
+    logger.info(userId);
+    const result = await userController.findUserByUserId(userId);
+    if (result) {
+        const posts = await PostController.loadPostsByIds(result.posts);
+        logger.info('this persons post: ', posts);
+        res.status(200).send({ posts });
+    } else {
+        logger.error(result);
+        res.status(400).send("error fetching posts for one user");
+    }
 });
 
 module.exports = router;

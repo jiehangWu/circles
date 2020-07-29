@@ -1,22 +1,28 @@
-import {combineReducers} from "redux";
-import {login} from "./login.reducer";
-import {register} from "./register.reducer";
-import {message} from "./message.reducer";
-import {posts} from "./posts.reducer"
-import {userinfo} from "./userinfo.reducer";
-import {contacts} from "./chat.reducer";
-import {socketReducer} from "./socket.reducer";
-import {chatMessage} from "./chatMessage.reducer";
-import {tags} from "./tags.reducer";
+import { combineReducers } from 'redux';
+import { login } from './login.reducer';
+import { register } from './register.reducer';
+import { message } from './message.reducer';
+import { posts } from './posts.reducer';
+import { userinfo } from './userinfo.reducer';
+import { chatSocketReducer } from './chat.socket.reducer';
+import { tags } from './tags.reducer';
+import { currentChatPerson } from './chat.currentChatPerson1';
+import { chatsListReducer } from './chat.onlineUsers';
+import { chatsReducer1 } from './chat.reducer1';
+import {historyContactsReducer} from "./chat.historyContacts";
+import {chatEnter} from "./chat.enter";
 
 export const rootReducer = combineReducers({
-    message,
-    login,
-    register,
-    posts,
-    userinfo,
-    contacts,
-    socketReducer,
-    chatMessage,
-    tags
+  currentChatPerson,
+  message,
+  login,
+  register,
+  posts,
+  userinfo,
+  tags,
+  socketReducer: chatSocketReducer,
+  chatsListReducer,
+  chatsReducer1,
+  historyContactsReducer,
+  chatEnter
 });

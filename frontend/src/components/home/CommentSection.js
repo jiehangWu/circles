@@ -100,7 +100,7 @@ class CommentSection extends React.Component {
                         </div>
                     </div>
                 </Card>
-                {this.props.comments.map((comment) => <Comment username={comment.user.username} date={comment.date} content={comment.content}/>)}
+                {this.props.comments.map((comment) => <Comment avatar={comment.user.avatar} username={comment.user.username} date={comment.date} content={comment.content}/>)}
             </div>
 
         );

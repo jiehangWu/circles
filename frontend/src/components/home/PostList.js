@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import { PostActions } from '../../actions/posts.actions';
 
 class PostList extends React.Component {
-	constructor(props) {
-		super(props);
-	}
 
 	componentDidMount() {
 		this.props.loadAllPosts();
@@ -16,14 +13,18 @@ class PostList extends React.Component {
 		return (
 			<div>
 				{this.props.posts.postList.map((post) =>
-					<PostContainer  postId={post._id} 
+					<PostContainer
+						key={post._id}  
+						postId={post._id} 
 						username={post.user.username}
-						userId={post.user._id} 
+						userId={post.user._id}
+						avatar={post.user.avatar} 
 						date={post.date} 
 						content={post.content} 
 						likes={post.likes}
 						imgLink={post.imgLink}
-						comments={post.comments}/>
+						comments={post.comments}
+						isAtProfile={false}/>
 				)}
 			</div>
 		);

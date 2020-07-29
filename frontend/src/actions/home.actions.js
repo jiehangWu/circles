@@ -1,4 +1,4 @@
-import { history } from '../helpers/history';
+import {history} from "../helpers/history";
 
 const loadHome = () => (dispatch) => {
   fetch('http://localhost:5000/home', {
@@ -20,20 +20,32 @@ const loadHome = () => (dispatch) => {
       type: 'LOAD_HOME',
       payload: parsedMsg,
     });
+    return Promise.resolve(parsedMsg);
+  }).then((parsedMsg) => {
     // send message to reducer->socket server
     dispatch({
-      type: 'SOCKET_ADD_USER',
+      type: 'SOCKET_INIT',
       payload: {
-        purpose: 'SOCKET_ADD_USER',
-        payload: parsedMsg.username,
+        userId: parsedMsg.userId,
+        username: parsedMsg.username,
+        userAvatar: parsedMsg.avatar
+      },
+    });
+    // add self as the current chatter
+    dispatch({
+      type: 'CHAT_SWITCH',
+      payload: {
+        userId: parsedMsg.userId,
+        username: parsedMsg.username,
+        userAvatar: parsedMsg.avatar,
       },
     });
   }).catch((err) => {
     history.push('/login');
-    console.log('going back');
+    // console.log('going back');
   });
 };
 
 export const HomeActions = {
-  loadHome,
+    loadHome,
 };

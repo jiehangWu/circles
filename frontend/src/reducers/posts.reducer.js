@@ -1,18 +1,19 @@
 const initial = {
   uploadedImgLink: '',
   postList: [],
+  circlesList: []
 };
 
 export const posts = (state = initial, action) => {
   switch (action.type) {
     case 'SUBMIT_POST':
       return {
-        uploadedImgLink: state.uploadedImgLink,
+        ...state,
         postList: [action.payload, ...state.postList],
       };
     case 'COMMENT_POST':
       return {
-        uploadedImgLink: state.uploadedImgLink,
+        ...state,
         postList: [
           ...state.postList.map((post) => {
             if (post._id === action.payload.post) {
@@ -27,7 +28,7 @@ export const posts = (state = initial, action) => {
       };
     case 'LIKE_POST':
       return {
-        uploadedImgLink: state.uploadedImgLink,
+        ...state,
         postList: [
           ...state.postList.map((post) => {
             if (post._id === action.payload.postId) {
@@ -42,23 +43,33 @@ export const posts = (state = initial, action) => {
       };
     case 'LOAD_ALL':
       return {
-        uploadedImgLink: state.uploadedImgLink,
+        ...state,
         postList: action.payload,
       };
+    case 'LOAD_CIRCLES_LIST':
+      return {
+        ...state,
+        circlesList: action.payload
+      }
     case 'DELETE_POST':
       return {
-        uploadedImgLink: state.uploadedImgLink,
+        ...state,
         postList: state.postList.filter((post) => post._id !== action.payload),
       };
     case 'ADD_IMAGE':
       return {
+        ...state,
         uploadedImgLink: action.payload,
-        postList: state.postList,
       };
     case 'CLEAR_IMAGE':
       return {
+        ...state,
         uploadedImgLink: '',
-        postList: state.postList,
+      };
+    case 'LOAD_PROFILE_POSTS':
+      return {
+        ...state,
+        postList: action.payload.posts,
       };
     default:
       return state;
