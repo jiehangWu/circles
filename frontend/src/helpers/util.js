@@ -18,4 +18,17 @@ export const displayDate = (date) => {
     }
 }
 
+export const greetUser = () => {
+    const currDate = new Date();
+    const hrs = currDate.getHours();
+    let greet;
+    if (hrs < 12)
+        greet = 'Good Morning';
+    else if (hrs >= 12 && hrs <= 17)
+        greet = 'Good Afternoon';
+    else if (hrs >= 17 && hrs <= 24)
+        greet = 'Good Evening';
+    return greet;
+}
+
 

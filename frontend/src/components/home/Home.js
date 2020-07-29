@@ -2,7 +2,6 @@
 import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import PostList from './PostList';
-import CirclesList from './CirclesList';
 import InputArea from './InputArea';
 import LogOutButton from './LogOutButton';
 import { history } from "../../helpers/history"
@@ -14,15 +13,12 @@ import { userActions } from '../../actions/user.actions';
 import TabList from './TabList'
 import ChatIcon from '@material-ui/icons/Chat';
 import { ChatActions } from "../../actions/chat.actions";
-
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
 import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { blue, blueGrey } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
-import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Typography from '@material-ui/core/Typography';
@@ -35,6 +31,7 @@ import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+import { greetUser } from '../../helpers/util';
 
 const drawerWidth = 275;
 
@@ -102,7 +99,8 @@ const styles = makeStyles((theme) => ({
     name: {
         marginLeft: '10%',
         marginRight: '20%',
-        width: '20%'
+        width: '20%',
+        textAlign: "center"
     },
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
@@ -307,7 +305,7 @@ const Home = (props) => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap>
-                    Welcome to Circles!
+                    {greetUser() + ', ' + 'Welcome to Circles!'}
                 </Typography>
 
                 <div className={classes.search}>
