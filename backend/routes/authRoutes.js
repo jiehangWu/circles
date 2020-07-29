@@ -87,7 +87,7 @@ router.post('/login', async (req, res, next) => {
     })();
 });
 
-router.post('/home', async (req, res) => {
+router.get('/home', async (req, res) => {
     const userId = req.session.userId;
     logger.info(userId);
     console.log(userId);
