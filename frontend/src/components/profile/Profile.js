@@ -22,7 +22,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
 import Box from '@material-ui/core/Box';
 
-const drawerWidth = 150;
+const drawerWidth = 275;
 
 const styles = makeStyles((theme) => ({
 
@@ -55,6 +55,7 @@ const styles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing(3),
         width: 1100,
+        marginLeft: "13%"
     },
     avatar: {
         backgroundColor: blue[500],

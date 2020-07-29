@@ -11,6 +11,8 @@ import { connect } from "react-redux";
 import Profile from "../profile/Profile"
 import ChatPage2 from "../chat/ChatPage2";
 import { userActions } from '../../actions/user.actions';
+import TabList from './TabList'
+import ChatIcon from '@material-ui/icons/Chat';
 
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
@@ -33,7 +35,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 
-const drawerWidth = 200;
+const drawerWidth = 275;
 
 const styles = makeStyles((theme) => ({
     root: {
@@ -64,7 +66,7 @@ const styles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        marginLeft: "10%",
+        marginLeft: "17%",
         marginRight: "10%",
         marginTop: "2%",
         display: "flex",
@@ -98,6 +100,7 @@ const styles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        width: "100%"
     },
 
     //   added for responsive
@@ -137,10 +140,10 @@ const styles = makeStyles((theme) => ({
         '&:hover': {
             backgroundColor: fade(theme.palette.common.white, 0.25),
         },
-        marginLeft: 0,
-        width: '100%',
+        marginRight: 0,
+        width: '10%',
         [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(1),
+            marginLeft: theme.spacing(115),
             width: 'auto',
         },
     },
@@ -152,6 +155,20 @@ const styles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    LogOutButton: {
+        position: 'fixed',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+            backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        marginRight: 0,
+        width: '10%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(110),
+            width: 'auto',
+        },
     },
     inputRoot: {
         color: 'inherit',
@@ -176,7 +193,7 @@ const Home = (props) => {
     const classes = styles();
     const theme = useTheme();
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -206,6 +223,7 @@ const Home = (props) => {
                     </div>
                 </Grid>
                 <CirclesList />
+                {/* <TabList/> */}
             </div>
         </div>);
 
@@ -251,6 +269,26 @@ const Home = (props) => {
             </IconButton>
             {name}
             {leftBarIcon}
+            <IconButton color='secondary' onClick={async () => {
+                    props.beginChat({
+                        username: props.username,
+                        userId: props.userId,
+                        userAvatar: props.avatar
+                    })
+                }} >
+                    <ChatIcon />
+
+                </IconButton>
+            <br></br><br></br>
+            <Divider/>
+            <br></br><br></br>
+            <Grid container justify="center" className="mb-5">
+                <div style={{ fontSize: 16, fontWeight: '800' }}>
+                    Explore your Circles!
+                    </div>
+            </Grid>
+            <TabList />
+
         </div>
     );
 
@@ -314,7 +352,9 @@ const Home = (props) => {
                         inputProps={{ 'aria-label': 'search' }}
                     />
                 </div>
+                <LogOutButton className={classes.LogOutButton} />
             </Toolbar>
+            {/* <LogOutButton /> */}
         </AppBar>);
 
 
@@ -367,25 +407,25 @@ const Home = (props) => {
             console.log('Longtitude' + longitude);
             console.log('Accuracy' + accuracy);
             props.uploadGeolocation(latitude, longitude);
-            alert("Successfully added geolocation!")
+            // alert("Successfully added geolocation!");
         }
         function geoErr(error) {
             switch (error.code) {
                 case 0:
                     console.log('Failed to get geolocation' + error.message);
-                    alert('Failed to get geolocation' + error.message);
+                    // alert('Failed to get geolocation' + error.message);
                     break;
                 case 1:// PERMISSION_DENIED
                     console.log('USER PERMISSION DENIED');
-                    alert('USER PERMISSION DENIED');
+                    // alert('USER PERMISSION DENIED');
                     break;
                 case 2:// POSITION_UNAVAILABLE
                     console.log('UNAVAILABLE GEOLOCATION');
-                    alert('UNAVAILABLE GEOLOCATION');
+                    // alert('UNAVAILABLE GEOLOCATION');
                     break;
                 case 3:// TIMEOUT
                     console.log('TIMEOUT');
-                    alert('TIMEOUT');
+                    // alert('TIMEOUT');
                     break;
             }
         }
@@ -396,7 +436,7 @@ const Home = (props) => {
             {circlesAppBar}
             {leftResponsiveBar}
             {contentRouter}
-            {rightResponsiveBar}
+            {/* {rightResponsiveBar} */}
         </React.Fragment >
     );
 };
@@ -415,7 +455,8 @@ const mapStateToProps = (state) => {
 const mapAction = {
     loadHome: HomeActions.loadHome,
     uploadAvatar: userActions.uploadAvatar,
-    uploadGeolocation: HomeActions.uploadGeolocation
+    uploadGeolocation: userActions.uploadGeolocation,
+    
 };
 
 export default connect(mapStateToProps, mapAction)(Home);

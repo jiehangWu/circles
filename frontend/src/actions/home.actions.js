@@ -46,32 +46,6 @@ const loadHome = () => (dispatch) => {
   });
 };
 
-const uploadGeolocation = (lat, lng) => {
-  return dispatch => {
-    fetch('http://localhost:5000/home/geolocation', {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ lat, lng }),
-    }).then((response) => {
-      if (response.ok) {
-        console.log("added gelocation");
-        dispatch({
-          type: "UPDATE_GEOLOCATION",
-          payload: [lat, lng]
-      });
-      }
-    }).catch((err) => {
-      console.log(err);
-      console.log("failed added gelocation");
-    });
-  }
-}
-
 export const HomeActions = {
   loadHome,
-  uploadGeolocation,
 };

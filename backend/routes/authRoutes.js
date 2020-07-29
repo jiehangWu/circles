@@ -201,16 +201,4 @@ router.put('/avatar', (req, res, next) => {
     // }
 });
 
-router.put('/home/geolocation', (req, res) => {
-    const { lat, lng } = req.body;
-    const userId = req.session.userId;
-    let response;
-    try {
-        response = UserController.setGeolocation(userId, lat, lng);
-        res.status(200).send({ id });
-    } catch (err) {
-        res.status(500).send(err);
-    }
-});
-
 module.exports = router;

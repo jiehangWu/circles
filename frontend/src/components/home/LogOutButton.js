@@ -20,7 +20,7 @@ const styles = makeStyles((theme) => ({
 function  LogOutButton(props) {
 	const classes = styles();
 	return <React.Fragment >
-		<div style={{display: 'flex', flexDirection:'row', justifyContent: 'center'}}>
+		<div style={{display: 'flex', flexDirection:'row', justifyContent: 'flex-end'}}>
 		<div style={{flexDirection:'row', justifyContent: 'center'}}>
 		<Fab variant = "extended" className={classes.log_out} size="small" onClick={props.logOut} style={{fontWeight: '500'
 			,fontSize:'0.7rem'}}>
