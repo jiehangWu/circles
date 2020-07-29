@@ -81,6 +81,8 @@ module.exports = {
     },
 
     findNearbyUsers: async () => {
+        // not finished, trying to use ES's geo_distance
+        // right now just returning all users
         let users = await User.find({});
         return users;
     },

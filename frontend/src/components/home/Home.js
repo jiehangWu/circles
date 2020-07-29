@@ -13,6 +13,7 @@ import ChatPage2 from "../chat/ChatPage2";
 import { userActions } from '../../actions/user.actions';
 import TabList from './TabList'
 import ChatIcon from '@material-ui/icons/Chat';
+import { ChatActions } from "../../actions/chat.actions";
 
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
@@ -66,11 +67,19 @@ const styles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        marginLeft: "17%",
+        marginLeft: "10%",
         marginRight: "10%",
         marginTop: "2%",
         display: "flex",
         justifyContent: 'center'
+    },
+    contentShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft:"18.25%",
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
     content2: {
         flexGrow: 1,
@@ -126,13 +135,6 @@ const styles = makeStyles((theme) => ({
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
     },
-    contentShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -143,7 +145,7 @@ const styles = makeStyles((theme) => ({
         marginRight: 0,
         width: '10%',
         [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(115),
+            marginLeft: theme.spacing(125),
             width: 'auto',
         },
     },
@@ -157,18 +159,8 @@ const styles = makeStyles((theme) => ({
         justifyContent: 'center',
     },
     LogOutButton: {
-        position: 'fixed',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginRight: 0,
-        width: '10%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(110),
-            width: 'auto',
-        },
+        // position: 'absolute',
+        float: "right",
     },
     inputRoot: {
         color: 'inherit',
@@ -209,23 +201,6 @@ const Home = (props) => {
             <p>@{props.registerName}</p>
         </div>
     );
-
-    const rightSideBar = (
-        <div className={classes.background}>
-            <div>
-                <br></br>
-                <LogOutButton />
-                <br></br>
-                <br></br>
-                <Grid container justify="center" className="mb-5">
-                    <div style={{ fontSize: 16, fontWeight: '800' }}>
-                        Explore your Circles!
-                    </div>
-                </Grid>
-                <CirclesList />
-                {/* <TabList/> */}
-            </div>
-        </div>);
 
     const leftBarIcon = (history.location.pathname === '/home' ?
         (<IconButton color='primary' onClick={() => {
@@ -270,17 +245,13 @@ const Home = (props) => {
             {name}
             {leftBarIcon}
             <IconButton color='secondary' onClick={async () => {
-                    props.beginChat({
-                        username: props.username,
-                        userId: props.userId,
-                        userAvatar: props.avatar
-                    })
-                }} >
-                    <ChatIcon />
+                history.push("/home/chat");
+            }} >
+                <ChatIcon />
 
-                </IconButton>
+            </IconButton>
             <br></br><br></br>
-            <Divider/>
+            <Divider />
             <br></br><br></br>
             <Grid container justify="center" className="mb-5">
                 <div style={{ fontSize: 16, fontWeight: '800' }}>
@@ -354,7 +325,6 @@ const Home = (props) => {
                 </div>
                 <LogOutButton className={classes.LogOutButton} />
             </Toolbar>
-            {/* <LogOutButton /> */}
         </AppBar>);
 
 
@@ -374,24 +344,6 @@ const Home = (props) => {
             <Divider />
             {leftSideBar}
         </Drawer>);
-
-    const rightResponsiveBar = (
-        <Drawer
-            className={classes.drawer}
-            variant="persistent"
-            anchor="right"
-            open={open}
-            classes={{ paper: classes.drawerPaper, }}
-        >
-            <div className={classes.drawerHeader}>
-                <IconButton onClick={handleDrawerClose}>
-                    {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                </IconButton>
-            </div>
-            <Divider />
-            {rightSideBar}
-        </Drawer>);
-
 
     useEffect(() => {
         props.loadHome();
@@ -456,7 +408,7 @@ const mapAction = {
     loadHome: HomeActions.loadHome,
     uploadAvatar: userActions.uploadAvatar,
     uploadGeolocation: userActions.uploadGeolocation,
-    
+    beginChat: ChatActions.beginChat,
 };
 
 export default connect(mapStateToProps, mapAction)(Home);
