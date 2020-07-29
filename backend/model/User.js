@@ -35,6 +35,9 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'posts',
     }],
+    geolocation:[{
+        type: String
+    }],
 });
 
 const User = mongoose.model('users', UserSchema);

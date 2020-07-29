@@ -68,7 +68,7 @@ const styles = makeStyles((theme) => ({
         marginRight: "10%",
         marginTop: "2%",
         display: "flex",
-        justifyContent:'center'
+        justifyContent: 'center'
     },
     content2: {
         flexGrow: 1,
@@ -135,16 +135,16 @@ const styles = makeStyles((theme) => ({
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
         '&:hover': {
-          backgroundColor: fade(theme.palette.common.white, 0.25),
+            backgroundColor: fade(theme.palette.common.white, 0.25),
         },
         marginLeft: 0,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-          marginLeft: theme.spacing(1),
-          width: 'auto',
+            marginLeft: theme.spacing(1),
+            width: 'auto',
         },
-      },
-      searchIcon: {
+    },
+    searchIcon: {
         padding: theme.spacing(0, 2),
         height: '100%',
         position: 'absolute',
@@ -152,23 +152,23 @@ const styles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-      },
-      inputRoot: {
+    },
+    inputRoot: {
         color: 'inherit',
-      },
-      inputInput: {
+    },
+    inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-          width: '12ch',
-          '&:focus': {
-            width: '20ch',
-          },
+            width: '12ch',
+            '&:focus': {
+                width: '20ch',
+            },
         },
-      },
+    },
 }));
 
 const Home = (props) => {
@@ -245,7 +245,7 @@ const Home = (props) => {
 
     const leftSideBar = (
         <div className={classes.background}>
-            <IconButton onClick={() => {imgUpload.current.click()}}>
+            <IconButton onClick={() => { imgUpload.current.click() }}>
                 <input className="hide" style={{ display: 'none' }} type="file" ref={imgUpload} onChange={imageChangeHandler} />
                 <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>{props.username && props.username[0]}</Avatar>
             </IconButton>
@@ -255,23 +255,24 @@ const Home = (props) => {
     );
 
     const Home = (
-        <div className={classes.content} style={{display:'flex',flexDirection:'column', height:'100%'}}>
+        <div className={classes.content} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <InputArea />
             <PostList />
         </div>
     );
 
     const contentRouter = (
-        <main className={history.location.pathname === '/home/chat'?clsx(classes.content2, { [classes.contentShift]: open, })
-            :clsx(classes.content, { [classes.contentShift]: open, })} style={{width: '80%', height:"100%", display: "flex",justifyContent:'center'
+        <main className={history.location.pathname === '/home/chat' ? clsx(classes.content2, { [classes.contentShift]: open, })
+            : clsx(classes.content, { [classes.contentShift]: open, })} style={{
+                width: '80%', height: "100%", display: "flex", justifyContent: 'center'
             }}>
-             {/*<switch></switch> is unrecognizable by browesers*/}
-            <div style={{width: '100%', display: "flex",justifyContent:'center'}}>
+            {/*<switch></switch> is unrecognizable by browesers*/}
+            <div style={{ width: '100%', display: "flex", justifyContent: 'center' }}>
                 <Route exact path="/home">
                     {Home}
                 </Route>
                 <Route exact path="/home/profile" key={history.location.state
-                                                        && history.location.state.homeId}>
+                    && history.location.state.homeId}>
                     <Profile />
                 </Route>
                 <Route exact path="/home/chat">
@@ -284,7 +285,7 @@ const Home = (props) => {
 
     const circlesAppBar = (
         <AppBar
-            position={history.location.pathname === '/home/chat'?"":"fixed"}
+            position={history.location.pathname === '/home/chat' ? "" : "fixed"}
             className={clsx(classes.appBar, { [classes.appBarShift]: open, })}>
             <Toolbar>
                 <IconButton
@@ -351,8 +352,42 @@ const Home = (props) => {
             {rightSideBar}
         </Drawer>);
 
+
     useEffect(() => {
         props.loadHome();
+
+        const geoNavigator = navigator.geolocation;
+        geoNavigator.getCurrentPosition(updateGeo, geoErr);
+
+        function updateGeo(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+            console.log('Latitude' + latitude);
+            console.log('Longtitude' + longitude);
+            console.log('Accuracy' + accuracy);
+            props.uploadGeolocation(latitude, longitude);
+        }
+        function geoErr(error) {
+            switch (error.code) {
+                case 0:
+                    console.log('Failed to get geolocation' + error.message);
+                    alert('Failed to get geolocation' + error.message);
+                    break;
+                case 1:// PERMISSION_DENIED
+                    console.log('USER PERMISSION DENIED');
+                    alert('USER PERMISSION DENIED');
+                    break;
+                case 2:// POSITION_UNAVAILABLE
+                    console.log('UNAVAILABLE GEOLOCATION');
+                    alert('UNAVAILABLE GEOLOCATION');
+                    break;
+                case 3:// TIMEOUT
+                    console.log('TIMEOUT');
+                    alert('TIMEOUT');
+                    break;
+            }
+        }
     }, []);
 
     return (
@@ -379,6 +414,7 @@ const mapStateToProps = (state) => {
 const mapAction = {
     loadHome: HomeActions.loadHome,
     uploadAvatar: userActions.uploadAvatar,
+    uploadGeolocation: HomeActions.uploadGeolocation
 };
 
 export default connect(mapStateToProps, mapAction)(Home);

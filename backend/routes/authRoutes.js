@@ -87,7 +87,7 @@ router.post('/login', async (req, res, next) => {
     })();
 });
 
-router.post('/home', async (req, res) => {
+router.get('/home', async (req, res) => {
     const userId = req.session.userId;
     logger.info(userId);
     console.log(userId);
@@ -199,6 +199,18 @@ router.put('/avatar', (req, res, next) => {
     //     logger.error(err);
     //     res.status(500).send(err.message);
     // }
+});
+
+router.put('/home/geolocation', (req, res) => {
+    const { lat, lng } = req.body;
+    const userId = req.session.userId;
+    let response;
+    try {
+        response = UserController.setGeolocation(userId, lat, lng);
+        res.status(200).send({ id });
+    } catch (err) {
+        res.status(500).send(err);
+    }
 });
 
 module.exports = router;

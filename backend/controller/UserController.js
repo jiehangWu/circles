@@ -59,4 +59,17 @@ module.exports = {
             return
         });
     },
+
+    setGeolocation: async (id, lat, lng) => {
+        let user = await User.findById(id);
+        if (user.geolocation[0]) {
+            user.geolocation[0] = lat;
+            user.geolocation[1] = lng;
+        } else {
+            user.geolocation.push(lat);
+            user.geolocation.push(lng);
+        }
+        user.save();
+        return user;
+    },
 };
