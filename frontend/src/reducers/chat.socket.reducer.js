@@ -22,7 +22,7 @@ export const chatSocketReducer = (init = socketChat, action) => {
   if (action.type === 'CLIENT_SEND_MESSAGE') {
     // console.log(action.payload);
 
-    init.send(JSON.stringify(action.payload));
+    init.sendMessage(action.payload);
     return init;
   }
   if (action.type === 'CLIENT_SET_READ') {

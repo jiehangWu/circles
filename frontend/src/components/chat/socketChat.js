@@ -1,9 +1,20 @@
 import SockJS from 'sockjs';
+import NodeRSA from 'node-rsa';
+import JSEncrypt from 'jsencrypt';
 import socket from './socket';
 import { store } from '../../helpers/store';
-
+//AES encrypt
+const CryptoJS = require('crypto-js');
 const url = 'ws://127.0.0.1:5000';
 let restart = false;
+
+const key = new NodeRSA({ b: 2048 });
+let publick2 = key.exportKey('pkcs1-public');
+let privatek2 = key.exportKey('pkcs1-private');
+let publicK2 = new NodeRSA(publick2, 'pkcs1-public');
+let privateK2 = new NodeRSA(privatek2, 'pkcs1-private');
+
+let aesKey;
 
 function HeartCheck(socket0, { userId, username }) {
   this.timeout = 1000; // 1s
@@ -26,7 +37,7 @@ function HeartCheck(socket0, { userId, username }) {
       self.serverTimeoutObj = setTimeout(() => {
         socket0.close();
         restart = false;
-        }, self.timeout);
+      }, self.timeout);
     }, this.timeout);
   };
 }
@@ -81,10 +92,10 @@ export default function SocketChat() {
     this.socket.close();
   };
 
-  this.logOutClose = ()=> {
+  this.logOutClose = () => {
     restart = true;
     this.socket.close();
-  }
+  };
 
   this.reconnect = ({ userId, username, userAvatar }) => {
     this.userId = userId;
@@ -92,14 +103,12 @@ export default function SocketChat() {
     this.userAvatar = userAvatar;
     let newSocket;
     if (!window.WebSocket) {
-
       // console.log('MozWebSocket');
 
       window.WebSocket = window.MozWebSocket;
       newSocket = new WebSocket(url);
     }
     if (window.WebSocket) {
-
       // console.log('WebSocket');
       newSocket = new WebSocket(url);
     } else {
@@ -107,7 +116,7 @@ export default function SocketChat() {
 
       newSocket = new SockJS(url);
     }
-    this.hc = new HeartCheck(newSocket, {userId, username});
+    this.hc = new HeartCheck(newSocket, { userId, username });
     this.socket = newSocket;
     this.hc.start();
   };
@@ -118,6 +127,17 @@ export default function SocketChat() {
     }
   };
 
+  this.sendMessage = (message) => {
+    let encrypted = CryptoJS.AES.encrypt(message.payload.content, aesKey, {
+      iv: aesKey,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
+    });
+    encrypted = encrypted.toString();
+    message.payload.content = encrypted;
+    this.send(JSON.stringify(message));
+  }
+
   this.configSocket = ({ userId, username }) => {
     this.socket.onopen = () => {
       this.socket.send(JSON.stringify({
@@ -125,7 +145,7 @@ export default function SocketChat() {
         payload: {
           userId: this.userId,
           username: this.username,
-          userAvatar: this.userAvatar
+          userAvatar: this.userAvatar,
         },
       }));
     };
@@ -144,11 +164,35 @@ export default function SocketChat() {
         store.dispatch(mapAction.socketInitContactsList(message.payload));
         store.dispatch(mapAction.socketInitContacts(message.payload));
       }
+      // get public key 1, return public key 2
+      if (message.purpose === 'PU1') {
+        let publick1 = message.payload;
+        let publicK1 = new NodeRSA(publick1, 'pkcs1-public');
+        let pu2Trans = publicK1.encrypt(publick2,'base64' );
+        this.send(JSON.stringify({
+          purpose: 'PU2',
+          payload: {
+            userId,
+            pu2Trans,
+          },
+        }));
+      }
+      if (message.purpose === "AES") {
+        let aesStr = privateK2.decrypt(message.payload, 'utf8');
+        aesKey = CryptoJS.enc.Utf8.parse(aesStr);
+      }
       if (message.purpose === 'SOCKET_ADD_CONTACT') {
         store.dispatch(mapAction.socketAddContact(message.payload));
         store.dispatch(mapAction.socketAddContactList(message.payload));
       }
       if (message.purpose === 'SOCKET_SEND_MESSAGE') {
+        let enContent = message.payload.content;
+        let decrypted = CryptoJS.AES.decrypt(enContent, aesKey, {
+          iv: aesKey,
+          mode: CryptoJS.mode.CBC,
+          padding: CryptoJS.pad.Pkcs7
+        });
+        message.payload.content = CryptoJS.enc.Utf8.stringify(decrypted);
         store.dispatch(mapAction.addOneMessageClient(message.payload));
         store.dispatch(mapAction.headContactListReceive({
           ...message.payload.sender,
@@ -200,7 +244,7 @@ export default function SocketChat() {
         setTimeout(() => {
           this.reconnect({ userId: this.userId, username: this.username, userAvatar: this.userAvatar });
           this.configSocket({ userId: this.userId, username: this.username });
-         }, 1000);
+        }, 1000);
       }
     };
 
@@ -211,7 +255,7 @@ export default function SocketChat() {
         setTimeout(() => {
           this.reconnect({ userId: this.userId, username: this.username, userAvatar: this.userAvatar });
           this.configSocket({ userId: this.userId, username: this.username });
-          }, 1000);
+        }, 1000);
       }
     };
   };
