@@ -26,7 +26,6 @@ export const userinfo = (state = {}, action) => {
         avatar: action.payload
       };
     case "LOAD_PROFILE":
-      console.log("posts in reducer", action.payload);
       return {
         ...state,
         profileUserId: action.payload.userId,
@@ -34,6 +33,16 @@ export const userinfo = (state = {}, action) => {
         profileAvatar: action.payload.avatar,
         tags: action.payload.tags,
         profilePosts: action.payload.posts
+      };
+      case "UPDATE_GEOLOCATION":
+      return {
+        ...state,
+        geolocation: action.payload
+      };
+      case "LOAD_GEOCIRCLES_LIST":
+      return {
+        ...state,
+        geoCirlesList: action.payload
       };
     default:
       return state;

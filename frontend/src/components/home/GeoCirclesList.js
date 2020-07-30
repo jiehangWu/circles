@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { PostActions } from '../../actions/posts.actions';
+import {userActions} from '../../actions/user.actions';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -12,13 +12,13 @@ import { history } from "../../helpers/history";
 import { Badge } from '@material-ui/core';
 
 
-class CirclesList extends React.Component {
+class GeoCirclesList extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
 	componentDidMount() {
-		this.props.loadCirclesList();
+		this.props.loadGeoCirclesList();
 	}
 
 	render() {
@@ -68,12 +68,12 @@ class CirclesList extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		circlesList: state.posts.circlesList
+		circlesList: state.userinfo.geoCirlesList
 	};
 };
 
 const mapAction = {
-	loadCirclesList: PostActions.loadCirclesList
+	loadGeoCirclesList: userActions.loadGeoCirclesList,
 };
 
-export default connect(mapStateToProps, mapAction)(CirclesList);
+export default connect(mapStateToProps, mapAction)(GeoCirclesList);

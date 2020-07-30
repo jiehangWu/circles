@@ -22,7 +22,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
 import Box from '@material-ui/core/Box';
 
-const drawerWidth = 150;
+const drawerWidth = 275;
 
 const styles = makeStyles((theme) => ({
 
@@ -55,6 +55,7 @@ const styles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing(3),
         width: 1100,
+        marginLeft: "13%"
     },
     avatar: {
         backgroundColor: blue[500],
@@ -63,9 +64,7 @@ const styles = makeStyles((theme) => ({
         margin: '1.1rem',
     },
     name: {
-        marginLeft: '10%',
-        marginRight: '20%',
-        width: '20%'
+        textAlign: "center"
     },
     logo: {
         backgroundColor: blue[900],
@@ -98,7 +97,10 @@ const Profile = (props) => {
             <div className={classes.toolbar} />
             <center>
                 <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>W</Avatar>
+                
                 {name}
+                
+                
 
                 <IconButton color='primary' onClick={async () => {
                     loading.current.style.display = 'block';
