@@ -52,7 +52,7 @@ export const historyContactsReducer = (init = [], action) => {
   if (action.type === 'HEAD_HISTORY_CONTACTS_RECEIVE') {
     const ret = init.slice();
     const chatPerson = action.payload;
-    chatPerson.unread = 1;
+    chatPerson.unread = 0;
     // console.log(ret.map((ele) => ele.userId));
     const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
     if (index !== -1) {
