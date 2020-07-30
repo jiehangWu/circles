@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-
+const bcrypt = require('bcrypt')
 
 const UserController = require('../controller/UserController');
 const PostController = require('../controller/PostController');
@@ -43,7 +43,8 @@ router.post('/register', async (req, res, next) => {
             logger.info("duplicate username")
             res.status(400).send("duplicate username");
         } else {
-            user = await UserController.createUser(registerName, password);
+            const encryptedPassword = bcrypt.hashSync(password, 10);
+            user = await UserController.createUser(registerName, encryptedPassword);
 
             const id = user._id;
             const tags = user.tags;
@@ -65,7 +66,8 @@ router.post('/login', async (req, res, next) => {
     const validate = async () => {
         user = await UserController.findUserByRegisterName(registerName);
         if (user !== null) {
-            return user.registerName === registerName && user.password === password;
+            // return user.registerName === registerName && user.password === password;
+            return bcrypt.compareSync(password, user.password);
         }
         return false;
     };
@@ -85,7 +87,7 @@ router.post('/login', async (req, res, next) => {
     })();
 });
 
-router.post('/home', async (req, res) => {
+router.get('/home', async (req, res) => {
     const userId = req.session.userId;
     logger.info(userId);
     console.log(userId);
@@ -197,6 +199,18 @@ router.put('/avatar', (req, res, next) => {
     //     logger.error(err);
     //     res.status(500).send(err.message);
     // }
+});
+
+router.put('/home/geolocation', (req, res) => {
+    const { lat, lng } = req.body;
+    const userId = req.session.userId;
+    let response;
+    try {
+        response = UserController.setGeolocation(userId, lat, lng);
+        res.status(200).send({ id });
+    } catch (err) {
+        res.status(500).send(err);
+    }
 });
 
 module.exports = router;

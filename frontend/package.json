@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.0",
+    "crypto-js": "^4.0.0",
     "google-maps-react": "^2.0.6",
     "history": "^4.10.1",
     "isomorphic-ws": "^4.0.1",
