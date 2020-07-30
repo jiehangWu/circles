@@ -38,6 +38,7 @@ app.use(cookieParser());
 
 const authRoutes = require('./routes/authRoutes');
 const awsRoutes = require('./routes/awsRoutes');
+const geoRoutes = require('./routes/geoRoutes');
 const postRoutes = require('./routes/postRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const searchRoutes = require('./routes/SearchRoutes');
@@ -60,6 +61,7 @@ app.use('/aws', awsRoutes);
 app.use('/post', postRoutes);
 app.use('/chat', chatRoutes);
 app.use('/search', searchRoutes);
+app.use('/geolocation', geoRoutes);
 
 
 

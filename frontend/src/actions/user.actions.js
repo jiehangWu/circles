@@ -163,11 +163,60 @@ const uploadAvatar = (data) => {
   }
 }
 
+const uploadGeolocation = (lat, lng) => {
+  return dispatch => {
+    fetch('http://localhost:5000/geolocation/home', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ lat, lng }),
+    }).then((response) => {
+      if (response.ok) {
+        console.log("added gelocation");
+        dispatch({
+          type: "UPDATE_GEOLOCATION",
+          payload: [lat, lng]
+      });
+      }
+    }).catch((err) => {
+      console.log(err);
+      console.log("failed added gelocation");
+    });
+  }
+}
+
+const loadGeoCirclesList = () => async (dispatch) => {
+  try {
+    let response = await fetch('http://localhost:5000/geolocation/circleslist', {
+      method: 'GET',
+      credentials: 'include',
+    });
+    if (response.ok) {
+      response = await response.text();
+      response = JSON.parse(response);
+      
+      dispatch({
+        type: 'LOAD_GEOCIRCLES_LIST',
+        payload: response
+      })
+    } else {
+      throw new Error('Error fetching geocircles list');
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+  
+}
 
 export const userActions = {
   login,
   register,
   logOut,
-  uploadAvatar
+  uploadAvatar,
+  uploadGeolocation,
+  loadGeoCirclesList,
 };
 

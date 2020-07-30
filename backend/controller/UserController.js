@@ -5,6 +5,13 @@ const util = require("../utils/util");
 
 const User = mongoose.model("users");
 
+function getRad(d) {
+    const pi = Math.PI;
+    const rad = d*pi/180.0;
+    return rad;
+}
+
+
 module.exports = {
     findUserByUserId: (id) => {
         return User.findById(id);
@@ -71,5 +78,12 @@ module.exports = {
         }
         user.save();
         return user;
+    },
+
+    findNearbyUsers: async () => {
+        // not finished, trying to use ES's geo_distance
+        // right now just returning all users
+        let users = await User.find({});
+        return users;
     },
 };

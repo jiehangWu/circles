@@ -39,6 +39,11 @@ export const userinfo = (state = {}, action) => {
         ...state,
         geolocation: action.payload
       };
+      case "LOAD_GEOCIRCLES_LIST":
+      return {
+        ...state,
+        geoCirlesList: action.payload
+      };
     default:
       return state;
   }
