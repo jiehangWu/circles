@@ -35,7 +35,8 @@ class CirclesList extends React.Component {
 										history.push({
 											state: {
 												homeId: user._id,
-												self: false
+												self: false,
+												name: user.username
 											}
 										});
 									} else {
@@ -44,7 +45,8 @@ class CirclesList extends React.Component {
 											pathname: '/home/profile',
 											state: {
 												homeId: user._id,
-												self: false
+												self: false,
+												name: user.username
 											}
 										});
 									}

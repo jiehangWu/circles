@@ -45,7 +45,6 @@ export const userinfo = (state = {}, action) => {
         geoCirlesList: action.payload
       };
       case "LOAD_GEOLOCATION":
-        console.log("getting geolocation AT REDUCER", action.payload);
       return {
         ...state,
         geolocation: action.payload.geolocation,
