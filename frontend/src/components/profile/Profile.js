@@ -64,9 +64,7 @@ const styles = makeStyles((theme) => ({
         margin: '1.1rem',
     },
     name: {
-        marginLeft: '10%',
-        marginRight: '20%',
-        width: '20%'
+        textAlign: "center"
     },
     logo: {
         backgroundColor: blue[900],
@@ -100,7 +98,10 @@ const Profile = (props) => {
             <div className={classes.toolbar} />
             <center>
                 <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>W</Avatar>
+                
                 {name}
+                
+                
 
                 <IconButton color='primary' onClick={async () => {
                     loading.current.style.display = 'block';
