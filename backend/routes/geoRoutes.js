@@ -26,8 +26,19 @@ router.get('/circleslist', async (req, res) => {
           throw error;
      }
      try {
-          const users = await UserController.findNearbyUsers();
+          const users = await UserController.findNearbyUsers(id);
           res.status(200).send(users);
+     } catch (err) {
+          logger.error(err);
+          res.status(500).send("err"+ err);
+     }
+});
+
+router.get('/:id', async (req, res) => {
+     const id = req.params.id;
+     try {
+          const user = await UserController.findUserByUserId(id);
+          res.status(200).send(user);
      } catch (err) {
           logger.error(err);
           res.status(500).send("err"+ err);

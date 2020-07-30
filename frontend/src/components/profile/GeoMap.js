@@ -1,60 +1,112 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper } from 'google-maps-react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { connect } from 'react-redux';
+import { userActions } from "../../actions/user.actions";
 
 const mapStyles = {
   width: "50ch",
   height: '50ch'
 };
 
-let lat_from_IP = 49.26;
-let lng_from_IP = 0;
+let initialLat = 49.26;
+let initialLng = -123;
 
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lat_IP: NaN,
-      lng_IP: NaN
+      lat: initialLat,
+      lng: initialLng,
+      infoDisplay: false,
+      activeMarker: {},
+      selectedPlace: {},
+      content: ''
     };
-
-    this.setGeolocation = this.setGeolocation.bind(this);
+    this.getGeolocation = this.getGeolocation.bind(this);
   }
 
-  setGeolocation = async (position) =>{
+  getGeolocation = async () => {
+    await this.props.loadGeolocation(this.props.id);
+  }
+
+  componentDidMount() {
     this.setState({
-      lat_IP: position.coords.latitude,
-      lng_IP: position.coords.longitude
+      content: this.props.username
     });
-    lat_from_IP = position.coords.latitude;
-    lng_from_IP = position.coords.longitude;
-    return position.coords.latitude;
   }
 
   componentWillMount() {
-    navigator.geolocation.getCurrentPosition(this.setGeolocation);
-    this.setState({
-      lat_IP: lat_from_IP,
-      lng_IP: lng_from_IP
-    });
+    this.getGeolocation(this.props.id);
+    if (this.props.geolocation) {
+      this.setState({
+        lat: this.props.geolocation[0],
+        lng: this.props.geolocation[1],
+        content: this.props.username
+      });
+    }
   }
 
-  render() {
-    navigator.geolocation.getCurrentPosition(this.setGeolocation);
+  onMarkerClick = (props, marker, e) =>
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true,
+      content: this.props.username
+    });
 
-      return (
-        <Map
-          google={this.props.google}
-          zoom={13}
-          style={mapStyles}
-          center={{
-            lat: this.state.lat_IP,
-            lng: this.state.lng_IP,
-          }}
-        />
-      );
-    } 
+  onMapClicked = (props) => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null,
+        content: this.props.username
+      })
+    }
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        {this.props.geolocation ?
+          <Map
+            google={this.props.google}
+            zoom={13}
+            style={mapStyles}
+            center={{
+              lat: this.props.geolocation[0],
+              lng: this.props.geolocation[1],
+            }}
+            onClick={this.onMapClicked}
+          >
+
+            <Marker onClick={this.onMarkerClick}
+              name={'descripton1'}
+              position={{ lat: this.props.geolocation[0], lng: this.props.geolocation[1] }}
+              style={{ primaryColor: "#0000FF" }} />
+
+            <InfoWindow
+              marker={this.state.activeMarker}
+              visible={this.state.showingInfoWindow}
+              content={this.props.name}>
+            </InfoWindow>
+
+          </Map> : ''}
+      </React.Fragment>
+    );
+  }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    geolocation: state.userinfo.geolocation,
+    // username: state.userinfo.geoUser
+  };
+};
+
+const mapAction = {
+  loadGeolocation: userActions.loadGeolocation,
+};
+
 export default GoogleApiWrapper({
-  apiKey: ''
-})(MapContainer);
+  apiKey: ' '
+})(connect(mapStateToProps, mapAction,)(MapContainer));

@@ -82,6 +82,7 @@ function wait(sec) {
 
 const Profile = (props) => {
     const idFromHome = history.location.state.homeId;
+    const geoName = history.location.state.name;
     // props.loadProfile(idFromHome);
     const self = history.location.state.self;
 
@@ -116,7 +117,7 @@ const Profile = (props) => {
                 </IconButton>
 
                 <IconButton>
-                    <GeoButton />
+                    <GeoButton id={idFromHome} name={geoName}/>
                 </IconButton>
 
                 <IconButton color='secondary' onClick={async () => {
@@ -139,7 +140,7 @@ const Profile = (props) => {
 
     useEffect(() => {
         props.loadProfile(idFromHome);
-    }, []);
+    }, [props.userId]);
 
     return (
         <React.Fragment>

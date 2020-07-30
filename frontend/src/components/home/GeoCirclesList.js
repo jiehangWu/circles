@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {userActions} from '../../actions/user.actions';
+import { userActions } from '../../actions/user.actions';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -10,7 +10,7 @@ import Avatar from '@material-ui/core/Avatar';
 import ChatIcon from '@material-ui/icons/Chat';
 import { history } from "../../helpers/history";
 import { Badge } from '@material-ui/core';
-
+import Grid from '@material-ui/core/Grid';
 
 class GeoCirclesList extends React.Component {
 	constructor(props) {
@@ -24,9 +24,11 @@ class GeoCirclesList extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				{this.props.circlesList &&
+				{this.props.geoList &&
 					<List dense className="classes.root">
-						{this.props.circlesList.map((user) => {
+						{this.props.geoList.map((user) => {
+							let splited = user.username.split('_', 3);
+							user.username = splited[0].concat("_" + splited[1]);
 							const labelId = `checkbox-list-secondary-label-${user._id}`;
 							return (
 								<ListItem key={user._id} button onClick={() => {
@@ -35,7 +37,8 @@ class GeoCirclesList extends React.Component {
 										history.push({
 											state: {
 												homeId: user._id,
-												self: false
+												self: false,
+												name: user.username
 											}
 										});
 									} else {
@@ -44,11 +47,11 @@ class GeoCirclesList extends React.Component {
 											pathname: '/home/profile',
 											state: {
 												homeId: user._id,
-												self: false
+												self: false,
+												name: user.username
 											}
 										});
 									}
-									
 								}}>
 									<ListItemAvatar>
 										<Avatar
@@ -57,6 +60,15 @@ class GeoCirclesList extends React.Component {
 										/>
 									</ListItemAvatar>
 									<ListItemText id={labelId} primary={`${user.username}`} />
+
+									<Grid item style={{ alignSelf: 'flex-end' }}>
+										<Grid container direction='row-reverse'>
+											<div style={{ color: '#00008B', fontSize: 0.001 }} className="mr-2">
+												{user.geoDistance !== null ? `${user.geoDistance}km` : ''}
+											</div>
+										</Grid>
+									</Grid>
+
 								</ListItem>
 							);
 						})}
@@ -68,7 +80,7 @@ class GeoCirclesList extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		circlesList: state.userinfo.geoCirlesList
+		geoList: state.userinfo.geoCirlesList
 	};
 };
 

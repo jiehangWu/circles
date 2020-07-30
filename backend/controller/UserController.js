@@ -3,14 +3,8 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const util = require("../utils/util");
 
+
 const User = mongoose.model("users");
-
-function getRad(d) {
-    const pi = Math.PI;
-    const rad = d*pi/180.0;
-    return rad;
-}
-
 
 module.exports = {
     findUserByUserId: (id) => {
@@ -80,10 +74,22 @@ module.exports = {
         return user;
     },
 
-    findNearbyUsers: async () => {
-        // not finished, trying to use ES's geo_distance
-        // right now just returning all users
+    findNearbyUsers: async (id) => {
+        // To be optmized, ES's geo_distance next sprint
+        let currUser = await User.findById(id);
         let users = await User.find({});
-        return users;
+        nearbyIds = util.getNearbyList(id, currUser.geolocation[0], currUser.geolocation[1], users);
+        let ret = [];
+        for (let nearby of nearbyIds) {
+            nearbyUser = await User.findById(nearby._id);
+            let user = {
+                geoDistance: nearby.geoDistance,
+                username: nearbyUser.username,
+                _id: nearbyUser._id,
+                avatar: nearbyUser.avatar,
+            };
+            ret.push(user);
+        };
+        return ret;
     },
 };

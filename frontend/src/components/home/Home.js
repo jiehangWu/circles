@@ -208,7 +208,8 @@ const Home = (props) => {
                 pathname: './home/profile',
                 state: {
                     homeId: props.userId,
-                    self: true
+                    self: true,
+                    name: props.username
                 }
             });
         }}>
@@ -253,8 +254,8 @@ const Home = (props) => {
             <br></br><br></br>
             <Divider />
             <br></br><br></br>
-            <Grid container justify="center" className="mb-5">
-                <div style={{ fontSize: 16, fontWeight: '800' }}>
+            <Grid container justify="center" className="mb-2">
+                <div style={{ fontSize: 16, fontWeight: '500' }}>
                     Explore your Circles!
                     </div>
             </Grid>

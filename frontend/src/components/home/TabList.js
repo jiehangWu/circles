@@ -53,7 +53,6 @@ function a11yProps(index) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // backgroundColor: theme.palette.background.paper,
     backgroundColor: "Bluegrey",
     width: "100%",
   },
@@ -87,7 +86,7 @@ export default function TabList() {
           textColor="primary"
           variant="fullWidth"
           aria-label="full width tabs example"
-          style={{ height: 'calc(5vh)', width: '100%' }}
+          style={{ height: 'calc(1vh)', width: '100%' }}
           TabIndicatorProps={{ style: { padding: '0', margin: '0', bottom: '0.01rem' } }}
         >
           <StyledTab style={{ height: 'calc(5vh)', width: '50%' }} label="Circles" {...a11yProps(0)} />

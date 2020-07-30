@@ -11,7 +11,6 @@ class Tag extends React.Component {
     }
 
     handleDelete = () => {
-        // console.log(this.props.content);
         this.props.deleteTag(this.props.userId, this.props.content);
     };
 
