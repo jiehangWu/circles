@@ -68,7 +68,7 @@ const styles = makeStyles((theme) => ({
         marginRight: "10%",
         marginTop: "2%",
         display: "flex",
-        justifyContent: 'center'
+        justifyContent:'center'
     },
     contentShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -138,7 +138,7 @@ const styles = makeStyles((theme) => ({
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
         '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
+          backgroundColor: fade(theme.palette.common.white, 0.25),
         },
         marginRight: 0,
         width: '10%',
@@ -146,8 +146,8 @@ const styles = makeStyles((theme) => ({
             marginLeft: theme.spacing(125),
             width: 'auto',
         },
-    },
-    searchIcon: {
+      },
+      searchIcon: {
         padding: theme.spacing(0, 2),
         height: '100%',
         position: 'absolute',
@@ -162,20 +162,20 @@ const styles = makeStyles((theme) => ({
     },
     inputRoot: {
         color: 'inherit',
-    },
-    inputInput: {
+      },
+      inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-            width: '12ch',
-            '&:focus': {
-                width: '20ch',
-            },
+          width: '12ch',
+          '&:focus': {
+            width: '20ch',
+          },
         },
-    },
+      },
 }));
 
 const Home = (props) => {
@@ -236,7 +236,7 @@ const Home = (props) => {
 
     const leftSideBar = (
         <div className={classes.background}>
-            <IconButton onClick={() => { imgUpload.current.click() }}>
+            <IconButton onClick={() => {imgUpload.current.click()}}>
                 <input className="hide" style={{ display: 'none' }} type="file" ref={imgUpload} onChange={imageChangeHandler} />
                 <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>{props.username && props.username[0]}</Avatar>
             </IconButton>
@@ -262,24 +262,23 @@ const Home = (props) => {
     );
 
     const Home = (
-        <div className={classes.content} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div className={classes.content} style={{display:'flex',flexDirection:'column', height:'100%'}}>
             <InputArea />
             <PostList />
         </div>
     );
 
     const contentRouter = (
-        <main className={history.location.pathname === '/home/chat' ? clsx(classes.content2, { [classes.contentShift]: open, })
-            : clsx(classes.content, { [classes.contentShift]: open, })} style={{
-                width: '80%', height: "100%", display: "flex", justifyContent: 'center'
+        <main className={history.location.pathname === '/home/chat'?clsx(classes.content2, { [classes.contentShift]: open, })
+            :clsx(classes.content, { [classes.contentShift]: open, })} style={{width: '80%', height:"100%", display: "flex",justifyContent:'center'
             }}>
-            {/*<switch></switch> is unrecognizable by browesers*/}
-            <div style={{ width: '100%', display: "flex", justifyContent: 'center' }}>
+             {/*<switch></switch> is unrecognizable by browesers*/}
+            <div style={{width: '100%', display: "flex",justifyContent:'center'}}>
                 <Route exact path="/home">
                     {Home}
                 </Route>
                 <Route exact path="/home/profile" key={history.location.state
-                    && history.location.state.homeId}>
+                                                        && history.location.state.homeId}>
                     <Profile />
                 </Route>
                 <Route exact path="/home/chat">
@@ -292,7 +291,7 @@ const Home = (props) => {
 
     const circlesAppBar = (
         <AppBar
-            position={history.location.pathname === '/home/chat' ? "" : "fixed"}
+            position={history.location.pathname === '/home/chat'?"":"fixed"}
             className={clsx(classes.appBar, { [classes.appBarShift]: open, })}>
             <Toolbar>
                 <IconButton

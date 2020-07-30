@@ -158,31 +158,37 @@ export default function SocketChat() {
           ...message.payload.sender,
           dateStr: new Date().toUTCString(),
         }));
-        setTimeout(() => {
-          const currentChat = store.getState().currentChatPerson;
-          if (message.payload.sender.userId === currentChat.userId) {
-            store.dispatch({
-              type: 'CLIENT_SET_READ',
+        const currentChat = store.getState().currentChatPerson;
+        if (message.payload.sender.userId === currentChat.userId) {
+          store.dispatch({
+            type: 'CLIENT_SET_READ',
+            payload: {
+              purpose: 'CLIENT_SET_READ',
               payload: {
-                purpose: 'CLIENT_SET_READ',
-                payload: {
-                  setUserId: message.payload.receiver.userId,
-                  userId2: message.payload.sender.userId,
-                  bool: true,
-                },
+                setUserId: message.payload.receiver.userId,
+                userId2: message.payload.sender.userId,
+                bool: true,
               },
-            });
-            store.dispatch({
-              type: 'LOCAL_SET_READ',
-              payload: message.payload.sender.userId,
-            });
-          } else {
-            store.dispatch({
-              type: 'LOCAL_SET_UNREAD',
-              payload: message.payload.sender.userId,
-            });
-          }
-        }, 1000);
+            },
+          });
+          store.dispatch({
+            type: 'LOCAL_SET_READ',
+            payload: message.payload.sender.userId,
+          });
+          store.dispatch({
+            type: 'HISTORY_CONTACTS_SET_READ',
+            payload: message.payload.sender.userId,
+          });
+        } else {
+          store.dispatch({
+            type: 'LOCAL_SET_UNREAD',
+            payload: message.payload.sender.userId,
+          });
+          store.dispatch({
+            type: 'HISTORY_CONTACTS_SET_UNREAD',
+            payload: message.payload.sender.userId,
+          });
+        }
       }
       this.hc.reset();
     };

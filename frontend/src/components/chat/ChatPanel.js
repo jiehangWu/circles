@@ -32,7 +32,7 @@ function TabPanel(props) {
 const StyledTab = withStyles({
     root: {
         minHeight: "auto",
-        minWidth: 'auto',
+        minWidth:'auto',
         padding: 0,
     }
 })(Tab);
@@ -75,7 +75,7 @@ export default function FullWidthTabs() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="default" style={{ height: 'calc(5vh)', width: '', }}>
+            <AppBar position="static" color="default" style={{height:'calc(5vh)', width: '', }}>
                 <Tabs
                     value={value}
                     onChange={handleChange}
@@ -85,11 +85,11 @@ export default function FullWidthTabs() {
                     textColor="primary"
                     variant="fullWidth"
                     aria-label="full width tabs example"
-                    style={{ height: 'calc(5vh)', width: '100%' }}
-                    TabIndicatorProps={{ style: { padding: '0', margin: '0', bottom: '0.01rem' } }}
+                    style={{height:'calc(5vh)', width:'100%'}}
+                    TabIndicatorProps={{style: {padding: '0',margin:'0',  bottom:'0.01rem'}}}
                 >
-                    <StyledTab style={{ height: 'calc(5vh)', width: '50%' }} label="Contacts" {...a11yProps(0)} />
-                    <StyledTab style={{ height: 'calc(5vh)', width: '50%' }} label="Active" {...a11yProps(1)} />
+                    <StyledTab style={{height:'calc(5vh)', width: '50%'}} label="Contacts" {...a11yProps(0)} />
+                    <StyledTab style={{height:'calc(5vh)', width: '50%'}} label="Active" {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -97,11 +97,11 @@ export default function FullWidthTabs() {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                    <HistoryContactList />
+                <TabPanel value={value} index={0} dir={theme.direction} key ={"0"}>
+                    <HistoryContactList/>
                 </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
-                    <ContactList />
+                <TabPanel value={value} index={1} dir={theme.direction} key={"1"}>
+                    <ContactList/>
                 </TabPanel>
             </SwipeableViews>
         </div>

@@ -57,7 +57,6 @@ export const historyContactsReducer = (init = [], action) => {
     const index = ret.findIndex((ele) => ele.userId === chatPerson.userId);
     if (index !== -1) {
       let chatP = Object.assign({},ret[index]);
-      chatP.unread = chatP.unread + 1;
       ret.splice(index,1);
       ret.splice(0,0, chatP);
     } else {

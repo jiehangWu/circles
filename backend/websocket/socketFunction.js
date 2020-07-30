@@ -1,7 +1,7 @@
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 const chatController = require('../controller/ChatController');
-
+logger.level="OFF";
 
 let socketControl = {};
 let userSocketList = {};
@@ -15,7 +15,7 @@ const socketFunction = (ws, req)=> {
         //HEART_BEAT
         if (m.purpose === "HEART_BEAT") {
             //logger.info(wss.clients.size);
-            logger.info(m);
+            //logger.info(m);
             ws.send(JSON.stringify({
                 purpose: "HEART_BEAT"
             }));
