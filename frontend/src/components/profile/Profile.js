@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import LogOutButton from "../home/LogOutButton";
 import { history } from "../../helpers/history";
 import { connect } from "react-redux";
-import PreferenceBar from "./PreferenceBar";
-import DisplayTagArea from './DisplayTagArea';
+import PreferenceBar from "./TagArea/PreferenceBar";
+import DisplayTagArea from './TagArea/DisplayTagArea';
 import { ProfileActions } from "../../actions/profile.actions";
 import { ChatActions } from "../../actions/chat.actions";
 import PostList from './PostList';
-import Loading from './Loading';
+import Loading from './LoadingSpinner/Loading';
 import GeoButton from './GeoButton';
 
 
@@ -105,7 +105,7 @@ const Profile = (props) => {
 
                 <IconButton color='primary' onClick={async () => {
                     loading.current.style.display = 'block';
-                    await wait(3000);
+                    await wait(100);
                     history.go({
                         pathname: './home',
                         state: {

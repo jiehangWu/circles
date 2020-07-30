@@ -10,9 +10,11 @@ import { connect } from "react-redux";
 import Profile from "../profile/Profile"
 import ChatPage2 from "../chat/ChatPage2";
 import { userActions } from '../../actions/user.actions';
-import TabList from './TabList'
-import ChatIcon from '@material-ui/icons/Chat';
+import TabList from './CircleLists/TabList'
 import { ChatActions } from "../../actions/chat.actions";
+import Guidance from "./Guidance/GuidanceWindow"
+
+import ChatIcon from '@material-ui/icons/Chat';
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
 import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
@@ -72,7 +74,7 @@ const styles = makeStyles((theme) => ({
     },
     contentShift: {
         width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft:"18.25%",
+        marginLeft: "18.25%",
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
@@ -179,6 +181,7 @@ const styles = makeStyles((theme) => ({
 }));
 
 const Home = (props) => {
+    console.log("props----------------------", props);
     const imgUpload = useRef(null);
     const classes = styles();
     const theme = useTheme();
@@ -262,8 +265,12 @@ const Home = (props) => {
         </div>
     );
 
+    // todo better the styling here
     const Home = (
         <div className={classes.content} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+            {props.firstTimer ? <center>
+                <br></br><br></br><br></br><Guidance /><br></br><br></br><br></br><br></br>
+            </center> : ''}
             <InputArea />
             <PostList />
         </div>
@@ -354,9 +361,9 @@ const Home = (props) => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
             const accuracy = position.coords.accuracy;
-            console.log('Latitude' + latitude);
-            console.log('Longtitude' + longitude);
-            console.log('Accuracy' + accuracy);
+            // console.log('Latitude' + latitude);
+            // console.log('Longtitude' + longitude);
+            // console.log('Accuracy' + accuracy);
             props.uploadGeolocation(latitude, longitude);
             // alert("Successfully added geolocation!");
         }
@@ -399,7 +406,8 @@ const mapStateToProps = (state) => {
         registerName: state.userinfo.registerName,
         userId: state.userinfo.userId,
         avatar: state.userinfo.avatar,
-        tags: state.tags
+        tags: state.tags,
+        firstTimer: state.userinfo.firstTimer,
     };
 };
 

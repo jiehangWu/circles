@@ -218,13 +218,34 @@ const loadGeolocation = (id) => async (dispatch) => {
     if (response.ok) {
       response = await response.text();
       response = JSON.parse(response);
-      console.log("after getting geolocation", response);
       dispatch({
         type: 'LOAD_GEOLOCATION',
         payload: response
       })
     } else {
       throw new Error('Error fetching geolocation');
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+const cancelFirstTimer = () => async (dispatch) => {
+  try {
+    let response = await fetch('http://localhost:5000/firstTimer', {
+      method: 'PUT',
+      credentials: 'include',
+    });
+    if (response.ok) {
+      response = await response.text();
+      console.log("））））））））））", response)
+      response = JSON.parse(response);
+      dispatch({
+        type: 'CANCEL_FIRST_TIMER',
+        payload: response
+      })
+    } else {
+      throw new Error('Error canceling first time user');
     }
   } catch (err) {
     console.log(err.message);
@@ -239,5 +260,6 @@ export const userActions = {
   uploadGeolocation,
   loadGeoCirclesList,
   loadGeolocation,
+  cancelFirstTimer,
 };
 

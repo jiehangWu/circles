@@ -18,7 +18,8 @@ export const userinfo = (state = {}, action) => {
         userId: action.payload.userId,
         username: action.payload.username,
         registerName: action.payload.registerName,
-        avatar: action.payload.avatar
+        avatar: action.payload.avatar,
+        firstTimer: action.payload.firstTimer,
       };
     case 'UPLOAD_AVATAR':
       return {
@@ -50,6 +51,12 @@ export const userinfo = (state = {}, action) => {
         geolocation: action.payload.geolocation,
         geoUser: 'action.payload.username'
       };
+      case "CANCEL_FIRST_TIMER":
+        console.log("canceldddddddddddddddddddd");
+        return {
+          ...state,
+          firstTimer: action.payload,
+        };
     default:
       return state;
   }

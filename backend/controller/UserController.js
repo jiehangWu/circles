@@ -19,7 +19,8 @@ module.exports = {
         const username = util.getRandomName();
         const user = new User({
             registerName, username, password,
-            tags: ["Sports", "Cars", "SportsCars"]
+            tags: ["Sports", "Cars", "SportsCars"],
+            firstTimer: true
         });
         return user.save();
     },
@@ -91,5 +92,12 @@ module.exports = {
             ret.push(user);
         };
         return ret;
+    },
+
+    cancelFirstTimeUser: async (id) => {
+        let user = await User.findById(id);
+        user.firstTimer = false;
+        user.save();
+        return;
     },
 };

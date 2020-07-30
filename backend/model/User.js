@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
     },
     username: String,
     password: String,
+    firstTimer: Boolean,
     avatar: {
         type: String,
         default: '',
@@ -19,7 +20,7 @@ const UserSchema = new mongoose.Schema({
             ref: 'chats',
         }
     ],
-    unReadContacts:[{
+    unReadContacts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     }],
@@ -35,7 +36,7 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'posts',
     }],
-    geolocation:[{
+    geolocation: [{
         type: String
     }],
 });
