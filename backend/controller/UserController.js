@@ -51,15 +51,8 @@ module.exports = {
 
     deleteTag: async (userId, tagContent) => {
         const user = await User.findById(userId);
-        let updatedTags = [];
-        user.tags.forEach(tag => {
-            if (tag !== tagContent) {
-                updatedTags.push(tag);
-            }
-            user.tags = updatedTags;
-            user.save();
-            return
-        });
+        user.tags = user.tags.filter(tag => tag !== tagContent);
+        return user.save();
     },
 
     setGeolocation: async (id, lat, lng) => {
