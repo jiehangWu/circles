@@ -217,8 +217,8 @@ const Home = (props) => {
             <AccountCircleIcon />
         </IconButton>) :
         (<IconButton color='primary' onClick={() => {
-            history.go({
-                pathname: './home',
+            history.replace({
+                pathname: '/home',
                 state: {
                     homeId: props.userId,
                     self: true

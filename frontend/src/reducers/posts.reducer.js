@@ -50,7 +50,7 @@ export const posts = (state = initial, action) => {
       return {
         ...state,
         circlesList: action.payload
-      }
+      };
     case 'DELETE_POST':
       return {
         ...state,

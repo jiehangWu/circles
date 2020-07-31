@@ -106,8 +106,8 @@ const Profile = (props) => {
                 <IconButton color='primary' onClick={async () => {
                     loading.current.style.display = 'block';
                     await wait(100);
-                    history.go({
-                        pathname: './home',
+                    history.replace({
+                        pathname: '/home',
                         state: {
                             homeId: props.userId,
                             self: true
@@ -141,7 +141,7 @@ const Profile = (props) => {
 
     useEffect(() => {
         props.loadProfile(idFromHome);
-    }, [props.userId]);
+    }, []);
 
     return (
         <React.Fragment>
