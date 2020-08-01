@@ -12,9 +12,9 @@ router.put('/home', (req, res) => {
      let response;
      try {
           response = UserController.setGeolocation(userId, lat, lng);
-          res.status(200).send({ id });
+          res.status(200);
      } catch (err) {
-          res.status(500).send("wront");
+          res.status(500).send(err);
      }
 });
 
@@ -26,11 +26,22 @@ router.get('/circleslist', async (req, res) => {
           throw error;
      }
      try {
-          const users = await UserController.findNearbyUsers();
+          const users = await UserController.findNearbyUsers(id);
           res.status(200).send(users);
      } catch (err) {
           logger.error(err);
-          res.status(500).send("err"+ err);
+          res.status(500).send(err);
+     }
+});
+
+router.get('/:id', async (req, res) => {
+     const id = req.params.id;
+     try {
+          const user = await UserController.findUserByUserId(id);
+          res.status(200).send(user);
+     } catch (err) {
+          logger.error(err);
+          res.status(500).send(err);
      }
 });
 

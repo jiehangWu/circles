@@ -140,26 +140,26 @@ const uploadAvatar = (data) => {
     });
 
 
-  //   let response1 = await fetch('http://localhost:5000/aws/upload', { method: 'POST', body: data });
-  //   let avatarLink = await response1.text();
-  //   console.log(avatarLink);
-  //   let response2 = await fetch('http://localhost:5000/avatar', {
-  //     method: 'PUT',
-  //     body: JSON.stringify({ avatarLink }),
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json',
-  //     },
-  //     credentials: 'include',
-  //   });
-  //   if (response2.ok) {
-  //     dispatch({
-  //       type: 'UPLOAD_AVATAR',
-  //       payload: avatarLink,
-  //     });
-  //   } else {
-  //     console.log('error uploading avatar');
-  //   }
+    //   let response1 = await fetch('http://localhost:5000/aws/upload', { method: 'POST', body: data });
+    //   let avatarLink = await response1.text();
+    //   console.log(avatarLink);
+    //   let response2 = await fetch('http://localhost:5000/avatar', {
+    //     method: 'PUT',
+    //     body: JSON.stringify({ avatarLink }),
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json',
+    //     },
+    //     credentials: 'include',
+    //   });
+    //   if (response2.ok) {
+    //     dispatch({
+    //       type: 'UPLOAD_AVATAR',
+    //       payload: avatarLink,
+    //     });
+    //   } else {
+    //     console.log('error uploading avatar');
+    //   }
   }
 }
 
@@ -179,7 +179,7 @@ const uploadGeolocation = (lat, lng) => {
         dispatch({
           type: "UPDATE_GEOLOCATION",
           payload: [lat, lng]
-      });
+        });
       }
     }).catch((err) => {
       console.log(err);
@@ -197,7 +197,6 @@ const loadGeoCirclesList = () => async (dispatch) => {
     if (response.ok) {
       response = await response.text();
       response = JSON.parse(response);
-      
       dispatch({
         type: 'LOAD_GEOCIRCLES_LIST',
         payload: response
@@ -208,7 +207,48 @@ const loadGeoCirclesList = () => async (dispatch) => {
   } catch (err) {
     console.log(err.message);
   }
-  
+}
+
+const loadGeolocation = (id) => async (dispatch) => {
+  try {
+    let response = await fetch('http://localhost:5000/geolocation/'+ id, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    if (response.ok) {
+      response = await response.text();
+      response = JSON.parse(response);
+      dispatch({
+        type: 'LOAD_GEOLOCATION',
+        payload: response
+      })
+    } else {
+      throw new Error('Error fetching geolocation');
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+const cancelFirstTimer = () => async (dispatch) => {
+  try {
+    let response = await fetch('http://localhost:5000/firstTimer', {
+      method: 'PUT',
+      credentials: 'include',
+    });
+    if (response.ok) {
+      response = await response.text();
+      response = JSON.parse(response);
+      dispatch({
+        type: 'CANCEL_FIRST_TIMER',
+        payload: response
+      })
+    } else {
+      throw new Error('Error canceling first time user');
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 export const userActions = {
@@ -218,5 +258,7 @@ export const userActions = {
   uploadAvatar,
   uploadGeolocation,
   loadGeoCirclesList,
+  loadGeolocation,
+  cancelFirstTimer,
 };
 

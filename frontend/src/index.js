@@ -5,10 +5,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { store } from './helpers/store';
+import NotistackWrapper from './components/home/Guidance/SnackBarWrapper.js'
 
 ReactDOM.render(
 	<Provider store={store}>
+		<NotistackWrapper>
 		<App />
+		</NotistackWrapper>
 	</Provider>,
 	document.getElementById('root')
 );

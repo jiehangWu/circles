@@ -1,22 +1,18 @@
 import React, { useEffect } from "react";
-import LogOutButton from "../home/LogOutButton";
 import { history } from "../../helpers/history";
 import { connect } from "react-redux";
-import PreferenceBar from "./PreferenceBar";
-import DisplayTagArea from './DisplayTagArea';
+import PreferenceBar from "./TagArea/PreferenceBar";
+import DisplayTagArea from './TagArea/DisplayTagArea';
 import { ProfileActions } from "../../actions/profile.actions";
 import { ChatActions } from "../../actions/chat.actions";
 import PostList from './PostList';
-import Loading from './Loading';
+import Loading from './LoadingSpinner/Loading';
 import GeoButton from './GeoButton';
 
-
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { blue, blueGrey, grey } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
-import SettingsIcon from '@material-ui/icons/Settings';
 import HomeIcon from '@material-ui/icons/Home';
 import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -33,8 +29,6 @@ const styles = makeStyles((theme) => ({
         borderColor: blueGrey[5000],
         backgroundColor: grey[200]
     },
-
-
     root: {
         display: 'flex',
     },
@@ -80,6 +74,7 @@ function wait(sec) {
 
 const Profile = (props) => {
     const idFromHome = history.location.state.homeId;
+    const geoName = history.location.state.name;
     // props.loadProfile(idFromHome);
     const self = history.location.state.self;
 
@@ -96,7 +91,7 @@ const Profile = (props) => {
         <div className={classes.background}>
             <div className={classes.toolbar} />
             <center>
-                <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>W</Avatar>
+                <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar} alt={props.username}/>
                 
                 {name}
                 
@@ -104,9 +99,9 @@ const Profile = (props) => {
 
                 <IconButton color='primary' onClick={async () => {
                     loading.current.style.display = 'block';
-                    await wait(3000);
-                    history.go({
-                        pathname: './home',
+                    await wait(100);
+                    history.replace({
+                        pathname: '/home',
                         state: {
                             homeId: props.userId,
                             self: true
@@ -117,7 +112,7 @@ const Profile = (props) => {
                 </IconButton>
 
                 <IconButton>
-                    <GeoButton />
+                    <GeoButton id={idFromHome} name={geoName}/>
                 </IconButton>
 
                 <IconButton color='secondary' onClick={async () => {

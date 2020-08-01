@@ -119,6 +119,28 @@ const socketFunction = (ws, req)=> {
             logger.info(m);
             chatController.setChatStatus(message.setUserId, message.userId2, message.bool);
         }
+        if (m.purpose === 'CLIENT_APPLY_VIDEO_CHAT') {
+            let message = m.payload;
+            let receiver = message.receiver;
+            let sender = message.sender;
+            if (receiver.userId !== sender.userId && userSocketList[receiver.userId]) {
+                userSocketList[receiver.userId].send(JSON.stringify({
+                    purpose: "CLIENT_APPLY_VIDEO_CHAT",
+                    payload: message
+                }));
+            }
+        }
+        if (m.purpose === 'CLIENT_REFUSE_VIDEO_CHAT') {
+            let message = m.payload;
+            let receiver = message.receiver;
+            let sender = message.sender;
+            if (receiver.userId !== sender.userId && userSocketList[receiver.userId]) {
+                userSocketList[receiver.userId].send(JSON.stringify({
+                    purpose: "CLIENT_REFUSE_VIDEO_CHAT",
+                    payload: message
+                }));
+            }
+        }
     });
 }
 

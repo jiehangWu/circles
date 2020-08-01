@@ -3,15 +3,9 @@ import React from "react";
 import {userActions} from "../../actions/user.actions";
 import {connect} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
-import Fab from '@material-ui/core/Fab';
 
 const styles = makeStyles((theme) => ({
 	log_out: {
-		// marginRight: 0,
-		// display: 'flex', 
-		// flexDirection:'row', 
-		// justifyContent: 'flex-end',
-		// position: "absolute"
 	},
 
 }));

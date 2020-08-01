@@ -10,9 +10,14 @@ import { connect } from "react-redux";
 import Profile from "../profile/Profile"
 import ChatPage2 from "../chat/ChatPage2";
 import { userActions } from '../../actions/user.actions';
-import TabList from './TabList'
-import ChatIcon from '@material-ui/icons/Chat';
+import TabList from './CircleLists/TabList'
 import { ChatActions } from "../../actions/chat.actions";
+import Guidance from "./Guidance/GuidanceWindow";
+import { useSnackbar } from 'notistack';
+import SearchBox from './SearchBox/SearchBox'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import ChatIcon from '@material-ui/icons/Chat';
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
 import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
@@ -24,6 +29,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -72,7 +78,7 @@ const styles = makeStyles((theme) => ({
     },
     contentShift: {
         width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft:"18.25%",
+        marginLeft: "18.25%",
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
@@ -94,10 +100,10 @@ const styles = makeStyles((theme) => ({
         backgroundColor: blue[500],
         width: theme.spacing(7),
         height: theme.spacing(7),
-        margin: '1.1rem',
+        marginLeft: '5%'
     },
     name: {
-        marginLeft: '10%',
+        marginLeft: '5%',
         marginRight: '20%',
         width: '20%',
         textAlign: "center"
@@ -107,7 +113,6 @@ const styles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        width: "100%"
     },
 
     //   added for responsive
@@ -133,6 +138,9 @@ const styles = makeStyles((theme) => ({
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
     },
+    icons: {
+        marginLeft: '5%'
+    },
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -140,8 +148,8 @@ const styles = makeStyles((theme) => ({
         '&:hover': {
           backgroundColor: fade(theme.palette.common.white, 0.25),
         },
-        marginRight: 0,
-        width: '10%',
+        marginLeft: 0,
+        width: '100%',
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing(125),
             width: 'auto',
@@ -178,13 +186,14 @@ const styles = makeStyles((theme) => ({
       },
 }));
 
+
 const Home = (props) => {
     const imgUpload = useRef(null);
     const classes = styles();
     const theme = useTheme();
-
     const [open, setOpen] = React.useState(true);
-
+    const { enqueueSnackbar } = useSnackbar();
+    const matches = useMediaQuery('(min-width:1200px)');
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -195,34 +204,47 @@ const Home = (props) => {
 
     const name = (
         <div className={classes.name}>
-            <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
+            <h4 style={{ fontWeight: '900' }}> {props.usernameFirst}</h4>
+            <h5 style={{ fontWeight: '900' }}>{props.usernameIdentifier}</h5>
             <p>@{props.registerName}</p>
         </div>
     );
 
-    const leftBarIcon = (history.location.pathname === '/home' ?
-        (<IconButton color='primary' onClick={() => {
-            history.push({
-                pathname: './home/profile',
-                state: {
-                    homeId: props.userId,
-                    self: true
-                }
-            });
-        }}>
-            <AccountCircleIcon />
-        </IconButton>) :
-        (<IconButton color='primary' onClick={() => {
-            history.go({
-                pathname: './home',
-                state: {
-                    homeId: props.userId,
-                    self: true
-                }
-            });
-        }}>
-            <HomeIcon />
-        </IconButton>)
+    const leftBarIcon = (
+        <div className={classes.icons}>
+            {history.location.pathname === '/home' ?
+                <IconButton color='primary' onClick={() => {
+                    history.push({
+                        pathname: './home/profile',
+                        state: {
+                            homeId: props.userId,
+                            self: true,
+                            name: props.username
+                        }
+                    });
+                }}>
+                    <AccountCircleIcon />
+                </IconButton> :
+                <IconButton color='primary' onClick={() => {
+                    history.replace({
+                        pathname: '/home',
+                        state: {
+                            homeId: props.userId,
+                            self: true
+                        }
+                    });
+                }}>
+                    <HomeIcon />
+                </IconButton>}
+            <IconButton color='secondary' onClick={() => {
+                history.push("/home/chat");
+            }} >
+                <ChatIcon />
+            </IconButton>
+            <IconButton onClick={props.logOut}>
+                <PowerSettingsNewIcon/>
+            </IconButton>
+        </div>
     );
 
     const imageChangeHandler = () => {
@@ -242,17 +264,12 @@ const Home = (props) => {
             </IconButton>
             {name}
             {leftBarIcon}
-            <IconButton color='secondary' onClick={async () => {
-                history.push("/home/chat");
-            }} >
-                <ChatIcon />
 
-            </IconButton>
             <br></br><br></br>
             <Divider />
             <br></br><br></br>
-            <Grid container justify="center" className="mb-5">
-                <div style={{ fontSize: 16, fontWeight: '800' }}>
+            <Grid container justify="center" className="mb-2">
+                <div style={{ fontSize: 16, fontWeight: '500' }}>
                     Explore your Circles!
                     </div>
             </Grid>
@@ -261,8 +278,12 @@ const Home = (props) => {
         </div>
     );
 
+    // todo better the styling here
     const Home = (
-        <div className={classes.content} style={{display:'flex',flexDirection:'column', height:'100%'}}>
+        <div className={classes.content} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+            {props.firstTimer ? <center>
+                <br></br><br></br><br></br><Guidance /><br></br><br></br><br></br><br></br>
+            </center> : ''}
             <InputArea />
             <PostList />
         </div>
@@ -307,20 +328,8 @@ const Home = (props) => {
                     {greetUser() + ', ' + 'Welcome to Circles!'}
                 </Typography>
 
-                <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon />
-                    </div>
-                    <InputBase
-                        placeholder="Search…"
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
-                </div>
-                <LogOutButton className={classes.LogOutButton} />
+
+                <SearchBox/>
             </Toolbar>
         </AppBar>);
 
@@ -342,42 +351,47 @@ const Home = (props) => {
             {leftSideBar}
         </Drawer>);
 
+    const geoNavigator = navigator.geolocation;
+
+    function updateGeolocation(position) {
+        enqueueSnackbar('Circles will be updating your geolocation.', { variant: "info" });
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        props.uploadGeolocation(latitude, longitude);
+        setTimeout(function () {
+            enqueueSnackbar(`Successfully added geolocation!`, { variant: "success" });
+        }, 1500);
+    }
+    function geoErr(err) {
+        enqueueSnackbar('Circles will be updating your geolocation.', { variant: "info" });
+        switch (err.code) {
+            case 0:
+                setTimeout(function () {
+                    enqueueSnackbar('Failed to get geolocation' + err.message, { variant: "error" });
+                }, 1000);
+                break;
+            case 1:// PERMISSION_DENIED
+                setTimeout(function () {
+                    enqueueSnackbar('Permission denied to grant Circles with your geolocation', { variant: "warning" });
+                }, 1000);
+                break;
+            case 2:// POSITION_UNAVAILABLE
+                setTimeout(function () {
+                    enqueueSnackbar('Your current location is unavailable.', { variant: "warning" });
+                }, 1800);
+                break;
+            case 3:// TIMEOUT
+                console.log('TIMEOUT');
+                setTimeout(function () {
+                    enqueueSnackbar('Your current location is unavailable.', { variant: "warning" });
+                }, 0);
+                break;
+        }
+    }
+
     useEffect(() => {
+        geoNavigator.getCurrentPosition(updateGeolocation, geoErr);
         props.loadHome();
-
-        const geoNavigator = navigator.geolocation;
-        geoNavigator.getCurrentPosition(updateGeo, geoErr);
-
-        function updateGeo(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            const accuracy = position.coords.accuracy;
-            console.log('Latitude' + latitude);
-            console.log('Longtitude' + longitude);
-            console.log('Accuracy' + accuracy);
-            props.uploadGeolocation(latitude, longitude);
-            // alert("Successfully added geolocation!");
-        }
-        function geoErr(error) {
-            switch (error.code) {
-                case 0:
-                    console.log('Failed to get geolocation' + error.message);
-                    // alert('Failed to get geolocation' + error.message);
-                    break;
-                case 1:// PERMISSION_DENIED
-                    console.log('USER PERMISSION DENIED');
-                    // alert('USER PERMISSION DENIED');
-                    break;
-                case 2:// POSITION_UNAVAILABLE
-                    console.log('UNAVAILABLE GEOLOCATION');
-                    // alert('UNAVAILABLE GEOLOCATION');
-                    break;
-                case 3:// TIMEOUT
-                    console.log('TIMEOUT');
-                    // alert('TIMEOUT');
-                    break;
-            }
-        }
     }, []);
 
     return (
@@ -385,7 +399,6 @@ const Home = (props) => {
             {circlesAppBar}
             {leftResponsiveBar}
             {contentRouter}
-            {/* {rightResponsiveBar} */}
         </React.Fragment >
     );
 };
@@ -394,10 +407,13 @@ const mapStateToProps = (state) => {
     return {
         sideBarName: state.userinfo.username,
         username: state.userinfo.username,
+        usernameFirst: state.userinfo.usernameFirst,
+        usernameIdentifier: state.userinfo.usernameIdentifier,
         registerName: state.userinfo.registerName,
         userId: state.userinfo.userId,
         avatar: state.userinfo.avatar,
-        tags: state.tags
+        tags: state.tags,
+        firstTimer: state.userinfo.firstTimer,
     };
 };
 
@@ -406,6 +422,7 @@ const mapAction = {
     uploadAvatar: userActions.uploadAvatar,
     uploadGeolocation: userActions.uploadGeolocation,
     beginChat: ChatActions.beginChat,
+    logOut: userActions.logOut,
 };
 
 export default connect(mapStateToProps, mapAction)(Home);

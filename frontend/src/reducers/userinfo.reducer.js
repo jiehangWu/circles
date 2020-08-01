@@ -17,8 +17,11 @@ export const userinfo = (state = {}, action) => {
       return {
         userId: action.payload.userId,
         username: action.payload.username,
+        usernameFirst: action.payload.username.slice(0, action.payload.username.indexOf('#')),
+        usernameIdentifier: action.payload.username.slice(action.payload.username.indexOf('#')),
         registerName: action.payload.registerName,
-        avatar: action.payload.avatar
+        avatar: action.payload.avatar,
+        firstTimer: action.payload.firstTimer,
       };
     case 'UPLOAD_AVATAR':
       return {
@@ -34,15 +37,26 @@ export const userinfo = (state = {}, action) => {
         tags: action.payload.tags,
         profilePosts: action.payload.posts
       };
-      case "UPDATE_GEOLOCATION":
+    case "UPDATE_GEOLOCATION":
       return {
         ...state,
         geolocation: action.payload
       };
-      case "LOAD_GEOCIRCLES_LIST":
+    case "LOAD_GEOCIRCLES_LIST":
       return {
         ...state,
         geoCirlesList: action.payload
+      };
+    case "LOAD_GEOLOCATION":
+      return {
+        ...state,
+        geolocation: action.payload.geolocation,
+        geoUser: 'action.payload.username'
+      };
+    case "CANCEL_FIRST_TIMER":
+      return {
+        ...state,
+        firstTimer: action.payload,
       };
     default:
       return state;

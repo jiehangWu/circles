@@ -96,8 +96,9 @@ router.get('/home', async (req, res) => {
         const username = result.username;
         const registerName = result.registerName;
         const avatar = result.avatar;
+        const firstTimer = result.firstTimer;
         logger.info(`Display ${username}`);
-        res.status(200).send({ registerName, username, userId, avatar });
+        res.status(200).send({ registerName, username, userId, avatar, firstTimer });
     } else {
         logger.error(result);
         res.status(400).send("please login");
@@ -199,6 +200,15 @@ router.put('/avatar', (req, res, next) => {
     //     logger.error(err);
     //     res.status(500).send(err.message);
     // }
+});
+
+router.put('/firstTimer', async (req, res, next) => {
+    const userId = req.session.userId;
+    return await UserController.cancelFirstTimeUser(userId).then(() => {
+        res.status(200).send("false");
+    }).catch((err) => {
+        res.status(500).end();
+    });
 });
 
 module.exports = router;
