@@ -12,9 +12,9 @@ router.put('/home', (req, res) => {
      let response;
      try {
           response = UserController.setGeolocation(userId, lat, lng);
-          res.status(200).send({ id });
+          res.status(200);
      } catch (err) {
-          res.status(500).send("wrong");
+          res.status(500).send(err);
      }
 });
 
@@ -30,7 +30,7 @@ router.get('/circleslist', async (req, res) => {
           res.status(200).send(users);
      } catch (err) {
           logger.error(err);
-          res.status(500).send("err"+ err);
+          res.status(500).send(err);
      }
 });
 
@@ -41,7 +41,7 @@ router.get('/:id', async (req, res) => {
           res.status(200).send(user);
      } catch (err) {
           logger.error(err);
-          res.status(500).send("err"+ err);
+          res.status(500).send(err);
      }
 });
 

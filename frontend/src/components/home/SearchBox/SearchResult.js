@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { PostActions } from '../../../actions/posts.actions';
 
 class PostList extends React.Component {
-
 	render() {
-
 		return (
 			<React.Fragment>
 				{this.props.results.length !==0 ?
@@ -29,13 +27,8 @@ class PostList extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-	};
-};
-
 const mapAction = {
 	loadAllPosts: PostActions.loadAllPosts
 };
 
-export default connect(mapStateToProps, mapAction)(PostList);
+export default connect(null, mapAction)(PostList);
