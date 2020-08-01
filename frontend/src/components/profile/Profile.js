@@ -111,9 +111,7 @@ const Profile = (props) => {
                     <HomeIcon  />
                 </IconButton>
 
-                <IconButton>
-                    <GeoButton id={idFromHome} name={geoName}/>
-                </IconButton>
+                <GeoButton id={idFromHome} name={geoName}/>
 
                 <IconButton color='secondary' onClick={async () => {
                     loading.current.style.display = 'block';
