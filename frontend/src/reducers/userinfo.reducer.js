@@ -35,28 +35,27 @@ export const userinfo = (state = {}, action) => {
         tags: action.payload.tags,
         profilePosts: action.payload.posts
       };
-      case "UPDATE_GEOLOCATION":
+    case "UPDATE_GEOLOCATION":
       return {
         ...state,
         geolocation: action.payload
       };
-      case "LOAD_GEOCIRCLES_LIST":
+    case "LOAD_GEOCIRCLES_LIST":
       return {
         ...state,
         geoCirlesList: action.payload
       };
-      case "LOAD_GEOLOCATION":
+    case "LOAD_GEOLOCATION":
       return {
         ...state,
         geolocation: action.payload.geolocation,
         geoUser: 'action.payload.username'
       };
-      case "CANCEL_FIRST_TIMER":
-
-        return {
-          ...state,
-          firstTimer: action.payload,
-        };
+    case "CANCEL_FIRST_TIMER":
+      return {
+        ...state,
+        firstTimer: action.payload,
+      };
     default:
       return state;
   }

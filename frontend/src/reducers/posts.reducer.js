@@ -71,6 +71,11 @@ export const posts = (state = initial, action) => {
         ...state,
         postList: action.payload.posts,
       };
+    case "SEARCH_BY_KEYWORD":
+      return {
+        ...state,
+        searchResult: action.payload,
+      };
     default:
       return state;
   }

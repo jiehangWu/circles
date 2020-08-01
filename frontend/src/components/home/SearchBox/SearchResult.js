@@ -5,35 +5,32 @@ import { PostActions } from '../../../actions/posts.actions';
 
 class PostList extends React.Component {
 
-	componentDidMount() {
-		this.props.loadAllPosts();
-	}
-
 	render() {
+
 		return (
-			<div>
-				{this.props.posts.postList.map((post) =>
-					<PostContainer
-						key={post._id}  
-						postId={post._id} 
-						username={post.user.username}
-						userId={post.user._id}
-						avatar={post.user.avatar} 
-						date={post.date} 
-						content={post.content} 
-						likes={post.likes}
-						imgLink={post.imgLink}
-						comments={post.comments}
-						isAtProfile={false}/>
-				)}
-			</div>
+			<React.Fragment>
+				{this.props.results.length !==0 ?
+					this.props.results.map((post) =>
+						<PostContainer
+							key={post._id}
+							postId={post._id}
+							username={post.user.username}
+							userId={post.user._id}
+							avatar={post.user.avatar}
+							date={post.date}
+							content={post.content}
+							likes={post.likes}
+							imgLink={post.imgLink}
+							comments={post.comments}
+							isAtProfile={false} />
+					 ): <div><center>No related results</center></div>}
+			</React.Fragment>
 		);
 	}
 }
 
 const mapStateToProps = (state) => {
 	return {
-		posts: state.posts,
 	};
 };
 

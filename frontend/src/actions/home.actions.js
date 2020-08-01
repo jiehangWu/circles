@@ -46,7 +46,8 @@ const loadHome = () => (dispatch) => {
   });
 };
 
-const  search = (keyword) => (dispatch) => {
+const searchKeyword = (keyword) => (dispatch) => {
+  console.log("searched", keyword);
   fetch('http://localhost:5000/search/'+ keyword, {
     method: 'GET',
     headers: {
@@ -58,9 +59,9 @@ const  search = (keyword) => (dispatch) => {
     if (response.ok) {
       return response.json();
     }
-    throw new Error('error when fetching all posts');
+    throw new Error('error when searching for result');
   }).then((posts) => {
-    console.log(posts);
+    console.log("search results", posts);
     dispatch({
       type: 'SEARCH_BY_KEYWORD',
       payload: posts,
@@ -72,5 +73,5 @@ const  search = (keyword) => (dispatch) => {
 
 export const HomeActions = {
   loadHome,
-  search,
+  searchKeyword,
 };
