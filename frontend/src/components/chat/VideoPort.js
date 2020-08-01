@@ -196,8 +196,8 @@ class VideoPort extends React.Component {
     render() {
         return <div style={{ position:'fixed',zIndex:'100', bottom: '15%',left:'10%',display:'flex',flexDirection:'column'}}>
             <div>
-            <video ref={this.videoR} autoPlay playsinline style={{width:"420px",}}/>
-            <video ref={this.videoL} autoPlay muted playsinline style={{width:"200px", position:"relative", right:'200px'}}/>
+            <video ref={this.videoR} autoPlay playsInline style={{width:"420px",}}/>
+            <video ref={this.videoL} autoPlay muted playsInline style={{width:"200px", position:"relative", right:'200px'}}/>
             </div>
                 <div style={{alignSelf:'flex-end', position:'relative', right:'200px'}}>
                     <div>{this.handleStatus()}</div>
