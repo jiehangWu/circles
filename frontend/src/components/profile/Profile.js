@@ -141,7 +141,7 @@ const Profile = (props) => {
 
     useEffect(() => {
         props.loadProfile(idFromHome);
-    }, [props.userId]);
+    }, []);
 
     return (
         <React.Fragment>

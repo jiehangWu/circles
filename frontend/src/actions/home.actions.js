@@ -46,6 +46,31 @@ const loadHome = () => (dispatch) => {
   });
 };
 
+const  search = (keyword) => (dispatch) => {
+  fetch('http://localhost:5000/search/'+ keyword, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error('error when fetching all posts');
+  }).then((posts) => {
+    console.log(posts);
+    dispatch({
+      type: 'SEARCH_BY_KEYWORD',
+      payload: posts,
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
 export const HomeActions = {
   loadHome,
+  search,
 };

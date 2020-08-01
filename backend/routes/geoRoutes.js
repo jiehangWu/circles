@@ -14,7 +14,7 @@ router.put('/home', (req, res) => {
           response = UserController.setGeolocation(userId, lat, lng);
           res.status(200).send({ id });
      } catch (err) {
-          res.status(500).send("wront");
+          res.status(500).send("wrong");
      }
 });
 

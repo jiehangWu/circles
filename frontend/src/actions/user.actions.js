@@ -238,7 +238,6 @@ const cancelFirstTimer = () => async (dispatch) => {
     });
     if (response.ok) {
       response = await response.text();
-      console.log("））））））））））", response)
       response = JSON.parse(response);
       dispatch({
         type: 'CANCEL_FIRST_TIMER',

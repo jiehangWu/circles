@@ -52,7 +52,7 @@ export const userinfo = (state = {}, action) => {
         geoUser: 'action.payload.username'
       };
       case "CANCEL_FIRST_TIMER":
-        console.log("canceldddddddddddddddddddd");
+
         return {
           ...state,
           firstTimer: action.payload,
