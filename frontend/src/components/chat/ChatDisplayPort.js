@@ -3,7 +3,8 @@ import {connect} from "react-redux";
 import Message from "./message";
 import {ChatActions} from "../../actions/chat.actions";
 import {chatEnter} from "../../reducers/chat.enter";
-
+import VideoPort from './VideoPort';
+import {chatVideoStatus} from "../../reducers/chat.videoStatus";
 
 export function ChatDisplayPort(props) {
     let messagesEnd;
@@ -15,7 +16,7 @@ export function ChatDisplayPort(props) {
 
     useEffect(() => {
         scrollToBottom();
-        },[props.chatsReducer1, props.person.userId]);
+        },[props.chatsReducer1, props.person.userId,props.chatVideoStatus]);
 
     useEffect(()=> {
         console.log(props.chatEnter);
@@ -27,7 +28,10 @@ export function ChatDisplayPort(props) {
     };
 
     return <React.Fragment>
-        <div style={{height: "calc(81vh)", padding: "10px", margin: "0px", overflow: "scroll"}}>
+        <div style={{height: "calc(78vh)", padding: "10px", margin: "0px", overflow: "scroll"}}>
+            <div style = {props.chatVideoStatus === 0?{visibility:'hidden'}:{}}>
+            <VideoPort />
+            </div>
                 {props.chatsReducer1[props.person.userId] ?
                     props.chatsReducer1[props.person.userId].map((ele) => {
                         if (ele.sender.username === props.username) {
@@ -53,7 +57,8 @@ const mapStateToProps = (state) => {
         username: state.userinfo.username,
         userAvatar: state.userinfo.avatar,
         person: state.currentChatPerson,
-        chatEnter: state.chatEnter
+        chatEnter: state.chatEnter,
+        chatVideoStatus: state.chatVideoStatus
     };
 };
 

@@ -29,5 +29,13 @@ export const chatSocketReducer = (init = socketChat, action) => {
     init.send(JSON.stringify(action.payload));
     return init;
   }
+  if (action.type === 'CLIENT_APPLY_VIDEO_CHAT') {
+    init.send(JSON.stringify(action.payload));
+    return init;
+  }
+  if (action.type === 'CLIENT_REFUSE_VIDEO_CHAT') {
+    init.send(JSON.stringify(action.payload));
+    return init;
+  }
   return init;
 };

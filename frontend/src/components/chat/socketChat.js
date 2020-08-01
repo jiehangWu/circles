@@ -79,6 +79,13 @@ const mapAction = {
     type: 'HEAD_HISTORY_CONTACTS_SEND',
     payload: user,
   }),
+  chatApply: (sender) => ({
+    type: 'CHAT_APPLY',
+    payload: sender
+  }),
+  callee: ()=> ({
+    type:'CALLEE'
+  })
 };
 
 export default function SocketChat() {
@@ -181,6 +188,25 @@ export default function SocketChat() {
         let aesStr = privateK2.decrypt(message.payload, 'utf8');
         aesKey = CryptoJS.enc.Utf8.parse(aesStr);
       }
+      //
+      //
+      if (message.purpose === 'CLIENT_APPLY_VIDEO_CHAT') {
+        let sender = message.payload.sender;
+        store.dispatch(mapAction.chatApply(sender));
+        store.dispatch(mapAction.callee());
+        setTimeout(()=>{store.dispatch({
+          type:'HANG_VIDEO',
+        })},500);
+      }
+      //
+      //
+      if (message.purpose === 'CLIENT_REFUSE_VIDEO_CHAT') {
+        store.dispatch({
+          type:"REFUSE_VIDEO",
+        });
+      }
+      //
+      //
       if (message.purpose === 'SOCKET_ADD_CONTACT') {
         store.dispatch(mapAction.socketAddContact(message.payload));
         store.dispatch(mapAction.socketAddContactList(message.payload));

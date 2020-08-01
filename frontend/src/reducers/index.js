@@ -11,6 +11,9 @@ import { chatsListReducer } from './chat.onlineUsers';
 import { chatsReducer1 } from './chat.reducer1';
 import {historyContactsReducer} from "./chat.historyContacts";
 import {chatEnter} from "./chat.enter";
+import {currentVideoChatPerson} from "./chat.currentVideoChatPerson";
+import {chatVideoStatus} from "./chat.videoStatus";
+import {chatVideoCaller} from "./chat.videoCaller";
 
 export const rootReducer = combineReducers({
   currentChatPerson,
@@ -24,5 +27,8 @@ export const rootReducer = combineReducers({
   chatsListReducer,
   chatsReducer1,
   historyContactsReducer,
-  chatEnter
+  chatEnter,
+  currentVideoChatPerson,
+  chatVideoStatus,
+  chatVideoCaller,
 });

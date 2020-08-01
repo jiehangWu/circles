@@ -11,7 +11,7 @@ import ChatPanel from "./ChatPanel";
 export function ChatPage2(props) {
 
     return <React.Fragment>
-        <div style = {{width: '90%'}}>
+        <div style = {{width: '80%'}}>
 
             <Grid container direction="row" alignItems="flex-start" style = {{width: '100%'}}>
             <Grid item className="" style={{marginLeft: '1%', width: '29%',height: '100%'}}>
