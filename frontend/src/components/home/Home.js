@@ -268,14 +268,10 @@ const Home = (props) => {
 
     // todo better the styling here
     const Home = (
-<<<<<<< HEAD
-        <div className={classes.content} style={{display:'flex',flexDirection:'column', height:'100%'}}>
-=======
         <div className={classes.content} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             {props.firstTimer ? <center>
                 <br></br><br></br><br></br><Guidance /><br></br><br></br><br></br><br></br>
             </center> : ''}
->>>>>>> origin/develop_searchBox
             <InputArea />
             <PostList />
         </div>
