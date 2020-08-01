@@ -108,9 +108,6 @@ class InputArea extends React.Component {
                                 <ImageIcon />
                             </IconButton>
 
-                            <IconButton aria-label="add emoji">
-                                <EmojiEmotionsIcon />
-                            </IconButton>
                             <button type="button"
                                 className={"btn btn-primary float-right mx-1 mb-3"
                                     + (this.state.content ? "" : " disabled")}

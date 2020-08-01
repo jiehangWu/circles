@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import LogOutButton from "../home/LogOutButton";
 import { history } from "../../helpers/history";
 import { connect } from "react-redux";
 import PreferenceBar from "./TagArea/PreferenceBar";
@@ -10,13 +9,10 @@ import PostList from './PostList';
 import Loading from './LoadingSpinner/Loading';
 import GeoButton from './GeoButton';
 
-
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { blue, blueGrey, grey } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
-import SettingsIcon from '@material-ui/icons/Settings';
 import HomeIcon from '@material-ui/icons/Home';
 import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -33,8 +29,6 @@ const styles = makeStyles((theme) => ({
         borderColor: blueGrey[5000],
         backgroundColor: grey[200]
     },
-
-
     root: {
         display: 'flex',
     },

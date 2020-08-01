@@ -135,7 +135,7 @@ const SearchBox = (props) => {
                                         <div className={classes.paper}>
                                              <h2 id="transition-modal-title">Search Result:</h2>
                                              <p id="transition-modal-description">Related posts:</p>
-                                             <SearchResult results={props.searchResult} />
+                                             <SearchResult results={props.searchResult} keyword={content}/>
                                         </div>
                                    </Fade>
                               </Modal> : ''}

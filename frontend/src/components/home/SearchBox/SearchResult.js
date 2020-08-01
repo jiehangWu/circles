@@ -2,13 +2,19 @@ import React from 'react';
 import PostContainer from '../PostContainer';
 import { connect } from 'react-redux';
 import { PostActions } from '../../../actions/posts.actions';
+import { HomeActions } from '../../../actions/home.actions';
 
 class PostList extends React.Component {
+	
+	componentWillUpdate() {
+		this.props.searchKeyword(this.props.keyword);
+	}
+
 	render() {
 		return (
 			<React.Fragment>
 				{this.props.results.length !==0 ?
-					this.props.results.map((post) =>
+					this.props.searchResult.map((post) =>
 						<PostContainer
 							key={post._id}
 							postId={post._id}
@@ -27,8 +33,15 @@ class PostList extends React.Component {
 	}
 }
 
+const mapStateToProps = (state) => {
+     return {
+          searchResult: state.posts.searchResult
+     };
+}
+
 const mapAction = {
-	loadAllPosts: PostActions.loadAllPosts
+	loadAllPosts: PostActions.loadAllPosts,
+	searchKeyword: HomeActions.searchKeyword,
 };
 
-export default connect(null, mapAction)(PostList);
+export default connect(mapStateToProps, mapAction)(PostList);

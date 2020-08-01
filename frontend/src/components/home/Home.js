@@ -15,6 +15,7 @@ import { ChatActions } from "../../actions/chat.actions";
 import Guidance from "./Guidance/GuidanceWindow";
 import { useSnackbar } from 'notistack';
 import SearchBox from './SearchBox/SearchBox'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import ChatIcon from '@material-ui/icons/Chat';
 import Grid from '@material-ui/core/Grid';
@@ -112,7 +113,6 @@ const styles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        width: "100%"
     },
 
     //   added for responsive
@@ -148,8 +148,8 @@ const styles = makeStyles((theme) => ({
         '&:hover': {
           backgroundColor: fade(theme.palette.common.white, 0.25),
         },
-        marginRight: 0,
-        width: '10%',
+        marginLeft: 0,
+        width: '100%',
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing(125),
             width: 'auto',
@@ -192,7 +192,8 @@ const Home = (props) => {
     const classes = styles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
+    const matches = useMediaQuery('(min-width:1200px)');
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -327,19 +328,7 @@ const Home = (props) => {
                     {greetUser() + ', ' + 'Welcome to Circles!'}
                 </Typography>
 
-                {/* <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon />
-                    </div>
-                    <InputBase
-                        placeholder="Search…"
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
-                </div> */}
+
                 <SearchBox/>
             </Toolbar>
         </AppBar>);
