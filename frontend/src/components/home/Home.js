@@ -10,9 +10,13 @@ import { connect } from "react-redux";
 import Profile from "../profile/Profile"
 import ChatPage2 from "../chat/ChatPage2";
 import { userActions } from '../../actions/user.actions';
-import TabList from './TabList'
-import ChatIcon from '@material-ui/icons/Chat';
+import TabList from './CircleLists/TabList'
 import { ChatActions } from "../../actions/chat.actions";
+import Guidance from "./Guidance/GuidanceWindow";
+import { useSnackbar } from 'notistack';
+import SearchBox from './SearchBox/SearchBox'
+
+import ChatIcon from '@material-ui/icons/Chat';
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
 import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
@@ -72,7 +76,7 @@ const styles = makeStyles((theme) => ({
     },
     contentShift: {
         width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft:"18.25%",
+        marginLeft: "18.25%",
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
@@ -178,13 +182,13 @@ const styles = makeStyles((theme) => ({
       },
 }));
 
+
 const Home = (props) => {
     const imgUpload = useRef(null);
     const classes = styles();
     const theme = useTheme();
-
     const [open, setOpen] = React.useState(true);
-
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -206,15 +210,16 @@ const Home = (props) => {
                 pathname: './home/profile',
                 state: {
                     homeId: props.userId,
-                    self: true
+                    self: true,
+                    name: props.username
                 }
             });
         }}>
             <AccountCircleIcon />
         </IconButton>) :
         (<IconButton color='primary' onClick={() => {
-            history.go({
-                pathname: './home',
+            history.replace({
+                pathname: '/home',
                 state: {
                     homeId: props.userId,
                     self: true
@@ -251,8 +256,8 @@ const Home = (props) => {
             <br></br><br></br>
             <Divider />
             <br></br><br></br>
-            <Grid container justify="center" className="mb-5">
-                <div style={{ fontSize: 16, fontWeight: '800' }}>
+            <Grid container justify="center" className="mb-2">
+                <div style={{ fontSize: 16, fontWeight: '500' }}>
                     Explore your Circles!
                     </div>
             </Grid>
@@ -261,8 +266,16 @@ const Home = (props) => {
         </div>
     );
 
+    // todo better the styling here
     const Home = (
+<<<<<<< HEAD
         <div className={classes.content} style={{display:'flex',flexDirection:'column', height:'100%'}}>
+=======
+        <div className={classes.content} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+            {props.firstTimer ? <center>
+                <br></br><br></br><br></br><Guidance /><br></br><br></br><br></br><br></br>
+            </center> : ''}
+>>>>>>> origin/develop_searchBox
             <InputArea />
             <PostList />
         </div>
@@ -307,7 +320,7 @@ const Home = (props) => {
                     {greetUser() + ', ' + 'Welcome to Circles!'}
                 </Typography>
 
-                <div className={classes.search}>
+                {/* <div className={classes.search}>
                     <div className={classes.searchIcon}>
                         <SearchIcon />
                     </div>
@@ -319,7 +332,8 @@ const Home = (props) => {
                         }}
                         inputProps={{ 'aria-label': 'search' }}
                     />
-                </div>
+                </div> */}
+                <SearchBox/>
                 <LogOutButton className={classes.LogOutButton} />
             </Toolbar>
         </AppBar>);
@@ -342,42 +356,47 @@ const Home = (props) => {
             {leftSideBar}
         </Drawer>);
 
+    const geoNavigator = navigator.geolocation;
+
+    function updateGeolocation(position) {
+        enqueueSnackbar('Circles will be updating your geolocation.', { variant: "info" });
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        props.uploadGeolocation(latitude, longitude);
+        setTimeout(function () {
+            enqueueSnackbar(`Successfully added geolocation!`, { variant: "success" });
+        }, 1500);
+    }
+    function geoErr(err) {
+        enqueueSnackbar('Circles will be updating your geolocation.', { variant: "info" });
+        switch (err.code) {
+            case 0:
+                setTimeout(function () {
+                    enqueueSnackbar('Failed to get geolocation' + err.message, { variant: "error" });
+                }, 1000);
+                break;
+            case 1:// PERMISSION_DENIED
+                setTimeout(function () {
+                    enqueueSnackbar('Permission denied to grant Circles with your geolocation', { variant: "warning" });
+                }, 1000);
+                break;
+            case 2:// POSITION_UNAVAILABLE
+                setTimeout(function () {
+                    enqueueSnackbar('Your current location is unavailable.', { variant: "warning" });
+                }, 1800);
+                break;
+            case 3:// TIMEOUT
+                console.log('TIMEOUT');
+                setTimeout(function () {
+                    enqueueSnackbar('Your current location is unavailable.', { variant: "warning" });
+                }, 0);
+                break;
+        }
+    }
+
     useEffect(() => {
+        geoNavigator.getCurrentPosition(updateGeolocation, geoErr);
         props.loadHome();
-
-        const geoNavigator = navigator.geolocation;
-        geoNavigator.getCurrentPosition(updateGeo, geoErr);
-
-        function updateGeo(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            const accuracy = position.coords.accuracy;
-            console.log('Latitude' + latitude);
-            console.log('Longtitude' + longitude);
-            console.log('Accuracy' + accuracy);
-            props.uploadGeolocation(latitude, longitude);
-            // alert("Successfully added geolocation!");
-        }
-        function geoErr(error) {
-            switch (error.code) {
-                case 0:
-                    console.log('Failed to get geolocation' + error.message);
-                    // alert('Failed to get geolocation' + error.message);
-                    break;
-                case 1:// PERMISSION_DENIED
-                    console.log('USER PERMISSION DENIED');
-                    // alert('USER PERMISSION DENIED');
-                    break;
-                case 2:// POSITION_UNAVAILABLE
-                    console.log('UNAVAILABLE GEOLOCATION');
-                    // alert('UNAVAILABLE GEOLOCATION');
-                    break;
-                case 3:// TIMEOUT
-                    console.log('TIMEOUT');
-                    // alert('TIMEOUT');
-                    break;
-            }
-        }
     }, []);
 
     return (
@@ -385,7 +404,6 @@ const Home = (props) => {
             {circlesAppBar}
             {leftResponsiveBar}
             {contentRouter}
-            {/* {rightResponsiveBar} */}
         </React.Fragment >
     );
 };
@@ -397,7 +415,8 @@ const mapStateToProps = (state) => {
         registerName: state.userinfo.registerName,
         userId: state.userinfo.userId,
         avatar: state.userinfo.avatar,
-        tags: state.tags
+        tags: state.tags,
+        firstTimer: state.userinfo.firstTimer,
     };
 };
 

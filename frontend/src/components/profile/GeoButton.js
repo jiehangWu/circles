@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import RoomIcon from '@material-ui/icons/Room';
 import MapContainer from './GeoMap';
 
-export default function GeoButton() {
+export default function GeoButton(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -15,6 +15,9 @@ export default function GeoButton() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect( () => {
+}, [props.id, props.name])
 
   return (
     <div>
@@ -40,7 +43,7 @@ export default function GeoButton() {
           },
         }}
       >
-        <MapContainer /> 
+        <MapContainer id={props.id} name={props.name} />
 
       </Menu>
     </div>

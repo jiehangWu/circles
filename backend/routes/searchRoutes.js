@@ -4,7 +4,7 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const searchController = require('../controller/searchController');
 const userController = require('../controller/UserController');
-
+const PostController = require('../controller/PostController');
 
 /**
  * Search all the contents that have the corresponding keyword.
@@ -47,6 +47,18 @@ router.get('/circleslist', async (req, res) => {
         logger.error(err);
         res.status(500).end();
     }
+});
+
+router.get("/:key", async (req, res) => {
+    const key = req.params.key;
+    const postIds = await searchController.searchPostByKeyword(key);
+    return PostController.loadPostsByIds(postIds).then((posts) => {
+        logger.info(posts);
+        res.status(200).json(posts);
+    }).catch((err) => {
+        logger.error(err);
+        res.status(500).end();
+    });
 });
 
 module.exports = router;

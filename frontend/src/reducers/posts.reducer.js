@@ -50,7 +50,7 @@ export const posts = (state = initial, action) => {
       return {
         ...state,
         circlesList: action.payload
-      }
+      };
     case 'DELETE_POST':
       return {
         ...state,
@@ -70,6 +70,11 @@ export const posts = (state = initial, action) => {
       return {
         ...state,
         postList: action.payload.posts,
+      };
+    case "SEARCH_BY_KEYWORD":
+      return {
+        ...state,
+        searchResult: action.payload,
       };
     default:
       return state;

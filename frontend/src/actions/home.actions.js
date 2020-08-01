@@ -46,6 +46,32 @@ const loadHome = () => (dispatch) => {
   });
 };
 
+const searchKeyword = (keyword) => (dispatch) => {
+  console.log("searched", keyword);
+  fetch('http://localhost:5000/search/'+ keyword, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error('error when searching for result');
+  }).then((posts) => {
+    console.log("search results", posts);
+    dispatch({
+      type: 'SEARCH_BY_KEYWORD',
+      payload: posts,
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
 export const HomeActions = {
   loadHome,
+  searchKeyword,
 };
