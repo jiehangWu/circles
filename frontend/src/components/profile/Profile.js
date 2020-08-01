@@ -97,7 +97,7 @@ const Profile = (props) => {
         <div className={classes.background}>
             <div className={classes.toolbar} />
             <center>
-                <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>W</Avatar>
+                <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar} alt={props.username}/>
                 
                 {name}
                 

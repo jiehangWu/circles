@@ -28,6 +28,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -98,10 +99,10 @@ const styles = makeStyles((theme) => ({
         backgroundColor: blue[500],
         width: theme.spacing(7),
         height: theme.spacing(7),
-        margin: '1.1rem',
+        marginLeft: '5%'
     },
     name: {
-        marginLeft: '10%',
+        marginLeft: '5%',
         marginRight: '20%',
         width: '20%',
         textAlign: "center"
@@ -136,6 +137,9 @@ const styles = makeStyles((theme) => ({
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
+    },
+    icons: {
+        marginLeft: '5%'
     },
     search: {
         position: 'relative',
@@ -199,35 +203,47 @@ const Home = (props) => {
 
     const name = (
         <div className={classes.name}>
-            <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
+            <h4 style={{ fontWeight: '900' }}> {props.usernameFirst}</h4>
+            <h5 style={{ fontWeight: '900' }}>{props.usernameIdentifier}</h5>
             <p>@{props.registerName}</p>
         </div>
     );
 
-    const leftBarIcon = (history.location.pathname === '/home' ?
-        (<IconButton color='primary' onClick={() => {
-            history.push({
-                pathname: './home/profile',
-                state: {
-                    homeId: props.userId,
-                    self: true,
-                    name: props.username
-                }
-            });
-        }}>
-            <AccountCircleIcon />
-        </IconButton>) :
-        (<IconButton color='primary' onClick={() => {
-            history.replace({
-                pathname: '/home',
-                state: {
-                    homeId: props.userId,
-                    self: true
-                }
-            });
-        }}>
-            <HomeIcon />
-        </IconButton>)
+    const leftBarIcon = (
+        <div className={classes.icons}>
+            {history.location.pathname === '/home' ?
+                <IconButton color='primary' onClick={() => {
+                    history.push({
+                        pathname: './home/profile',
+                        state: {
+                            homeId: props.userId,
+                            self: true,
+                            name: props.username
+                        }
+                    });
+                }}>
+                    <AccountCircleIcon />
+                </IconButton> :
+                <IconButton color='primary' onClick={() => {
+                    history.replace({
+                        pathname: '/home',
+                        state: {
+                            homeId: props.userId,
+                            self: true
+                        }
+                    });
+                }}>
+                    <HomeIcon />
+                </IconButton>}
+            <IconButton color='secondary' onClick={() => {
+                history.push("/home/chat");
+            }} >
+                <ChatIcon />
+            </IconButton>
+            <IconButton onClick={props.logOut}>
+                <PowerSettingsNewIcon/>
+            </IconButton>
+        </div>
     );
 
     const imageChangeHandler = () => {
@@ -247,12 +263,7 @@ const Home = (props) => {
             </IconButton>
             {name}
             {leftBarIcon}
-            <IconButton color='secondary' onClick={async () => {
-                history.push("/home/chat");
-            }} >
-                <ChatIcon />
 
-            </IconButton>
             <br></br><br></br>
             <Divider />
             <br></br><br></br>
@@ -330,7 +341,6 @@ const Home = (props) => {
                     />
                 </div> */}
                 <SearchBox/>
-                <LogOutButton className={classes.LogOutButton} />
             </Toolbar>
         </AppBar>);
 
@@ -408,6 +418,8 @@ const mapStateToProps = (state) => {
     return {
         sideBarName: state.userinfo.username,
         username: state.userinfo.username,
+        usernameFirst: state.userinfo.usernameFirst,
+        usernameIdentifier: state.userinfo.usernameIdentifier,
         registerName: state.userinfo.registerName,
         userId: state.userinfo.userId,
         avatar: state.userinfo.avatar,
@@ -421,6 +433,7 @@ const mapAction = {
     uploadAvatar: userActions.uploadAvatar,
     uploadGeolocation: userActions.uploadGeolocation,
     beginChat: ChatActions.beginChat,
+    logOut: userActions.logOut,
 };
 
 export default connect(mapStateToProps, mapAction)(Home);

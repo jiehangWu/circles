@@ -149,10 +149,10 @@ const mapStateToProps = (state) => {
      return {
           searchResult: state.posts.searchResult
      };
-}
+};
 
 const mapAction = {
      searchKeyword: HomeActions.searchKeyword,
-}
+};
 
 export default connect(mapStateToProps, mapAction)(SearchBox);

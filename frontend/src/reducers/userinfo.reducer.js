@@ -17,6 +17,8 @@ export const userinfo = (state = {}, action) => {
       return {
         userId: action.payload.userId,
         username: action.payload.username,
+        usernameFirst: action.payload.username.slice(0, action.payload.username.indexOf('#')),
+        usernameIdentifier: action.payload.username.slice(action.payload.username.indexOf('#')),
         registerName: action.payload.registerName,
         avatar: action.payload.avatar,
         firstTimer: action.payload.firstTimer,

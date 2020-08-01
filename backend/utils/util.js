@@ -22,8 +22,8 @@ const getRandomName = () => {
     const num1 = Math.floor(Math.random() * word1.length);
     const num2 = Math.floor(Math.random() * word2.length);
     const num3 = Math.floor(Math.random() * 100000);
-    return word1[num1] + '_' + word2[num2] + "_" + num3;
-}
+    return word1[num1] + '_' + word2[num2] + "#" + num3;
+};
 
 const getGeoDistance = (lat0, lng0, lat1, lng1) => {
     const radLat1 = lat0 * Math.PI / 180.0;
@@ -35,7 +35,7 @@ const getGeoDistance = (lat0, lng0, lat1, lng1) => {
     distance = distance * 6371.393;
     distance = Math.round(distance * 100) / 100;
     return distance;
-}
+};
 
 function getNearbyList(currId, currLat, currLng, users) {
     let top5 = mergeSort(getDistancetoMe(currId, currLat, currLng, users)).slice(0, 5);
@@ -45,7 +45,7 @@ function getNearbyList(currId, currLat, currLng, users) {
             geoDistance: getGeoDistance(currLat, currLng, user.geolocation[0], user.geolocation[1]),
             _id: user._id,
         })
-    })
+    });
     return realDistanceList;
 }
 
