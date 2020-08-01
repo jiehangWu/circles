@@ -16,7 +16,7 @@ export const displayDate = (date) => {
     } else {
         return date.slice(0, 10);
     }
-}
+};
 
 export const greetUser = () => {
     const currDate = new Date();
@@ -29,6 +29,12 @@ export const greetUser = () => {
     else if (hrs >= 17 && hrs <= 24)
         greet = 'Good Evening';
     return greet;
-}
+};
+
+export const location = {
+    PROFILE: 'profile',
+    HOME: 'home',
+    SEARCH: 'search',
+};
 
 

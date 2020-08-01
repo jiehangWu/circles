@@ -17,6 +17,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import Modal from '@material-ui/core/Modal';
 import CommentSection from './CommentSection';
 import { history } from '../../helpers/history';
+import { location } from '../../helpers/util';
 
 
 const styles = makeStyles((theme) => ({
@@ -73,7 +74,7 @@ const PostContainer = (props) => {
 			<Card className={classes.post} >
 				<CardHeader
 					avatar={
-						props.isAtProfile ?
+						props.location === location.PROFILE ?
 							<Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>
 								{props.username}
 							</Avatar>
@@ -91,8 +92,8 @@ const PostContainer = (props) => {
 					}
 					action={
 						props.currUserId === props.userId ?
-							<IconButton aria-label="settings">
-								<ClearIcon onClick={() => props.deletePost(props.postId)} />
+							<IconButton aria-label="settings" onClick={() => props.deletePost(props.postId, props.location)}>
+								<ClearIcon />
 							</IconButton> : ''
 					}
 					title={props.username}
@@ -109,8 +110,8 @@ const PostContainer = (props) => {
 						{props.content}
 					</Typography>
 				</CardContent>
-				<IconButton aria-label="chat">
-					<ChatBubbleOutlineOutlinedIcon color='primary' onClick={openModal} />
+				<IconButton aria-label="chat" onClick={openModal}>
+					<ChatBubbleOutlineOutlinedIcon color='primary'/>
 				</IconButton>
 				<Modal
 					open={modalIsOpen}
@@ -118,10 +119,10 @@ const PostContainer = (props) => {
 					className={classes.modal}
 				>
 					<div className={classes.paper}>
-						<CommentSection postId={props.postId} comments={props.comments} />
+						<CommentSection postId={props.postId} comments={props.comments} location={props.location}/>
 					</div>
 				</Modal>
-				<IconButton aria-label="like" onClick={() => props.likePost(props.postId)}>
+				<IconButton aria-label="like" onClick={() => props.likePost(props.postId, props.location)}>
 					<FavoriteIcon color='secondary' />
 				</IconButton>
 				<span>{props.likes}</span>
