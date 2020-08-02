@@ -79,8 +79,8 @@ const PostContainer = (props) => {
 								{props.username}
 							</Avatar>
 							: <IconButton onClick={() => {
-								history.push({
-									pathname: './home/profile',
+								history.replace({
+									pathname: '/home/profile',
 									state: {
 										homeId: props.userId,
 										self: props.currUserId === props.userId
