@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 const util = require("../utils/util");
-
+const AwsController = require('./AwsController');
 
 const User = mongoose.model("users");
 
@@ -33,64 +33,84 @@ module.exports = {
     },
 
     uploadAvatar: async (userId, avatarLink) => {
-        let user = await User.findById(userId);
-        console.log(user);
-        logger.info(user);
-        if (user.avatar) {
-            await AwsController.deleteObj(util.getKey(user.avatar));
+        try {
+            let user = await User.findById(userId);
+            if (user.avatar) {
+                await AwsController.deleteObj(util.getKey(user.avatar));
+            }
+            user.avatar = avatarLink;
+            return user.save();
+        } catch (e) {
+            logger.error(e.message);
         }
-        user.avatar = avatarLink;
-        return user.save();
     },
 
     addTag: async (id, tag) => {
-        let user = await User.findById(id);
-        user.tags.push(tag);
-        return user.save();
+        try {
+            let user = await User.findById(id);
+            user.tags.push(tag);
+            return user.save();
+        } catch (e) {
+            logger.error(e.message);
+        }
     },
 
     deleteTag: async (userId, tagContent) => {
-        const user = await User.findById(userId);
-        user.tags = user.tags.filter(tag => tag !== tagContent);
-        return user.save();
+        try {
+            const user = await User.findById(userId);
+            user.tags = user.tags.filter(tag => tag !== tagContent);
+            return user.save();
+        } catch (e) {
+            logger.error(e.message);
+        }
     },
 
     setGeolocation: async (id, lat, lng) => {
-        let user = await User.findById(id);
-        if (user.geolocation[0]) {
-            user.geolocation[0] = lat;
-            user.geolocation[1] = lng;
-        } else {
-            user.geolocation.push(lat);
-            user.geolocation.push(lng);
+        try {
+            let user = await User.findById(id);
+            if (user.geolocation[0]) {
+                user.geolocation[0] = lat;
+                user.geolocation[1] = lng;
+            } else {
+                user.geolocation.push(lat);
+                user.geolocation.push(lng);
+            }
+            return user.save();
+        } catch (e) {
+            logger.error(e.message);
         }
-        user.save();
-        return user;
     },
 
     findNearbyUsers: async (id) => {
         // To be optmized, ES's geo_distance next sprint
-        let currUser = await User.findById(id);
-        let users = await User.find({});
-        nearbyIds = util.getNearbyList(id, currUser.geolocation[0], currUser.geolocation[1], users);
-        let ret = [];
-        for (let nearby of nearbyIds) {
-            nearbyUser = await User.findById(nearby._id);
-            let user = {
-                geoDistance: nearby.geoDistance,
-                username: nearbyUser.username,
-                _id: nearbyUser._id,
-                avatar: nearbyUser.avatar,
-            };
-            ret.push(user);
-        };
-        return ret;
+        try {
+            let currUser = await User.findById(id);
+            let users = await User.find({});
+            let nearbyIds = util.getNearbyList(id, currUser.geolocation[0], currUser.geolocation[1], users);
+            let ret = [];
+            for (let nearby of nearbyIds) {
+                let nearbyUser = await User.findById(nearby._id);
+                let user = {
+                    geoDistance: nearby.geoDistance,
+                    username: nearbyUser.username,
+                    _id: nearbyUser._id,
+                    avatar: nearbyUser.avatar,
+                };
+                ret.push(user);
+            }
+            return ret;
+        } catch (e) {
+            logger.error(e.message);
+        }
     },
 
     cancelFirstTimeUser: async (id) => {
-        let user = await User.findById(id);
-        user.firstTimer = false;
-        user.save();
-        return;
+        try {
+            let user = await User.findById(id);
+            user.firstTimer = false;
+            return user.save();
+        } catch (e) {
+            logger.error(e.message);
+        }
     },
 };

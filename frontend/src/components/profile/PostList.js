@@ -1,9 +1,8 @@
 import React from 'react';
 import PostContainer from '../home/PostContainer';
 import { connect } from 'react-redux';
-import { ProfileActions } from '../../actions/profile.actions';
 import { PostActions } from '../../actions/posts.actions';
-import { posts } from '../../reducers/posts.reducer';
+import { location } from '../../helpers/util';
 
 const styles = {
 	textBox: {
@@ -18,7 +17,7 @@ const styles = {
 		padding: '10px',
 		backgroundColor: 'transparent'
 	}
-}
+};
 
 class PostList extends React.Component {
 	constructor(props) {
@@ -46,7 +45,7 @@ class PostList extends React.Component {
 							likes={post.likes}
 							imgLink={post.imgLink}
 							comments={post.comments}
-							isAtProfile={true} />:<div></div>
+							location={location.PROFILE} />:<div></div>
 					) : ''}
 			</React.Fragment>
 		);
@@ -55,13 +54,11 @@ class PostList extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		posts: state.userinfo.profilePosts,
-		postList: state.posts.postList
+		postList: state.posts.profileList
 	};
 };
 
 const mapAction = {
-	loadProfile: ProfileActions.loadProfile,
 	loadPosts: PostActions.loadProfilePosts
 };
 

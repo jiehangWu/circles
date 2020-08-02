@@ -2,6 +2,7 @@ import React from 'react';
 import PostContainer from './PostContainer';
 import { connect } from 'react-redux';
 import { PostActions } from '../../actions/posts.actions';
+import { location } from '../../helpers/util';
 
 class PostList extends React.Component {
 
@@ -24,7 +25,7 @@ class PostList extends React.Component {
 						likes={post.likes}
 						imgLink={post.imgLink}
 						comments={post.comments}
-						isAtProfile={false}/>
+						location={location.HOME}/>
 				)}
 			</div>
 		);

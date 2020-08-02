@@ -32,7 +32,6 @@ router.get('/circleslist', async (req, res) => {
     if (id === null || id === undefined) {
         const error = new Error("The user is not logged in");
         res.status(500).send(error);
-        throw error;
     }
     try {
         const user =  await userController.findUserByUserId(id);

@@ -4,45 +4,6 @@ import Comment from "./Comment";
 import { PostActions } from '../../actions/posts.actions';
 import { connect } from 'react-redux';
 
-const mock = [
-    {
-        content: "lorem seuhfdiuewhfuh ehfiuwefo fwioeheiofhwohfwef wfwifowhf wfi wfoihweifo",
-        date: new Date().toString(),
-        username: "test1"
-    },
-    {
-        content: "lorem seuhfdiuewhfuh ehfiuwefo fwioeheiofhwohfwef wfwifowhf wfi wfoihweifo",
-        date: new Date().toString(),
-        username: "test2"
-    },
-    {
-        content: "lorem seuhfdiuewhfuh ehfiuwefo fwioeheiofhwohfwef wfwifowhf wfi wfoihweifo",
-        date: new Date().toString(),
-        username: "test2"
-    },
-    {
-        content: "lorem seuhfdiuewhfuh ehfiuwefo fwioeheiofhwohfwef wfwifowhf wfi wfoihweifo",
-        date: new Date().toString(),
-        username: "test2"
-    },
-    {
-        content: "lorem seuhfdiuewhfuh ehfiuwefo fwioeheiofhwohfwef wfwifowhf wfi wfoihweifo",
-        date: new Date().toString(),
-        username: "test2"
-    },
-    {
-        content: "lorem seuhfdiuewhfuh ehfiuwefo fwioeheiofhwohfwef wfwifowhf wfi wfoihweifo",
-        date: new Date().toString(),
-        username: "test2"
-    },
-    {
-        content: "lorem seuhfdiuewhfuh ehfiuwefo fwioeheiofhwohfwef wfwifowhf wfi wfoihweifo",
-        date: new Date().toString(),
-        username: "test2"
-    },
-];
-
-
 
 class CommentSection extends React.Component {
     constructor(props) {
@@ -72,7 +33,7 @@ class CommentSection extends React.Component {
                 date: new Date(),
                 postId: this.props.postId,
                 content: this.state.content,
-            });
+            }, this.props.location);
             this.clearAll();
         }
 
@@ -100,7 +61,7 @@ class CommentSection extends React.Component {
                         </div>
                     </div>
                 </Card>
-                {this.props.comments.map((comment) => <Comment avatar={comment.user.avatar} username={comment.user.username} date={comment.date} content={comment.content}/>)}
+                {this.props.comments.map((comment) => <Comment key={comment._id} avatar={comment.user.avatar} username={comment.user.username} date={comment.date} content={comment.content}/>)}
             </div>
 
         );
@@ -109,6 +70,6 @@ class CommentSection extends React.Component {
 
 const mapAction = {
     submitComment: PostActions.submitComment
-}
+};
 
 export default connect(null, mapAction)(CommentSection);

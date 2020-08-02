@@ -107,7 +107,6 @@ class InputArea extends React.Component {
                             }}>
                                 <ImageIcon />
                             </IconButton>
-
                             <button type="button"
                                 className={"btn btn-primary float-right mx-1 mb-3"
                                     + (this.state.content ? "" : " disabled")}
