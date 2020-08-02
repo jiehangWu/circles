@@ -73,20 +73,20 @@ class InputArea extends React.Component {
 
     render() {
         return (
-            <Grid container direction="row" alignItems="flex-start" justify="space-between" style={{position:'relative',height:'calc(11vh)'}}>
+            <Grid container direction="row" alignItems="flex-start" justify="space-between" style={{position:'relative',height:'calc(7vh)'}}>
 
 
-                <Grid item  style = {{height: '100%',width: '85%'}} className="ml-2 mr-0 my-2 mt-2 mb-0">
+                <Grid item  style = {{height: '100%',width: '87%'}} className="ml-2 mr-0 my-2 mt-2 mb-0">
                     <textarea
                         style={{
                             outlineColor: "white",
                             outlineWidth: "1px",
                             backgroundColor: "white",
                             width:'100%',
-                            height:'calc(7vh)'
+                            height:'calc(4vh)'
                         }}
                         id="outlined-required"
-                              placeholder="Press Send to send"
+                              placeholder="Press Enter to send"
                         required
                         onChange={(e) => {
                             this.handleChange(e)
@@ -101,7 +101,7 @@ class InputArea extends React.Component {
                         ref={this.textArea}>
                     </textarea>
                 </Grid>
-                <Grid item style = {{height: '100%',width: '10%', display: "flex", flexDirection: 'column', alignItems:'flex-end',justifyContent:'center'}}>
+                <Grid item style = {{height: '100%',width: '9%', display: "flex", flexDirection: 'column', alignItems:'flex-end',justifyContent:'center'}}>
 
                     <IconButton aria-label="video chat"  style={{alignSelf: 'flex-start', height: '20px', width:'20px'}}  onClick={this.handleSubmit
                     }>

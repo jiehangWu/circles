@@ -33,7 +33,7 @@ export function ChatDisplayPort(props) {
 
 
     return <React.Fragment>
-        <div style={{height: "calc(72vh)", position:'relative', padding: "10px", paddingTop:'20px',margin: "0px", overflow: "scroll"}}>
+        <div style={{height: "calc(76vh)", position:'relative', padding: "10px", paddingTop:'20px',margin: "0px", overflow: "scroll"}}>
 
             {props.chatsReducer1[props.person.userId] ?
                     props.chatsReducer1[props.person.userId].map((ele) => {
