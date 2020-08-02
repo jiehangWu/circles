@@ -48,9 +48,9 @@ router.get('/circleslist', async (req, res) => {
     }
 });
 
-router.get("/:key", async (req, res) => {
-    const key = req.params.key;
-    const postIds = await searchController.searchPostByKeyword(key);
+router.get("/:keyword", async (req, res) => {
+    const keyword = req.params.keyword;
+    const postIds = await searchController.searchPostByKeyword(keyword);
     return PostController.loadPostsByIds(postIds).then((posts) => {
         logger.info(posts);
         res.status(200).json(posts);

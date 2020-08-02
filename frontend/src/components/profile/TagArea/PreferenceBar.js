@@ -10,14 +10,14 @@ const styles = {
         border: '0',
     },
 
-    container: {
-        width: "36%",
-        height: "18%",
-        border: '0',
-        padding: '10px',
-        backgroundColor: 'transparent'
-    }
-}
+    // container: {
+    //     width: "36%",
+    //     height: "18%",
+    //     border: '0',
+    //     padding: '10px',
+    //     backgroundColor: 'transparent'
+    // }
+};
 
 class PreferenceBar extends React.Component {
     constructor(props) {

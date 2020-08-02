@@ -108,10 +108,17 @@ const searchPostByKeyword = async (keyword) => {
         index: 'circles_posts',
         type: 'posts_list',
         body: {
+            _source: ["postId"],
             query: {
                 match: {
-                    "content": {
-                        query: keyword
+                    content: keyword
+                }
+            },
+            suggest: {
+                gotsuggest: {
+                    text: keyword,
+                    term: {
+                        field: 'content'
                     }
                 }
             }
@@ -120,13 +127,14 @@ const searchPostByKeyword = async (keyword) => {
 
     try {
         const response = await client.search(query);
+        console.log(response.hits.hits);
         const result = response.hits.hits.map(item => item._source.postId)
-                            .reduce((result, item) => {
-                                if (!result.includes(item)) {
-                                    result.push(item);
-                                }   
-                                return result;
-                            }, []);
+            .reduce((result, item) => {
+                if (!result.includes(item)) {
+                    result.push(item);
+                }
+                return result;
+            }, []);
         return result;
     } catch (err) {
         logger.error(err);
@@ -158,13 +166,13 @@ const recommendByUserTag = async (id, tag) => {
     try {
         const response = await client.search(query);
         const result = response.hits.hits.map(item => item._source.userId)
-                            .filter(item => item !== id)
-                            .reduce((result, item) => {
-                                if (!result.includes(item)) {
-                                    result.push(item);
-                                }   
-                                return result;
-                            }, []);
+            .filter(item => item !== id)
+            .reduce((result, item) => {
+                if (!result.includes(item)) {
+                    result.push(item);
+                }
+                return result;
+            }, []);
         return result;
     } catch (err) {
         logger.error(err);
