@@ -119,5 +119,8 @@ export const historyContactsReducer = (init = [], action) => {
     }
     return ret;
   }
+  if (action.type === 'CLEAR_HISTORY_CONTACTS') {
+    return [];
+  }
   return init;
 };

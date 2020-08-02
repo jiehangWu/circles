@@ -4,6 +4,7 @@ import React, {useEffect} from "react";
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import {connect} from "react-redux";
 import Badge from '@material-ui/core/Badge';
+import {history} from "../../helpers/history";
 
 const styles = makeStyles((theme) => ({
     avatar2: {
@@ -107,6 +108,8 @@ const Contact = (props) => {
                     });
                     props.localSetRead(props.chatter.userId);
                     props.historySetRead(props.chatter.userId);
+                    props.clickContact();
+                    history.push("/home/chat/messages");
                 }}>
                     {props.chatter.username}
                 </div>
@@ -164,6 +167,11 @@ const mapAction = {
         return {
             type: 'HISTORY_CONTACTS_SET_READ',
             payload: userId
+        }
+    },
+    clickContact: ()=> {
+        return {
+            type: 'CLICK_CONTACT'
         }
     }
 };

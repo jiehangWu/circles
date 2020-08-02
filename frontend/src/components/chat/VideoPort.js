@@ -18,6 +18,10 @@ class VideoPort extends React.Component {
             }),
             call: null,
             answer: null,
+            rHeight:0,
+            rWidth:0,
+            lWidth:0,
+            lHeight:0
         }
         this.createConnection = this.createConnection.bind(this);
         this.callRemote = this.callRemote.bind(this);
@@ -29,7 +33,17 @@ class VideoPort extends React.Component {
         this.endAnswer = this.endAnswer.bind(this);
         this.videoR = React.createRef();
         this.videoL = React.createRef();
+        this.setVideoSizeR = this.setVideoSizeR.bind(this);
+        this.setVideoSizeL = this.setVideoSizeL.bind(this);
         this.handleStatus = this.handleStatus.bind(this);
+    }
+
+    setVideoSizeR = () => {
+        this.setState({rHeight:this.videoR.videoHeight, rWidth:this.videoR.videoWidth});
+    }
+
+    setVideoSizeL = () => {
+        this.setState({lHeight:this.videoL.videoHeight, lWidth:this.videoL.videoWidth});
     }
 
     componentDidMount = () => {
@@ -46,6 +60,8 @@ class VideoPort extends React.Component {
         })
 
         },100);
+        this.videoR.current.addEventListener('canplay',this.setVideoSizeR);
+        this.videoL.current.addEventListener('canplay',this.setVideoSizeL);
     }
 
     createConnection = () => {
@@ -80,7 +96,10 @@ class VideoPort extends React.Component {
     }
 
     callRemote = (stream) => {
-        const call = this.state.peer.call(this.props.currentVideoChatter.userId, stream);
+        let call;
+        while (!call) {
+            call = this.state.peer.call(this.props.currentVideoChatter.userId, stream);
+        }
         this.setState({call:call});
         if (this.videoL.current) {
                 this.videoL.current.srcObject = stream;
@@ -194,16 +213,18 @@ class VideoPort extends React.Component {
     }
 
     render() {
-        return <div style={{ position:'fixed',zIndex:'100', bottom: '15%',left:'10%',display:'flex',flexDirection:'column'}}>
-            <div>
-            <video ref={this.videoR} autoPlay playsInline style={{width:"420px",}}/>
-            <video ref={this.videoL} autoPlay muted playsInline style={{width:"200px", position:"relative", right:'200px'}}/>
+        return<div style={{ position:'fixed',zIndex:'9999999',top:'0%'}}>
+        <div style={{ display:'flex',flexDirection:'column',top:'0%'}}>
+            <video ref={this.videoR} autoPlay playsInline style={this.props.screenHeight/this.props.screenWidth < 1.3?{width:'30vw'}:{width:'100vw'}}/>
+            <video ref={this.videoL} autoPlay muted playsInline style={this.props.screenHeight/this.props.screenWidth < 1.3?{width:'10vw'}:{width:'30vw'}}/>
             </div>
-                <div style={{alignSelf:'flex-end', position:'relative', right:'200px'}}>
+                <div style={{position:'fixed',top:'50%',left:'35%'}}>
                     <div>{this.handleStatus()}</div>
+                    <div>
             <button onClick={this.props.caller?()=>this.endAnswer():()=>this.endCall()} style={{color:'red'}}>End Chat</button>
             <button onClick={this.props.caller?()=>this.waitConnect():()=>this.createConnection()} style={{color:'red'}}>Begin Chat</button>
                     </div>
+                </div>
         </div>
 
     }
@@ -217,6 +238,8 @@ const mapStateToProps = (state) => {
         chatStatus: state.chatVideoStatus,
         currentVideoChatter: state.currentVideoChatPerson,
         caller: state.chatVideoCaller,
+        screenWidth: state.screenWidth,
+        screenHeight:state.screenHeight
     };
 };
 

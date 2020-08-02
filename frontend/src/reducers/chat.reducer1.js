@@ -75,6 +75,8 @@ export const chatsReducer1 = (init = {}, action) => {
     }
     return ret;
   }
-
+  if (action.type === 'CHAT_CLEAR') {
+    return {};
+  }
   return init;
 };

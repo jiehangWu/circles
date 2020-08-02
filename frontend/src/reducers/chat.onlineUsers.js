@@ -75,5 +75,8 @@ export const chatsListReducer = (init = [], action) => {
     }
     return ret;
   }
+  if (action.type === 'CLEAR_ONLINE') {
+    return [];
+  }
   return init;
 };

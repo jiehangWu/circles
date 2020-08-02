@@ -14,6 +14,8 @@ import {chatEnter} from "./chat.enter";
 import {currentVideoChatPerson} from "./chat.currentVideoChatPerson";
 import {chatVideoStatus} from "./chat.videoStatus";
 import {chatVideoCaller} from "./chat.videoCaller";
+import {screenWidth} from "./screenWidth";
+import {screenHeight} from "./screenHeight";
 
 export const rootReducer = combineReducers({
   currentChatPerson,
@@ -31,4 +33,6 @@ export const rootReducer = combineReducers({
   currentVideoChatPerson,
   chatVideoStatus,
   chatVideoCaller,
+  screenWidth,
+  screenHeight
 });
