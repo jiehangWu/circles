@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
+import SendIcon from '@material-ui/icons/Send';
 import ImageIcon from "@material-ui/icons/Image";
 import VideocamIcon from '@material-ui/icons/Videocam';
-
+import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 class InputArea extends React.Component {
     constructor(props) {
         super(props);
@@ -68,26 +69,14 @@ class InputArea extends React.Component {
         });
     };
 
-    handleVideoChat = ()=> {
-        this.props.applyVideoChat({purpose: "CLIENT_APPLY_VIDEO_CHAT",
-            payload: {
-                sender: {
-                    userId: this.props.userId,
-                    username: this.props.username,
-                },
-                receiver: this.props.currentChatter,
-            }
-        });
-        console.log("HANDLE VIDEO CHAT");
-        this.props.waitVideo();
-        this.props.chatApply(this.props.currentChatter);
-        this.props.chatCaller();
-    }
+
 
     render() {
         return (
-            <Grid container direction="row" alignItems="flex-start" justify="space-between" style={{height:'calc(11vh)'}}>
-                <Grid item  style = {{height: '100%',width: '85%'}} className="ml-2 mr-0 my-2 mt-2">
+            <Grid container direction="row" alignItems="flex-start" justify="space-between" style={{position:'relative',height:'calc(11vh)'}}>
+
+
+                <Grid item  style = {{height: '100%',width: '85%'}} className="ml-2 mr-0 my-2 mt-2 mb-0">
                     <textarea
                         style={{
                             outlineColor: "white",
@@ -112,19 +101,12 @@ class InputArea extends React.Component {
                         ref={this.textArea}>
                     </textarea>
                 </Grid>
-                <Grid item style = {{height: '100%',width: '10%', display: "flex", flexDirection: 'column', alignItems:'flex-end',justifyContent:'flex-start'}}>
-                    <IconButton aria-label="video chat"  style={{alignSelf: 'flex-start', height: '35px', width:'35px'}}  onClick={this.handleVideoChat
+                <Grid item style = {{height: '100%',width: '10%', display: "flex", flexDirection: 'column', alignItems:'flex-end',justifyContent:'center'}}>
+
+                    <IconButton aria-label="video chat"  style={{alignSelf: 'flex-start', height: '20px', width:'20px'}}  onClick={this.handleSubmit
                     }>
-                        <VideocamIcon />
+                        <SendIcon/>
                     </IconButton>
-
-                    <button type="button"
-                        className={"btn btn-default btn-sm float-right mx-0 mb-0"
-                            + (this.state.content ? "" : " disabled")}
-                        onClick={this.handleSubmit} style={{color:'#0080FF', fontWeight: 'bold', alignSelf:'flex-start'}} >
-                        Send
-                    </button>
-
                 </Grid>
             </Grid>
         );
@@ -170,28 +152,7 @@ const mapAction = {
             type: "CHAT_ENTER"
         }
     },
-    applyVideoChat: (info)=> {
-        return{
-            type: 'CLIENT_APPLY_VIDEO_CHAT',
-            payload: info
-        }
-    },
-    waitVideo: ()=> {
-        return{
-            type:'WAIT_VIDEO',
-        }
-    },
-    chatApply: (receiver) => {
-        return {
-            type: 'CHAT_APPLY',
-            payload: receiver
-        }
-    },
-    chatCaller: ()=> {
-        return{
-            type:'CALLER',
-        }
-    }
+
 }
 
 

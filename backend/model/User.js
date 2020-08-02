@@ -39,6 +39,15 @@ const UserSchema = new mongoose.Schema({
     geolocation: [{
         type: String
     }],
+    circleMessagesUnread: {
+        type: Number,
+        default: 0
+    },
+    circleMessages: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'messages'
+    }]
+
 });
 
 const User = mongoose.model('users', UserSchema);

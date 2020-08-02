@@ -8,6 +8,7 @@ logger.level = 'OFF';
 
 const Chat = mongoose.model("chats");
 const Message = mongoose.model("messages");
+const User = mongoose.model("users");
 
 module.exports = {
 
@@ -52,6 +53,7 @@ module.exports = {
             return Promise.reject(err);
         })
     },
+
 
     loadChats: (userId) => {
         return Chat.find({$or: [{chatter0: ObjectId(userId)},{chatter1: ObjectId(userId)}]}).then((docs) => {

@@ -61,6 +61,21 @@ const logOut = () => (dispatch) => {
     dispatch({
       type: 'SOCKET_CLOSE',
     });
+    dispatch({
+      type: 'CHAT_CLEAR',
+    });
+    dispatch({
+      type: 'CLEAR_ONLINE',
+    });
+    dispatch({
+      type: 'CLEAR_HISTORY_CONTACTS',
+    });
+    dispatch({
+      type: 'CLEAR_CHAT_PERSON',
+    });
+    dispatch({
+      type: 'CLEAR_VIDEO_CHAT',
+    });
     history.push('/login');
     dispatch({
       type: 'SUCCESS_MESSAGE',

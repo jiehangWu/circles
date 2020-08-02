@@ -5,6 +5,9 @@ import {ChatActions} from "../../actions/chat.actions";
 import {chatEnter} from "../../reducers/chat.enter";
 import VideoPort from './VideoPort';
 import {chatVideoStatus} from "../../reducers/chat.videoStatus";
+import IconButton from "@material-ui/core/IconButton";
+import VideocamIcon from "@material-ui/icons/Videocam";
+import Grid from "@material-ui/core/Grid";
 
 export function ChatDisplayPort(props) {
     let messagesEnd;
@@ -27,19 +30,19 @@ export function ChatDisplayPort(props) {
         messagesEnd.scrollIntoView({ behavior: "smooth" });
     };
 
+
+
     return <React.Fragment>
-        <div style={{height: "calc(78vh)", padding: "10px", margin: "0px", overflow: "scroll"}}>
-            <div style = {props.chatVideoStatus === 0?{visibility:'hidden'}:{}}>
-            <VideoPort />
-            </div>
-                {props.chatsReducer1[props.person.userId] ?
+        <div style={{height: "calc(72vh)", position:'relative', padding: "10px", paddingTop:'20px',margin: "0px", overflow: "scroll"}}>
+
+            {props.chatsReducer1[props.person.userId] ?
                     props.chatsReducer1[props.person.userId].map((ele) => {
                         if (ele.sender.username === props.username) {
                             ele.sender.userAvatar = props.userAvatar;
-                            return <Message content={ele.content} chatter={ele.sender} left={false}/>
+                            return <Message content={ele.content} chatter={ele.sender} left={false} key={ele.hash}/>
                         } else{
                             ele.sender.userAvatar = props.person.userAvatar;
-                            return <Message content={ele.content} chatter={ele.sender} left={true}/>;}
+                            return <Message content={ele.content} chatter={ele.sender} left={true} key={ele.hash}/>;}
                     }) : <div></div>
                 }
                 <div style={{ float:"left", clear: "both" }}
@@ -58,12 +61,15 @@ const mapStateToProps = (state) => {
         userAvatar: state.userinfo.avatar,
         person: state.currentChatPerson,
         chatEnter: state.chatEnter,
-        chatVideoStatus: state.chatVideoStatus
+        chatVideoStatus: state.chatVideoStatus,
+        userId: state.userinfo.userId,
+        currentChatter: state.currentChatPerson
     };
 };
 
 const mapAction = {
     loadChats: ChatActions.loadChats,
+
 };
 
 export default connect(mapStateToProps, mapAction)(ChatDisplayPort);

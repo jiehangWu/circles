@@ -12,15 +12,27 @@ import Profile from "./components/profile/Profile";
 class App extends React.Component {
 	constructor(props) {
 		super(props);
+		this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 		history.listen((location, action) => {
 			this.props.clearMessage();
 		});
+	}
+    componentDidMount() {
+        window.addEventListener("resize", this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateWindowDimensions)
+    }
+
+    updateWindowDimensions() {
+	    this.props.setWidth(window.innerWidth);
+	    this.props.setHeight(window.innerHeight);
 	}
 
     render() {
         const { message } = this.props;
         return (
-            
             <React.Fragment>
                 <Router history={history}>
                     <Switch>
@@ -41,8 +53,22 @@ const mapDispatch = (dispatch) => {
 	return {
 		clearMessage: () => {
 			dispatch({ type: 'CLEAR_MESSAGE' });
-		}
+		},
+        setWidth: (width)=> {
+		    dispatch({
+                type: 'SET_WIDTH',
+                payload: width
+            })
+        },
+        setHeight: (width)=> {
+            dispatch({
+                type: 'SET_HEIGHT',
+                payload: width
+            })
+        },
 	};
 };
+
+
 
 export default connect(null, mapDispatch)(App);
