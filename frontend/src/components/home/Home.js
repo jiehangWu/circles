@@ -64,17 +64,19 @@ const styles = makeStyles((theme) => ({
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        width: "80%",
-        padding: theme.spacing(3),
+        width: "60%",
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
+        },
+        padding: theme.spacing(3, 0, 0, 0),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        marginLeft: "10%",
-        marginRight: "10%",
+        margin: 'auto',
         marginTop: "2%",
         display: "flex",
-        justifyContent:'center'
+        justifyContent:'center',
     },
     contentShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -87,14 +89,13 @@ const styles = makeStyles((theme) => ({
     content2: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        width: "80%",
+        width: "100%",
         padding: theme.spacing(0),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        marginLeft: "10%",
-        marginRight: "10%",
+        margin: 'auto'
     },
     avatar: {
         backgroundColor: blue[500],
@@ -291,10 +292,9 @@ const Home = (props) => {
 
     const contentRouter = (
         <main className={history.location.pathname === '/home/chat'?clsx(classes.content2, { [classes.contentShift]: open, })
-            :clsx(classes.content, { [classes.contentShift]: open, })} style={{width: '80%', height:"100%", display: "flex",justifyContent:'center'
-            }}>
+            :clsx(classes.content, { [classes.contentShift]: open, })}>
              {/*<switch></switch> is unrecognizable by browesers*/}
-            <div style={{width: '100%', display: "flex",justifyContent:'center'}}>
+            {/*<div style={{width: '100%', display: "flex",justifyContent:'center'}}>*/}
                 <Route exact path="/home">
                     {Home}
                 </Route>
@@ -306,7 +306,7 @@ const Home = (props) => {
                     <ChatPage2 />
                 </Route>
                 <Redirect from="/home/*" to="/home" />
-            </div>
+            {/*</div>*/}
         </main>
     );
 

@@ -48,8 +48,7 @@ const styles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing(3),
-        width: 1100,
-        marginLeft: "13%"
+        width: "100%",
     },
     avatar: {
         backgroundColor: blue[500],
@@ -95,7 +94,7 @@ const Profile = (props) => {
 
                 {name}
 
-                <div>
+                <span>
                     <IconButton color='primary' onClick={async () => {
                         loading.current.style.display = 'block';
                         await wait(100);
@@ -110,8 +109,6 @@ const Profile = (props) => {
                         <HomeIcon/>
                     </IconButton>
 
-                    <GeoButton id={idFromHome} name={geoName}/>
-
                     <IconButton color='secondary' onClick={async () => {
                         loading.current.style.display = 'block';
                         await wait(100);
@@ -124,7 +121,10 @@ const Profile = (props) => {
                         <ChatIcon/>
 
                     </IconButton>
-                </div>
+
+                    <GeoButton id={idFromHome} name={geoName}/>
+
+                </span>
 
                 <br></br>
 
@@ -143,9 +143,7 @@ const Profile = (props) => {
 
             <Loading ref={loading}/>
 
-            <div className="d-flex justify-content-center">
-
-                <div className={classes.content}>
+                <div className={classes.content} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                     <Box color={blue} className={classes.mainBox} clone>
                         {avatarBar}
                     </Box>
@@ -157,7 +155,6 @@ const Profile = (props) => {
                     <PostList currID={idFromHome} self={self}/>
                 </div>
 
-            </div>
         </React.Fragment>
     );
 };
