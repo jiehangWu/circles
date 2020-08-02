@@ -1,7 +1,6 @@
 import React from 'react';
 import PostContainer from '../home/PostContainer';
 import { connect } from 'react-redux';
-import { ProfileActions } from '../../actions/profile.actions';
 import { PostActions } from '../../actions/posts.actions';
 import { location } from '../../helpers/util';
 
@@ -18,7 +17,7 @@ const styles = {
 		padding: '10px',
 		backgroundColor: 'transparent'
 	}
-}
+};
 
 class PostList extends React.Component {
 	constructor(props) {
@@ -55,13 +54,11 @@ class PostList extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		posts: state.userinfo.profilePosts,
-		postList: state.posts.postList
+		postList: state.posts.profileList
 	};
 };
 
 const mapAction = {
-	loadProfile: ProfileActions.loadProfile,
 	loadPosts: PostActions.loadProfilePosts
 };
 

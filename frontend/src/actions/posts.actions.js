@@ -57,6 +57,15 @@ const likePost = (postId, from) => (dispatch) => {
                 },
             });
         }
+        if (from === location.PROFILE) {
+            dispatch({
+                type: 'LIKE_PROFILE_POST',
+                payload: {
+                    postId,
+                    likes: parseInt(likes),
+                },
+            });
+        }
     }).catch((err) => {
         console.log(err);
     });
@@ -110,6 +119,12 @@ const deletePost = (postId, from) => (dispatch) => {
                 payload: postId,
             });
         }
+        if (from === location.PROFILE) {
+            dispatch({
+                type: 'DELETE_PROFILE_POST',
+                payload: postId,
+            });
+        }
     }).catch((err) => {
         console.log(err);
     });
@@ -147,8 +162,7 @@ const loadCirclesList = () => async (dispatch) => {
     } catch (err) {
         console.log(err.message);
     }
-
-}
+};
 
 const submitComment = (comment, from) => (dispatch) => {
     fetch(`http://localhost:5000/post/c/${comment.postId}`, {
@@ -173,9 +187,14 @@ const submitComment = (comment, from) => (dispatch) => {
             payload: comment,
         });
         if (from === location.SEARCH) {
-            console.log('dispatched!');
             dispatch({
                 type: 'COMMENT_SEARCH_POST',
+                payload: comment,
+            });
+        }
+        if (from === location.PROFILE) {
+            dispatch({
+                type: 'COMMENT_PROFILE_POST',
                 payload: comment,
             });
         }

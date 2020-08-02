@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import { history } from "../../helpers/history";
-import { connect } from "react-redux";
+import React, {useEffect} from "react";
+import {history} from "../../helpers/history";
+import {connect} from "react-redux";
 import PreferenceBar from "./TagArea/PreferenceBar";
 import DisplayTagArea from './TagArea/DisplayTagArea';
-import { ProfileActions } from "../../actions/profile.actions";
-import { ChatActions } from "../../actions/chat.actions";
+import {ProfileActions} from "../../actions/profile.actions";
+import {ChatActions} from "../../actions/chat.actions";
 import PostList from './PostList';
 import Loading from './LoadingSpinner/Loading';
 import GeoButton from './GeoButton';
 
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { blue, blueGrey, grey } from '@material-ui/core/colors';
+import {blue, blueGrey, grey} from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import HomeIcon from '@material-ui/icons/Home';
 import IconButton from '@material-ui/core/IconButton';
@@ -83,50 +83,52 @@ const Profile = (props) => {
     const classes = styles();
     const name = (
         <div className={classes.name}>
-            <h4 style={{ fontWeight: '900' }}> {props.username}</h4>
+            <h4 style={{fontWeight: '900'}}> {props.username}</h4>
         </div>
     );
 
     const avatarBar = (
         <div className={classes.background}>
-            <div className={classes.toolbar} />
+            <div className={classes.toolbar}/>
             <center>
                 <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar} alt={props.username}/>
-                
+
                 {name}
-                
-                
 
-                <IconButton color='primary' onClick={async () => {
-                    loading.current.style.display = 'block';
-                    await wait(100);
-                    history.replace({
-                        pathname: '/home',
-                        state: {
-                            homeId: props.userId,
-                            self: true
-                        }
-                    });
-                }}>
-                    <HomeIcon  />
-                </IconButton>
+                <div>
+                    <IconButton color='primary' onClick={async () => {
+                        loading.current.style.display = 'block';
+                        await wait(100);
+                        history.replace({
+                            pathname: '/home',
+                            state: {
+                                homeId: props.userId,
+                                self: true
+                            }
+                        });
+                    }}>
+                        <HomeIcon/>
+                    </IconButton>
 
-                <GeoButton id={idFromHome} name={geoName}/>
+                    <GeoButton id={idFromHome} name={geoName}/>
 
-                <IconButton color='secondary' onClick={async () => {
-                    loading.current.style.display = 'block';
-                    await wait(100);
-                    props.beginChat({
-                        username: props.username,
-                        userId: props.userId,
-                        userAvatar: props.avatar
-                    })
-                }} >
-                    <ChatIcon />
+                    <IconButton color='secondary' onClick={async () => {
+                        loading.current.style.display = 'block';
+                        await wait(100);
+                        props.beginChat({
+                            username: props.username,
+                            userId: props.userId,
+                            userAvatar: props.avatar
+                        })
+                    }}>
+                        <ChatIcon/>
 
-                </IconButton><br></br>
+                    </IconButton>
+                </div>
 
-                <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} self={self} /><br></br>
+                <br></br>
+
+                <DisplayTagArea profileTags={props.tags.tags} currID={idFromHome} self={self}/><br></br>
             </center>
         </div>
     );
@@ -137,9 +139,9 @@ const Profile = (props) => {
 
     return (
         <React.Fragment>
-            <CssBaseline />
+            <CssBaseline/>
 
-            <Loading ref={loading} />
+            <Loading ref={loading}/>
 
             <div className="d-flex justify-content-center">
 
@@ -150,9 +152,9 @@ const Profile = (props) => {
                     <br></br>
                     <br></br>
                     <center>
-                        <PreferenceBar self={self} />
+                        <PreferenceBar self={self}/>
                     </center>
-                    <PostList currID={idFromHome} self={self} />
+                    <PostList currID={idFromHome} self={self}/>
                 </div>
 
             </div>

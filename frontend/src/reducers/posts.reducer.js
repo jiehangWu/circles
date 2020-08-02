@@ -2,7 +2,8 @@ const initial = {
     uploadedImgLink: '',
     postList: [],
     circlesList: [],
-    searchResult: []
+    searchResult: [],
+    profileList: [],
 };
 
 export const posts = (state = initial, action) => {
@@ -32,6 +33,21 @@ export const posts = (state = initial, action) => {
                 ...state,
                 searchResult: [
                     ...state.searchResult.map((post) => {
+                        if (post._id === action.payload.post) {
+                            return {
+                                ...post,
+                                comments: [...post.comments, action.payload],
+                            };
+                        }
+                        return post;
+                    }),
+                ],
+            };
+        case 'COMMENT_PROFILE_POST':
+            return {
+                ...state,
+                profileList: [
+                    ...state.profileList.map((post) => {
                         if (post._id === action.payload.post) {
                             return {
                                 ...post,
@@ -72,6 +88,21 @@ export const posts = (state = initial, action) => {
                     }),
                 ],
             };
+        case 'LIKE_PROFILE_POST':
+            return {
+                ...state,
+                profileList: [
+                    ...state.profileList.map((post) => {
+                        if (post._id === action.payload.postId) {
+                            return {
+                                ...post,
+                                likes: action.payload.likes,
+                            };
+                        }
+                        return post;
+                    }),
+                ],
+            };
         case 'LOAD_ALL':
             return {
                 ...state,
@@ -92,6 +123,11 @@ export const posts = (state = initial, action) => {
                 ...state,
                 searchResult: state.searchResult.filter((post) => post._id !== action.payload),
             };
+        case 'DELETE_PROFILE_POST':
+            return {
+                ...state,
+                profileList: state.profileList.filter((post) => post._id !== action.payload),
+            };
         case 'ADD_IMAGE':
             return {
                 ...state,
@@ -105,7 +141,7 @@ export const posts = (state = initial, action) => {
         case 'LOAD_PROFILE_POSTS':
             return {
                 ...state,
-                postList: action.payload.posts,
+                profileList: action.payload.posts,
             };
         case "SEARCH_BY_KEYWORD":
             return {

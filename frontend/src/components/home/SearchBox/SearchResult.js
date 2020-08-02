@@ -6,11 +6,6 @@ import { HomeActions } from '../../../actions/home.actions';
 import { location } from '../../../helpers/util';
 
 class PostList extends React.Component {
-	
-	componentWillUpdate() {
-		this.props.searchKeyword(this.props.keyword);
-	}
-
 	render() {
 		return (
 			<React.Fragment>
@@ -38,11 +33,6 @@ const mapStateToProps = (state) => {
      return {
           searchResult: state.posts.searchResult
      };
-}
-
-const mapAction = {
-	loadAllPosts: PostActions.loadAllPosts,
-	searchKeyword: HomeActions.searchKeyword,
 };
 
-export default connect(mapStateToProps, mapAction)(PostList);
+export default connect(mapStateToProps)(PostList);
