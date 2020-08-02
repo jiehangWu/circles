@@ -80,7 +80,10 @@ class VideoPort extends React.Component {
     }
 
     callRemote = (stream) => {
-        const call = this.state.peer.call(this.props.currentVideoChatter.userId, stream);
+        let call;
+        while (!call) {
+            call = this.state.peer.call(this.props.currentVideoChatter.userId, stream);
+        }
         this.setState({call:call});
         if (this.videoL.current) {
                 this.videoL.current.srcObject = stream;
