@@ -1,7 +1,7 @@
 import { history } from "../helpers/history";
 
 const loadHome = () => (dispatch) => {
-    fetch('http://localhost:5000/home', {
+    fetch('https://circles-ubc-api.azurewebsites.net/home', {
         method: 'GET',
         headers: {
             Accept: 'application/json',
@@ -46,8 +46,7 @@ const loadHome = () => (dispatch) => {
 };
 
 const searchKeyword = (keyword) => (dispatch) => {
-    console.log("searched", keyword);
-    fetch('http://localhost:5000/search/'+ keyword, {
+    fetch('https://circles-ubc-api.azurewebsites.net/search/'+ keyword, {
         method: 'GET',
         headers: {
             Accept: 'application/json',

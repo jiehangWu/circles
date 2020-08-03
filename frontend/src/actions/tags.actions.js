@@ -1,5 +1,5 @@
 export const addTag = (id, tag) => (dispatch) => {
-    fetch('http://localhost:5000/home/tag', {
+    fetch('https://circles-ubc-api.azurewebsites.net/home/tag', {
         method: 'PUT',
         headers: {
             Accept: 'application/json',
@@ -27,7 +27,7 @@ export const addTagSuccess = (tagContext) => ({
 
 export const loadAllTags = (userId) => {
     return dispatch => {
-        fetch('http://localhost:5000/tags/' + userId, {
+        fetch('https://circles-ubc-api.azurewebsites.net/tags/' + userId, {
             method: "GET",
             headers: {
                 Accept: "application/json",
