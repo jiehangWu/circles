@@ -207,9 +207,9 @@ class VideoPort extends React.Component {
         return <div style={{position: 'fixed', zIndex: '9999999', top: '0%'}}>
             <div style={{display: 'flex', flexDirection: 'column', top: '0%'}}>
                 <video ref={this.videoR} autoPlay playsInline
-                       style={this.props.screenHeight / this.props.screenWidth < 1.3 && this.props.screenWidth >= 800? {width: '30vw'} : {width: '100vw'}}/>
+                       style={this.props.screenHeight / this.props.screenWidth < 1.3 && this.props.screenWidth >= 800? {width: '30vw'} : {width: '70vw'}}/>
                 <video ref={this.videoL} autoPlay muted playsInline
-                       style={this.props.screenHeight / this.props.screenWidth < 1.3 && this.props.screenWidth >= 800? {width: '10vw'} : {width: '30vw'}}/>
+                       style={this.props.screenHeight / this.props.screenWidth < 1.3 && this.props.screenWidth >= 800? {width: '10vw'} : {width: '10vw'}}/>
             </div>
             <div style={{position: 'fixed', top: '50%', left: '35%'}}>
                 <div>{this.handleStatus()}</div>
