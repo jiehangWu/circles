@@ -177,7 +177,7 @@ const VideoPort = (props) => {
             return "CHAT WITH " + props.currentVideoChatter.username;
         }
         if (props.chatStatus === 5) {
-            return props.currentVideoChatter.username + " REFUSED";
+            return props.currentVideoChatter.username + " QUIT";
         }
     };
 
