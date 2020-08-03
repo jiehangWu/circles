@@ -1,6 +1,6 @@
 import SockJS from 'sockjs';
 
-const url = 'wss://https://circles-ubc-api.azurewebsites.net';
+const url = 'wss://circles-ubc-api.azurewebsites.net';
 let socket;
 const startSocket = () => {
     if (!window.WebSocket) {
