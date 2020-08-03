@@ -3,59 +3,10 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-// const {checkPostCache, addToCache, appendToKey, deleteFromCache } = require('../cache/CacheManager');
 const searchController = require('../controller/SearchController');
 const userController = require('../controller/UserController');
-const { processTags } = require('../utils/util');
-
 const PostController = require('../controller/PostController');
 
-// With Cache
-// router.get("/", checkPostCache, (req, res, next) => {
-//     logger.info("getting");
-//     return PostController.loadAllPosts().then((posts) => {
-//         logger.info(posts);
-//         // redis_client.setex("posts", 3600, JSON.stringify(posts));
-//         res.status(200).json(posts);
-//     }).catch((err) => {
-//         logger.error(err);
-//         res.status(500).end();
-//     });
-// });
-
-// Without Cache
-// router.get("/", async (req, res, next) => {
-//     logger.info("getting");
-//     const { tags } = req.body;
-//     return PostController.loadAllPosts().then((posts) => {
-//         logger.info(posts);
-//         res.status(200).json(posts);
-//     }).catch((err) => {
-//         logger.error(err);
-//         res.status(500).end();
-//     });
-// });
-
-// With Recommend and Cache
-// router.get("/", checkPostCache, async (req, res, next) => {
-//     logger.info("getting");
-//     const userId = req.session.userId;
-//     const user = await userController.findUserByUserId(userId);
-//     const tags = processTags(user.tags);
-//     logger.info(tags);
-//     const postIds = await searchController.searchPostByKeyword(tags);
-//     logger.info(postIds);
-//     return PostController.loadPostsByIds(postIds).then((posts) => {
-//         logger.info(posts);
-//         addToCache(userId, posts);
-//         res.status(200).json(posts);
-//     }).catch((err) => {
-//         logger.error(err);
-//         res.status(500).end();
-//     });
-// });
-
-// With Recommend 
 router.get("/", async (req, res) => {
     const userId = req.session.userId;
     const user = await userController.findUserByUserId(userId);
@@ -93,7 +44,7 @@ router.post("/", (req, res, next) => {
     });
 });
 
-router.put("/l/:id", (req, res, next) => {
+router.put("/l/:id", async (req, res, next) => {
     const postId = req.params.id;
     const userId = req.session.userId;
     logger.info("userId is" + userId);
@@ -105,7 +56,7 @@ router.put("/l/:id", (req, res, next) => {
     });
 });
 
-router.delete("/:postId", (req, res, next) => {
+router.delete("/:postId", async (req, res, next) => {
     const postId = req.params.postId;
     const userId = req.session.userId;
     return PostController.deletePost(userId, postId).then(async () => {
@@ -117,7 +68,7 @@ router.delete("/:postId", (req, res, next) => {
     });
 });
 
-router.put("/c/:id", (req, res, next) => {
+router.put("/c/:id", async (req, res, next) => {
     const postId = req.params.id;
     const userId = req.session.userId;
     const { content, date } = req.body;
@@ -130,7 +81,7 @@ router.put("/c/:id", (req, res, next) => {
 })
 
 // delete remains to be changed
-router.delete("/:postId", (req, res, next) => {
+router.delete("/:postId", async (req, res, next) => {
     const postId = req.params.postId;
     const userId = req.session.userId;
     return PostController.deletePost(userId, postId).then(async () => {

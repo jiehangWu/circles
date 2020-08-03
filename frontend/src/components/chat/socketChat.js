@@ -5,7 +5,7 @@ import socket from './socket';
 import {store} from '../../helpers/store';
 //AES encrypt
 const CryptoJS = require('crypto-js');
-const url = 'ws://127.0.0.1:5000';
+const url = 'wss://circles-ubc-api.azurewebsites.net';
 let restart = false;
 
 const key = new NodeRSA({b: 1024});

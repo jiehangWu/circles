@@ -3,10 +3,9 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-
 const UserController = require('../controller/UserController');
 
-router.put('/home', (req, res) => {
+router.put('/home', async (req, res) => {
      const { lat, lng } = req.body;
      const userId = req.session.userId;
      let response;

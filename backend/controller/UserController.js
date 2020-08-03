@@ -6,6 +6,8 @@ const AwsController = require('./AwsController');
 
 const User = mongoose.model("users");
 
+const DEFAULT_TAGS = ["food", "coding", "travel", "movies"];
+
 module.exports = {
     findUserByUserId: (id) => {
         return User.findById(id);
@@ -19,7 +21,7 @@ module.exports = {
         const username = util.getRandomName();
         const user = new User({
             registerName, username, password,
-            tags: ["Sports", "Cars", "SportsCars"],
+            tags: DEFAULT_TAGS,
             firstTimer: true
         });
         return user.save();

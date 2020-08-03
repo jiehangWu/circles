@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-const searchController = require('../controller/searchController');
+const searchController = require('../controller/SearchController');
 const userController = require('../controller/UserController');
 const PostController = require('../controller/PostController');
-
 /**
  * Search all the contents that have the corresponding keyword.
  */
@@ -34,12 +33,12 @@ router.get('/circleslist', async (req, res) => {
         res.status(500).send(error);
     }
     try {
-        const user =  await userController.findUserByUserId(id);
+        const user = await userController.findUserByUserId(id);
         const tags = JSON.stringify(user.tags);
         logger.info(tags);
         const response = await searchController.recommendByUserTag(id, tags);
         logger.info(response);
-        const users = await userController.findUsersByIds(response); 
+        const users = await userController.findUsersByIds(response);
         logger.info(users);
         res.status(200).send(users);
     } catch (err) {
