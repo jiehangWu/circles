@@ -66,6 +66,7 @@ const VideoPort = (props) => {
                         }
                         // Play the remote stream
                         call.on('stream', (remoteStream) => {
+                            props.chatVideo();
                             if (videoR.current) {
                                 videoR.current.srcObject = remoteStream;
                             }
@@ -99,7 +100,6 @@ const VideoPort = (props) => {
 
     useEffect( ()=> {
         if (status) {
-            props.chatVideo();
             if (!peer || peer.destroyed) {
                 setPeer(
                     new Peer(props.userId, {
@@ -125,6 +125,7 @@ const VideoPort = (props) => {
                         videoL.current.srcObject = stream;
                     }
                     call.on('stream', (remoteStream)=> {
+                        props.chatVideo();
                         setCall(call);
                         if (videoR.current) {
                             videoR.current.srcObject = remoteStream;
