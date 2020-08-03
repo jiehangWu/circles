@@ -57,13 +57,15 @@ const PostController = require('../controller/PostController');
 
 // With Recommend 
 router.get("/", async (req, res) => {
-    logger.info("getting");
     const userId = req.session.userId;
     const user = await userController.findUserByUserId(userId);
-    const tags = JSON.stringify(user.tags);
-    logger.info(tags);
-    const postIds = await searchController.searchPostByKeyword(tags);
-    logger.info(postIds);
+    let postIds;
+    if (user.tags.length !== 0) {
+        const tags = JSON.stringify(user.tags);
+        postIds = await searchController.searchPostByKeyword(tags);
+    } else {
+        postIds = await PostController.getRandomPostIds(20);
+    }
     return PostController.loadPostsByIds(postIds).then((posts) => {
         logger.info(posts);
         res.status(200).json(posts);
@@ -71,6 +73,7 @@ router.get("/", async (req, res) => {
         logger.error(err);
         res.status(500).end();
     });
+
 });
 
 router.post("/", (req, res, next) => {

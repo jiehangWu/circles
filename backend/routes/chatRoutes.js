@@ -3,7 +3,6 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 const redis = require('redis');
-logger.level="OFF";
 const ChatController = require('../controller/ChatController');
 const UserController = require('../controller/UserController');
 
