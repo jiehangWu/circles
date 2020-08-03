@@ -41,7 +41,7 @@ export function ChatPage2(props) {
             {
                 props.chatVideoStatus?<VideoPort/>:null
             }
-            {props.screenHeight/props.screenWidth < 1.3 && props.screenWidth >= 800?
+            {props.screenHeight/props.screenWidth < 1.25 && props.screenWidth >= 800?
                 <Grid container direction="row" alignItems="flex-start" style={{width: '100%'}}>
                     <Grid item className="" style={
                         {marginLeft: '1%', width: '29%'}
