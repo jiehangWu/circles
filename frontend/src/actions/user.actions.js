@@ -180,7 +180,7 @@ const uploadGeolocation = (lat, lng) => {
 
 const loadGeoCirclesList = () => async (dispatch) => {
     try {
-        let response = await fetch('http://localhost:5000/geolocation/circleslist', {
+        let response = await fetch('https://circles-ubc-api.azurewebsites.net/geolocation/circleslist', {
             method: 'GET',
             credentials: 'include',
         });

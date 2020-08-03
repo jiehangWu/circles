@@ -49,6 +49,7 @@ app.use(session({
     saveUninitialized: true,
     secret: process.env.COOKIE_SECRET,
     cookie: {
+        domain: 'circles-ubc-api.azurewebsites.net',
         maxAge: MAX_AGE,
     },
 }));

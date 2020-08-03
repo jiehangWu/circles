@@ -28,7 +28,6 @@ class CirclesList extends React.Component {
                         return (
                             <ListItem key={user._id} button onClick={() => {
                                 if (history.location.pathname === '/home/profile') {
-                                    console.log("if");
                                     history.push({
                                         state: {
                                             homeId: user._id,
@@ -37,7 +36,6 @@ class CirclesList extends React.Component {
                                         }
                                     });
                                 } else {
-                                    console.log("else");
                                     history.push({
                                         pathname: '/home/profile',
                                         state: {
