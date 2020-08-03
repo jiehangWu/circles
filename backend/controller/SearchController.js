@@ -1,8 +1,14 @@
-const elasticsearch = require('elasticsearch');
+const { Client } = require('@elastic/elasticsearch');
 const logger = require('log4js').getLogger();
 
-const client = new elasticsearch.Client({
-    hosts: [`${process.env.ELASTICSEARCH_URI}`]
+const client = new Client({
+    cloud: {
+        id: process.env.ELASTIC_CLOUD_ID,
+    },
+    auth: {
+        username: process.env.ELASTIC_USERNAME,
+        password: process.env.ELASTIC_PASSWORD
+    }
 });
 
 const addUserToCluster = async (userId, tags) => {
@@ -66,7 +72,7 @@ const updateUserTags = async (id, tags) => {
 
         const searchResult = await client.search(query);
         logger.info(searchResult);
-        const docId = searchResult.hits.hits[0]._id;
+        const docId = searchResult.body.hits.hits[0]._id;
         logger.info(docId);
         let res = await client.update({
             index: 'circles_users',
@@ -127,8 +133,7 @@ const searchPostByKeyword = async (keyword) => {
 
     try {
         const response = await client.search(query);
-        console.log(response.hits.hits);
-        const result = response.hits.hits.map(item => item._source.postId)
+        const result = response.body.hits.hits.map(item => item._source.postId)
             .reduce((result, item) => {
                 if (!result.includes(item)) {
                     result.push(item);
@@ -165,7 +170,7 @@ const recommendByUserTag = async (id, tag) => {
 
     try {
         const response = await client.search(query);
-        const result = response.hits.hits.map(item => item._source.userId)
+        const result = response.body.hits.hits.map(item => item._source.userId)
             .filter(item => item !== id)
             .reduce((result, item) => {
                 if (!result.includes(item)) {

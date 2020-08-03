@@ -1,5 +1,6 @@
 import Peer from 'peerjs';
 import {connect} from "react-redux";
+import React from 'react';
 
 class VideoPort extends React.Component {
     constructor() {
