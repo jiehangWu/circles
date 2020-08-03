@@ -20,7 +20,7 @@ router.put('/home', async (req, res) => {
 });
 
 router.get('/circleslist', async (req, res) => {
-     const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
+     const id = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
      if (id === null || id === undefined) {
           const error = new Error("The user is not logged in");
           res.status(500).send(error);

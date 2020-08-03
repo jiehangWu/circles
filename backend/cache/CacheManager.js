@@ -17,7 +17,6 @@ const addToCache = (sessionId, userId) => {
 
 const getUserIdFromCache = async (sessionId) => {
     const response =  await redisClient.getAsync(sessionId);
-    console.log(`${response} line 20`);
     return response;
 }
 
