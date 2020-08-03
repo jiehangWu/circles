@@ -6,7 +6,7 @@ const http = require('http');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const WebSocket = require('ws');
-require('./utils/util');
+
 require('dotenv').config();
 // Make sure models are required
 require('./model/User');
@@ -50,7 +50,7 @@ app.use(session({
     secret: process.env.COOKIE_SECRET,
     sameSite: 'none',
     cookie: {
-        domain: 'circles-ubc-api.azurewebsites.net',
+        domain: 'circles-ubc-api.azurewebsites.net', 
         maxAge: MAX_AGE,
     },
 }));
@@ -64,7 +64,6 @@ app.use('/geolocation', geoRoutes);
 
 //websocket server
 wss.on('connection',sockeFunction);
-
 
 server.listen(process.env.PORT, () => {
     logger.info(`Server is listening on PORT ${process.env.PORT}`);

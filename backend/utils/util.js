@@ -10,8 +10,6 @@ const generateSessionId = () => {
     return uuidv4();
 }
 
-const sessionId = generateSessionId();
-
 const processTags = (tags) => {
     const result = tags.reduce((result, item) => {
         return result + JSON.stringify(item) + " ";
@@ -106,5 +104,5 @@ module.exports = {
     processTags,
     getRandomName,
     getNearbyList,
-    sessionId
+    generateSessionId
 };

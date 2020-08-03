@@ -5,8 +5,6 @@ const logger = log4js.getLogger();
 const searchController = require('../controller/SearchController');
 const userController = require('../controller/UserController');
 const PostController = require('../controller/PostController');
-const CacheManager = require('../cache/CacheManager');
-const { sessionId } = require('../utils/util');
 /**
  * Search all the contents that have the corresponding keyword.
  */
@@ -28,19 +26,19 @@ const { sessionId } = require('../utils/util');
  * Recommend users based on input tags and user id.
  */
 router.get('/circleslist', async (req, res) => {
-    const id = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
+    const id = req.session.userId;
     logger.info(id);
     if (id === null || id === undefined) {
         const error = new Error("The user is not logged in");
         res.status(500).send(error);
     }
     try {
-        const user =  await userController.findUserByUserId(id);
+        const user = await userController.findUserByUserId(id);
         const tags = JSON.stringify(user.tags);
         logger.info(tags);
         const response = await searchController.recommendByUserTag(id, tags);
         logger.info(response);
-        const users = await userController.findUsersByIds(response); 
+        const users = await userController.findUsersByIds(response);
         logger.info(users);
         res.status(200).send(users);
     } catch (err) {

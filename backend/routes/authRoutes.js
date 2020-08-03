@@ -8,8 +8,6 @@ const CacheManager = require('../cache/CacheManager');
 const UserController = require('../controller/UserController');
 const SearchController = require('../controller/SearchController');
 
-const { sessionId } = require('../utils/util');
-
 router.post('/register', async (req, res, next) => {
     const { registerName, password } = req.body;
     let user = null;
@@ -59,7 +57,6 @@ router.post('/login', async (req, res, next) => {
         if (await validate()) {
             const userId = user._id;
             req.session.userId = userId;
-            CacheManager.addToCache(sessionId, userId);
             logger.info(req.session.userId);
             logger.info("login succesful");
             res.status(200).send("login successful");
@@ -72,7 +69,7 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/home', async (req, res) => {
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
+    const userId = req.session.userId;
     logger.info(userId);
     console.log(userId);
     const result = await UserController.findUserByUserId(userId);
@@ -168,7 +165,7 @@ router.delete("/tags/:userId", (req, res, next) => {
 });
 
 router.put('/avatar', async (req, res, next) => {
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
+    const userId = req.session.userId;
     const { avatarLink } = req.body;
     logger.info("avatar user id is: ", userId);
     logger.info("avatar link is: ", avatarLink);
@@ -187,7 +184,7 @@ router.put('/avatar', async (req, res, next) => {
 });
 
 router.put('/firstTimer', async (req, res, next) => {
-    const userId = req.session.userId || await (sessionId);
+    const userId = req.session.userId;
     return await UserController.cancelFirstTimeUser(userId).then(() => {
         res.status(200).send("false");
     }).catch((err) => {

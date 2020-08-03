@@ -3,17 +3,13 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-const CacheManager = require('../cache/CacheManager');
 const searchController = require('../controller/SearchController');
 const userController = require('../controller/UserController');
-const { processTags } = require('../utils/util');
-const { sessionId } = require('../utils/util');
-
 const PostController = require('../controller/PostController');
 
 router.get("/", async (req, res) => {
     logger.info("getting");
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
+    const userId = req.session.userId;
     const user = await userController.findUserByUserId(userId);
     const tags = JSON.stringify(user.tags);
     logger.info(tags);
@@ -47,7 +43,7 @@ router.post("/", (req, res, next) => {
 
 router.put("/l/:id", async (req, res, next) => {
     const postId = req.params.id;
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
+    const userId = req.session.userId;
     logger.info("userId is" + userId);
     return PostController.likePost(userId, postId).then((numLikes) => {
         res.status(200).send(numLikes.toString());
@@ -59,7 +55,7 @@ router.put("/l/:id", async (req, res, next) => {
 
 router.delete("/:postId", async (req, res, next) => {
     const postId = req.params.postId;
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
+    const userId = req.session.userId;
     return PostController.deletePost(userId, postId).then(async () => {
         await searchController.deletePostFromCluster(postId);
         res.status(200).end();
@@ -71,7 +67,7 @@ router.delete("/:postId", async (req, res, next) => {
 
 router.put("/c/:id", async (req, res, next) => {
     const postId = req.params.id;
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
+    const userId = req.session.userId;
     const { content, date } = req.body;
     return PostController.addComment(content, new Date(date), userId, postId).then((comment) => {
         res.status(200).json(comment);
@@ -84,7 +80,7 @@ router.put("/c/:id", async (req, res, next) => {
 // delete remains to be changed
 router.delete("/:postId", async (req, res, next) => {
     const postId = req.params.postId;
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
+    const userId = req.session.userId;
     return PostController.deletePost(userId, postId).then(async () => {
         await searchController.deletePostFromCluster(postId);
         res.status(200).end();
