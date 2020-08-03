@@ -3,12 +3,12 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-
+const CacheManager = require('../cache/CacheManager');
 const UserController = require('../controller/UserController');
 
 router.put('/home', (req, res) => {
      const { lat, lng } = req.body;
-     const userId = req.session.userId;
+     const userId = req.session.userId || CacheManager.getUserIdFromCache(sessionId);
      let response;
      try {
           response = UserController.setGeolocation(userId, lat, lng);
@@ -19,7 +19,7 @@ router.put('/home', (req, res) => {
 });
 
 router.get('/circleslist', async (req, res) => {
-     const id = req.session.userId;
+     const userId = req.session.userId || CacheManager.getUserIdFromCache(sessionId);
      if (id === null || id === undefined) {
           const error = new Error("The user is not logged in");
           res.status(500).send(error);

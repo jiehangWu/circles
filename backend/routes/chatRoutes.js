@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-const redis = require('redis');
+const CacheManager = require('../cache/CacheManager');
 logger.level="OFF";
 const ChatController = require('../controller/ChatController');
 const UserController = require('../controller/UserController');
 
 router.get("/", async (req, res, next) => {
-    const userId = req.session.userId;
+    const userId = req.session.userId || CacheManager.getUserIdFromCache(sessionId);
     logger.info("get chats by " + userId);
     const result = await UserController.findUserByUserId(userId);
     if (result) {

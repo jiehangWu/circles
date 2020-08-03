@@ -3,28 +3,13 @@ const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 const bcrypt = require('bcrypt')
+const { v4: uuidv4 } = require('uuid');
 
+const CacheManager = require('../cache/CacheManager');
 const UserController = require('../controller/UserController');
-const PostController = require('../controller/PostController');
 const SearchController = require('../controller/SearchController');
 
-const redirect = (req, res, next) => {
-    if (req.session.cookie) {
-        // logger.info(req.session.userId);
-        // logger.info(req.session.cookie);
-        res.redirect('/home');
-    } else if (!req.session.userId) {
-        res.redirect('/login');
-    } else {
-        next();
-    }
-};
-
-/**
- * Notice how checkIfUserExists and validation are actually similar.
- * It is better to refactor them into UserController or use database query 
- * directly to validation/checkIfExist.
- */
+const sessionId = uuidv4();
 
 router.post('/register', async (req, res, next) => {
     const { registerName, password } = req.body;
@@ -66,16 +51,15 @@ router.post('/login', async (req, res, next) => {
     const validate = async () => {
         user = await UserController.findUserByRegisterName(registerName);
         if (user !== null) {
-            // return user.registerName === registerName && user.password === password;
             return bcrypt.compareSync(password, user.password);
         }
         return false;
     };
 
-    // TODO: any better way to write this?
     (async () => {
         if (await validate()) {
             req.session.userId = user._id;
+            CacheManager.addToCache(userId);
             logger.info(req.session.userId);
             logger.info("login succesful");
             res.status(200).send("login successful");
@@ -88,7 +72,7 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/home', async (req, res) => {
-    const userId = req.session.userId;
+    const userId = req.session.userId || CacheManager.getUserIdFromCache(sessionId);
     logger.info(userId);
     console.log(userId);
     const result = await UserController.findUserByUserId(userId);
@@ -184,7 +168,7 @@ router.delete("/tags/:userId", (req, res, next) => {
 });
 
 router.put('/avatar', (req, res, next) => {
-    const userId = req.session.userId;
+    const userId = req.session.userId || CacheManager.getUserIdFromCache(sessionId);
     const { avatarLink } = req.body;
     logger.info("avatar user id is: ", userId);
     logger.info("avatar link is: ", avatarLink);
@@ -203,7 +187,7 @@ router.put('/avatar', (req, res, next) => {
 });
 
 router.put('/firstTimer', async (req, res, next) => {
-    const userId = req.session.userId;
+    const userId = req.session.userId || CacheManager.getUserIdFromCache(sessionId);
     return await UserController.cancelFirstTimeUser(userId).then(() => {
         res.status(200).send("false");
     }).catch((err) => {
