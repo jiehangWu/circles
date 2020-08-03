@@ -89,13 +89,18 @@ const styles = makeStyles((theme) => ({
     content2: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        width: "100%",
-        padding: theme.spacing(0),
+        width: "60%",
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
+        },
+        padding: theme.spacing(3, 0, 0, 0),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        margin: 'auto'
+        margin: 'auto',
+        display: "flex",
+        justifyContent:'center',
     },
     avatar: {
         backgroundColor: blue[500],
@@ -291,18 +296,19 @@ const Home = (props) => {
     );
 
     const contentRouter = (
-        <main className={history.location.pathname === '/home/chat'?clsx(classes.content2, { [classes.contentShift]: open, })
+        <main className={history.location.pathname === '/home/chat'||history.location.pathname === '/home/chat/messages'?
+            clsx(classes.content2, { [classes.contentShift]: open, })
             :clsx(classes.content, { [classes.contentShift]: open, })}>
-             {/*<switch></switch> is unrecognizable by browesers*/}
+             {/*<switch></switch> is unrecognizable by browser*/}
             {/*<div style={{width: '100%', display: "flex",justifyContent:'center'}}>*/}
                 <Route exact path="/home">
                     {Home}
                 </Route>
-                <Route exact path="/home/profile" key={history.location.state
+                <Route path="/home/profile" key={history.location.state
                                                         && history.location.state.homeId}>
                     <Profile />
                 </Route>
-                <Route exact path="/home/chat">
+                <Route path="/home/chat">
                     <ChatPage2 />
                 </Route>
                 <Redirect from="/home/*" to="/home" />
@@ -312,7 +318,7 @@ const Home = (props) => {
 
     const circlesAppBar = (
         <AppBar
-            position={history.location.pathname === '/home/chat'?"":"fixed"}
+            position={history.location.pathname === '/home/chat'||history.location.pathname === '/home/chat/messages'?"":"fixed"}
             className={clsx(classes.appBar, { [classes.appBarShift]: open, })}>
             <Toolbar>
                 <IconButton

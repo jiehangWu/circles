@@ -4,3 +4,4 @@ package-lock.json
 **data-node*
 script
 **dump.rdb
+/.idea
