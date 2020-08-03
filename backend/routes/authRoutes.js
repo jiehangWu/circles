@@ -173,9 +173,9 @@ router.get("/tags/:userId", async (req, res, next) => {
 router.delete("/tags/:userId", (req, res, next) => {
     const tagContent = req.body.tagContent;
     const userId = req.params.userId;
-    logger.info(`Deleting for tag ${tagContent}`);
-    logger.info(`Deleting for tag ${userId}`);
-    return UserController.deleteTag(userId, tagContent).then(() => {
+    return UserController.deleteTag(userId, tagContent).then(async (user) => {
+        const tags = user.tags;
+        await SearchController.updateUserTags(userId, tags);
         res.status(200).end();
     }).catch((err) => {
         logger.error(err);

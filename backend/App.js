@@ -63,8 +63,6 @@ app.use('/chat', chatRoutes);
 app.use('/search', searchRoutes);
 app.use('/geolocation', geoRoutes);
 
-
-
 //websocket server
 wss.on('connection',sockeFunction);
 
