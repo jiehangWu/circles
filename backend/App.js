@@ -14,7 +14,6 @@ require('./model/User');
 require('./model/Chat');
 require('./model/Message');
 require('./model/Post');
-// require('./model/Tag');
 require('./model/Comment');
 
 const log4js = require('log4js');
@@ -41,8 +40,8 @@ const awsRoutes = require('./routes/awsRoutes');
 const geoRoutes = require('./routes/geoRoutes');
 const postRoutes = require('./routes/postRoutes');
 const chatRoutes = require('./routes/chatRoutes');
-const searchRoutes = require('./routes/SearchRoutes');
-const sockeFunction = require('./websocket/socketFunction');
+const searchRoutes = require('./routes/searchRoutes');
+const socketFunction = require('./websocket/socketFunction');
 
 const MAX_AGE = 60 * 60 * 1000;
 app.use(session({
@@ -64,7 +63,7 @@ app.use('/search', searchRoutes);
 app.use('/geolocation', geoRoutes);
 
 //websocket server
-wss.on('connection',sockeFunction);
+wss.on('connection',socketFunction);
 
 
 server.listen(process.env.PORT, () => {
