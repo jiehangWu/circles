@@ -201,7 +201,7 @@ const loadGeoCirclesList = () => async (dispatch) => {
 
 const loadGeolocation = (id) => async (dispatch) => {
     try {
-        let response = await fetch('http://localhost:5000/geolocation/'+ id, {
+        let response = await fetch('https://circles-ubc-api.azurewebsites.net/geolocation/'+ id, {
             method: 'GET',
             credentials: 'include',
         });
@@ -222,7 +222,7 @@ const loadGeolocation = (id) => async (dispatch) => {
 
 const cancelFirstTimer = () => async (dispatch) => {
     try {
-        let response = await fetch('http://localhost:5000/firstTimer', {
+        let response = await fetch('https://circles-ubc-api.azurewebsites.net/firstTimer', {
             method: 'PUT',
             credentials: 'include',
         });

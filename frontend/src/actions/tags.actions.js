@@ -53,7 +53,7 @@ export const loadAllTags = (userId) => {
 
 export const deleteTag = (userId, tagContent) => {
     return dispatch => {
-        fetch('http://localhost:5000/tags/' + userId, {
+        fetch('https://circles-ubc-api.azurewebsites.net//tags/' + userId, {
             method: "DELETE",
             headers: {
                 Accept: "application/json",
