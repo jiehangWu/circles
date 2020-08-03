@@ -110,7 +110,7 @@ const Contact = (props) => {
                     props.localSetRead(props.chatter.userId);
                     props.historySetRead(props.chatter.userId);
                     props.clickContact();
-                    history.push("/home/chat/messages");
+                    //history.push("/home/chat/messages");
                 }}>
                     {props.chatter.username}
                 </div>

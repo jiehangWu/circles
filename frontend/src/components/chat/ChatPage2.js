@@ -70,7 +70,7 @@ export function ChatPage2(props) {
                 <div>
 
                     <div>
-                        <Route exact path="/home/chat" >
+                        {props.inChat === 0?
                     <div className="" style={
                         {marginLeft: '1%', width: '100%'}
                     }>
@@ -78,16 +78,16 @@ export function ChatPage2(props) {
                             <ChatPanel/>
                         </Paper>
                     </div>
-                        </Route>
+                       :
 
-                        <Route path="/home/chat/messages" >
+
                     < div style={
                         {marginLeft: '1%', width: '100%',height: '100%', position:'relative'}
                     }>
                         <IconButton aria-label="video chat"  style={{position:'absolute', zIndex:'999',height: '35px', width:'35px'}}  onClick={()=> {
-                            history.push('/home/chat');
-                            props.leaveChat();
-                        }}>
+                            /* history.push('/home/chat');*/
+                            props.leaveChat()}
+                        }>
                             <KeyboardReturnIcon fontSize="large"/>
                         </IconButton>
                         <IconButton aria-label="video chat"
@@ -102,8 +102,8 @@ export function ChatPage2(props) {
                             <InputArea/>
                         </Paper>
                     </div>
-                            </Route>
 
+                    }
                     </div>
                 </div>
             }
