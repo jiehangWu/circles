@@ -19,6 +19,7 @@ import {screenHeight} from "./screenHeight";
 import {inChat} from "./chat.inChat";
 import {chatAccept} from "./chat.accept";
 import {peerWait} from "./chat.peerWait";
+import {mobileKeyboard} from "./chat.keyBoardStatus";
 
 export const rootReducer = combineReducers({
   currentChatPerson,
@@ -40,5 +41,6 @@ export const rootReducer = combineReducers({
   screenHeight,
   inChat,
   chatAccept,
-  peerWait
+  peerWait,
+  mobileKeyboard
 });

@@ -1,10 +1,13 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import Message from "./message";
 import {ChatActions} from "../../actions/chat.actions";
+import {isAndroid,isIOS} from 'react-device-detect';
 
 export function ChatDisplayPort(props) {
     let messagesEnd;
+    const [pop, setPop] = useState(0);
+
     useEffect(() => {
         props.loadChats();
 
@@ -21,6 +24,12 @@ export function ChatDisplayPort(props) {
         }, 100);
     }, [props.chatEnter]);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setPop(props.mobileKeyboardPop);
+        }, 100);
+    }, [props.mobileKeyboardPop]);
+
     let scrollToBottom = () => {
         messagesEnd.scrollIntoView({behavior: "smooth"});
     };
@@ -31,14 +40,21 @@ export function ChatDisplayPort(props) {
     };
 
     return <React.Fragment>
-        <div style={{
-            height: "calc(76vh)",
+        <div style={(isIOS || isAndroid)&& pop?{
+            maxHeight:'calc(76vh)',
+            minHeight:'calc(40vh)',
             position: 'relative',
             padding: "10px",
             paddingTop: '20px',
             margin: "0px",
             overflow: "scroll"
-        }}>
+        }:{
+            height: "calc(76vh)",
+            position: 'relative',
+            padding: "10px",
+            paddingTop: '20px',
+            margin: "0px",
+            overflow: "scroll"}}>
 
             {props.chatsReducer1[props.person.userId] ?
                 props.chatsReducer1[props.person.userId].map((ele) => {
@@ -71,7 +87,8 @@ const mapStateToProps = (state) => {
         chatEnter: state.chatEnter,
         chatVideoStatus: state.chatVideoStatus,
         userId: state.userinfo.userId,
-        currentChatter: state.currentChatPerson
+        currentChatter: state.currentChatPerson,
+        mobileKeyboardPop:state.mobileKeyboard
     };
 };
 
