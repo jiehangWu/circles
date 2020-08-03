@@ -8,7 +8,7 @@ const CryptoJS = require('crypto-js');
 const url = 'ws://127.0.0.1:5000';
 let restart = false;
 
-const key = new NodeRSA({ b: 2048 });
+const key = new NodeRSA({ b: 1024 });
 let publick2 = key.exportKey('pkcs1-public');
 let privatek2 = key.exportKey('pkcs1-private');
 let publicK2 = new NodeRSA(publick2, 'pkcs1-public');

@@ -318,7 +318,7 @@ const Home = (props) => {
 
     const circlesAppBar = (
         <AppBar
-            position={history.location.pathname === '/home/chat'||history.location.pathname === '/home/chat/messages'?"":"fixed"}
+            position={history.location.pathname === '/home/chat'||history.location.pathname === '/home/chat/messages'?"static":"fixed"}
             className={clsx(classes.appBar, { [classes.appBarShift]: open, })}>
             <Toolbar>
                 <IconButton

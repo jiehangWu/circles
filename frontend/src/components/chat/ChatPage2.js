@@ -19,8 +19,7 @@ export function ChatPage2(props) {
 
     useEffect(()=> {
         setTrans(props.inChat);
-        console.log(props.inChat);
-    },[props.inChat]);
+        },[props.inChat]);
 
     let handleVideoChat = ()=> {
         props.applyVideoChat({purpose: "CLIENT_APPLY_VIDEO_CHAT",
@@ -39,9 +38,9 @@ export function ChatPage2(props) {
 
     return <React.Fragment>
         <div style = {{width: '90%'}}>
-            <div style = {props.chatVideoStatus === 0?{visibility:'hidden'}:{}}>
-                <VideoPort />
-            </div>
+            {
+                props.chatVideoStatus?<VideoPort/>:null
+            }
             {props.screenHeight/props.screenWidth < 1.3?
                 <Grid container direction="row" alignItems="flex-start" style={{width: '100%'}}>
                     <Grid item className="" style={

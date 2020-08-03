@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
           alignItems: 'center',
           justifyContent: 'center',
           float: 'right',
-          color:'white',
+          color:'inherit',
      },
      inputRoot: {
           color: 'inherit',
@@ -102,7 +102,7 @@ const SearchBox = (props) => {
      return (
           <div className={classes.root}>
                <div className={classes.search}>
-                    <IconButton className={classes.searchIcon} color='white' onClick={() => { handleOpen(); handleSearch() }}>
+                    <IconButton className={classes.searchIcon} color='inherit' onClick={() => { handleOpen(); handleSearch() }}>
                          <SearchIcon />
                     </IconButton>
 

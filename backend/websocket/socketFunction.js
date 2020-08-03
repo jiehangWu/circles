@@ -8,7 +8,7 @@ const CryptoJS = require("crypto-js");
 //RSA encrypt
 const NodeRSA = require('node-rsa');
 
-const key = new NodeRSA({b: 2048});
+const key = new NodeRSA({b: 1024});
 let publick1 = key.exportKey('pkcs1-public');
 let privatek1 = key.exportKey('pkcs1-private');
 let publicK1 = new NodeRSA(publick1, 'pkcs1-public');

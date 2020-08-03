@@ -14,7 +14,7 @@ function ContactList(props) {
     }
 
     return <React.Fragment>
-        <List container direction="column" style={{height:'calc(75.5vh)'}}>
+        <List direction="column" style={{height:'calc(75.5vh)'}}>
             {
                 props.orderOnline.map((ele) => {
                     return<React.Fragment key= {ele.userId}>

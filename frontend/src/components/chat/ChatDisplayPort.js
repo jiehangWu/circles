@@ -30,7 +30,10 @@ export function ChatDisplayPort(props) {
         messagesEnd.scrollIntoView({ behavior: "smooth" });
     };
 
-
+    let i = 0;
+    const generateKey = (ele) => {
+        return i++;
+    }
 
     return <React.Fragment>
         <div style={{height: "calc(76vh)", position:'relative', padding: "10px", paddingTop:'20px',margin: "0px", overflow: "scroll"}}>
@@ -39,10 +42,10 @@ export function ChatDisplayPort(props) {
                     props.chatsReducer1[props.person.userId].map((ele) => {
                         if (ele.sender.username === props.username) {
                             ele.sender.userAvatar = props.userAvatar;
-                            return <Message content={ele.content} chatter={ele.sender} left={false} key={ele.hash}/>
+                            return <Message content={ele.content} chatter={ele.sender} left={false} key={generateKey(ele)}/>
                         } else{
                             ele.sender.userAvatar = props.person.userAvatar;
-                            return <Message content={ele.content} chatter={ele.sender} left={true} key={ele.hash}/>;}
+                            return <Message content={ele.content} chatter={ele.sender} left={true} key={generateKey(ele)}/>;}
                     }) : <div></div>
                 }
                 <div style={{ float:"left", clear: "both" }}
