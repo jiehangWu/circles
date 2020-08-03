@@ -43,7 +43,7 @@ const deletePostFromCluster = async (postId) => {
 
         const searchResult = await client.search(query);
         logger.info(searchResult);
-        const docId = searchResult.hits.hits[0]._id;
+        const docId = searchResult.body.hits.hits[0]._id;
         logger.info(docId);
         let res = await client.delete({
             index: 'circles_posts',
