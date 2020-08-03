@@ -94,7 +94,7 @@ class VideoPort extends React.Component {
     callRemote = (stream) => {
         let call;
         while (!call) {
-            call = this.state.peer.call(this.props.currentVideoChatter.userId, stream);
+            call = this.state.peer.call('2', stream);
         }
         this.setState({call: call});
         if (this.videoL.current) {
@@ -209,7 +209,7 @@ class VideoPort extends React.Component {
                 <video ref={this.videoR} autoPlay playsInline
                        style={this.props.screenHeight / this.props.screenWidth < 1.25 && this.props.screenWidth >= 800? {width: '30vw'} : {width: '70vw'}}/>
                 <video ref={this.videoL} autoPlay muted playsInline
-                       style={this.props.screenHeight / this.props.screenWidth < 1.25 && this.props.screenWidth >= 800? {width: '10vw'} : {width: '10vw'}}/>
+                       style={this.props.screenHeight / this.props.screenWidth < 1.25 && this.props.screenWidth >= 800? {width: '10vw'} : {width: '20vw'}}/>
             </div>
             <div style={{position: 'fixed', top: '50%', left: '35%'}}>
                 <div>{this.handleStatus()}</div>
