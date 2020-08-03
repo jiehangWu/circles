@@ -1,6 +1,6 @@
 import React from 'react';
-import { SnackbarProvider } from 'notistack';
-import { isMobile } from 'react-device-detect';
+import {SnackbarProvider} from 'notistack';
+import {isMobile} from 'react-device-detect';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -28,7 +28,7 @@ export default function NotistackWrapper({children}) {
             ref={ref}
             action={(key) => (
                 <IconButton key="close" aria-label="Close" color="inherit" onClick={onClickDismiss(key)}>
-                    <CloseIcon style={{fontSize:"20px"}}/>
+                    <CloseIcon style={{fontSize: "20px"}}/>
                 </IconButton>
             )}
         >

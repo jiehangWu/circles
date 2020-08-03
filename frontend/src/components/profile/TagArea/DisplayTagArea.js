@@ -1,13 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { loadAllTags } from "../../../actions/tags.actions";
+import {connect} from 'react-redux';
+import {loadAllTags} from "../../../actions/tags.actions";
 import Tag from "./Tag";
 
 class DisplayTagArea extends React.Component {
 
     componentDidMount = () => {
         this.props.loadAllTags(this.props.currID);
-    }
+    };
 
     render() {
         return (
@@ -16,7 +16,7 @@ class DisplayTagArea extends React.Component {
                     <Tag
                         content={content}
                         key={content}
-                        self={this.props.self} />
+                        self={this.props.self}/>
                 )}
 
             </div>);
@@ -30,4 +30,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { loadAllTags })(DisplayTagArea);
+export default connect(mapStateToProps, {loadAllTags})(DisplayTagArea);

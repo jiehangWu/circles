@@ -1,8 +1,7 @@
 import React from "react";
-import { userActions } from "../../actions/user.actions";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { history } from "../../helpers/history";
+import {userActions} from "../../actions/user.actions";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import CryptoJs from 'crypto-js';
 import Particles from 'react-particles-js';
 
@@ -14,7 +13,7 @@ const styles = {
         bottom: 0,
         left: 0,
     }
-}
+};
 
 const particlesOptions = {
     particles: {
@@ -40,7 +39,7 @@ const particlesOptions = {
             }
         }
     }
-}
+};
 
 class RegisterForm extends React.Component {
     constructor(props) {
@@ -54,7 +53,7 @@ class RegisterForm extends React.Component {
     }
 
     handleChange = (event) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         this.setState({
             [name]: value,
         });
@@ -62,7 +61,7 @@ class RegisterForm extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.setState({ submitted: true });
+        this.setState({submitted: true});
         if (this.state.registerName
             && this.state.password
             && this.state.repeatedPassword
@@ -74,18 +73,18 @@ class RegisterForm extends React.Component {
     };
 
     render() {
-        const { registerName, password, repeatedPassword, submitted } = this.state;
-        const { message } = this.props;
+        const {registerName, password, repeatedPassword, submitted} = this.state;
+        const {message} = this.props;
         return (
             <div className="jumbotron">
                 <Particles className='particles'
-                    params={particlesOptions}
-                    style={styles.particles}
+                           params={particlesOptions}
+                           style={styles.particles}
                 />
                 <div className="container">
                     <div className="col-sm-8 col-sm-offset-2">
                         {message.message &&
-                            <div className={`alert ${message.type}`}>{message.message}</div>
+                        <div className={`alert ${message.type}`}>{message.message}</div>
                         }
                         <div className="col-md-6 col-md-offset-3">
                             <h2>Register</h2>
@@ -93,26 +92,27 @@ class RegisterForm extends React.Component {
                                 <div className={"form-group" + (submitted && !registerName) ? " has-error" : ""}>
                                     <label htmlFor="registerName" className="mt-2">Username</label>
                                     <input type="text" className="form-control" name="registerName"
-                                        onChange={(e) => this.handleChange(e)} />
-                                    {submitted && !registerName && <div className="text-danger">Username is required</div>}
+                                           onChange={(e) => this.handleChange(e)}/>
+                                    {submitted && !registerName &&
+                                    <div className="text-danger">Username is required</div>}
                                 </div>
                                 <div className={"form-group" + (submitted && !password) ? " has-error" : ""}>
                                     <label htmlFor="password" className="mt-2">Password</label>
                                     <input type="password" className="form-control" name="password"
-                                        onChange={(e) => this.handleChange(e)} />
+                                           onChange={(e) => this.handleChange(e)}/>
                                     {submitted && !password && <div className="text-danger">Password is required</div>}
                                 </div>
                                 <div
                                     className={"form-group" + (submitted && (!repeatedPassword || (password !== repeatedPassword))) ? " has-error" : ""}>
                                     <label htmlFor="repeatedPassword" className="mt-2">Repeat password</label>
                                     <input type="password" className="form-control" name="repeatedPassword"
-                                        onChange={(e) => this.handleChange(e)} />
+                                           onChange={(e) => this.handleChange(e)}/>
                                     {submitted && !password && <div className="text-danger">Password is required</div>}
                                     <div className="invalid-feedback">
                                         Password is required
                                     </div>
                                     {submitted && password !== repeatedPassword &&
-                                        <div className="text-danger">Password is not the same</div>}
+                                    <div className="text-danger">Password is not the same</div>}
                                 </div>
                                 <div className="form-group">
                                     <button className="btn btn-primary my-3">Register</button>
@@ -129,7 +129,7 @@ class RegisterForm extends React.Component {
 }
 
 const mapState = (state) => {
-    return { message: state.message };
+    return {message: state.message};
 };
 
 const mapAction = {

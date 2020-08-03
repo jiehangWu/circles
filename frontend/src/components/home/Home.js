@@ -1,28 +1,27 @@
-
-import React, { useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import React, {useEffect, useRef} from 'react';
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
 import PostList from './PostList';
 import InputArea from './InputArea';
 import LogOutButton from './LogOutButton';
-import { history } from "../../helpers/history"
-import { HomeActions } from "../../actions/home.actions";
-import { connect } from "react-redux";
+import {history} from "../../helpers/history"
+import {HomeActions} from "../../actions/home.actions";
+import {connect} from "react-redux";
 import Profile from "../profile/Profile"
 import ChatPage2 from "../chat/ChatPage2";
-import { userActions } from '../../actions/user.actions';
+import {userActions} from '../../actions/user.actions';
 import TabList from './CircleLists/TabList'
-import { ChatActions } from "../../actions/chat.actions";
+import {ChatActions} from "../../actions/chat.actions";
 import Guidance from "./Guidance/GuidanceWindow";
-import { useSnackbar } from 'notistack';
+import {useSnackbar} from 'notistack';
 import SearchBox from './SearchBox/SearchBox'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import ChatIcon from '@material-ui/icons/Chat';
 import Grid from '@material-ui/core/Grid';
 import HomeIcon from '@material-ui/icons/Home';
-import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
+import {fade, makeStyles, useTheme} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import { blue, blueGrey } from '@material-ui/core/colors';
+import {blue, blueGrey} from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -37,7 +36,7 @@ import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import { greetUser } from '../../helpers/util';
+import {greetUser} from '../../helpers/util';
 
 const drawerWidth = 275;
 
@@ -76,7 +75,7 @@ const styles = makeStyles((theme) => ({
         margin: 'auto',
         marginTop: "2%",
         display: "flex",
-        justifyContent:'center',
+        justifyContent: 'center',
     },
     contentShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -100,7 +99,7 @@ const styles = makeStyles((theme) => ({
         }),
         margin: 'auto',
         display: "flex",
-        justifyContent:'center',
+        justifyContent: 'center',
     },
     avatar: {
         backgroundColor: blue[500],
@@ -152,7 +151,7 @@ const styles = makeStyles((theme) => ({
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
         '&:hover': {
-          backgroundColor: fade(theme.palette.common.white, 0.25),
+            backgroundColor: fade(theme.palette.common.white, 0.25),
         },
         marginLeft: 0,
         width: '100%',
@@ -160,8 +159,8 @@ const styles = makeStyles((theme) => ({
             marginLeft: theme.spacing(125),
             width: 'auto',
         },
-      },
-      searchIcon: {
+    },
+    searchIcon: {
         padding: theme.spacing(0, 2),
         height: '100%',
         position: 'absolute',
@@ -176,20 +175,20 @@ const styles = makeStyles((theme) => ({
     },
     inputRoot: {
         color: 'inherit',
-      },
-      inputInput: {
+    },
+    inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-          width: '12ch',
-          '&:focus': {
-            width: '20ch',
-          },
+            width: '12ch',
+            '&:focus': {
+                width: '20ch',
+            },
         },
-      },
+    },
 }));
 
 
@@ -198,7 +197,7 @@ const Home = (props) => {
     const classes = styles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
-    const { enqueueSnackbar } = useSnackbar();
+    const {enqueueSnackbar} = useSnackbar();
     const matches = useMediaQuery('(min-width:1200px)');
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -210,8 +209,8 @@ const Home = (props) => {
 
     const name = (
         <div className={classes.name}>
-            <h4 style={{ fontWeight: '900' }}> {props.usernameFirst}</h4>
-            <h5 style={{ fontWeight: '900' }}>{props.usernameIdentifier}</h5>
+            <h4 style={{fontWeight: '900'}}> {props.usernameFirst}</h4>
+            <h5 style={{fontWeight: '900'}}>{props.usernameIdentifier}</h5>
             <p>@{props.registerName}</p>
         </div>
     );
@@ -229,7 +228,7 @@ const Home = (props) => {
                         }
                     });
                 }}>
-                    <AccountCircleIcon />
+                    <AccountCircleIcon/>
                 </IconButton> :
                 <IconButton color='primary' onClick={() => {
                     history.replace({
@@ -240,12 +239,12 @@ const Home = (props) => {
                         }
                     });
                 }}>
-                    <HomeIcon />
+                    <HomeIcon/>
                 </IconButton>}
             <IconButton color='secondary' onClick={() => {
                 history.push("/home/chat");
-            }} >
-                <ChatIcon />
+            }}>
+                <ChatIcon/>
             </IconButton>
             <IconButton onClick={props.logOut}>
                 <PowerSettingsNewIcon/>
@@ -264,62 +263,67 @@ const Home = (props) => {
 
     const leftSideBar = (
         <div className={classes.background}>
-            <IconButton onClick={() => {imgUpload.current.click()}}>
-                <input className="hide" style={{ display: 'none' }} type="file" ref={imgUpload} onChange={imageChangeHandler} />
-                <Avatar aria-label="profile-pic" className={classes.avatar} src={props.avatar}>{props.username && props.username[0]}</Avatar>
+            <IconButton onClick={() => {
+                imgUpload.current.click()
+            }}>
+                <input className="hide" style={{display: 'none'}} type="file" ref={imgUpload}
+                       onChange={imageChangeHandler}/>
+                <Avatar aria-label="profile-pic" className={classes.avatar}
+                        src={props.avatar}>{props.username && props.username[0]}</Avatar>
             </IconButton>
             {name}
             {leftBarIcon}
 
             <br></br><br></br>
-            <Divider />
+            <Divider/>
             <br></br><br></br>
             <Grid container justify="center" className="mb-2">
-                <div style={{ fontSize: 16, fontWeight: '500' }}>
+                <div style={{fontSize: 16, fontWeight: '500'}}>
                     Explore your Circles!
-                    </div>
+                </div>
             </Grid>
-            <TabList />
+            <TabList/>
 
         </div>
     );
 
     // todo better the styling here
     const Home = (
-        <div className={classes.content} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div className={classes.content} style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
             {props.firstTimer ? <center>
-                <br></br><br></br><br></br><Guidance /><br></br><br></br><br></br><br></br>
+                <br></br><br></br><br></br><Guidance/><br></br><br></br><br></br><br></br>
             </center> : ''}
-            <InputArea />
-            <PostList />
+            <InputArea/>
+            <PostList/>
         </div>
     );
 
     const contentRouter = (
-        <main className={history.location.pathname === '/home/chat'||history.location.pathname === '/home/chat/messages'?
-            clsx(classes.content2, { [classes.contentShift]: open, })
-            :clsx(classes.content, { [classes.contentShift]: open, })}>
-             {/*<switch></switch> is unrecognizable by browser*/}
+        <main
+            className={history.location.pathname === '/home/chat' || history.location.pathname === '/home/chat/messages' ?
+                clsx(classes.content2, {[classes.contentShift]: open,})
+                : clsx(classes.content, {[classes.contentShift]: open,})}>
+            {/*<switch></switch> is unrecognizable by browser*/}
             {/*<div style={{width: '100%', display: "flex",justifyContent:'center'}}>*/}
-                <Route exact path="/home">
-                    {Home}
-                </Route>
-                <Route path="/home/profile" key={history.location.state
-                                                        && history.location.state.homeId}>
-                    <Profile />
-                </Route>
-                <Route path="/home/chat">
-                    <ChatPage2 />
-                </Route>
-                <Redirect from="/home/*" to="/home" />
+            <Route exact path="/home">
+                {Home}
+            </Route>
+            <Route path="/home/profile" key={history.location.state
+            && history.location.state.homeId}>
+                <Profile/>
+            </Route>
+            <Route path="/home/chat">
+                <ChatPage2/>
+            </Route>
+            <Redirect from="/home/*" to="/home"/>
             {/*</div>*/}
         </main>
     );
 
     const circlesAppBar = (
         <AppBar
-            position={history.location.pathname === '/home/chat'||history.location.pathname === '/home/chat/messages'?"static":"fixed"}
-            className={clsx(classes.appBar, { [classes.appBarShift]: open, })}>
+            position={history.location.pathname === '/home/chat' || history.location.pathname === '/home/chat/messages' ? "static" : "fixed"}
+            className={clsx(classes.appBar, {[classes.appBarShift]: open,})}>
             <Toolbar>
                 <IconButton
                     color="inherit"
@@ -328,7 +332,7 @@ const Home = (props) => {
                     edge="start"
                     className={clsx(classes.menuButton, open && classes.hide)}
                 >
-                    <MenuIcon />
+                    <MenuIcon/>
                 </IconButton>
                 <Typography variant="h6" noWrap>
                     {greetUser() + ', ' + 'Welcome to Circles!'}
@@ -346,50 +350,50 @@ const Home = (props) => {
             variant="persistent"
             anchor="left"
             open={open}
-            classes={{ paper: classes.drawerPaper, }}
+            classes={{paper: classes.drawerPaper,}}
         >
             <div className={classes.drawerHeader}>
                 <IconButton onClick={handleDrawerClose}>
-                    {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                 </IconButton>
             </div>
-            <Divider />
+            <Divider/>
             {leftSideBar}
         </Drawer>);
 
     const geoNavigator = navigator.geolocation;
 
     function updateGeolocation(position) {
-        enqueueSnackbar('Circles will be updating your geolocation.', { variant: "info" });
+        enqueueSnackbar('Circles will be updating your geolocation.', {variant: "info"});
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         props.uploadGeolocation(latitude, longitude);
         setTimeout(function () {
-            enqueueSnackbar(`Successfully added geolocation!`, { variant: "success" });
+            enqueueSnackbar(`Successfully added geolocation!`, {variant: "success"});
         }, 1500);
     }
+
     function geoErr(err) {
-        enqueueSnackbar('Circles will be updating your geolocation.', { variant: "info" });
+        enqueueSnackbar('Circles will be updating your geolocation.', {variant: "info"});
         switch (err.code) {
             case 0:
                 setTimeout(function () {
-                    enqueueSnackbar('Failed to get geolocation' + err.message, { variant: "error" });
+                    enqueueSnackbar('Failed to get geolocation' + err.message, {variant: "error"});
                 }, 1000);
                 break;
             case 1:// PERMISSION_DENIED
                 setTimeout(function () {
-                    enqueueSnackbar('Permission denied to grant Circles with your geolocation', { variant: "warning" });
+                    enqueueSnackbar('Permission denied to grant Circles with your geolocation', {variant: "warning"});
                 }, 1000);
                 break;
             case 2:// POSITION_UNAVAILABLE
                 setTimeout(function () {
-                    enqueueSnackbar('Your current location is unavailable.', { variant: "warning" });
+                    enqueueSnackbar('Your current location is unavailable.', {variant: "warning"});
                 }, 1800);
                 break;
             case 3:// TIMEOUT
-                console.log('TIMEOUT');
                 setTimeout(function () {
-                    enqueueSnackbar('Your current location is unavailable.', { variant: "warning" });
+                    enqueueSnackbar('Your current location is unavailable.', {variant: "warning"});
                 }, 0);
                 break;
         }
@@ -405,7 +409,7 @@ const Home = (props) => {
             {circlesAppBar}
             {leftResponsiveBar}
             {contentRouter}
-        </React.Fragment >
+        </React.Fragment>
     );
 };
 

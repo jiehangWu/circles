@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import Card from "@material-ui/core/Card";
@@ -6,9 +5,9 @@ import ImageIcon from '@material-ui/icons/Image';
 import IconButton from "@material-ui/core/IconButton";
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Avatar from "@material-ui/core/Avatar";
-import { PostActions } from '../../actions/posts.actions';
-import { connect } from 'react-redux';
-import { blue } from '@material-ui/core/colors';
+import {PostActions} from '../../actions/posts.actions';
+import {connect} from 'react-redux';
+import {blue} from '@material-ui/core/colors';
 
 const styles = {
     textArea: {
@@ -33,7 +32,7 @@ const styles = {
         marginRight: '0%',
         backgroundColor: blue[200]
     },
-}
+};
 
 class InputArea extends React.Component {
     constructor(props) {
@@ -86,31 +85,34 @@ class InputArea extends React.Component {
     render() {
         return (
             <div className="container"
-                style={styles.container}>
+                 style={styles.container}>
                 <Card className="input-area my-0">
                     <div className="row">
                         <div className="col-lg-10" style={styles.textArea}>
                             <textarea className="text-box mx-2 mt-3"
-                                style={styles.textBox}
-                                rows="3"
-                                placeholder="What's up?"
-                                value={this.props.input}
-                                required
-                                onChange={(e) => { this.handleChange(e) }}
-                                ref={this.textArea}>
+                                      style={styles.textBox}
+                                      rows="3"
+                                      placeholder="What's up?"
+                                      value={this.props.input}
+                                      required
+                                      onChange={(e) => {
+                                          this.handleChange(e)
+                                      }}
+                                      ref={this.textArea}>
 
                             </textarea>
-                            <input className="hide" style={{ display: 'none' }} type="file" ref={'file-upload'} onChange={this.imageChangeHandler} />
+                            <input className="hide" style={{display: 'none'}} type="file" ref={'file-upload'}
+                                   onChange={this.imageChangeHandler}/>
 
                             <IconButton aria-label="upload image" onClick={e => {
                                 this.refs['file-upload'].click()
                             }}>
-                                <ImageIcon />
+                                <ImageIcon/>
                             </IconButton>
                             <button type="button"
-                                className={"btn btn-primary float-right mx-1 mb-3"
+                                    className={"btn btn-primary float-right mx-1 mb-3"
                                     + (this.state.content ? "" : " disabled")}
-                                onClick={this.handleSubmit}>
+                                    onClick={this.handleSubmit}>
                                 Submit
                             </button>
                         </div>
@@ -127,12 +129,12 @@ const mapStateToProps = (state) => {
         username: state.userinfo.username,
         uploadedImgLink: state.posts.uploadedImgLink,
     };
-}
+};
 
 const mapAction = {
     submitPost: PostActions.submitPost,
     likePost: PostActions.likePost,
     uploadImage: PostActions.uploadImage,
-}
+};
 
 export default connect(mapStateToProps, mapAction)(InputArea);
