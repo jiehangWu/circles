@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { addTag, addTagSuccess, loadAllTags } from "../../../actions/tags.actions";
+import {connect} from 'react-redux';
+import {addTag, addTagSuccess, loadAllTags} from "../../../actions/tags.actions";
 import Card from '@material-ui/core/Card';
 
 
@@ -9,14 +9,6 @@ const styles = {
         width: "95%",
         border: '0',
     },
-
-    // container: {
-    //     width: "36%",
-    //     height: "18%",
-    //     border: '0',
-    //     padding: '10px',
-    //     backgroundColor: 'transparent'
-    // }
 };
 
 class PreferenceBar extends React.Component {
@@ -35,46 +27,50 @@ class PreferenceBar extends React.Component {
             content: "",
         });
         this.textArea.current.value = "";
-    }
+    };
 
     handleAdd = () => {
         if (this.state.content) {
             this.props.addTag(this.props.userId, this.state.content);
         }
         this.clearAll();
-    }
+    };
 
     handleChange = (e) => {
         this.setState({
             content: e.target.value,
         });
-    }
+    };
 
     render() {
         if (this.props.self) {
             return (
                 <div className="container" style={styles.container}>
                     <Card>
-                        <div className={"DisplayTags"} >
+                        <div className={"DisplayTags"}>
 
                             <textarea className="text-box mx-2 mt-3"
-                                style={styles.textBox}
-                                rows="2"
-                                placeholder="Which tags can represent you?"
-                                requiredvalue={this.props.input}
-                                onChange={this.handleChange}
-                                ref={this.textArea} />
+                                      style={styles.textBox}
+                                      rows="2"
+                                      placeholder="Which tags can represent you?"
+                                      requiredvalue={this.props.input}
+                                      onChange={this.handleChange}
+                                      ref={this.textArea}/>
 
                             <button type="button"
-                                className={"btn btn-primary float-right mx-4 mb-3"
+                                    className={"btn btn-primary float-right mx-4 mb-3"
                                     + (this.props.input ? "" : " disabled")}
-                                onClick={() => { this.handleAdd(); }}>Add Tag
-                    </button>
+                                    onClick={() => {
+                                        this.handleAdd();
+                                    }}>Add Tag
+                            </button>
                         </div>
                     </Card>
                 </div>
             );
-        } else { return (<div> </div>); }
+        } else {
+            return (<div></div>);
+        }
     }
 }
 
@@ -86,5 +82,5 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { addTag, addTagSuccess, loadAllTags })(PreferenceBar);
+export default connect(mapStateToProps, {addTag, addTagSuccess, loadAllTags})(PreferenceBar);
 

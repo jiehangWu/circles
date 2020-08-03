@@ -1,11 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import SendIcon from '@material-ui/icons/Send';
-import ImageIcon from "@material-ui/icons/Image";
-import VideocamIcon from '@material-ui/icons/Videocam';
-import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
+
+
 class InputArea extends React.Component {
     constructor(props) {
         super(props);
@@ -26,7 +25,8 @@ class InputArea extends React.Component {
         if (this.state.content) {
             let date = Date.now();
             this.props.submitChat(
-                {purpose: "CLIENT_SEND_MESSAGE",
+                {
+                    purpose: "CLIENT_SEND_MESSAGE",
                     payload: {
                         sender: {
                             userId: this.props.userId,
@@ -51,14 +51,6 @@ class InputArea extends React.Component {
             });
             this.props.headContactListSend({...this.props.currentChatter, dateStr: new Date().toUTCString()});
             this.props.headHistoryContactsSend({...this.props.currentChatter, dateStr: new Date().toUTCString()});
-            // console.log({
-            //     purpose: "CLIENT_SEND_MESSAGE",
-            //     payload: {
-            //         sender: this.props.username,
-            //         receiver: this.props.currentChatter,
-            //         content: this.state.content
-            //     }
-            // });
             this.clearAll();
         }
     };
@@ -70,23 +62,23 @@ class InputArea extends React.Component {
     };
 
 
-
     render() {
         return (
-            <Grid container direction="row" alignItems="flex-start" justify="space-between" style={{position:'relative',height:'calc(7vh)'}}>
+            <Grid container direction="row" alignItems="flex-start" justify="space-between"
+                  style={{position: 'relative', height: 'calc(7vh)'}}>
 
 
-                <Grid item  style = {{height: '100%',width: '87%'}} className="ml-2 mr-0 my-2 mt-2 mb-0">
+                <Grid item style={{height: '100%', width: '87%'}} className="ml-2 mr-0 my-2 mt-2 mb-0">
                     <textarea
                         style={{
                             outlineColor: "white",
                             outlineWidth: "1px",
                             backgroundColor: "white",
-                            width:'100%',
-                            height:'calc(4vh)'
+                            width: '100%',
+                            height: 'calc(4vh)'
                         }}
                         id="outlined-required"
-                              placeholder="Press Enter to send"
+                        placeholder="Press Enter to send"
                         required
                         onChange={(e) => {
                             this.handleChange(e)
@@ -101,10 +93,18 @@ class InputArea extends React.Component {
                         ref={this.textArea}>
                     </textarea>
                 </Grid>
-                <Grid item style = {{height: '100%',width: '9%', display: "flex", flexDirection: 'column', alignItems:'flex-end',justifyContent:'center'}}>
+                <Grid item style={{
+                    height: '100%',
+                    width: '9%',
+                    display: "flex",
+                    flexDirection: 'column',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center'
+                }}>
 
-                    <IconButton aria-label="video chat"  style={{alignSelf: 'flex-start', height: '20px', width:'20px'}}  onClick={this.handleSubmit
-                    }>
+                    <IconButton aria-label="video chat" style={{alignSelf: 'flex-start', height: '20px', width: '20px'}}
+                                onClick={this.handleSubmit
+                                }>
                         <SendIcon/>
                     </IconButton>
                 </Grid>
@@ -152,8 +152,7 @@ const mapAction = {
             type: "CHAT_ENTER"
         }
     },
-
-}
+};
 
 
 export default connect(mapStateToProps, mapAction)(InputArea);

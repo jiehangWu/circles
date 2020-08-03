@@ -1,8 +1,7 @@
 import React from "react";
-import { userActions } from "../../actions/user.actions";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { history } from "../../helpers/history"
+import {userActions} from "../../actions/user.actions";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import Particles from 'react-particles-js';
 import CryptoJs from 'crypto-js';
 
@@ -14,7 +13,7 @@ const styles = {
         bottom: 0,
         left: 0,
     }
-}
+};
 
 const particlesOptions = {
     particles: {
@@ -54,8 +53,7 @@ const particlesOptions = {
             retina_detect: true
         }
     }
-}
-
+};
 
 
 class LoginForm extends React.Component {
@@ -69,7 +67,7 @@ class LoginForm extends React.Component {
     }
 
     handleChange = (event) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         this.setState({
             [name]: value,
         });
@@ -87,18 +85,18 @@ class LoginForm extends React.Component {
     };
 
     render() {
-        const { registerName, password, submitted } = this.state;
-        const { message } = this.props;
+        const {registerName, password, submitted} = this.state;
+        const {message} = this.props;
         return (
             <div className="jumbotron">
                 <Particles className='particles'
-                    params={particlesOptions}
-                    style={styles.particles}
+                           params={particlesOptions}
+                           style={styles.particles}
                 />
                 <div className="container">
                     <div className="col-sm-8 col-sm-offset-2">
                         {message.message &&
-                            <div className={`alert ${message.type}`}>{message.message}</div>
+                        <div className={`alert ${message.type}`}>{message.message}</div>
                         }
                         <div className="col-md-6 col-md-offset-3">
                             <h2>Login</h2>
@@ -106,13 +104,14 @@ class LoginForm extends React.Component {
                                 <div className="form-group mb-3">
                                     <label htmlFor="registerName">Username</label>
                                     <input type="text" className="form-control" name="registerName"
-                                        onChange={e => this.handleChange(e)} />
-                                    {submitted && !registerName && <div className="text-danger">Username is required</div>}
+                                           onChange={e => this.handleChange(e)}/>
+                                    {submitted && !registerName &&
+                                    <div className="text-danger">Username is required</div>}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="password">Password</label>
                                     <input type="password" className="form-control" name="password"
-                                        onChange={e => this.handleChange(e)} />
+                                           onChange={e => this.handleChange(e)}/>
                                     {submitted && !password && <div className="text-danger">Password is required</div>}
                                 </div>
                                 <div className="form-group">
@@ -129,7 +128,7 @@ class LoginForm extends React.Component {
 }
 
 const mapState = (state) => {
-    return { message: state.message };
+    return {message: state.message};
 };
 
 

@@ -1,5 +1,3 @@
-import { history } from "../helpers/history";
-
 const loadProfile = (currId) => {
     return dispatch => {
         fetch('http://localhost:5000/profile/' + currId, {
@@ -16,14 +14,12 @@ const loadProfile = (currId) => {
             throw new Error("error in response");
         }).then((msg) => {
             let parsedMsg = JSON.parse(msg);
-            console.log('In profile: ', parsedMsg);
             dispatch({
                 type: "LOAD_PROFILE",
                 payload: parsedMsg
             });
         }).catch((err) => {
-            history.push("/profile");
-            console.log("going back");
+            console.error(err);
         });
     };
 };

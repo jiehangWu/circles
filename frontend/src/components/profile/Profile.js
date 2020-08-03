@@ -143,17 +143,17 @@ const Profile = (props) => {
 
             <Loading ref={loading}/>
 
-                <div className={classes.content} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                    <Box color={blue} className={classes.mainBox} clone>
-                        {avatarBar}
-                    </Box>
-                    <br></br>
-                    <br></br>
-                    <center>
-                        <PreferenceBar self={self}/>
-                    </center>
-                    <PostList currID={idFromHome} self={self}/>
-                </div>
+            <div className={classes.content} style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+                <Box color={blue} className={classes.mainBox} clone>
+                    {avatarBar}
+                </Box>
+                <br></br>
+                <br></br>
+                <center>
+                    <PreferenceBar self={self}/>
+                </center>
+                <PostList currID={idFromHome} self={self}/>
+            </div>
 
         </React.Fragment>
     );

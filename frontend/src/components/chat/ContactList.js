@@ -14,27 +14,28 @@ function ContactList(props) {
     }
 
     return <React.Fragment>
-        <List direction="column" style={{height:'calc(75.5vh)'}}>
+        <List direction="column" style={{height: 'calc(75.5vh)'}}>
             {
                 props.orderOnline.map((ele) => {
-                    return<React.Fragment key= {ele.userId}>
-                        <ListItem >
+                    return <React.Fragment key={ele.userId}>
+                        <ListItem>
                             <Grid container direction="row" justify='space-between'>
                                 <Grid item>
-                                    <Contact chatter={findData(ele) !== undefined? findData(ele):ele} displayName={true}/>
+                                    <Contact chatter={findData(ele) !== undefined ? findData(ele) : ele}
+                                             displayName={true}/>
                                 </Grid>
                                 <Grid item style={{alignSelf: 'flex-end'}}>
                                     <Grid container direction='row-reverse'>
-                                        <div style={{color:'#aab7b8',fontSize:'0.8rem'}} className="mr-2">
+                                        <div style={{color: '#aab7b8', fontSize: '0.8rem'}} className="mr-2">
                                             {
-                                                findData(ele) !== undefined && findData(ele).dateStr !== undefined? displayDate(findData(ele).dateStr):""
+                                                findData(ele) !== undefined && findData(ele).dateStr !== undefined ? displayDate(findData(ele).dateStr) : ""
                                             }
                                         </div>
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </ListItem>
-                        <Divider light variant="inset" />
+                        <Divider light variant="inset"/>
                     </React.Fragment>
                 })
             }

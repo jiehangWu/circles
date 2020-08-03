@@ -23,7 +23,7 @@ const submitPost = (post) => (dispatch) => {
             type: 'CLEAR_IMAGE',
         });
     }).catch((err) => {
-        console.log(err);
+        console.error(err);
     });
 };
 
@@ -67,7 +67,7 @@ const likePost = (postId, from) => (dispatch) => {
             });
         }
     }).catch((err) => {
-        console.log(err);
+        console.error(err);
     });
 };
 
@@ -85,13 +85,12 @@ const loadAllPosts = () => (dispatch) => {
         }
         throw new Error('error when fetching all posts');
     }).then((posts) => {
-        console.log(posts);
         dispatch({
             type: 'LOAD_ALL',
             payload: posts,
         });
     }).catch((err) => {
-        console.log(err);
+        console.error(err);
     });
 };
 
@@ -126,7 +125,7 @@ const deletePost = (postId, from) => (dispatch) => {
             });
         }
     }).catch((err) => {
-        console.log(err);
+        console.error(err);
     });
 };
 
@@ -135,11 +134,12 @@ const uploadImage = (data) => (dispatch) => {
         method: 'POST',
         body: data,
     }).then((response) => response.text()).then((address) => {
-        console.log(address);
         dispatch({
             type: 'ADD_IMAGE',
             payload: address,
         });
+    }).catch((err) => {
+        console.error(err);
     });
 };
 
@@ -160,7 +160,7 @@ const loadCirclesList = () => async (dispatch) => {
             throw new Error('Error fetching circles list');
         }
     } catch (err) {
-        console.log(err.message);
+        console.error(err);
     }
 };
 
@@ -199,7 +199,7 @@ const submitComment = (comment, from) => (dispatch) => {
             });
         }
     }).catch((err) => {
-        console.log(err);
+        console.error(err);
     });
 };
 
@@ -219,13 +219,12 @@ const loadProfilePosts = (currId) => {
             throw new Error("error in response");
         }).then((msg) => {
             let parsedMsg = JSON.parse(msg);
-            // console.log(parsedMsg);
             dispatch({
                 type: "LOAD_PROFILE_POSTS",
                 payload: parsedMsg
             });
         }).catch((err) => {
-            console.log("going back");
+            console.error(err);
         });
     };
 };

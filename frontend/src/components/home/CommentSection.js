@@ -1,8 +1,8 @@
 import React from 'react';
 import Card from "@material-ui/core/Card";
 import Comment from "./Comment";
-import { PostActions } from '../../actions/posts.actions';
-import { connect } from 'react-redux';
+import {PostActions} from '../../actions/posts.actions';
+import {connect} from 'react-redux';
 
 
 class CommentSection extends React.Component {
@@ -27,7 +27,7 @@ class CommentSection extends React.Component {
         this.textArea.current.value = "";
     };
 
-    handleSubmit = () => { 
+    handleSubmit = () => {
         if (this.state.content) {
             this.props.submitComment({
                 date: new Date(),
@@ -46,22 +46,26 @@ class CommentSection extends React.Component {
                     <div className="row">
                         <div className="col-lg-12">
                             <textarea className="text-box mx-2 mt-3"
-                                rows="3"
-                                placeholder="Say something about this post!"
-                                required
-                                onChange={(e) => { this.handleChange(e) }}
-                                ref={this.textArea}>
+                                      rows="3"
+                                      placeholder="Say something about this post!"
+                                      required
+                                      onChange={(e) => {
+                                          this.handleChange(e)
+                                      }}
+                                      ref={this.textArea}>
                             </textarea>
                             <button type="button"
-                                className={"btn btn-primary float-right mx-4 mb-3"
+                                    className={"btn btn-primary float-right mx-4 mb-3"
                                     + (this.state.content ? "" : " disabled")}
-                                onClick={this.handleSubmit}>
+                                    onClick={this.handleSubmit}>
                                 Submit
                             </button>
                         </div>
                     </div>
                 </Card>
-                {this.props.comments.map((comment) => <Comment key={comment._id} avatar={comment.user.avatar} username={comment.user.username} date={comment.date} content={comment.content}/>)}
+                {this.props.comments.map((comment) => <Comment key={comment._id} avatar={comment.user.avatar}
+                                                               username={comment.user.username} date={comment.date}
+                                                               content={comment.content}/>)}
             </div>
 
         );

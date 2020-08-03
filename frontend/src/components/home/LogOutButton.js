@@ -5,30 +5,28 @@ import {connect} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 
 const styles = makeStyles((theme) => ({
-	log_out: {
-	},
+    log_out: {},
 
 }));
 
 
-function  LogOutButton(props) {
-	const classes = styles();
-	return <React.Fragment >
-		<div style={{display: 'flex', flexDirection:'row', justifyContent: 'flex-end'}}>
-			<PowerSettingsNewIcon className={classes.log_out} onClick={props.logOut}/>
-		</div>
+function LogOutButton(props) {
+    const classes = styles();
+    return <React.Fragment>
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+            <PowerSettingsNewIcon className={classes.log_out} onClick={props.logOut}/>
+        </div>
 
-	</React.Fragment>;
+    </React.Fragment>;
 }
 
 
-
 const mapState = (state) => {
-	return { message: state.message };
+    return {message: state.message};
 };
 
 const mapAction = {
-	logOut: userActions.logOut,
+    logOut: userActions.logOut,
 };
 
 

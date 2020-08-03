@@ -48,14 +48,14 @@ const StyledBadge = withStyles((theme) => ({
 
 const Contact = (props) => {
     const classes = styles();
-    useEffect(()=> {
-        },[props.contactList0, props.contactList1]);
+    useEffect(() => {
+    }, [props.contactList0, props.contactList1]);
 
     const messages = props.chatsReducer1[props.chatter.userId];
     const unread = props.chatter.unread;
 
     return <Grid item style={{display: 'flex', alignItems: 'flex-end'}} className="pl-1 pr-0 mr-0 ml-1 mb-1">
-        {(unread !== undefined && unread > 0)?
+        {(unread !== undefined && unread > 0) ?
             <StyledBadge
                 overlap="circle"
                 anchorOrigin={{
@@ -64,46 +64,47 @@ const Contact = (props) => {
                 }}
                 variant="dot"
             >
-                {props.chatter.userAvatar === ''?
+                {props.chatter.userAvatar === '' ?
                     <Avatar aria-label="profile-pic" className={classes.avatar2}
                             style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
                                 backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
                             }}>
                         {props.chatter.username.substring(0, 2)}
-                    </Avatar>:
+                    </Avatar> :
                     <Avatar aria-label="profile-pic" className={classes.avatar2}
                             style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
                                 backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
                             }} src={props.chatter.userAvatar}>
                     </Avatar>
                 }
-            </StyledBadge>:
-            props.chatter.userAvatar === ''?
-                    <Avatar aria-label="profile-pic" className={classes.avatar2}
-                            style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
-                                backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
-                            }}>
-                        {props.chatter.username.substring(0, 2)}
-                    </Avatar>:
-                    <Avatar aria-label="profile-pic" className={classes.avatar2}
-                            style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
-                                backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
-                            }} src={props.chatter.userAvatar}>
-                    </Avatar>
+            </StyledBadge> :
+            props.chatter.userAvatar === '' ?
+                <Avatar aria-label="profile-pic" className={classes.avatar2}
+                        style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
+                            backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
+                        }}>
+                    {props.chatter.username.substring(0, 2)}
+                </Avatar> :
+                <Avatar aria-label="profile-pic" className={classes.avatar2}
+                        style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
+                            backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
+                        }} src={props.chatter.userAvatar}>
+                </Avatar>
 
         }
         {props.displayName ?
-            <div style={{display: 'flex', flexDirection:'column', alignItems: 'top' }}>
-                <div className="pr-2" style={{fontWeight: '550',
-                        cursor:"pointer"
-                    }} onClick={() => {
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'top'}}>
+                <div className="pr-2" style={{
+                    fontWeight: '550',
+                    cursor: "pointer"
+                }} onClick={() => {
                     props.switchChatter(props.chatter);
                     props.clientSetRead({
                         purpose: "CLIENT_SET_READ",
                         payload: {
-                            setUserId:props.userId,
-                            userId2:props.chatter.userId,
-                            bool:true,
+                            setUserId: props.userId,
+                            userId2: props.chatter.userId,
+                            bool: true,
                         }
                     });
                     props.localSetRead(props.chatter.userId);
@@ -113,19 +114,19 @@ const Contact = (props) => {
                 }}>
                     {props.chatter.username}
                 </div>
-                <div style={{alignSelf: 'flex-start', color:'#aab7b8',fontSize:'0.9rem'}}>
+                <div style={{alignSelf: 'flex-start', color: '#aab7b8', fontSize: '0.9rem'}}>
                     {
-                        messages!== undefined &&
-                        messages[messages.length - 1] !== undefined?
-                            (messages[messages.length - 1].content.length > 20?
-                                (unread > 0? "(" + unread +")"+" " : '')
-                                + messages[messages.length - 1].content.slice(0,20) + "..."
-                                :(unread > 0? "(" + unread +")"+ " " : '')
+                        messages !== undefined &&
+                        messages[messages.length - 1] !== undefined ?
+                            (messages[messages.length - 1].content.length > 20 ?
+                                (unread > 0 ? "(" + unread + ")" + " " : '')
+                                + messages[messages.length - 1].content.slice(0, 20) + "..."
+                                : (unread > 0 ? "(" + unread + ")" + " " : '')
                                 + "  " + messages[messages.length - 1].content)
-                            : <p> </p>
+                            : <p></p>
                     }
                 </div>
-            </div>:
+            </div> :
             <div></div>
         }
     </Grid>;
@@ -141,7 +142,7 @@ const mapStateToProps = (state) => {
         contactList0: state.historyContactsReducer,
         contactList1: state.chatsListReducer
     };
-}
+};
 
 
 const mapAction = {
@@ -151,25 +152,25 @@ const mapAction = {
             payload: person
         }
     },
-    clientSetRead: (chat)=> {
+    clientSetRead: (chat) => {
         return {
             type: 'CLIENT_SET_READ',
             payload: chat
         }
     },
-    localSetRead: (userId)=> {
+    localSetRead: (userId) => {
         return {
             type: 'LOCAL_SET_READ',
             payload: userId
         }
     },
-    historySetRead: (userId)=> {
+    historySetRead: (userId) => {
         return {
             type: 'HISTORY_CONTACTS_SET_READ',
             payload: userId
         }
     },
-    clickContact: ()=> {
+    clickContact: () => {
         return {
             type: 'CLICK_CONTACT'
         }
