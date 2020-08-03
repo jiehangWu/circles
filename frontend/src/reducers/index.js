@@ -17,6 +17,8 @@ import {chatVideoCaller} from "./chat.videoCaller";
 import {screenWidth} from "./screenWidth";
 import {screenHeight} from "./screenHeight";
 import {inChat} from "./chat.inChat";
+import {chatAccept} from "./chat.accept";
+import {peerWait} from "./chat.peerWait";
 
 export const rootReducer = combineReducers({
   currentChatPerson,
@@ -36,5 +38,7 @@ export const rootReducer = combineReducers({
   chatVideoCaller,
   screenWidth,
   screenHeight,
-  inChat
+  inChat,
+  chatAccept,
+  peerWait
 });

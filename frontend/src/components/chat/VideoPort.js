@@ -1,231 +1,217 @@
 import Peer from 'peerjs';
 import {connect} from "react-redux";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 
-class VideoPort extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            loading: false,
-            progress: 0,
-            videoSrc1: null,
-            peer: new Peer({
-                host: 'peertestq.herokuapp.com',
-                port: 443,
-                secure: true
-            }),
-            call: null,
-            answer: null,
-            rHeight: 0,
-            rWidth: 0,
-            lWidth: 0,
-            lHeight: 0
-        };
-        this.createConnection = this.createConnection.bind(this);
-        this.callRemote = this.callRemote.bind(this);
-        this.handleVideoRemoteStream = this.handleVideoRemoteStream.bind(this);
-        this.endCall = this.endCall.bind(this);
-        this.waitConnect = this.waitConnect.bind(this);
-        this.answerRemote = this.answerRemote.bind(this);
-        this.handleRemoteCallee = this.handleRemoteCallee.bind(this);
-        this.endAnswer = this.endAnswer.bind(this);
-        this.videoR = React.createRef();
-        this.videoL = React.createRef();
-        this.setVideoSizeR = this.setVideoSizeR.bind(this);
-        this.setVideoSizeL = this.setVideoSizeL.bind(this);
-        this.handleStatus = this.handleStatus.bind(this);
-    }
+const VideoPort = (props) => {
+    const videoL = useRef(null);
+    const videoR = useRef(null);
+    const[peer, setPeer] = useState(null);
+    const [call, setCall] = useState(null);
+    const[answer, setAnswer] = useState(null);
+    const userMediaConfig = {
+        audio: {echoCancellation: true, noiseSuppression: true},
+        video: {facingMode: "user"}
+    };
+    const [status, setStatus] = useState(false);
 
-    setVideoSizeR = () => {
-        this.setState({rHeight: this.videoR.videoHeight, rWidth: this.videoR.videoWidth});
+    const cleanUp = () => {
+        if (peer) {
+            peer.disconnect();
+            peer.destroy();
+        }
+        setPeer(null);
     };
 
-    setVideoSizeL = () => {
-        this.setState({lHeight: this.videoL.videoHeight, lWidth: this.videoL.videoWidth});
-    };
+    useEffect( ()=> {
+        setPeer(
+            new Peer(props.userId, {
+                    host: 'peertestq.herokuapp.com',
+                    port: 443,
+                    secure: true
+                }
+            )
+        );
+        setStatus(true);
 
-    componentDidMount = () => {
-        setTimeout(() => {
-            this.setState({
-                peer:
-                    new Peer(this.props.userId, {
-                        host: 'peertestq.herokuapp.com',
-                        port: 443,
-                        //key: 'peerjs',
-                        //path: '/peerjs',
-                        secure: true
+    },[]);
+
+    useEffect( () => {
+        if (status) {
+            if (!peer || peer.destroyed) {
+                setPeer(
+                    new Peer(props.userId, {
+                            host: 'peertestq.herokuapp.com',
+                            port: 443,
+                            secure: true
+                        }
+                    )
+                );
+            } else if (peer.disconnected) {
+                peer.reconnect();
+            }
+            peer.on('open', () => {
+                setPeer(peer);
+            });
+
+
+
+            peer.on('call', (call) => {
+                var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+              getUserMedia(userMediaConfig,(stream) => {
+                        // Answer the call with an A/V stream.
+                        call.answer(stream);
+                        setAnswer(call);
+                        if (videoL.current) {
+                            videoL.current.srcObject = stream;
+                        }
+                        // Play the remote stream
+                        call.on('stream', (remoteStream) => {
+                            if (videoR.current) {
+                                videoR.current.srcObject = remoteStream;
+                            }
+                        });
+                        call.on('close', () => {
+                            console.log("The call has ended");
+                        });
+                        call.on('error', (error) => {
+                            console.log(error);
+
+                        });
+                    });
+            });
+
+            peer.on('disconnected', () => {
+                console.log("Peer desconnected");
+                cleanUp()
+            });
+
+            peer.on('close', () => {
+                console.log("Peer closed remotetly");
+                cleanUp()
+            });
+
+            peer.on('error', (error) => {
+                console.log("peer error", error);
+                cleanUp()
+            });
+
+        }}, [props.peerWait]);
+
+    useEffect( ()=> {
+        if (status) {
+            props.chatVideo();
+            if (!peer || peer.destroyed) {
+                setPeer(
+                    new Peer(props.userId, {
+                            host: 'peertestq.herokuapp.com',
+                            port: 443,
+                            secure: true
+                        }
+                    )
+                );
+            } else if (peer.disconnected) {
+                peer.reconnect();
+            }
+            peer.on('open', () => {
+                setPeer(peer);
+            });
+            var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+            getUserMedia(userMediaConfig,(stream) =>{
+                let call;
+                while (!call) {
+                    call = peer.call(props.currentVideoChatter.userId, stream);
+                }
+                    if (videoL.current) {
+                        videoL.current.srcObject = stream;
+                    }
+                    call.on('stream', (remoteStream)=> {
+                        setCall(call);
+                        if (videoR.current) {
+                            videoR.current.srcObject = remoteStream;
+                        }
                     })
 
-            })
+                })
+        }
+        },[props.chatAccept]);
 
-        }, 100);
-        this.videoR.current.addEventListener('canplay', this.setVideoSizeR);
-        this.videoL.current.addEventListener('canplay', this.setVideoSizeL);
-    };
 
-    createConnection = () => {
-        this.props.chatVideo();
-        if (this.state.peer.id !== this.props.userId) {
-            this.state.peer.disconnect();
-            this.state.peer.destroy();
+    const endCall = () => {
+        if (call) {
+            call.close();
         }
-        if (!this.state.peer || this.state.peer.destroyed) {
-            this.setState({
-                peer:
-                    new Peer(this.props.userId, {
-                        host: 'peertestq.herokuapp.com',
-                        port: 443,
-                        secure: true
-                    })
-            })
-        } else if (this.state.peer.disconnected) {
-            this.state.peer.reconnect();
-        }
-        const userMediaConfig = {
-            audio: {echoCancellation: true, noiseSuppression: true},
-            video: {facingMode: "user"}
-        };
-        var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        getUserMedia(userMediaConfig, this.callRemote, function (err) {
-            console.error(err);
-        });
-    };
-
-    callRemote = (stream) => {
-        let call;
-        while (!call) {
-            call = this.state.peer.call(this.props.currentVideoChatter.userId, stream);
-        }
-        this.setState({call: call});
-        if (this.videoL.current) {
-            this.videoL.current.srcObject = stream;
-        }
-        call.on('stream', this.handleVideoRemoteStream)
-    };
-
-    handleVideoRemoteStream = (rstream) => {
-        if (this.videoR.current) {
-            this.videoR.current.srcObject = rstream;
-        }
-    };
-
-    endCall = () => {
-        if (this.state.call) {
-            this.state.call.close();
-        }
-        this.props.endVideo();
-        this.props.refuseVideoChat({
+        cleanUp();
+        props.endVideo();
+        props.refuseVideoChat({
             purpose: 'CLIENT_REFUSE_VIDEO_CHAT',
             payload: {
                 sender: {
-                    username: this.props.username,
-                    userId: this.props.userId
+                    username: props.username,
+                    userId: props.userId
                 },
-                receiver: this.props.currentVideoChatter
+                receiver: props.currentVideoChatter
             }
         });
     };
 
-    waitConnect = () => {
-        this.props.applyVideoChat({
-            purpose: "CLIENT_APPLY_VIDEO_CHAT",
-            payload: {
-                sender: {
-                    userId: this.props.userId,
-                    username: this.props.username,
-                },
-                receiver: this.props.currentVideoChatter,
-            }
-        });
-        if (this.state.peer.id !== this.props.userId) {
-            this.state.peer.disconnect();
-            this.state.peer.destroy();
+    const endAnswer = () => {
+        if (answer) {
+            answer.close();
         }
-        if (!this.state.peer || this.state.peer.destroyed) {
-            this.setState({
-                peer:
-                    new Peer(this.props.userId, {
-                        host: 'peertestq.herokuapp.com',
-                        port: 443,
-                        secure: true
-                    })
-
-            })
-        } else if (this.state.peer.disconnected) {
-            this.state.peer.reconnect();
-        }
-        this.state.peer.on('call', this.answerRemote);
+        cleanUp();
+        props.endVideo();
     };
 
-    answerRemote = (call) => {
-        const userMediaConfig = {
-            audio: {echoCancellation: true, noiseSuppression: true},
-            video: {facingMode: "user"}
-        };
-        this.setState({answerCall: call});
-        var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        getUserMedia(userMediaConfig, this.handleRemoteCallee, function (err) {
-            console.error(err);
-        });
-    };
-
-    handleRemoteCallee = (stream) => {
-        this.state.answerCall.answer(stream);
-        this.props.chatVideo();
-        if (this.videoL.current) {
-            this.videoL.current.srcObject = stream;
-        }
-        this.state.answerCall.on('stream', this.handleVideoRemoteStream);
-    };
-
-    endAnswer = () => {
-        if (this.state.answerCall) {
-            this.state.answerCall.close();
-        }
-        this.props.endVideo();
-    };
-
-    handleStatus = () => {
-        if (this.props.chatStatus === 1) {
+    const handleStatus = () => {
+        if (props.chatStatus === 1) {
             return "WAITING";
         }
-        if (this.props.chatStatus === 2) {
-            return "DO U WANT TO CHAT WITH " + this.props.currentVideoChatter.username + "?";
+        if (props.chatStatus === 2) {
+            return "DO U WANT TO CHAT WITH " + props.currentVideoChatter.username + "?";
         }
-        if (this.props.chatStatus === 3) {
-            return "CHAT WITH " + this.props.currentVideoChatter.username;
+        if (props.chatStatus === 3) {
+            return "CHAT WITH " + props.currentVideoChatter.username;
         }
-        if (this.props.chatStatus === 4) {
-            return "CHAT WITH " + this.props.currentVideoChatter.username;
+        if (props.chatStatus === 4) {
+            return "CHAT WITH " + props.currentVideoChatter.username;
         }
-        if (this.props.chatStatus === 5) {
-            return this.props.currentVideoChatter.username + " REFUSED";
+        if (props.chatStatus === 5) {
+            return props.currentVideoChatter.username + " REFUSED";
         }
     };
 
-    render() {
-        return <div style={{position: 'fixed', zIndex: '9999999', top: '0%'}}>
+    return <div style={{position: 'fixed', zIndex: '9999999', top: '0%'}}>
             <div style={{display: 'flex', flexDirection: 'column', top: '0%'}}>
-                <video ref={this.videoR} autoPlay playsInline
-                       style={this.props.screenHeight / this.props.screenWidth < 1.25 && this.props.screenWidth >= 800? {width: '30vw'} : {width: '70vw'}}/>
-                <video ref={this.videoL} autoPlay muted playsInline
-                       style={this.props.screenHeight / this.props.screenWidth < 1.25 && this.props.screenWidth >= 800? {width: '10vw'} : {width: '20vw'}}/>
+                <video ref={videoR} autoPlay playsInline
+                       style={props.screenHeight / props.screenWidth < 1.25 && props.screenWidth >= 800? {width: '30vw'} : {width: '70vw'}}/>
+                <video ref={videoL} autoPlay muted playsInline
+                       style={props.screenHeight / props.screenWidth < 1.25 && props.screenWidth >= 800? {width: '10vw'} : {width: '20vw'}}/>
             </div>
             <div style={{position: 'fixed', top: '50%', left: '35%'}}>
-                <div>{this.handleStatus()}</div>
+                <div>{handleStatus()}</div>
                 <div>
-                    <button onClick={this.props.caller ? () => this.endAnswer() : () => this.endCall()}
+                    <button onClick={props.caller ? () => endAnswer() : () => endCall()}
                             style={{color: 'red'}}>End Chat
                     </button>
-                    <button onClick={this.props.caller ? () => this.waitConnect() : () => this.createConnection()}
+                    <button onClick={props.caller ? ()=> {props.applyVideoChat({
+                        purpose: "CLIENT_APPLY_VIDEO_CHAT",
+                        payload: {
+                            sender: {
+                                userId: props.userId,
+                                username: props.username,
+                            },
+                            receiver: props.currentVideoChatter,
+                        }
+                    });
+                    props.waitCall();
+                    } : () => props.acceptInvite()}
                             style={{color: 'red'}}>Begin Chat
                     </button>
                 </div>
             </div>
         </div>
-
-    }
 }
+
 
 const mapStateToProps = (state) => {
     return {
@@ -236,7 +222,9 @@ const mapStateToProps = (state) => {
         currentVideoChatter: state.currentVideoChatPerson,
         caller: state.chatVideoCaller,
         screenWidth: state.screenWidth,
-        screenHeight: state.screenHeight
+        screenHeight: state.screenHeight,
+        chatAccept:state.chatAccept,
+        peerWait: state.peerWait
     };
 };
 
@@ -263,6 +251,16 @@ const mapAction = {
             payload: info
         }
     },
+    acceptInvite: ()=> {
+        return {
+            type: 'CHAT_ACCEPT',
+        }
+    },
+    waitCall: ()=> {
+        return {
+            type: 'PEER_WAIT',
+        }
+    }
 
 };
 

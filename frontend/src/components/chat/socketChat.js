@@ -142,6 +142,7 @@ export default function SocketChat() {
 
     this.configSocket = ({userId, username}) => {
         this.socket.onopen = () => {
+            setTimeout(()=> {
             this.socket.send(JSON.stringify({
                 purpose: 'CLIENT_ADD_USER',
                 payload: {
@@ -149,7 +150,7 @@ export default function SocketChat() {
                     username: this.username,
                     userAvatar: this.userAvatar,
                 },
-            }));
+            }))}, 300);
         };
         // receiving message handler
         this.socket.onmessage = (event) => {
