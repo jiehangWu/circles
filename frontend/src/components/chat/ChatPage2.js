@@ -41,7 +41,7 @@ export function ChatPage2(props) {
             {
                 props.chatVideoStatus?<VideoPort/>:null
             }
-            {props.screenHeight/props.screenWidth < 1.3?
+            {props.screenHeight/props.screenWidth < 1.3 || props.screenWidth < 800?
                 <Grid container direction="row" alignItems="flex-start" style={{width: '100%'}}>
                     <Grid item className="" style={
                         {marginLeft: '1%', width: '29%'}
@@ -86,6 +86,7 @@ export function ChatPage2(props) {
                     }>
                         <IconButton aria-label="video chat"  style={{position:'absolute', zIndex:'999',height: '35px', width:'35px'}}  onClick={()=> {
                             history.push('/home/chat');
+                            props.leaveChat();
                         }}>
                             <KeyboardReturnIcon fontSize="large"/>
                         </IconButton>
@@ -149,6 +150,11 @@ const mapAction = {
     chatCaller: ()=> {
         return{
             type:'CALLER',
+        }
+    },
+    leaveChat: ()=> {
+        return {
+            type:'LEAVE_CHAT',
         }
     }
 };
