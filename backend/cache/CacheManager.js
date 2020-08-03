@@ -1,25 +1,24 @@
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 const redis = require('redis');
+const bluebird = require("bluebird");
 
-const redis_client = redis.createClient(6380, process.env.REDISCACHEHOSTNAME,
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
+
+const redisClient = redis.createClient(6380, process.env.REDISCACHEHOSTNAME,
     { auth_pass: process.env.REDISCACHEKEY, tls: { servername: process.env.REDISCACHEHOSTNAME } });
 
 const CACHE_EXPIRATION_TIME = 60 * 60;
 
 const addToCache = (sessionId, userId) => {
-    redis_client.setex(`${sessionId}`, CACHE_EXPIRATION_TIME, userId);
+    redisClient.setex(`${sessionId}`, CACHE_EXPIRATION_TIME, `${userId}`);
 }
 
-const getUserIdFromCache = (userId) => {
-    let value;
-    redis_client.get(`${userId}`, (err, data) => {
-        if (err) {
-            throw err;
-        }
-        value = data;
-    });
-    return value;
+const getUserIdFromCache = async (sessionId) => {
+    const response =  await redisClient.getAsync(sessionId);
+    console.log(`${response} line 20`);
+    return response;
 }
 
 module.exports = {

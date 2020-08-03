@@ -5,10 +5,11 @@ const logger = log4js.getLogger();
 
 const CacheManager = require('../cache/CacheManager');
 const UserController = require('../controller/UserController');
+const { sessionId } = require('../utils/util');
 
-router.put('/home', (req, res) => {
+router.put('/home', async (req, res) => {
      const { lat, lng } = req.body;
-     const userId = req.session.userId || CacheManager.getUserIdFromCache(sessionId);
+     const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
      let response;
      try {
           response = UserController.setGeolocation(userId, lat, lng);
@@ -19,7 +20,7 @@ router.put('/home', (req, res) => {
 });
 
 router.get('/circleslist', async (req, res) => {
-     const userId = req.session.userId || CacheManager.getUserIdFromCache(sessionId);
+     const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionId);
      if (id === null || id === undefined) {
           const error = new Error("The user is not logged in");
           res.status(500).send(error);

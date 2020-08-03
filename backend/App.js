@@ -6,7 +6,7 @@ const http = require('http');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const WebSocket = require('ws');
-
+require('./utils/util');
 require('dotenv').config();
 // Make sure models are required
 require('./model/User');
