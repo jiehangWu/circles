@@ -14,6 +14,7 @@ import VideoPort from "./VideoPort";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import VoiceChatIcon from '@material-ui/icons/VoiceChat';
 import {mobileKeyboard} from "../../reducers/chat.keyBoardStatus";
+import {isIOS,isAndroid} from 'react-device-detect';
 
 export function ChatPage2(props) {
     const [trans, setTrans] = useState(0);
@@ -82,9 +83,10 @@ export function ChatPage2(props) {
                        :
 
 
-                    < div style={!props.mobileKeyboardPop?
-                        {marginLeft: '1%', width: '100%',height: '100%', position:'relative'}:
-                        {marginLeft: '1%', width: '100%',height: '50%', position:'relative',top:'calc(36vh)'}
+                    < div style={!props.mobileKeyboardPop||!(props.screenHeight / props.screenWidth >= 1.25 || props.screenWidth< 800)?
+                        {marginLeft: '1%', width: '100%',height: '100%', position:'relative'}:isIOS?
+                        {marginLeft: '1%', width: '100%',height: '50%', position:'relative',top:'calc(36vh)'}:
+                            {marginLeft: '1%', width: '100%',height: '50%', position:'relative',top:'calc(0vh)'}
                     }>
                         <IconButton aria-label="video chat"  style={{position:'absolute', zIndex:'999',height: '35px', width:'35px'}}  onClick={()=> {
                             /* history.push('/home/chat');*/

@@ -24,14 +24,16 @@ export function ChatDisplayPort(props) {
         }, 100);
     }, [props.chatEnter]);
 
+
     useEffect(() => {
         setTimeout(() => {
             setPop(props.mobileKeyboardPop);
-        }, 100);
-    }, [props.mobileKeyboardPop]);
+            }, 100);
+        }, [props.mobileKeyboardPop]);
 
     let scrollToBottom = () => {
         messagesEnd.scrollIntoView({behavior: "smooth"});
+
     };
 
     let i = 0;
@@ -40,8 +42,8 @@ export function ChatDisplayPort(props) {
     };
 
     return <React.Fragment>
-        <div style={(isIOS || isAndroid)&& pop?{
-            maxHeight:'calc(76vh)',
+        <div style={(isIOS || isAndroid)&& pop && (props.screenHeight / props.screenWidth >= 1.25 || props.screenWidth) < 800?{
+            maxHeight:'calc(40vh)',
             minHeight:'calc(40vh)',
             position: 'relative',
             padding: "10px",
@@ -88,7 +90,9 @@ const mapStateToProps = (state) => {
         chatVideoStatus: state.chatVideoStatus,
         userId: state.userinfo.userId,
         currentChatter: state.currentChatPerson,
-        mobileKeyboardPop:state.mobileKeyboard
+        mobileKeyboardPop:state.mobileKeyboard,
+        screenWidth:state.screenWidth,
+        screenHeight:state.screenHeight
     };
 };
 

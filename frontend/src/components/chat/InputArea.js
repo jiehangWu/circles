@@ -20,11 +20,13 @@ class InputArea extends React.Component {
 
     componentDidMount() {
         if(isIOS) {
+            console.log('IOS');
             this.textArea.current.addEventListener('focus', this.iosFocus, false);
             this.textArea.current.addEventListener('blur', this.iosBlur, false);
 
         }
         if (isAndroid) {
+            console.log('ANDROID');
             this.setState({originHeight: document.documentElement.clientHeight || document.body.clientHeight});
             window.addEventListener('resize', this.androidUpdateKeyboard, false);
         }

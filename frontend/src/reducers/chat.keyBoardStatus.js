@@ -1,5 +1,6 @@
 export const mobileKeyboard = (init = 0, action) => {
     if (action.type === 'KEYBOARD_UP') {
+        console.log(init);
         return 1;
     }
     if (action.type === 'KEYBOARD_DOWN') {
