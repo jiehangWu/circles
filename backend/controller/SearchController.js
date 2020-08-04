@@ -112,19 +112,16 @@ const addPostToCluster = async (postId, tags, content) => {
 const searchPostByKeyword = async (keyword) => {
     const query = {
         index: 'circles_posts',
-        type: 'posts_list',
         body: {
             _source: ["postId"],
             query: {
-                match: {
-                    content: keyword
-                }
-            },
-            suggest: {
-                gotsuggest: {
-                    text: keyword,
-                    term: {
-                        field: 'content'
+                fuzzy: {
+                    "content": {
+                        value: keyword,
+                        fuzziness: 'AUTO',
+                        max_expansions: 50,
+                        prefix_length: 0,
+                        transpositions: true,
                     }
                 }
             }
