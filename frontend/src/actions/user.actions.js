@@ -103,10 +103,6 @@ const register = (registerName, password) => async (dispatch) => {
                 payload: 'register success!',
             });
         } else {
-            dispatch({
-                type: 'FAILED_MESSAGE',
-                payload: e.message,
-            });
             throw new Error('register failed');
         }
     } catch (e) {
