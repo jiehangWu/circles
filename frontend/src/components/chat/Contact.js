@@ -53,6 +53,20 @@ const Contact = (props) => {
 
     const messages = props.chatsReducer1[props.chatter.userId];
     const unread = props.chatter.unread;
+    const handleClickContact = ()=> {
+        props.switchChatter(props.chatter);
+        props.clientSetRead({
+            purpose: "CLIENT_SET_READ",
+            payload: {
+                setUserId: props.userId,
+                userId2: props.chatter.userId,
+                bool: true,
+            }
+        });
+        props.localSetRead(props.chatter.userId);
+        props.historySetRead(props.chatter.userId);
+        props.clickContact();
+    }
 
     return <Grid item style={{display: 'flex', alignItems: 'flex-end'}} className="pl-1 pr-0 mr-0 ml-1 mb-1">
         {(unread !== undefined && unread > 0) ?
@@ -68,13 +82,17 @@ const Contact = (props) => {
                     <Avatar aria-label="profile-pic" className={classes.avatar2}
                             style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
                                 backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
-                            }}>
+                            }} onClick={() => {
+                        if(props.displayName)handleClickContact();
+                    }}>
                         {props.chatter.username.substring(0, 2)}
                     </Avatar> :
                     <Avatar aria-label="profile-pic" className={classes.avatar2}
                             style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
                                 backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
-                            }} src={props.chatter.userAvatar}>
+                            }} src={props.chatter.userAvatar} onClick={() => {
+                        if(props.displayName)handleClickContact();
+                    }}>
                     </Avatar>
                 }
             </StyledBadge> :
@@ -82,13 +100,17 @@ const Contact = (props) => {
                 <Avatar aria-label="profile-pic" className={classes.avatar2}
                         style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
                             backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
-                        }}>
+                        }} onClick={() => {
+                    if(props.displayName)handleClickContact();
+                }}>
                     {props.chatter.username.substring(0, 2)}
                 </Avatar> :
                 <Avatar aria-label="profile-pic" className={classes.avatar2}
                         style={(props.chatter.userId !== props.currentChatter.userId || !props.displayName) ? {backgroundColor: '#BDBDBD'} : {
                             backgroundColor: '#BDBDBD', border: '3px solid #F5B041  '
-                        }} src={props.chatter.userAvatar}>
+                        }} src={props.chatter.userAvatar} onClick={() => {
+                    if(props.displayName)handleClickContact();
+                }}>
                 </Avatar>
 
         }
@@ -98,19 +120,7 @@ const Contact = (props) => {
                     fontWeight: '550',
                     cursor: "pointer"
                 }} onClick={() => {
-                    props.switchChatter(props.chatter);
-                    props.clientSetRead({
-                        purpose: "CLIENT_SET_READ",
-                        payload: {
-                            setUserId: props.userId,
-                            userId2: props.chatter.userId,
-                            bool: true,
-                        }
-                    });
-                    props.localSetRead(props.chatter.userId);
-                    props.historySetRead(props.chatter.userId);
-                    props.clickContact();
-                    history.push("/home/chat/messages");
+                   handleClickContact()
                 }}>
                     {props.chatter.username}
                 </div>

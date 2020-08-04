@@ -24,7 +24,7 @@ module.exports = {
             return comment.save();
         }).then((comment) => {
             logger.info("comment is ", comment);
-            return comment.populate({ path: 'user', select: ['username', 'avatar'] }).execPopulate();
+            return comment.populate({path: 'user', select: ['username', 'avatar']}).execPopulate();
         }).then((comment) => {
             return Promise.resolve(comment);
         }).catch((err) => {
@@ -47,12 +47,12 @@ module.exports = {
         return post.save().then(() => {
             return UserController.findUserByUserId(userId);
         }).then((doc) => {
-            
+
             doc.posts.push(post._id);
             return doc.save();
         }).then(() => {
             logger.info("post is ", post);
-            return post.populate({ path: 'user', select: ['username', 'avatar'] }).execPopulate();
+            return post.populate({path: 'user', select: ['username', 'avatar']}).execPopulate();
         }).then((doc) => {
             logger.info(doc);
             logger.info("success!");
@@ -105,7 +105,7 @@ module.exports = {
                 return Promise.resolve();
             }
         }).then(() => {
-            return Comment.deleteMany({_id: {$in : commentList}});
+            return Comment.deleteMany({_id: {$in: commentList}});
         }).then(() => {
             return Post.deleteOne({_id: postId})
         }).then(() => {
@@ -127,10 +127,10 @@ module.exports = {
     },
 
     loadAllPosts: () => {
-        return Post.find({}).sort({ date: -1 }).then((docs) => {
+        return Post.find({}).sort({date: -1}).then((docs) => {
             return Post.populate(docs,
-                [{ path: 'user', select: ['username', 'avatar'] },
-                { path: 'comments', populate: { path: 'user', select: ['username', 'avatar'] } }]);
+                [{path: 'user', select: ['username', 'avatar']},
+                    {path: 'comments', populate: {path: 'user', select: ['username', 'avatar']}}]);
         }).catch((err) => {
             logger.error(err);
             return Promise.reject(err);
@@ -139,12 +139,23 @@ module.exports = {
 
     loadPostsByIds: async (ids) => {
         try {
-            let docs = await Post.find({ "_id": { "$in": ids } });
+            let docs = await Post.find({"_id": {"$in": ids}}).sort({date: -1});
             return Post.populate(docs,
-                [{ path: 'user', select: ['username', 'avatar'] },
-                { path: 'comments', populate: { path: 'user', select: ['username', 'avatar'] } }]);
+                [{path: 'user', select: ['username', 'avatar']},
+                    {path: 'comments', populate: {path: 'user', select: ['username', 'avatar']}}]);
         } catch (err) {
             throw(err);
         }
+    },
+
+    getRandomPostIds: (limit) => {
+        return Post.aggregate([
+            {$sample: {size: limit}}
+        ]).allowDiskUse(true).then((postObjs) => {
+            return Promise.resolve(postObjs.map(postObj => postObj._id));
+        }).catch((err) => {
+            logger.error(err);
+        });
     }
+
 };

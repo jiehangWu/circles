@@ -8,21 +8,21 @@ import ChatDisplayPort from "./ChatDisplayPort";
 import ChatPanel from "./ChatPanel";
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import {history} from "../../helpers/history";
-import {Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import IconButton from "@material-ui/core/IconButton";
 import VideoPort from "./VideoPort";
 import VideocamIcon from "@material-ui/icons/Videocam";
+import VoiceChatIcon from '@material-ui/icons/VoiceChat';
 
 export function ChatPage2(props) {
     const [trans, setTrans] = useState(0);
 
-    useEffect(() => {
+    useEffect(()=> {
         setTrans(props.inChat);
-    }, [props.inChat]);
+        },[props.inChat]);
 
-    let handleVideoChat = () => {
-        props.applyVideoChat({
-            purpose: "CLIENT_APPLY_VIDEO_CHAT",
+    let handleVideoChat = ()=> {
+        props.applyVideoChat({purpose: "CLIENT_APPLY_VIDEO_CHAT",
             payload: {
                 sender: {
                     userId: props.userId,
@@ -34,14 +34,14 @@ export function ChatPage2(props) {
         props.waitVideo();
         props.chatApply(props.currentChatter);
         props.chatCaller();
-    };
+    }
 
     return <React.Fragment>
-        <div style={{width: '90%'}}>
+        <div style = {{width: '90%'}}>
             {
-                props.chatVideoStatus ? <VideoPort/> : null
+                props.chatVideoStatus?<VideoPort/>:null
             }
-            {props.screenHeight / props.screenWidth < 1.3 ?
+            {props.screenHeight/props.screenWidth < 1.25 && props.screenWidth >= 800?
                 <Grid container direction="row" alignItems="flex-start" style={{width: '100%'}}>
                     <Grid item className="" style={
                         {marginLeft: '1%', width: '29%'}
@@ -52,19 +52,10 @@ export function ChatPage2(props) {
                     </Grid>
 
                     < Grid item className="" style={
-                        {marginLeft: '1%', width: '69%', position: 'relative'}
+                        {marginLeft: '1%', width: '69%',position:'relative'}
                     }>
                         <IconButton aria-label="video chat"
-                                    style={{
-                                        height: '30px',
-                                        width: '30px',
-                                        position: 'absolute',
-                                        right: '2%',
-                                        top: '0%',
-                                        zIndex: "9999"
-                                    }} onClick={() => {
-                            handleVideoChat()
-                        }
+                                    style={{height: '30px', width:'30px',position:'absolute',right:'2%',top:'0%',zIndex:"9999"}}  onClick={()=>{handleVideoChat()}
                         }>
                             <VideocamIcon fontSize='large'/>
                         </IconButton>
@@ -75,54 +66,44 @@ export function ChatPage2(props) {
                             <InputArea/>
                         </Paper>
                     </Grid>
-                </Grid> :
+                </Grid>:
                 <div>
 
                     <div>
-                        <Route exact path="/home/chat">
-                            <div className="" style={
-                                {marginLeft: '1%', width: '100%'}
-                            }>
-                                <Paper style={{background: "white"}}>
-                                    <ChatPanel/>
-                                </Paper>
-                            </div>
-                        </Route>
+                        {props.inChat === 0?
+                    <div className="" style={
+                        {marginLeft: '1%', width: '100%'}
+                    }>
+                        <Paper style={{background: "white"}}>
+                            <ChatPanel/>
+                        </Paper>
+                    </div>
+                       :
 
-                        <Route path="/home/chat/messages">
-                            < div style={
-                                {marginLeft: '1%', width: '100%', height: '100%', position: 'relative'}
-                            }>
-                                <IconButton aria-label="video chat"
-                                            style={{position: 'absolute', zIndex: '999', height: '35px', width: '35px'}}
-                                            onClick={() => {
-                                                history.push('/home/chat');
-                                            }}>
-                                    <KeyboardReturnIcon fontSize="large"/>
-                                </IconButton>
-                                <IconButton aria-label="video chat"
-                                            style={{
-                                                height: '30px',
-                                                width: '30px',
-                                                position: 'absolute',
-                                                right: '2%',
-                                                top: '0%',
-                                                zIndex: "9999"
-                                            }} onClick={() => {
-                                    handleVideoChat()
-                                }
-                                }>
-                                    <VideocamIcon fontSize='large'/>
-                                </IconButton>
-                                <Paper style={{background: "white"}}>
-                                    <ChatDisplayPort/>
-                                </Paper>
-                                <Paper className="" style={{background: "#F5F5F5"}}>
-                                    <InputArea/>
-                                </Paper>
-                            </div>
-                        </Route>
 
+                    < div style={
+                        {marginLeft: '1%', width: '100%',height: '100%', position:'relative'}
+                    }>
+                        <IconButton aria-label="video chat"  style={{position:'absolute', zIndex:'999',height: '35px', width:'35px'}}  onClick={()=> {
+                            /* history.push('/home/chat');*/
+                            props.leaveChat()}
+                        }>
+                            <KeyboardReturnIcon fontSize="large"/>
+                        </IconButton>
+                        <IconButton aria-label="video chat"
+                                    style={{height: '30px', width:'30px',position:'absolute',right:'2%',top:'0%',zIndex:"9999"}}  onClick={()=>{handleVideoChat()}
+                        }>
+                            <VideocamIcon fontSize='large'/>
+                        </IconButton>
+                        <Paper style={{background: "white"}}>
+                            <ChatDisplayPort/>
+                        </Paper>
+                        <Paper className="" style={{background: "#F5F5F5"}}>
+                            <InputArea/>
+                        </Paper>
+                    </div>
+
+                    }
                     </div>
                 </div>
             }
@@ -136,7 +117,7 @@ const mapStateToProps = (state) => {
         person: state.currentChatPerson,
         username: state.userinfo.username,
         screenWidth: state.screenWidth,
-        screenHeight: state.screenHeight,
+        screenHeight:state.screenHeight,
         inChat: state.inChat,
         chatVideoStatus: state.chatVideoStatus,
         chatsReducer1: state.chatsReducer1,
@@ -149,15 +130,15 @@ const mapStateToProps = (state) => {
 
 const mapAction = {
     loadHome: HomeActions.loadHome,
-    applyVideoChat: (info) => {
-        return {
+    applyVideoChat: (info)=> {
+        return{
             type: 'CLIENT_APPLY_VIDEO_CHAT',
             payload: info
         }
     },
-    waitVideo: () => {
-        return {
-            type: 'WAIT_VIDEO',
+    waitVideo: ()=> {
+        return{
+            type:'WAIT_VIDEO',
         }
     },
     chatApply: (receiver) => {
@@ -166,9 +147,14 @@ const mapAction = {
             payload: receiver
         }
     },
-    chatCaller: () => {
+    chatCaller: ()=> {
+        return{
+            type:'CALLER',
+        }
+    },
+    leaveChat: ()=> {
         return {
-            type: 'CALLER',
+            type:'LEAVE_CHAT',
         }
     }
 };

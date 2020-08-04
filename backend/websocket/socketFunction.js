@@ -1,7 +1,6 @@
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 const chatController = require('../controller/ChatController');
-logger.level="OFF";
 const randomstring = require("randomstring");
 //AES encrypt
 const CryptoJS = require("crypto-js");

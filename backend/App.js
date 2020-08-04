@@ -16,12 +16,11 @@ require('./model/Message');
 require('./model/Post');
 require('./model/Comment');
 
-const { redisClient } = require('./cache/CacheManager');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-logger.level = 'ALL';
-// logger.level = "OFF";
+// logger.level = 'ALL';
+logger.level = "OFF";
 
 // The ordering is important too
 
@@ -43,7 +42,8 @@ const geoRoutes = require('./routes/geoRoutes');
 const postRoutes = require('./routes/postRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const searchRoutes = require('./routes/searchRoutes');
-const sockeFunction = require('./websocket/socketFunction');
+const socketFunction = require('./websocket/socketFunction');
+
 
 const MAX_AGE = 60 * 60 * 1000;
 app.use(session({
@@ -51,7 +51,6 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     secret: process.env.COOKIE_SECRET,
-    store: new RedisStore({ client: redisClient, ttl: MAX_AGE }),
     cookie: {
         maxAge: MAX_AGE
     }
@@ -65,7 +64,7 @@ app.use('/search', searchRoutes);
 app.use('/geolocation', geoRoutes);
 
 //websocket server
-wss.on('connection', sockeFunction);
+wss.on('connection', socketFunction);
 
 server.listen(process.env.PORT, () => {
     logger.info(`Server is listening on PORT ${process.env.PORT}`);

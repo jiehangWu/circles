@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import SendIcon from '@material-ui/icons/Send';
-
+import {isAndroid,isIOS} from 'react-device-detect';
 
 class InputArea extends React.Component {
     constructor(props) {
@@ -11,7 +11,50 @@ class InputArea extends React.Component {
         this.textArea = React.createRef();
         this.state = {
             content: "",
+            originHeight:0
         };
+        this.androidUpdateKeyboard = this.androidUpdateKeyboard.bind(this);
+        this.iosFocus = this.iosFocus.bind(this);
+        this.iosBlur = this.iosBlur.bind(this);
+    }
+
+    componentDidMount() {
+        if(isIOS) {
+            this.textArea.current.addEventListener('focus', this.iosFocus, false);
+            this.textArea.current.addEventListener('blur', this.iosBlur, false);
+
+        }
+        if (isAndroid) {
+            this.setState({originHeight: document.documentElement.clientHeight || document.body.clientHeight});
+            window.addEventListener('resize', this.androidUpdateKeyboard, false);
+        }
+    }
+
+    componentWillUnmount() {
+        if(isAndroid) {
+            window.removeEventListener("resize", this.androidUpdateKeyboard);
+        }
+        if(isIOS) {
+            this.textArea.current.removeEventListener('focus', this.iosFocus);
+            this.textArea.current.removeEventListener('blur', this.iosBlur);
+        }
+    }
+
+    androidUpdateKeyboard() {
+        const resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        if (resizeHeight < this.state.originHeight) {
+            this.props.keyBoardUp();
+        } else {
+            this.props.keyBoardDown();
+        }
+    }
+
+    iosFocus() {
+        this.props.keyBoardUp();
+    }
+
+    iosBlur() {
+        this.props.keyBoardDown();
     }
 
     clearAll = () => {
@@ -118,7 +161,9 @@ const mapStateToProps = (state) => {
         userId: state.userinfo.userId,
         userAvatar: state.userinfo.avatar,
         username: state.userinfo.username,
-        currentChatter: state.currentChatPerson
+        currentChatter: state.currentChatPerson,
+        isAndroid: state.isAndroid,
+        isIOS:state.isIOS,
     };
 };
 
@@ -152,6 +197,17 @@ const mapAction = {
             type: "CHAT_ENTER"
         }
     },
+    keyBoardUp: ()=> {
+        return {
+            type: 'KEYBOARD_UP'
+        }
+    },
+    keyBoardDown: ()=> {
+        return {
+            type: 'KEYBOARD_DOWN'
+        }
+    }
+
 };
 
 

@@ -21,7 +21,7 @@ class App extends React.Component {
         window.addEventListener("resize", this.updateWindowDimensions);
         this.props.setWidth(window.innerWidth);
         this.props.setHeight(window.innerHeight);
-    }
+	}
 
     componentWillUnmount() {
         window.removeEventListener("resize", this.updateWindowDimensions)

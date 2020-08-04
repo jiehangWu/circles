@@ -1,7 +1,7 @@
 import {history} from "../helpers/history";
 
-const loadChats = () => (dispatch) => {
-    fetch('https://circles-ubc-api.azurewebsites.net/chat/', {
+const loadChats = (userId) => (dispatch) => {
+    fetch('https://circles-ubc-api.azurewebsites.net/chat/' + userId, {
         method: 'GET',
         headers: {
             Accept: 'application/json',

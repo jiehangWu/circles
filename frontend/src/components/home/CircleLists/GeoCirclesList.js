@@ -15,7 +15,7 @@ class GeoCirclesList extends React.Component {
     }
 
     componentDidMount() {
-        this.props.loadGeoCirclesList();
+        this.props.loadGeoCirclesList(this.props.userId);
     }
 
     render() {
@@ -77,7 +77,8 @@ class GeoCirclesList extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        geoList: state.userinfo.geoCirlesList
+        geoList: state.userinfo.geoCirlesList,
+        userId: state.userinfo.userId,
     };
 };
 

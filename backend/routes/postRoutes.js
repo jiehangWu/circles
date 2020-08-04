@@ -7,15 +7,16 @@ const searchController = require('../controller/SearchController');
 const userController = require('../controller/UserController');
 const PostController = require('../controller/PostController');
 
-router.get("/", async (req, res) => {
-    logger.info("getting");
-    const sessionKey = `sess:${req.session.id}`;
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
+router.get("/:userId", async (req, res) => {
+    const userId = req.params.userId;
     const user = await userController.findUserByUserId(userId);
-    const tags = JSON.stringify(user.tags);
-    logger.info(tags);
-    const postIds = await searchController.searchPostByKeyword(tags);
-    logger.info(postIds);
+    let postIds;
+    if (user.tags.length !== 0) {
+        const tags = JSON.stringify(user.tags);
+        postIds = await searchController.searchPostByKeyword(tags);
+    } else {
+        postIds = await PostController.getRandomPostIds(20);
+    }
     return PostController.loadPostsByIds(postIds).then((posts) => {
         logger.info(posts);
         res.status(200).json(posts);
@@ -23,16 +24,13 @@ router.get("/", async (req, res) => {
         logger.error(err);
         res.status(500).end();
     });
+
 });
 
 router.post("/", (req, res, next) => {
     logger.info("posting");
     let { content, date, userId, tags, imgLink } = req.body;
-    logger.info(date);
-    logger.info(typeof date);
     date = new Date(date);
-    logger.info(date);
-    logger.info(typeof date);
     return PostController.addPost(content, date, userId, tags, imgLink).then(async (post) => {
         await searchController.addPostToCluster(post._id, tags, content);
         res.status(200).json(post);
@@ -44,21 +42,19 @@ router.post("/", (req, res, next) => {
 
 router.put("/l/:id", async (req, res, next) => {
     const postId = req.params.id;
-    const sessionKey = `sess:${req.session.id}`;
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
+    const { userId } = req.body;
     logger.info("userId is" + userId);
     return PostController.likePost(userId, postId).then((numLikes) => {
         res.status(200).send(numLikes.toString());
     }).catch((err) => {
         logger.error(err);
-        res.status(500).end();   
+        res.status(500).end();
     });
 });
 
 router.delete("/:postId", async (req, res, next) => {
     const postId = req.params.postId;
-    const sessionKey = `sess:${req.session.id}`;
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
+    const { userId } = req.body;
     return PostController.deletePost(userId, postId).then(async () => {
         await searchController.deletePostFromCluster(postId);
         res.status(200).end();
@@ -70,25 +66,9 @@ router.delete("/:postId", async (req, res, next) => {
 
 router.put("/c/:id", async (req, res, next) => {
     const postId = req.params.id;
-    const sessionKey = `sess:${req.session.id}`;
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
-    const { content, date } = req.body;
+    const { userId, content, date } = req.body;
     return PostController.addComment(content, new Date(date), userId, postId).then((comment) => {
         res.status(200).json(comment);
-    }).catch((err) => {
-        logger.error(err);
-        res.status(500).end();
-    })
-})
-
-// delete remains to be changed
-router.delete("/:postId", async (req, res, next) => {
-    const postId = req.params.postId;
-    const sessionKey = `sess:${req.session.id}`;
-    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
-    return PostController.deletePost(userId, postId).then(async () => {
-        await searchController.deletePostFromCluster(postId);
-        res.status(200).end();
     }).catch((err) => {
         logger.error(err);
         res.status(500).end();
@@ -97,7 +77,6 @@ router.delete("/:postId", async (req, res, next) => {
 
 router.get('/profile/posts/:id', async (req, res) => {
     const userId = req.params.id;
-    logger.info(userId);
     const result = await userController.findUserByUserId(userId);
     if (result) {
         const posts = await PostController.loadPostsByIds(result.posts);
