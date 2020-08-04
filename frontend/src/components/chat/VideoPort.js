@@ -27,7 +27,11 @@ const VideoPort = (props) => {
             new Peer(props.userId, {
                     host: 'peertestq.herokuapp.com',
                     port: 443,
-                    secure: true
+                    secure: true,
+                config: {'iceServers': [
+                        { url: 'stun:stun4.l.google.com:19302' },
+                        { url: 'turn:numb.viagenie.ca', credential: '123456',username: 'tjuqxb@gmail.com' }
+                    ]}
                 }
             )
         );
