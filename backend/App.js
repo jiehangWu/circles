@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const redis   = require("redis");
 const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 const cookieParser = require('cookie-parser');
 const http = require('http');
 const mongoose = require('mongoose');
@@ -21,7 +23,11 @@ const logger = log4js.getLogger();
 logger.level = 'ALL';
 // logger.level = "OFF";
 
+const redisClient = redis.createClient(6380, process.env.REDISCACHEHOSTNAME,
+    { auth_pass: process.env.REDISCACHEKEY, tls: { servername: process.env.REDISCACHEHOSTNAME } });
+
 // The ordering is important too
+
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({server: server});
@@ -49,8 +55,9 @@ app.use(session({
     saveUninitialized: true,
     secret: process.env.COOKIE_SECRET,
     sameSite: 'none',
+    store: new RedisStore({ client: redisClient, ttl: 250 }),
     cookie: {
-        domain: 'circles-ubc-api.azurewebsites.net', 
+        // domain: 'circles-ubc-api.azurewebsites.net', 
         maxAge: MAX_AGE,
     },
 }));
@@ -64,6 +71,7 @@ app.use('/geolocation', geoRoutes);
 
 //websocket server
 wss.on('connection',sockeFunction);
+
 
 server.listen(process.env.PORT, () => {
     logger.info(`Server is listening on PORT ${process.env.PORT}`);

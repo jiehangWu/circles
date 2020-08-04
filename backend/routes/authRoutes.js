@@ -4,7 +4,6 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const bcrypt = require('bcrypt')
 
-const CacheManager = require('../cache/CacheManager');
 const UserController = require('../controller/UserController');
 const SearchController = require('../controller/SearchController');
 
@@ -71,7 +70,6 @@ router.post('/login', async (req, res, next) => {
 router.get('/home', async (req, res) => {
     const userId = req.session.userId;
     logger.info(userId);
-    console.log(userId);
     const result = await UserController.findUserByUserId(userId);
     if (result) {
         const username = result.username;
