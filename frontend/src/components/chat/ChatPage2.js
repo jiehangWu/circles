@@ -13,6 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import VideoPort from "./VideoPort";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import VoiceChatIcon from '@material-ui/icons/VoiceChat';
+import {mobileKeyboard} from "../../reducers/chat.keyBoardStatus";
 
 export function ChatPage2(props) {
     const [trans, setTrans] = useState(0);
@@ -81,8 +82,9 @@ export function ChatPage2(props) {
                        :
 
 
-                    < div style={
-                        {marginLeft: '1%', width: '100%',height: '100%', position:'relative'}
+                    < div style={!props.mobileKeyboardPop?
+                        {marginLeft: '1%', width: '100%',height: '100%', position:'relative'}:
+                        {marginLeft: '1%', width: '100%',height: '50%', position:'relative',top:'calc(36vh)'}
                     }>
                         <IconButton aria-label="video chat"  style={{position:'absolute', zIndex:'999',height: '35px', width:'35px'}}  onClick={()=> {
                             /* history.push('/home/chat');*/
@@ -124,7 +126,8 @@ const mapStateToProps = (state) => {
         userAvatar: state.userinfo.avatar,
         chatEnter: state.chatEnter,
         userId: state.userinfo.userId,
-        currentChatter: state.currentChatPerson
+        currentChatter: state.currentChatPerson,
+        mobileKeyboardPop:state.mobileKeyboard
     };
 };
 
