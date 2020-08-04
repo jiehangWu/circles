@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const log4js = require('log4js');
 const logger = log4js.getLogger();
-const searchController = require('../controller/searchController');
+const searchController = require('../controller/SearchController');
 const userController = require('../controller/UserController');
 const PostController = require('../controller/PostController');
-
 /**
  * Search all the contents that have the corresponding keyword.
  */
@@ -26,20 +25,15 @@ const PostController = require('../controller/PostController');
  * This endpoint is for development only.
  * Recommend users based on input tags and user id.
  */
-router.get('/circleslist', async (req, res) => {
-    const id = req.session.userId;
-    logger.info(id);
-    if (id === null || id === undefined) {
-        const error = new Error("The user is not logged in");
-        res.status(500).send(error);
-    }
+router.get('/circleslist/:userId', async (req, res) => {
+    const userId = req.params.userId;
     try {
-        const user =  await userController.findUserByUserId(id);
+        const user = await userController.findUserByUserId(userId);
         const tags = JSON.stringify(user.tags);
         logger.info(tags);
-        const response = await searchController.recommendByUserTag(id, tags);
+        const response = await searchController.recommendByUserTag(userId, tags);
         logger.info(response);
-        const users = await userController.findUsersByIds(response); 
+        const users = await userController.findUsersByIds(response);
         logger.info(users);
         res.status(200).send(users);
     } catch (err) {

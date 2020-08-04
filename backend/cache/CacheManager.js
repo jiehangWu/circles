@@ -1,62 +1,29 @@
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 const redis = require('redis');
+const bluebird = require("bluebird");
+const { generateSessionId } = require('../utils/util');
 
-const redis_client = redis.createClient(process.env.PORT_REDIS);
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
 
-const CACHE_EXPIRATION_TIME = 15 * 60;
+const redisClient = redis.createClient(6380, process.env.REDISCACHEHOSTNAME,
+    { auth_pass: process.env.REDISCACHEKEY, tls: { servername: process.env.REDISCACHEHOSTNAME } });
 
-const checkPostCache = (req, res, next) => {
-    const userId = req.session.userId;
-    redis_client.get(`${userId}`, (err, data) => {
-        if (err) {
-            logger.error(err);
-            res.status(500).send(err);
-        }
-        if (data != null) {
-            res.send(data);
-        } else {
-            next();
-        }
-    });
-};
+const CACHE_EXPIRATION_TIME = 60 * 60;
 
-const addToCache = (userId, posts) => {
-    redis_client.setex(`${userId}`, CACHE_EXPIRATION_TIME, JSON.stringify(posts));
+const addToCache = async (sessionId, userId) => {
+    console.log(`line16 ${sessionId}`);
+    await redisClient.setexAsync(`${sessionId}`, CACHE_EXPIRATION_TIME, `${userId}`);
 }
 
-const appendToKey = (userId, post) => {
-    redis_client.get(`${userId}`, (err, reply) => {
-        if (err) {
-            throw err;
-        }
-        if (reply === null) {
-            return;
-        }
-        const posts = JSON.parse(reply);
-        posts.push(post);
-        addToCache(userId, posts);
-    });
-}
-
-const deleteFromCache = (userId, postId) => {
-    redis_client.get(`${userId}`, (err, reply) => {
-        if (err) {
-            throw err;
-        }
-        if (reply === null) {
-            return;
-        }
-        let posts = JSON.parse(reply);
-        
-        posts = posts.filter(post => post._id !== postId);
-        addToCache(userId, posts);
-    });
+const getUserIdFromCache = async (sessionId) => {
+    console.log(`line21: ${sessionId}`)
+    const response =  await redisClient.getAsync(sessionId);
+    return response;
 }
 
 module.exports = {
-    checkPostCache,
+    getUserIdFromCache,
     addToCache,
-    appendToKey,
-    deleteFromCache
 }

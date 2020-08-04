@@ -257,9 +257,9 @@ const Home = (props) => {
             const data = new FormData();
             const fileName = imgUpload.current.files[0].name;
             data.append(fileName, imgUpload.current.files[0], fileName);
-            props.uploadAvatar(data);
+            props.uploadAvatar(data, props.userId);
         }
-    }
+    };
 
     const leftSideBar = (
         <div className={classes.background}>
@@ -367,7 +367,7 @@ const Home = (props) => {
         enqueueSnackbar('Circles will be updating your geolocation.', {variant: "info"});
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        props.uploadGeolocation(latitude, longitude);
+        props.uploadGeolocation(props.userId, latitude, longitude);
         setTimeout(function () {
             enqueueSnackbar(`Successfully added geolocation!`, {variant: "success"});
         }, 1500);
@@ -401,7 +401,6 @@ const Home = (props) => {
 
     useEffect(() => {
         geoNavigator.getCurrentPosition(updateGeolocation, geoErr);
-        props.loadHome();
     }, []);
 
     return (
@@ -428,7 +427,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapAction = {
-    loadHome: HomeActions.loadHome,
     uploadAvatar: userActions.uploadAvatar,
     uploadGeolocation: userActions.uploadGeolocation,
     beginChat: ChatActions.beginChat,

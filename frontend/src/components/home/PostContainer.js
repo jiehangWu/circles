@@ -97,7 +97,7 @@ const PostContainer = (props) => {
                     action={
                         props.currUserId === props.userId ?
                             <IconButton aria-label="settings"
-                                        onClick={() => props.deletePost(props.postId, props.location)}>
+                                        onClick={() => props.deletePost(props.currUserId, props.postId, props.location)}>
                                 <ClearIcon/>
                             </IconButton> : ''
                     }
@@ -124,10 +124,10 @@ const PostContainer = (props) => {
                     className={classes.modal}
                 >
                     <div className={classes.paper}>
-                        <CommentSection postId={props.postId} comments={props.comments} location={props.location}/>
+                        <CommentSection currUserId={props.currUserId} postId={props.postId} comments={props.comments} location={props.location}/>
                     </div>
                 </Modal>
-                <IconButton aria-label="like" onClick={() => props.likePost(props.postId, props.location)}>
+                <IconButton aria-label="like" onClick={() => props.likePost(props.currUserId, props.postId, props.location)}>
                     <FavoriteIcon color='secondary'/>
                 </IconButton>
                 <span>{props.likes}</span>

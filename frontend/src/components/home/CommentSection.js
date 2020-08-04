@@ -30,6 +30,7 @@ class CommentSection extends React.Component {
     handleSubmit = () => {
         if (this.state.content) {
             this.props.submitComment({
+                userId: this.props.currUserId,
                 date: new Date(),
                 postId: this.props.postId,
                 content: this.state.content,

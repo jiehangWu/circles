@@ -3,7 +3,6 @@ const router = express.Router();
 const formidable = require('formidable');
 const logger = require('log4js').getLogger();
 
-
 const awsController = require('../controller/AwsController');
 
 router.post('/upload', async (req, res) => {

@@ -15,7 +15,7 @@ class CirclesList extends React.Component {
     }
 
     componentDidMount() {
-        this.props.loadCirclesList();
+        this.props.loadCirclesList(this.props.userId);
     }
 
     render() {
@@ -28,7 +28,6 @@ class CirclesList extends React.Component {
                         return (
                             <ListItem key={user._id} button onClick={() => {
                                 if (history.location.pathname === '/home/profile') {
-                                    console.log("if");
                                     history.push({
                                         state: {
                                             homeId: user._id,
@@ -37,7 +36,6 @@ class CirclesList extends React.Component {
                                         }
                                     });
                                 } else {
-                                    console.log("else");
                                     history.push({
                                         pathname: '/home/profile',
                                         state: {
@@ -67,7 +65,8 @@ class CirclesList extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        circlesList: state.posts.circlesList
+        circlesList: state.posts.circlesList,
+        userId: state.userinfo.userId,
     };
 };
 

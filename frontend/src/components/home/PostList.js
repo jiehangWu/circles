@@ -7,7 +7,7 @@ import { location } from '../../helpers/util';
 class PostList extends React.Component {
 
 	componentDidMount() {
-		this.props.loadAllPosts();
+		this.props.loadAllPosts(this.props.userId);
 	}
 
 	render() {
@@ -35,6 +35,7 @@ class PostList extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		posts: state.posts,
+		userId: state.userinfo.userId
 	};
 };
 

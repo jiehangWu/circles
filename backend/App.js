@@ -4,7 +4,6 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const http = require('http');
 const mongoose = require('mongoose');
-const keys = require('./secrets/Keys')
 const bodyParser = require('body-parser');
 const WebSocket = require('ws');
 
@@ -29,7 +28,7 @@ const wss = new WebSocket.Server({server: server});
 
 mongoose.connect(process.env.DB_URI, {useNewUrlParser: true});
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'https://circles-ubc.azurewebsites.net'],
     credentials: true,
 }));
 app.use(bodyParser.json());
@@ -43,14 +42,16 @@ const chatRoutes = require('./routes/chatRoutes');
 const searchRoutes = require('./routes/searchRoutes');
 const socketFunction = require('./websocket/socketFunction');
 
+
 const MAX_AGE = 60 * 60 * 1000;
 app.use(session({
     name: 'circles',
     resave: true,
     saveUninitialized: true,
-    secret: keys.COOKIE_SECRET,
+    secret: process.env.COOKIE_SECRET,
+    sameSite: 'none',
     cookie: {
-        domain: "localhost",
+        domain: 'circles-ubc-api.azurewebsites.net', 
         maxAge: MAX_AGE,
     },
 }));
@@ -64,7 +65,6 @@ app.use('/geolocation', geoRoutes);
 
 //websocket server
 wss.on('connection',socketFunction);
-
 
 server.listen(process.env.PORT, () => {
     logger.info(`Server is listening on PORT ${process.env.PORT}`);

@@ -23,7 +23,7 @@ const AlertDialogSlide = (props) => {
 
     const handleClose = () => {
         setOpen(false);
-        props.cancel();
+        props.cancel(props.userId);
     };
 
     return (
@@ -58,10 +58,16 @@ const AlertDialogSlide = (props) => {
             </Dialog>
         </div>
     );
-}
+};
+
+const mapStateToProps = (state) => {
+    return {
+        userId: state.userinfo.userId,
+    };
+};
 
 const mapAction = {
     cancel: userActions.cancelFirstTimer
 };
 
-export default connect(null, mapAction)(AlertDialogSlide);
+export default connect(mapStateToProps, mapAction)(AlertDialogSlide);
