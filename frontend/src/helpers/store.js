@@ -8,6 +8,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 const persistConfig = {
     key: 'root',
     storage,
+    whitelist: ['socketReducer'],
     stateReconciler: autoMergeLevel2,
 };
 
