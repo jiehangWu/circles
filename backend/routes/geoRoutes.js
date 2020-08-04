@@ -6,8 +6,7 @@ const logger = log4js.getLogger();
 const UserController = require('../controller/UserController');
 
 router.put('/home', async (req, res) => {
-     const { lat, lng } = req.body;
-     const userId = req.session.userId;
+     const { lat, lng, userId } = req.body;
      let response;
      try {
           response = UserController.setGeolocation(userId, lat, lng);
@@ -17,15 +16,10 @@ router.put('/home', async (req, res) => {
      }
 });
 
-router.get('/circleslist', async (req, res) => {
-     const id = req.session.userId;
-     if (id === null || id === undefined) {
-          const error = new Error("The user is not logged in");
-          res.status(500).send(error);
-          throw error;
-     }
+router.get('/circleslist/:userId', async (req, res) => {
+     const userId = req.params.userId;
      try {
-          const users = await UserController.findNearbyUsers(id);
+          const users = await UserController.findNearbyUsers(userId);
           res.status(200).send(users);
      } catch (err) {
           logger.error(err);

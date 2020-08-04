@@ -45,6 +45,8 @@ export const userinfo = (state = {}, action) => {
                 ...state,
                 firstTimer: action.payload,
             };
+        case "LOG_OUT":
+            return {};
         default:
             return state;
     }

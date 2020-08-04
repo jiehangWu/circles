@@ -27,13 +27,14 @@ const submitPost = (post) => (dispatch) => {
     });
 };
 
-const likePost = (postId, from) => (dispatch) => {
+const likePost = (userId, postId, from) => (dispatch) => {
     fetch(`https://circles-ubc-api.azurewebsites.net/post/l/${postId}`, {
         method: 'PUT',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify({userId}),
         credentials: 'include',
     }).then((response) => {
         if (response.ok) {
@@ -71,8 +72,8 @@ const likePost = (postId, from) => (dispatch) => {
     });
 };
 
-const loadAllPosts = () => (dispatch) => {
-    fetch('https://circles-ubc-api.azurewebsites.net/post/', {
+const loadAllPosts = (userId) => (dispatch) => {
+    fetch('https://circles-ubc-api.azurewebsites.net/post/' + userId, {
         method: 'GET',
         headers: {
             Accept: 'application/json',
@@ -94,13 +95,14 @@ const loadAllPosts = () => (dispatch) => {
     });
 };
 
-const deletePost = (postId, from) => (dispatch) => {
+const deletePost = (userId, postId, from) => (dispatch) => {
     fetch(`https://circles-ubc-api.azurewebsites.net/post/${postId}`, {
         method: 'DELETE',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify({userId}),
         credentials: 'include',
     }).then((response) => {
         if (response.ok) {
@@ -143,9 +145,9 @@ const uploadImage = (data) => (dispatch) => {
     });
 };
 
-const loadCirclesList = () => async (dispatch) => {
+const loadCirclesList = (userId) => async (dispatch) => {
     try {
-        let response = await fetch('https://circles-ubc-api.azurewebsites.net/search/circleslist', {
+        let response = await fetch('https://circles-ubc-api.azurewebsites.net/search/circleslist' + '/' + userId, {
             method: 'GET',
             credentials: 'include',
         });
@@ -172,6 +174,7 @@ const submitComment = (comment, from) => (dispatch) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+            userId: comment.userId,
             content: comment.content,
             date: comment.date,
         }),

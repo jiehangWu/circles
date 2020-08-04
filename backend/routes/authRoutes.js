@@ -4,7 +4,6 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const bcrypt = require('bcrypt')
 
-const CacheManager = require('../cache/CacheManager');
 const UserController = require('../controller/UserController');
 const SearchController = require('../controller/SearchController');
 
@@ -55,11 +54,7 @@ router.post('/login', async (req, res, next) => {
 
     (async () => {
         if (await validate()) {
-            const userId = user._id;
-            req.session.userId = userId;
-            logger.info(req.session.userId);
-            logger.info("login succesful");
-            res.status(200).send("login successful");
+            res.status(200).json(user);
         } else {
             logger.info("login failed");
             res.status(400).send("login failed");
@@ -68,40 +63,7 @@ router.post('/login', async (req, res, next) => {
     })();
 });
 
-router.get('/home', async (req, res) => {
-    const userId = req.session.userId;
-    logger.info(userId);
-    console.log(userId);
-    const result = await UserController.findUserByUserId(userId);
-    if (result) {
-        const username = result.username;
-        const registerName = result.registerName;
-        const avatar = result.avatar;
-        const firstTimer = result.firstTimer;
-        logger.info(`Display ${username}`);
-        res.status(200).send({ registerName, username, userId, avatar, firstTimer });
-    } else {
-        logger.error(result);
-        res.status(400).send("please login");
-    }
-});
-
-router.post('/logout', (req, res) => {
-    if (req.session.userId !== null && req.session.userId !== undefined) {
-        // maybe cookie needs to be deleted too?
-        delete req.session.userId;
-    }
-    logger.warn(req.session.userId);
-    if (req.session.userId === null || req.session.userId === undefined) {
-        logger.info("log out successful");
-        res.status(202).send("You have been successfully logged out");
-    } else {
-        res.status(404).send("Logout failed");
-    }
-});
-
 router.put('/home/tag', async (req, res) => {
-    // logger.info("putting" + req.body.id);
     const { id, tag } = req.body;
     let response;
     try {
@@ -122,7 +84,6 @@ router.get('/profile/:id', async (req, res) => {
     if (result) {
         const username = result.username;
         const tags = result.tags;
-        // const posts = await PostController.loadPostsByIds(result.posts);
         const avatar = result.avatar;
 
         const posts = result.posts;
@@ -165,26 +126,16 @@ router.delete("/tags/:userId", (req, res, next) => {
 });
 
 router.put('/avatar', async (req, res, next) => {
-    const userId = req.session.userId;
-    const { avatarLink } = req.body;
-    logger.info("avatar user id is: ", userId);
-    logger.info("avatar link is: ", avatarLink);
+    const { avatarLink, userId } = req.body;
     return UserController.uploadAvatar(userId, avatarLink).then(() => {
         res.status(200).end();
     }).catch((err) => {
         res.status(500).end();
     });
-    // try {
-    //     await UserController.uploadAvatar(userId, avatarLink);
-    //     res.status(200).end();
-    // } catch (err) {
-    //     logger.error(err);
-    //     res.status(500).send(err.message);
-    // }
 });
 
 router.put('/firstTimer', async (req, res, next) => {
-    const userId = req.session.userId;
+    const { userId } = req.body;
     return await UserController.cancelFirstTimeUser(userId).then(() => {
         res.status(200).send("false");
     }).catch((err) => {

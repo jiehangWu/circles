@@ -25,18 +25,13 @@ const PostController = require('../controller/PostController');
  * This endpoint is for development only.
  * Recommend users based on input tags and user id.
  */
-router.get('/circleslist', async (req, res) => {
-    const id = req.session.userId;
-    logger.info(id);
-    if (id === null || id === undefined) {
-        const error = new Error("The user is not logged in");
-        res.status(500).send(error);
-    }
+router.get('/circleslist/:userId', async (req, res) => {
+    const userId = req.params.userId;
     try {
-        const user = await userController.findUserByUserId(id);
+        const user = await userController.findUserByUserId(userId);
         const tags = JSON.stringify(user.tags);
         logger.info(tags);
-        const response = await searchController.recommendByUserTag(id, tags);
+        const response = await searchController.recommendByUserTag(userId, tags);
         logger.info(response);
         const users = await userController.findUsersByIds(response);
         logger.info(users);

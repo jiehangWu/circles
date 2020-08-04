@@ -15,7 +15,7 @@ class CirclesList extends React.Component {
     }
 
     componentDidMount() {
-        this.props.loadCirclesList();
+        this.props.loadCirclesList(this.props.userId);
     }
 
     render() {
@@ -65,7 +65,8 @@ class CirclesList extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        circlesList: state.posts.circlesList
+        circlesList: state.posts.circlesList,
+        userId: state.userinfo.userId,
     };
 };
 
