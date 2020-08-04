@@ -7,7 +7,8 @@ const ChatController = require('../controller/ChatController');
 const UserController = require('../controller/UserController');
 
 router.get("/", async (req, res, next) => {
-    const userId = req.session.userId;
+    const sessionKey = `sess:${req.session.id}`;
+    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
     logger.info("get chats by " + userId);
     const result = await UserController.findUserByUserId(userId);
     if (result) {

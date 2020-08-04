@@ -9,7 +9,8 @@ const PostController = require('../controller/PostController');
 
 router.get("/", async (req, res) => {
     logger.info("getting");
-    const userId = req.session.userId;
+    const sessionKey = `sess:${req.session.id}`;
+    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
     const user = await userController.findUserByUserId(userId);
     const tags = JSON.stringify(user.tags);
     logger.info(tags);
@@ -43,7 +44,8 @@ router.post("/", (req, res, next) => {
 
 router.put("/l/:id", async (req, res, next) => {
     const postId = req.params.id;
-    const userId = req.session.userId;
+    const sessionKey = `sess:${req.session.id}`;
+    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
     logger.info("userId is" + userId);
     return PostController.likePost(userId, postId).then((numLikes) => {
         res.status(200).send(numLikes.toString());
@@ -55,7 +57,8 @@ router.put("/l/:id", async (req, res, next) => {
 
 router.delete("/:postId", async (req, res, next) => {
     const postId = req.params.postId;
-    const userId = req.session.userId;
+    const sessionKey = `sess:${req.session.id}`;
+    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
     return PostController.deletePost(userId, postId).then(async () => {
         await searchController.deletePostFromCluster(postId);
         res.status(200).end();
@@ -67,7 +70,8 @@ router.delete("/:postId", async (req, res, next) => {
 
 router.put("/c/:id", async (req, res, next) => {
     const postId = req.params.id;
-    const userId = req.session.userId;
+    const sessionKey = `sess:${req.session.id}`;
+    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
     const { content, date } = req.body;
     return PostController.addComment(content, new Date(date), userId, postId).then((comment) => {
         res.status(200).json(comment);
@@ -80,7 +84,8 @@ router.put("/c/:id", async (req, res, next) => {
 // delete remains to be changed
 router.delete("/:postId", async (req, res, next) => {
     const postId = req.params.postId;
-    const userId = req.session.userId;
+    const sessionKey = `sess:${req.session.id}`;
+    const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
     return PostController.deletePost(userId, postId).then(async () => {
         await searchController.deletePostFromCluster(postId);
         res.status(200).end();

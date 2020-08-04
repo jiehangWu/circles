@@ -7,7 +7,8 @@ const UserController = require('../controller/UserController');
 
 router.put('/home', async (req, res) => {
      const { lat, lng } = req.body;
-     const userId = req.session.userId;
+     const sessionKey = `sess:${req.session.id}`;
+     const userId = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
      let response;
      try {
           response = UserController.setGeolocation(userId, lat, lng);
@@ -18,7 +19,8 @@ router.put('/home', async (req, res) => {
 });
 
 router.get('/circleslist', async (req, res) => {
-     const id = req.session.userId;
+     const sessionKey =  `sess:${req.session.id}`;
+     const id = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
      if (id === null || id === undefined) {
           const error = new Error("The user is not logged in");
           res.status(500).send(error);

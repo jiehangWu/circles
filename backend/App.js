@@ -1,9 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const redis   = require("redis");
+const redis = require("redis");
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
-const cookieParser = require('cookie-parser');
 const http = require('http');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -17,28 +16,26 @@ require('./model/Message');
 require('./model/Post');
 require('./model/Comment');
 
+const { redisClient } = require('./cache/CacheManager');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
 logger.level = 'ALL';
 // logger.level = "OFF";
 
-const redisClient = redis.createClient(6380, process.env.REDISCACHEHOSTNAME,
-    { auth_pass: process.env.REDISCACHEKEY, tls: { servername: process.env.REDISCACHEHOSTNAME } });
-
 // The ordering is important too
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({server: server});
+const wss = new WebSocket.Server({ server: server });
 
-mongoose.connect(process.env.DB_URI, {useNewUrlParser: true});
+mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
 app.use(cors({
     origin: ['http://localhost:3000', 'https://circles-ubc.azurewebsites.net'],
     credentials: true,
 }));
 app.use(bodyParser.json());
-app.use(cookieParser());
+// app.use(cookieParser());
 
 const authRoutes = require('./routes/authRoutes');
 const awsRoutes = require('./routes/awsRoutes');
@@ -51,15 +48,13 @@ const sockeFunction = require('./websocket/socketFunction');
 const MAX_AGE = 60 * 60 * 1000;
 app.use(session({
     name: 'circles',
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     secret: process.env.COOKIE_SECRET,
-    sameSite: 'none',
-    store: new RedisStore({ client: redisClient, ttl: 250 }),
+    store: new RedisStore({ client: redisClient, ttl: MAX_AGE }),
     cookie: {
-        // domain: 'circles-ubc-api.azurewebsites.net', 
-        maxAge: MAX_AGE,
-    },
+        maxAge: MAX_AGE
+    }
 }));
 
 app.use('/', authRoutes);
@@ -70,8 +65,7 @@ app.use('/search', searchRoutes);
 app.use('/geolocation', geoRoutes);
 
 //websocket server
-wss.on('connection',sockeFunction);
-
+wss.on('connection', sockeFunction);
 
 server.listen(process.env.PORT, () => {
     logger.info(`Server is listening on PORT ${process.env.PORT}`);

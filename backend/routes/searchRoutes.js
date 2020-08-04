@@ -26,7 +26,8 @@ const PostController = require('../controller/PostController');
  * Recommend users based on input tags and user id.
  */
 router.get('/circleslist', async (req, res) => {
-    const id = req.session.userId;
+    const sessionKey =  `sess:${req.session.id}`;
+    const id = req.session.userId || await CacheManager.getUserIdFromCache(sessionKey);
     logger.info(id);
     if (id === null || id === undefined) {
         const error = new Error("The user is not logged in");
