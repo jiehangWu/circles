@@ -1,7 +1,7 @@
 import {history} from "../helpers/history";
 
-const loadChats = () => (dispatch) => {
-    fetch('http://localhost:5000/chat/', {
+const loadChats = (userId) => (dispatch) => {
+    fetch('http://localhost:5000/chat/' + userId, {
         method: 'GET',
         headers: {
             Accept: 'application/json',

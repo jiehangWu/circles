@@ -9,7 +9,7 @@ export function ChatDisplayPort(props) {
     const [pop, setPop] = useState(0);
 
     useEffect(() => {
-        props.loadChats();
+        props.loadChats(props.userId);
 
         scrollToBottom();
     }, []);

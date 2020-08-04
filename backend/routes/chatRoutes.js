@@ -6,8 +6,8 @@ const redis = require('redis');
 const ChatController = require('../controller/ChatController');
 const UserController = require('../controller/UserController');
 
-router.get("/", async (req, res, next) => {
-    const userId = req.session.userId;
+router.get("/:userId", async (req, res, next) => {
+    const userId = req.params.userId;
     logger.info("get chats by " + userId);
     const result = await UserController.findUserByUserId(userId);
     if (result) {
