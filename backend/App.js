@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const redis = require("redis");
+// const redis = require("redis");
 const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
+// const RedisStore = require('connect-redis')(session);
 const http = require('http');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -45,16 +45,16 @@ const searchRoutes = require('./routes/searchRoutes');
 const socketFunction = require('./websocket/socketFunction');
 
 
-const MAX_AGE = 60 * 60 * 1000;
-app.use(session({
-    name: 'circles',
-    resave: false,
-    saveUninitialized: true,
-    secret: process.env.COOKIE_SECRET,
-    cookie: {
-        maxAge: MAX_AGE
-    }
-}));
+// const MAX_AGE = 60 * 60 * 1000;
+// app.use(session({
+//     name: 'circles',
+//     resave: false,
+//     saveUninitialized: true,
+//     secret: process.env.COOKIE_SECRET,
+//     cookie: {
+//         maxAge: MAX_AGE
+//     }
+// }));
 
 app.use('/', authRoutes);
 app.use('/aws', awsRoutes);

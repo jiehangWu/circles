@@ -1,5 +1,5 @@
 const searchKeyword = (keyword) => (dispatch) => {
-    fetch('https://circles-ubc-api.azurewebsites.net/search/'+ keyword, {
+    fetch('http://localhost:5000/search/'+ keyword, {
         method: 'GET',
         headers: {
             Accept: 'application/json',

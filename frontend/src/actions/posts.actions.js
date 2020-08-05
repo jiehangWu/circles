@@ -1,7 +1,7 @@
 import { location } from '../helpers/util';
 
 const submitPost = (post) => (dispatch) => {
-    fetch('https://circles-ubc-api.azurewebsites.net/post/', {
+    fetch('http://localhost:5000/post/', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -28,7 +28,7 @@ const submitPost = (post) => (dispatch) => {
 };
 
 const likePost = (userId, postId, from) => (dispatch) => {
-    fetch(`https://circles-ubc-api.azurewebsites.net/post/l/${postId}`, {
+    fetch(`http://localhost:5000/post/l/${postId}`, {
         method: 'PUT',
         headers: {
             Accept: 'application/json',
@@ -73,7 +73,7 @@ const likePost = (userId, postId, from) => (dispatch) => {
 };
 
 const loadAllPosts = (userId) => (dispatch) => {
-    fetch('https://circles-ubc-api.azurewebsites.net/post/' + userId, {
+    fetch('http://localhost:5000/post/' + userId, {
         method: 'GET',
         headers: {
             Accept: 'application/json',
@@ -96,7 +96,7 @@ const loadAllPosts = (userId) => (dispatch) => {
 };
 
 const deletePost = (userId, postId, from) => (dispatch) => {
-    fetch(`https://circles-ubc-api.azurewebsites.net/post/${postId}`, {
+    fetch(`http://localhost:5000/post/${postId}`, {
         method: 'DELETE',
         headers: {
             Accept: 'application/json',
@@ -132,7 +132,7 @@ const deletePost = (userId, postId, from) => (dispatch) => {
 };
 
 const uploadImage = (data) => (dispatch) => {
-    fetch('https://circles-ubc-api.azurewebsites.net/aws/upload', {
+    fetch('http://localhost:5000/aws/upload', {
         method: 'POST',
         body: data,
     }).then((response) => response.text()).then((address) => {
@@ -147,7 +147,7 @@ const uploadImage = (data) => (dispatch) => {
 
 const loadCirclesList = (userId) => async (dispatch) => {
     try {
-        let response = await fetch('https://circles-ubc-api.azurewebsites.net/search/circleslist' + '/' + userId, {
+        let response = await fetch('http://localhost:5000/search/circleslist' + '/' + userId, {
             method: 'GET',
             credentials: 'include',
         });
@@ -167,7 +167,7 @@ const loadCirclesList = (userId) => async (dispatch) => {
 };
 
 const submitComment = (comment, from) => (dispatch) => {
-    fetch(`https://circles-ubc-api.azurewebsites.net/post/c/${comment.postId}`, {
+    fetch(`http://localhost:5000/post/c/${comment.postId}`, {
         method: 'PUT',
         headers: {
             Accept: 'application/json',
@@ -208,7 +208,7 @@ const submitComment = (comment, from) => (dispatch) => {
 
 const loadProfilePosts = (currId) => {
     return dispatch => {
-        fetch('https://circles-ubc-api.azurewebsites.net/post/profile/posts/' + currId, {
+        fetch('http://localhost:5000/post/profile/posts/' + currId, {
             method: "GET",
             headers: {
                 Accept: "application/json",

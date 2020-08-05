@@ -3,7 +3,7 @@ import {history} from '../helpers/history';
 
 const login = (registerName, password) => async (dispatch) => {
     try {
-        const response = await fetch(`https://circles-ubc-api.azurewebsites.net/login`, {
+        const response = await fetch(`http://localhost:5000/login`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -87,7 +87,7 @@ const logOut = () => (dispatch) => {
 
 const register = (registerName, password) => async (dispatch) => {
     try {
-        const response = await fetch(`https://circles-ubc-api.azurewebsites.net/register`, {
+        const response = await fetch(`http://localhost:5000/register`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -120,7 +120,7 @@ const register = (registerName, password) => async (dispatch) => {
 const uploadAvatar = (data, userId) => {
     return (dispatch) => {
         let avatarLink;
-        fetch('https://circles-ubc-api.azurewebsites.net/aws/upload', {
+        fetch('http://localhost:5000/aws/upload', {
             method: 'POST',
             body: data
         }).then((response) => {
@@ -153,7 +153,7 @@ const uploadAvatar = (data, userId) => {
 
 const uploadGeolocation = (userId, lat, lng) => {
     return dispatch => {
-        fetch('https://circles-ubc-api.azurewebsites.net/geolocation/home', {
+        fetch('http://localhost:5000/geolocation/home', {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',
@@ -176,7 +176,7 @@ const uploadGeolocation = (userId, lat, lng) => {
 
 const loadGeoCirclesList = (userId) => async (dispatch) => {
     try {
-        let response = await fetch('https://circles-ubc-api.azurewebsites.net/geolocation/circleslist' + '/' + userId, {
+        let response = await fetch('http://localhost:5000/geolocation/circleslist' + '/' + userId, {
             method: 'GET',
             credentials: 'include',
         });
@@ -197,7 +197,7 @@ const loadGeoCirclesList = (userId) => async (dispatch) => {
 
 const loadGeolocation = (id) => async (dispatch) => {
     try {
-        let response = await fetch('https://circles-ubc-api.azurewebsites.net/geolocation/' + id, {
+        let response = await fetch('http://localhost:5000/geolocation/' + id, {
             method: 'GET',
             credentials: 'include',
         });
@@ -218,7 +218,7 @@ const loadGeolocation = (id) => async (dispatch) => {
 
 const cancelFirstTimer = (userId) => async (dispatch) => {
     try {
-        let response = await fetch('https://circles-ubc-api.azurewebsites.net/firstTimer', {
+        let response = await fetch('http://localhost:5000/firstTimer', {
             method: 'PUT',
             credentials: 'include',
             body: JSON.stringify({userId}),
