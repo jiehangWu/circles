@@ -97,5 +97,5 @@ const mapAction = {
 };
 
 export default GoogleApiWrapper({
-    apiKey: ' '
+    apiKey: `${process.env.GOOGLEMAPAPIKEY}`
 })(connect(mapStateToProps, mapAction,)(MapContainer));
