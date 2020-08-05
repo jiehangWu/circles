@@ -1,6 +1,6 @@
 const loadProfile = (currId) => {
     return dispatch => {
-        fetch(`${process.env.HOST}/profile/${currId}`, {
+        fetch('https://circles-ubc-api.azurewebsites.net/profile/' + currId, {
             method: "GET",
             headers: {
                 Accept: "application/json",
