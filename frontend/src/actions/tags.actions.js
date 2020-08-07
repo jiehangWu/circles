@@ -1,5 +1,5 @@
 export const addTag = (id, tag) => (dispatch) => {
-    fetch('https://circles-ubc-api.azurewebsites.net/home/tag', {
+    fetch(`/home/tag`, {
         method: 'PUT',
         headers: {
             Accept: 'application/json',
@@ -27,7 +27,7 @@ export const addTagSuccess = (tagContext) => ({
 
 export const loadAllTags = (userId) => {
     return dispatch => {
-        fetch('https://circles-ubc-api.azurewebsites.net/tags/' + userId, {
+        fetch(`/tags/${userId}`, {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -53,7 +53,7 @@ export const loadAllTags = (userId) => {
 
 export const deleteTag = (userId, tagContent) => {
     return dispatch => {
-        fetch('https://circles-ubc-api.azurewebsites.net//tags/' + userId, {
+        fetch(`/tags/${userId}`, {
             method: "DELETE",
             headers: {
                 Accept: "application/json",

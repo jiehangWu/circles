@@ -1,8 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const redis = require("redis");
-const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
 const http = require('http');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -19,10 +16,7 @@ require('./model/Comment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
 
-// logger.level = 'ALL';
 logger.level = "OFF";
-
-// The ordering is important too
 
 const app = express();
 const server = http.createServer(app);
@@ -34,7 +28,7 @@ app.use(cors({
     credentials: true,
 }));
 app.use(bodyParser.json());
-// app.use(cookieParser());
+app.use(cookieParser());
 
 const authRoutes = require('./routes/authRoutes');
 const awsRoutes = require('./routes/awsRoutes');
@@ -63,7 +57,6 @@ app.use('/chat', chatRoutes);
 app.use('/search', searchRoutes);
 app.use('/geolocation', geoRoutes);
 
-//websocket server
 wss.on('connection', socketFunction);
 
 server.listen(process.env.PORT, () => {

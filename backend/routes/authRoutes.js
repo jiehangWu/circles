@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt')
 const UserController = require('../controller/UserController');
 const SearchController = require('../controller/SearchController');
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', async (req, res) => {
     const { registerName, password } = req.body;
     let user = null;
 
@@ -40,7 +40,7 @@ router.post('/register', async (req, res, next) => {
     })(registerName)
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', async (req, res) => {
     const { registerName, password } = req.body;
     let user = null;
 
@@ -95,16 +95,13 @@ router.get('/profile/:id', async (req, res) => {
     }
 });
 
-router.get("/tags/:userId", async (req, res, next) => {
-    // logger.info("getting all tags");
+router.get("/tags/:userId", async (req, res) => {
     const userId = req.params.userId;
-    // logger.info(userId);
     const result = await UserController.findUserByUserId(userId);
 
     if (result) {
         const tags = result.tags;
         logger.info(`Display for tag ${tags}`);
-        // res.status(200).send({tags});
         return (res.json(tags));
     } else {
         logger.error(result);
@@ -112,7 +109,7 @@ router.get("/tags/:userId", async (req, res, next) => {
     }
 });
 
-router.delete("/tags/:userId", (req, res, next) => {
+router.delete("/tags/:userId", (req, res) => {
     const tagContent = req.body.tagContent;
     const userId = req.params.userId;
     return UserController.deleteTag(userId, tagContent).then(async (user) => {
@@ -125,7 +122,7 @@ router.delete("/tags/:userId", (req, res, next) => {
     })
 });
 
-router.put('/avatar', async (req, res, next) => {
+router.put('/avatar', async (req, res) => {
     const { avatarLink, userId } = req.body;
     return UserController.uploadAvatar(userId, avatarLink).then(() => {
         res.status(200).end();
@@ -134,7 +131,7 @@ router.put('/avatar', async (req, res, next) => {
     });
 });
 
-router.put('/firstTimer', async (req, res, next) => {
+router.put('/firsttimer', async (req, res) => {
     const { userId } = req.body;
     return await UserController.cancelFirstTimeUser(userId).then(() => {
         res.status(200).send("false");

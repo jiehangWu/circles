@@ -37,7 +37,6 @@ const deleteObj = async (Key) => {
         const result = await s3.deleteObject(params).promise();
         if (!result) throw new Error("failed to delete");
     } catch(err) {
-        // handle error
         logger.error(err);
         throw err;
     }

@@ -27,7 +27,7 @@ router.get("/:userId", async (req, res) => {
 
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", (req, res) => {
     logger.info("posting");
     let { content, date, userId, tags, imgLink } = req.body;
     date = new Date(date);
@@ -40,7 +40,7 @@ router.post("/", (req, res, next) => {
     });
 });
 
-router.put("/l/:id", async (req, res, next) => {
+router.put("/l/:id", async (req, res) => {
     const postId = req.params.id;
     const { userId } = req.body;
     logger.info("userId is" + userId);
@@ -52,7 +52,7 @@ router.put("/l/:id", async (req, res, next) => {
     });
 });
 
-router.delete("/:postId", async (req, res, next) => {
+router.delete("/:postId", async (req, res) => {
     const postId = req.params.postId;
     const { userId } = req.body;
     return PostController.deletePost(userId, postId).then(async () => {
@@ -64,7 +64,7 @@ router.delete("/:postId", async (req, res, next) => {
     });
 });
 
-router.put("/c/:id", async (req, res, next) => {
+router.put("/c/:id", async (req, res) => {
     const postId = req.params.id;
     const { userId, content, date } = req.body;
     return PostController.addComment(content, new Date(date), userId, postId).then((comment) => {

@@ -84,7 +84,6 @@ module.exports = {
     },
 
     findNearbyUsers: async (id) => {
-        // To be optmized, ES's geo_distance next sprint
         try {
             let currUser = await User.findById(id);
             let users = await User.find({});

@@ -44,6 +44,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"
   },
+  "proxy": "https://circles-ubc-api.azurewebsites.net",
   "eslintConfig": {
     "extends": "react-app"
   },

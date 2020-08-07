@@ -10,7 +10,6 @@ const NodeRSA = require('node-rsa');
 const key = new NodeRSA({b: 1024});
 let publick1 = key.exportKey('pkcs1-public');
 let privatek1 = key.exportKey('pkcs1-private');
-let publicK1 = new NodeRSA(publick1, 'pkcs1-public');
 let privateK1 = new NodeRSA(privatek1, 'pkcs1-private');
 
 
@@ -24,10 +23,7 @@ const socketFunction = (ws, req)=> {
     logger.info("hello");
     ws.on('message', function incoming(message) {
         let m = JSON.parse(message);
-        //HEART_BEAT
         if (m.purpose === "HEART_BEAT") {
-            //logger.info(wss.clients.size);
-            //logger.info(m);
             ws.send(JSON.stringify({
                 purpose: "HEART_BEAT"
             }));
@@ -52,7 +48,6 @@ const socketFunction = (ws, req)=> {
         }
         // SOCKET_ADD_USER
         if (m.purpose === "CLIENT_ADD_USER") {
-            //logger.info(m);
             if (userSocketList[m.payload.userId]) {
                 userSocketList[m.payload.userId].terminate();
             }
@@ -60,7 +55,6 @@ const socketFunction = (ws, req)=> {
             userInfoList[m.payload.userId] = {username: m.payload.username, userAvatar: m.payload.userAvatar};
             logger.info(m);
             logger.info(userInfoList);
-            // send publikc key1
             ws.send(JSON.stringify({
                 purpose: "PU1",
                 payload: publick1
