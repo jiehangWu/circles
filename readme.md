@@ -3,6 +3,9 @@
 ## **Project Introduction**
 Do you want to share your hobby with other people, but you are also shy and do not want to reveal too much? Then Circles is exactly meant for you! By entering Circles, you will be able to share your interests, knowing and interacting people with similar interests while remaining totally anonymous!
 
+## **Note Before Using**
+Posts at the homepage will be customized based on your tags. You can change your tags and view all of your own posts in your profile page.
+
 ## **Project Task Requirements**
 ### **Minimal Requirements**
 - [x] A clean, aestheticaly pleasing, and responsive web UI.
