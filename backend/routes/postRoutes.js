@@ -42,19 +42,19 @@ router.post("/", (req, res, next) => {
 
 router.put("/l/:id", async (req, res, next) => {
     const postId = req.params.id;
-    const {userId} = req.body;
+    const { userId } = req.body;
     logger.info("userId is" + userId);
     return PostController.likePost(userId, postId).then((numLikes) => {
         res.status(200).send(numLikes.toString());
     }).catch((err) => {
         logger.error(err);
-        res.status(500).end();   
+        res.status(500).end();
     });
 });
 
 router.delete("/:postId", async (req, res, next) => {
     const postId = req.params.postId;
-    const {userId} = req.body;
+    const { userId } = req.body;
     return PostController.deletePost(userId, postId).then(async () => {
         await searchController.deletePostFromCluster(postId);
         res.status(200).end();

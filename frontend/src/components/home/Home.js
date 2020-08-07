@@ -401,6 +401,7 @@ const Home = (props) => {
 
     useEffect(() => {
         geoNavigator.getCurrentPosition(updateGeolocation, geoErr);
+        props.initChat(props.userId, props.username, props.avatar);
     }, []);
 
     return (
@@ -431,6 +432,7 @@ const mapAction = {
     uploadGeolocation: userActions.uploadGeolocation,
     beginChat: ChatActions.beginChat,
     logOut: userActions.logOut,
+    initChat: userActions.initChat,
 };
 
 export default connect(mapStateToProps, mapAction)(Home);

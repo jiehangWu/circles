@@ -27,22 +27,6 @@ const login = (registerName, password) => async (dispatch) => {
                     firstTimer: user.firstTimer
                 }
             });
-            dispatch({
-                type: 'SOCKET_INIT',
-                payload: {
-                    userId: user._id,
-                    username: user.username,
-                    userAvatar: user.avatar
-                },
-            });
-            dispatch({
-                type: 'CHAT_SWITCH',
-                payload: {
-                    userId: user._id,
-                    username: user.username,
-                    userAvatar: user.avatar
-                },
-            });
             history.push('/home');
         } else {
             throw new Error('log in failed');
@@ -50,6 +34,25 @@ const login = (registerName, password) => async (dispatch) => {
     } catch (e) {
         console.error(e.message);
     }
+};
+
+const initChat = (userId, username, userAvatar) => (dispatch) => {
+    dispatch({
+        type: 'SOCKET_INIT',
+        payload: {
+            userId,
+            username,
+            userAvatar
+        },
+    });
+    dispatch({
+        type: 'CHAT_SWITCH',
+        payload: {
+            userId,
+            username,
+            userAvatar,
+        },
+    });
 };
 
 
@@ -103,10 +106,6 @@ const register = (registerName, password) => async (dispatch) => {
                 payload: 'register success!',
             });
         } else {
-            dispatch({
-                type: 'FAILED_MESSAGE',
-                payload: e.message,
-            });
             throw new Error('register failed');
         }
     } catch (e) {
@@ -248,5 +247,6 @@ export const userActions = {
     loadGeoCirclesList,
     loadGeolocation,
     cancelFirstTimer,
+    initChat,
 };
 

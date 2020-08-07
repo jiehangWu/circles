@@ -4,7 +4,6 @@ const logger = log4js.getLogger();
 const ObjectId = require('mongodb').ObjectID;
 // logger.level = 'debug';
 
-
 const Chat = mongoose.model("chats");
 const Message = mongoose.model("messages");
 const User = mongoose.model("users");
